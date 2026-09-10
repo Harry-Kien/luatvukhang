@@ -114,3 +114,22 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  docker:
+    name: Dựng ảnh Docker
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Dựng ảnh
+        # Chỉ dựng, không đẩy đi đâu. Mục đích là bảo đảm Dockerfile luôn dựng
+        # được, để lúc cần triển khai không phát hiện hỏng giữa chừng.
+        run: docker build --build-arg NEXT_PUBLIC_DEMO_MODE=false -t luatvukhang:ci .
+
+      - name: Kiểm tra ảnh chạy được và không dùng quyền root
+        run: |
+          user=$(docker run --rm luatvukhang:ci id -un)
+          echo "Container chay bang nguoi dung: $user"
+          [ "$user" = "node" ] || { echo "Phai chay bang nguoi dung node"; exit 1; }
+          docker run --rm luatvukhang:ci node -e "require('sharp');console.log('sharp nap duoc trong anh')"
