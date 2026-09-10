@@ -1,5 +1,7 @@
 # Website công ty luật — bản phát triển
 
+[![CI](https://github.com/Harry-Kien/luatvukhang/actions/workflows/ci.yml/badge.svg)](https://github.com/Harry-Kien/luatvukhang/actions/workflows/ci.yml)
+
 Website Next.js / Payload / PostgreSQL, giao diện Việt–Anh navy–đỏ.
 
 **Trạng thái:** bản triển khai phát triển đã chạy và kiểm thử cục bộ; chưa nghiệm thu ra mắt. Không công bố hồ sơ, giải thưởng, khách hàng hay số liệu giả.
@@ -20,6 +22,11 @@ Node.js 24 đã được dùng để kiểm thử. Cài phụ thuộc bằng `np
 3. `node --env-file=.env --import tsx scripts/bootstrap.ts` tạo tài khoản quản trị cục bộ khi chưa có người dùng. Không ghi đè người dùng hiện có.
 4. `npm run dev -- --hostname 127.0.0.1`.
 5. `npm run typecheck`, `npm test`, `npm run build`.
+
+Mỗi lần đẩy lên `main` và mỗi pull request đều chạy lại đúng chuỗi này trên CI,
+từ một cơ sở dữ liệu PostgreSQL trống: migration, kiểm tra kiểu, dựng bản
+production, nạp trang nền rồi chạy toàn bộ kiểm thử Playwright trên máy chủ thật.
+Cấu hình ở `.github/workflows/ci.yml`.
 
 Nếu dùng Docker: khai báo POSTGRES_PASSWORD, dùng cùng mật khẩu trong DATABASE_URL, rồi chạy `docker compose up -d`. Docker Desktop trên máy này không hoàn tất khởi động, nên bộ kiểm thử đã sử dụng PostgreSQL cục bộ thay thế.
 
