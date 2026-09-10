@@ -271,3 +271,33 @@ test("public pages have no automatic accessibility violations", async ({
     expect(results.violations, `lỗi tiếp cận trên ${path}`).toEqual([]);
   }
 });
+
+test("the not-found page returns 404 and helps the visitor continue", async ({
+  page,
+}) => {
+  // Phải dùng trình duyệt chứ không phải request thuần: ở chế độ phát triển
+  // Next trả khung lỗi và dựng giao diện 404 phía client.
+  const expected: Record<string, string> = {
+    vi: "Không tìm thấy trang",
+    en: "Page not found",
+    zh: "未找到页面",
+  };
+  for (const locale of LOCALES) {
+    const response = await page.goto(`/${locale}/duong-dan-khong-ton-tai`);
+    expect(response?.status(), `mã trạng thái của /${locale}`).toBe(404);
+    await expect(page.locator("h1")).toHaveText(expected[locale]);
+    // Chỉ báo lỗi là chưa đủ: phải có lối đi tiếp.
+    expect(
+      await page.locator(".not-found-links a").count(),
+      `liên kết gợi ý trên trang 404 /${locale}`,
+    ).toBeGreaterThanOrEqual(4);
+    await expect(page.locator(".not-found-search input")).toBeVisible();
+    await expect(page.locator("header")).toBeVisible();
+    await expect(page.locator("footer")).toBeVisible();
+  }
+  // Ô tìm kiếm phải dẫn tới đúng trang kết quả.
+  await page.goto("/vi/duong-dan-khong-ton-tai");
+  await page.locator(".not-found-search input").fill("hợp đồng");
+  await page.locator(".not-found-search button").click();
+  await expect(page).toHaveURL(/\/vi\/search\?q=/);
+});

@@ -1647,3 +1647,66 @@ footer {
 /* Chinese uses native CJK font families, avoiding synthetic Latin glyph styling. */
 html[lang="zh-Hans"]{--sans:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;--serif:"Songti SC","SimSun","Noto Serif CJK SC",serif}
 html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh-Hans"] h2,html[lang="zh-Hans"] h3{word-break:normal;line-break:strict;letter-spacing:0;line-height:1.45}html[lang="zh-Hans"] .hero h1{font-size:clamp(38px,4.5vw,70px)}html[lang="zh-Hans"] .brand{--serif:"Noto Serif Variable",Georgia,serif;--sans:"Be Vietnam Pro",sans-serif}
+
+/* Trang 404: giúp người truy cập tìm lại đường thay vì chỉ báo lỗi. */
+.not-found h1 {
+  font-size: clamp(30px, 3.4vw, 46px);
+  margin: 12px 0 18px;
+}
+.not-found > p {
+  max-width: 620px;
+  color: #52606e;
+  line-height: 1.9;
+}
+.not-found-links {
+  /* Một cột: năm mục xếp lưới luôn thừa một ô ở hàng cuối, khiến đường kẻ bị
+     cụt giữa chừng. */
+  display: block;
+  max-width: 640px;
+  margin: 40px 0;
+  border-top: 1px solid #d6dbe0;
+}
+.not-found-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 4px;
+  border-bottom: 1px solid #d6dbe0;
+  text-decoration: none;
+  color: var(--navy);
+  font-weight: 500;
+}
+.not-found-links a:hover {
+  color: #a51c30;
+}
+.not-found-search {
+  max-width: 520px;
+  margin-bottom: 36px;
+}
+.not-found-search label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.not-found-search > div {
+  display: flex;
+  gap: 12px;
+}
+.not-found-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 12px;
+  background: #fff;
+  border: 1px solid #b6bec6;
+  color: #172637;
+  font: inherit;
+  font-size: 14px;
+  min-height: 51px;
+}
+.not-found-search .button {
+  min-height: 51px;
+  flex-shrink: 0;
+}
+
