@@ -70,6 +70,11 @@ jobs:
       - name: Tạo tài khoản quản trị cho kiểm thử
         run: node --import tsx scripts/bootstrap.ts
 
+      - name: Nạp các trang nền
+        # Bước cài đặt ghi trong README. Kiểm thử đối chiếu một bản cài đặt đã
+        # khởi tạo đúng cách, không phải một cơ sở dữ liệu trống.
+        run: node --import tsx scripts/prepare-pages.ts
+
       - name: Cài trình duyệt Chromium
         run: npx playwright install --with-deps chromium
 
