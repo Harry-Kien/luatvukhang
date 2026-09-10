@@ -17,6 +17,45 @@
 - Tên miền, đơn vị hosting Node.js, PostgreSQL production, nơi lưu ảnh, SMTP và email nhận thông báo.
 - Danh sách tài khoản / vai trò, phương án MFA hoặc SSO, người sở hữu sao lưu và khôi phục.
 
+## Nội dung dự thảo đã soạn sẵn — 10/09/2026
+
+Đã nạp vào CMS ở trạng thái **nháp**, ba ngôn ngữ, chờ luật sư của công ty rà
+soát và xuất bản:
+
+| Nội dung | Số bản ghi | Script |
+| --- | --- | --- |
+| Bốn lĩnh vực chuyên môn: tóm tắt, đối tượng phù hợp, phạm vi hỗ trợ, quy trình, câu hỏi thường gặp, mô tả SEO | 12 | `scripts/prepare-practice-areas.ts` |
+| Trang Về chúng tôi, Liên hệ, Trang chủ | 9 | `scripts/prepare-page-content.ts` |
+| Dự thảo chính sách quyền riêng tư và điều khoản | đã có từ trước | `scripts/prepare-pages.ts` |
+
+Nội dung này **chỉ mô tả cách làm việc, quy trình và giới hạn dịch vụ**. Không
+nêu số năm kinh nghiệm, quy mô đội ngũ, giải thưởng, tên khách hàng hay kết quả
+vụ việc, vì đó là những khẳng định chỉ công ty mới xác nhận được. Phần câu hỏi
+thường gặp cố ý giữ ở mức quy trình, không tư vấn pháp lý cụ thể.
+
+Chạy lại các script này không tạo bản trùng và không ghi đè nội dung công ty đã
+biên tập.
+
+Sau khi rà soát, xuất bản bằng:
+
+```
+node --env-file=.env --import tsx scripts/publish-drafts.ts            # liệt kê
+node --env-file=.env --import tsx scripts/publish-drafts.ts --confirm  # xuất bản
+```
+
+## Vẫn phải do công ty cung cấp, không thể soạn thay
+
+- **Hồ sơ luật sư**: họ tên, chức danh, số thẻ luật sư, đoàn luật sư, thông tin
+  nghề nghiệp đã xác minh, ngôn ngữ làm việc, ảnh chân dung và quyền sử dụng ảnh.
+- **Thông tin pháp nhân**: địa chỉ văn phòng, điện thoại, email, mã số thuế,
+  thông tin đăng ký hành nghề — nhập trong Cài đặt của CMS.
+- **Kinh nghiệm được phép công bố**: kèm căn cứ cho phép công bố; văn bản đồng ý
+  nếu nhắc tên khách hàng.
+- **Bài chuyên môn**: nội dung, tác giả chịu trách nhiệm và nguồn dẫn chiếu.
+
+Bốn nhóm này là khẳng định về sự thật và về năng lực nghề nghiệp. Soạn thay sẽ
+tạo ra hồ sơ giả trên website của một công ty luật.
+
 ## Đang dùng trong bản phát triển
 
 - Nhận diện chữ VŨ KHANG được thiết kế theo tên người dùng cung cấp.
