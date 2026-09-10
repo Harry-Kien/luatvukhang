@@ -1,0 +1,60 @@
+{
+  "name": "law-firm-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "release:check": "node --env-file=.env --import tsx scripts/release-check.ts",
+    "db:local": "node scripts/local-db.mjs",
+    "bootstrap": "node --env-file=.env --import tsx scripts/bootstrap.ts",
+    "check:translations": "node --import tsx scripts/check-translations.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/noto-serif": "5.3.0",
+    "@fontsource/be-vietnam-pro": "5.3.0",
+    "@hookform/resolvers": "^5.0.0",
+    "@payloadcms/db-postgres": "3.88.0",
+    "@payloadcms/next": "3.88.0",
+    "@payloadcms/richtext-lexical": "3.88.0",
+    "@payloadcms/translations": "3.88.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "graphql": "^16.11.0",
+    "lucide-react": "^0.577.0",
+    "next": "16.3.4",
+    "next-intl": "4.14.2",
+    "nodemailer": "^10.0.1",
+    "payload": "3.88.0",
+    "pg": "^8.23.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-hook-form": "^7.0.0",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^22.0.0",
+    "@types/nodemailer": "^8.0.1",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "prettier": "^3.9.6",
+    "tsx": "^4.0.0",
+    "typescript": "^5.9.0"
+  },
+  "overrides": {
+    "dompurify": "3.4.15",
+    "esbuild": ">=0.25.12"
+  }
+}

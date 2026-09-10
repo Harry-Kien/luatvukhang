@@ -1,0 +1,39 @@
+# Website công ty luật — bản phát triển
+
+Website Next.js / Payload / PostgreSQL, giao diện Việt–Anh navy–đỏ.
+
+**Trạng thái:** bản triển khai phát triển đã chạy và kiểm thử cục bộ; chưa nghiệm thu ra mắt. Không công bố hồ sơ, giải thưởng, khách hàng hay số liệu giả.
+
+## Mở trên máy hiện tại
+
+- Website: http://localhost:3000/vi
+- Typography: http://localhost:3000/vi/typography
+- CMS: http://localhost:3000/admin
+- Tài khoản phát triển: xem `.local/admin-access.txt`. Không đưa tệp này vào Git hoặc gửi kèm bản bàn giao công khai.
+
+## Chạy lại
+
+Node.js 24 đã được dùng để kiểm thử. Cài phụ thuộc bằng `npm ci`.
+
+1. Sao chép `.env.example` thành `.env`, tạo PAYLOAD_SECRET ngẫu nhiên ít nhất 32 ký tự.
+2. Chọn PostgreSQL thật theo hướng dẫn triển khai, hoặc cho phát triển Windows: `node scripts/local-db.mjs`. Giữ tiến trình chạy. Bộ chạy PostgreSQL nhúng là phụ thuộc **chỉ cho phát triển**, wrapper hiện mang nhãn beta; không dùng trong production.
+3. `node --env-file=.env --import tsx scripts/bootstrap.ts` tạo tài khoản quản trị cục bộ khi chưa có người dùng. Không ghi đè người dùng hiện có.
+4. `npm run dev -- --hostname 127.0.0.1`.
+5. `npm run typecheck`, `npm test`, `npm run build`.
+
+Nếu dùng Docker: khai báo POSTGRES_PASSWORD, dùng cùng mật khẩu trong DATABASE_URL, rồi chạy `docker compose up -d`. Docker Desktop trên máy này không hoàn tất khởi động, nên bộ kiểm thử đã sử dụng PostgreSQL cục bộ thay thế.
+
+## Bàn giao
+
+- [Hướng dẫn admin](docs/ADMIN.vi.md)
+- [Vận hành và triển khai](docs/OPERATIONS.md)
+- [Mô hình dữ liệu](docs/DATA-MODEL.md)
+- [Báo cáo kiểm thử và giới hạn](docs/ACCEPTANCE.md)
+- [Thông tin doanh nghiệp còn thiếu](docs/BUSINESS-INPUTS.md)
+- [SEO, dữ liệu có cấu trúc và header bảo mật](docs/SEO.md)
+- [Thiết kế và nguồn tham khảo](docs/DESIGN.md)
+- [Phụ thuộc và giấy phép](docs/DEPENDENCIES.md)
+- [Phép thử phục hồi](docs/restore-test.json)
+- Mẫu chữ chỉnh sửa được: `src/app/(public)/[locale]/[section]/page.tsx`, route `/vi/typography`.
+- Bộ thành phần vector chỉnh sửa được: `design/design-system.svg`.
+- Ảnh chụp: `artifacts/`.

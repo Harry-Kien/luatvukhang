@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1500" viewBox="0 0 1440 1500">
+<rect width="1440" height="1500" fill="#F7F8FA"/>
+<rect width="1440" height="250" fill="#101D35"/>
+<g font-family="Be Vietnam Pro,Arial,sans-serif" fill="#101D35">
+<text x="80" y="75" fill="#FFFFFF" font-size="15" letter-spacing="3">HỆ THỐNG THÀNH PHẦN / BẢN PHÁT TRIỂN</text>
+<text x="80" y="155" fill="#FFFFFF" font-family="Noto Serif,Georgia,serif" font-size="52">Rõ vấn đề. Vững quyết định.</text>
+<rect x="80" y="190" width="80" height="5" fill="#C6283D"/>
+<text x="80" y="320" font-size="15" letter-spacing="2">01 / MÀU SẮC</text>
+<rect x="80" y="355" width="235" height="110" fill="#101D35"/><text x="100" y="420" fill="#FFFFFF" font-size="20">Navy · #101D35</text>
+<rect x="335" y="355" width="235" height="110" fill="#091322"/><text x="355" y="420" fill="#FFFFFF" font-size="20">Đậm · #091322</text>
+<rect x="590" y="355" width="235" height="110" fill="#C6283D"/><text x="610" y="420" fill="#FFFFFF" font-size="20">Đỏ · #C6283D</text>
+<rect x="845" y="355" width="235" height="110" fill="#FFFFFF" stroke="#D9DFE6"/><text x="865" y="420" font-size="18">Trắng · #FFFFFF</text>
+<rect x="1100" y="355" width="260" height="110" fill="#475467"/><text x="1120" y="420" fill="#FFFFFF" font-size="18">Chữ phụ · #475467</text>
+<text x="80" y="550" font-size="15" letter-spacing="2">02 / TYPOGRAPHY</text>
+<text x="80" y="620" font-family="Noto Serif,Georgia,serif" font-size="42">Đội ngũ luật sư đồng hành cùng doanh nghiệp</text>
+<text x="80" y="680" font-size="22">Nguyễn, Trương, Đỗ, Quyền, Nghĩa, Thủy, Hưởng</text>
+<text x="80" y="730" font-size="18" fill="#475467">Noto Serif · Tiêu đề 500 / Be Vietnam Pro · Nội dung 400, 500, 600</text>
+<text x="80" y="810" font-size="15" letter-spacing="2">03 / HÀNH ĐỘNG VÀ TRƯỜNG NHẬP</text>
+<rect x="80" y="845" width="300" height="62" fill="#C6283D"/><text x="105" y="884" font-size="18" fill="#FFFFFF">Gửi yêu cầu tư vấn ↗</text>
+<rect x="415" y="845" width="300" height="62" fill="#101D35"/><text x="440" y="884" font-size="18" fill="#FFFFFF">Khám phá chuyên môn ↗</text>
+<text x="80" y="965" font-size="16">Họ và tên *</text><rect x="80" y="985" width="635" height="60" fill="#FFFFFF" stroke="#7E8A9B"/><text x="98" y="1023" font-size="18" fill="#475467">Nhập họ và tên</text>
+<rect x="795" y="845" width="565" height="200" fill="#FFFFFF"/><rect x="795" y="845" width="4" height="200" fill="#C6283D"/>
+<text x="825" y="892" font-family="Noto Serif,Georgia,serif" font-size="27">Đã nhận yêu cầu</text>
+<text x="825" y="940" font-size="17">Yêu cầu đã được lưu.</text><text x="825" y="974" font-size="17">Lịch hẹn chưa được xác nhận.</text>
+<text x="80" y="1140" font-size="15" letter-spacing="2">04 / DANH SÁCH CHUYÊN MÔN</text>
+<path d="M80 1175H1360 M80 1295H1360" stroke="#D9DFE6"/>
+<text x="80" y="1242" font-size="15" fill="#C6283D">01</text>
+<text x="145" y="1242" font-family="Noto Serif,Georgia,serif" font-size="30">Đầu tư &amp; doanh nghiệp</text>
+<text x="740" y="1227" font-size="17" fill="#475467">Nội dung minh họa — chỉ dùng</text><text x="740" y="1260" font-size="17" fill="#475467">trong môi trường phát triển.</text>
+<circle cx="1315" cy="1235" r="24" fill="none" stroke="#D9DFE6"/><text x="1305" y="1242" font-size="22">↗</text>
+<text x="80" y="1400" font-size="15" fill="#475467">Bản vector chỉnh sửa được. Không phải logo hoặc nhận diện đã được công ty phê duyệt.</text>
+</g></svg>

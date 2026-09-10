@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-09-09T14:23:15.347Z",
+  "tables": 114,
+  "rows": 115,
+  "result": "All restored rows match the consistent snapshot",
+  "restoreDatabase": "law_restore_1788963793938",
+  "backupSha256": "90f07a703f001d653353a0fd81f768f64524c4e66da635d316d0474a9446ea1d",
+  "limitations": "Local logical data restore against all ordered migrations. Media, production storage, encryption, retention and disaster recovery infrastructure require separate acceptance."
+}
