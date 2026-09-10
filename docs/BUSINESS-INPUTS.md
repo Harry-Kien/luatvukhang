@@ -36,6 +36,13 @@ thường gặp cố ý giữ ở mức quy trình, không tư vấn pháp lý c
 Chạy lại các script này không tạo bản trùng và không ghi đè nội dung công ty đã
 biên tập.
 
+**Trang Quyền riêng tư và Điều khoản không xuất bản cùng đợt này.** Chúng chỉ
+được xuất bản khi Cài đặt đã bật "Chính sách quyền riêng tư đã được rà soát".
+Khi chưa xuất bản, website hiển thị bản dự thảo kèm nhãn "Dự thảo — chưa có hiệu
+lực áp dụng"; xuất bản sớm sẽ gỡ mất nhãn đó và trình bày một chính sách chưa
+qua rà soát pháp lý như thể đã có hiệu lực. Công cụ xuất bản tự giữ lại hai
+trang này cho tới khi cờ được bật.
+
 Sau khi rà soát, xuất bản bằng:
 
 ```

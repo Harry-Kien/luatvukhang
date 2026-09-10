@@ -11,6 +11,12 @@
  * pháp lý xuất bản dưới tên công ty thì công ty chịu trách nhiệm.
  *
  * Bản ghi đánh dấu isSample không bao giờ được xuất bản.
+ *
+ * Trang Quyền riêng tư và Điều khoản chỉ được xuất bản khi Cài đặt đã bật
+ * "Chính sách quyền riêng tư đã được rà soát". Khi chưa xuất bản, website hiển
+ * thị bản dự thảo kèm nhãn "Dự thảo — chưa có hiệu lực áp dụng"; xuất bản sớm
+ * sẽ gỡ mất nhãn đó và trình bày một chính sách chưa qua rà soát như thể đã có
+ * hiệu lực.
  */
 import { getPayload } from "payload";
 import config from "../src/payload.config";
@@ -27,6 +33,11 @@ const COLLECTIONS = [
 ] as const;
 
 const cms = await getPayload({ config });
+const settings = (await cms.findGlobal({ slug: "site-settings" })) as {
+  privacyApproved?: boolean | null;
+};
+/** Trang có hiệu lực pháp lý, cần cờ duyệt riêng chứ không chỉ duyệt nội dung. */
+const POLICY_PAGES = ["privacy", "terms"];
 const admin = (
   await cms.find({
     collection: "users",
@@ -37,6 +48,7 @@ const admin = (
 if (!admin) throw Error("Cần có tài khoản quản trị trước.");
 
 let count = 0;
+let held = 0;
 for (const collection of COLLECTIONS) {
   const found = await cms.find({
     collection,
@@ -51,6 +63,17 @@ for (const collection of COLLECTIONS) {
     depth: 0,
   });
   for (const doc of found.docs as Record<string, any>[]) {
+    if (
+      collection === "pages" &&
+      POLICY_PAGES.includes(doc.slug) &&
+      !settings.privacyApproved
+    ) {
+      held += 1;
+      console.log(
+        `giu lai   pages/${doc.language}/${doc.slug}  —  chua bat co da ra soat chinh sach`,
+      );
+      continue;
+    }
     count += 1;
     console.log(
       `${confirm ? "xuat ban" : "se xuat ban"}  ${collection}/${doc.language}/${doc.slug}  —  ${doc.title}`,
@@ -73,7 +96,13 @@ for (const collection of COLLECTIONS) {
   }
 }
 
-if (!count) console.log("Khong con ban nhap nao.");
+if (held)
+  console.log(
+    `\n${held} trang chinh sach duoc giu o trang thai nhap. ` +
+      "Bat 'Chinh sach quyen rieng tu da duoc ra soat' trong Cai dat cua " +
+      "/admin sau khi luat su ra soat, roi chay lai.",
+  );
+if (!count) console.log("Khong con ban nhap nao de xuat ban.");
 else if (confirm)
   console.log(`\nDa xuat ban ${count} ban ghi.`);
 else
