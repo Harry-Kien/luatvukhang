@@ -24,9 +24,26 @@ async function count(bucket: string, limit: number) {
   );
   return result.rows[0].count > limit;
 }
+/**
+ * Các nguồn gửi được chấp nhận.
+ *
+ * Mặc định là địa chỉ website. Khi website trả lời trên nhiều tên miền — ví dụ
+ * cả example.com lẫn www.example.com — hãy liệt kê thêm trong
+ * ALLOWED_FORM_ORIGINS, ngăn cách bằng dấu phẩy; nếu không, khách truy cập qua
+ * tên miền phụ sẽ bị từ chối mọi yêu cầu tư vấn.
+ */
+const allowedOrigins = new Set(
+  [
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    ...(process.env.ALLOWED_FORM_ORIGINS || "").split(","),
+  ]
+    .map((value) => value.trim().replace(/\/+$/, ""))
+    .filter(Boolean),
+);
+
 export async function POST(request: Request) {
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  if (request.headers.get("origin") !== origin)
+  const origin = request.headers.get("origin");
+  if (!origin || !allowedOrigins.has(origin.replace(/\/+$/, "")))
     return json({ error: "Nguồn gửi không hợp lệ." }, 403);
   if (!request.headers.get("content-type")?.startsWith("application/json"))
     return json({ error: "Định dạng không hợp lệ." }, 415);
@@ -61,6 +78,24 @@ export async function POST(request: Request) {
     );
   const v = parsed.data;
   try {
+    const cms = await getCMS();
+    const idem = createHmac("sha256", process.env.PAYLOAD_SECRET!)
+      .update(v.idempotencyKey + v.email.toLowerCase())
+      .digest("hex");
+    // Kiểm tra trùng trước khi tính hạn mức: người gửi bị mất kết nối rồi thử
+    // lại cùng một yêu cầu không được coi là gửi thêm, nếu không họ tự khóa
+    // chính mình dù chưa lưu được bản ghi nào.
+    const existing = await cms.find({
+      collection: "consultation-requests",
+      where: { idempotencyKey: { equals: idem } },
+      limit: 1,
+      depth: 0,
+    });
+    if (existing.docs.length)
+      return json({
+        reference: existing.docs[0].reference,
+        status: "received",
+      });
     const minute = Math.floor(Date.now() / 60000);
     // Giới hạn theo từng người gửi, không dùng một bộ đếm chung: nếu chung,
     // một nguồn gửi tự động có thể chiếm hết hạn mức và chặn khách thật.
@@ -93,21 +128,6 @@ export async function POST(request: Request) {
           [minute - 60],
         )
         .catch(() => undefined);
-    const cms = await getCMS();
-    const idem = createHmac("sha256", process.env.PAYLOAD_SECRET!)
-      .update(v.idempotencyKey + v.email.toLowerCase())
-      .digest("hex");
-    const existing = await cms.find({
-      collection: "consultation-requests",
-      where: { idempotencyKey: { equals: idem } },
-      limit: 1,
-      depth: 0,
-    });
-    if (existing.docs.length)
-      return json({
-        reference: existing.docs[0].reference,
-        status: "received",
-      });
     const transactionID = await cms.db.beginTransaction();
     if (!transactionID) throw new Error("Transaction unavailable");
     try {

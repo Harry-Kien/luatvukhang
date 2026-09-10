@@ -1,4 +1,4 @@
-import {languageInfo} from "./locales";
+import { languageInfo, locales } from "./locales";
 import type { Metadata } from "next";
 import { launched, type Locale } from "./content";
 
@@ -48,16 +48,18 @@ export function prune<T extends Json>(value: T): T {
 }
 
 /**
- * Chỉ khai hreflang cho bản dịch có thật. x-default trỏ về bản tiếng Việt
- * khi có, vì đó là ngôn ngữ mặc định của website.
+ * Chỉ khai hreflang cho bản dịch có thật. x-default trỏ về bản tiếng Việt khi
+ * có, vì đó là ngôn ngữ mặc định của website.
+ *
+ * Duyệt theo `locales` thay vì liệt kê từng ngôn ngữ: thêm ngôn ngữ mới vào
+ * cấu hình là hreflang tự có theo, đúng mã BCP-47 khai trong `languageInfo`.
  */
 export function languageAlternates(paths: Partial<Record<Locale, string>>) {
   const languages: Record<string, string> = {};
-  if (paths.vi) languages.vi = paths.vi;
-  if (paths.en) languages.en = paths.en;
-  if (paths.zh) languages["zh-Hans"] = paths.zh;
-  const fallback = paths.vi ?? paths.en ?? paths.zh;
-  if (fallback) languages["x-default"] = fallback;
+  for (const language of locales)
+    if (paths[language]) languages[languageInfo[language].tag] = paths[language];
+  const fallback = locales.map((l) => paths[l]).find(Boolean);
+  if (fallback) languages["x-default"] = paths.vi ?? fallback;
   return languages;
 }
 
@@ -94,12 +96,14 @@ export function pageMetadata({
   feed?: string;
 }): Metadata {
   const index = launched && !noindex;
+  // Mặc định: cùng đường dẫn ở mọi ngôn ngữ. Tiền tố lấy từ `locales` để thêm
+  // ngôn ngữ mới không phải sửa biểu thức chính quy ở đây.
+  const localePrefix = new RegExp(`^/(?:${locales.join("|")})`);
   const languages = languageAlternates(
-    alternates ?? {
-      vi: path.replace(/^\/(vi|en|zh)/, "/vi"),
-      zh: path.replace(/^\/(vi|en|zh)/, "/zh"),
-      en: path.replace(/^\/(vi|en|zh)/, "/en"),
-    },
+    alternates ??
+      Object.fromEntries(
+        locales.map((l) => [l, path.replace(localePrefix, `/${l}`)]),
+      ),
   );
   const socialTitle = titleAbsolute ? title : `${title} | ${siteName}`;
   return {
@@ -128,7 +132,10 @@ export function pageMetadata({
       url: absolute(path),
       siteName,
       locale: OG_LOCALE[locale],
-      alternateLocale: OG_LOCALE[locale === "vi" ? "en" : "vi"],
+      // Mọi ngôn ngữ khác ngôn ngữ hiện tại, không chỉ một.
+      alternateLocale: locales
+        .filter((l) => l !== locale)
+        .map((l) => OG_LOCALE[l]),
       images: images?.length ? images : [DEFAULT_OG_IMAGE],
       publishedTime: type === "article" ? publishedTime : undefined,
       modifiedTime: type === "article" ? modifiedTime : undefined,
@@ -184,10 +191,12 @@ export function organizationJsonLd(settings: Settings, locale: Locale) {
     areaServed: settings?.address
       ? { "@type": "Country", name: "Vietnam" }
       : undefined,
-    availableLanguage: [
-      { "@type": "Language", name: "Vietnamese", alternateName: "vi" },
-      { "@type": "Language", name: "English", alternateName: "en" },
-    ],
+    // Đúng bằng các ngôn ngữ website thực sự công bố.
+    availableLanguage: locales.map((l) => ({
+      "@type": "Language",
+      name: languageInfo[l].label,
+      alternateName: languageInfo[l].tag,
+    })),
   });
 }
 

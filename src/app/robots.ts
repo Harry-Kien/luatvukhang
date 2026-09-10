@@ -13,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/admin", "/api", "/*?preview=", "/*?translation="],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl,
+    // Chỉ thị Host nhận tên miền trần, không kèm giao thức.
+    host: new URL(siteUrl).host,
   };
 }
