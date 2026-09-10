@@ -315,3 +315,54 @@ trang và trang chuyên môn.
 
 Vòng kiểm tra cuối: TypeScript sạch, production build thành công, **110/110 kiểm
 thử desktop/mobile đạt**.
+
+## Đo và sửa chất lượng tìm kiếm — 10/09/2026
+
+Sau khi mở rộng lên 12 lĩnh vực, hai rủi ro được đo lại bằng số chứ không phỏng
+đoán: hiệu năng và chất lượng tìm kiếm.
+
+**Hiệu năng: không hồi quy.** Nội dung tăng gấp ba nhưng LCP xấu nhất 516 ms,
+CLS xấu nhất 0,0168 — đều trong ngưỡng tốt của Google (2500 ms và 0,1). Trang
+chủ trên khung điện thoại 427 KB, tăng 25 KB so với vòng trước do danh mục
+chuyên môn có 12 mục. Vẫn là số đo cục bộ, chỉ dùng phát hiện hồi quy.
+
+**Tìm kiếm: 13/20 đúng, đã sửa lên 20/20.** Dò bằng 20 truy vấn viết theo cách
+khách thật sự gõ, không theo tên chính thức của lĩnh vực. Kết quả ban đầu:
+
+- `sa thải` → **không có kết quả nào**. Chữ này không xuất hiện một lần nào
+  trong bài về Lao động & nhân sự, vốn viết "chấm dứt hợp đồng lao động".
+- `đăng ký nhãn hiệu` → Sở hữu trí tuệ xếp **hạng 10**. Bỏ dấu xong "nhãn" và
+  "nhân" đều thành "nhan", mà cách khớp cũ dò chuỗi con nên "nhan" ăn trọn điểm
+  tiêu đề của "Lao động & nhân sự".
+- `kiện ra tòa`, `bị khởi tố`, `thành lập công ty` đều trả sai lĩnh vực.
+
+Hai việc đã làm:
+
+1. **Sửa cách tính điểm** (`src/lib/search.ts`): khớp theo âm tiết trọn vẹn hoặc
+   phần đầu âm tiết thay vì chuỗi con; tách trọng số theo mức cô đọng của trường
+   (tiêu đề > tóm tắt và từ khóa > phạm vi/quy trình/hỏi đáp > phần diễn giải);
+   và thưởng điểm cho cụm từ đứng liền nhau, vì "nhãn hiệu" liền nhau mang nghĩa
+   khác hẳn hai âm tiết nằm rải rác. Riêng thay đổi này đưa `đăng ký nhãn hiệu`
+   từ hạng 10 lên hạng 1 và `bào chữa` từ hạng 2 lên hạng 1, tổng 14/20.
+2. **Thêm trường "Từ khóa khách hàng thường gõ"** vào CMS kèm migration, và nạp
+   bộ từ khóa khởi đầu cho 12 lĩnh vực × 3 ngôn ngữ. Đây mới là thứ sửa được các
+   truy vấn còn lại: không thuật toán nào tìm ra chữ không có trong nội dung.
+
+Kết quả sau cả hai: **20/20 truy vấn đưa đúng lĩnh vực lên vị trí đầu.**
+
+Một hướng đi đã thử và bỏ: bắt âm tiết dưới ba ký tự phải khớp trọn vẹn, để
+tránh "so" trong "sổ đỏ" quét trúng "sở", "số", "soát". Cách này làm `li hon`
+(gõ không dấu) mất sạch kết quả, mà gõ không dấu là cách dùng phổ biến — nên đã
+hoàn tác và giải quyết bằng từ khóa thay vì siết cách khớp.
+
+**Từ khóa không rò rỉ ra ngoài.** Đã kiểm chứng bằng phản hồi thật: không có
+trong trang chi tiết, trang danh sách, trang chủ, thẻ meta, JSON-LD, sitemap hay
+RSS. Nhồi từ khóa vào thẻ meta là cách làm bị Google phạt từ lâu; hệ thống cố ý
+không làm vậy và có kiểm thử khóa điều đó lại.
+
+Thêm `tests/search-quality.spec.ts`: 20 truy vấn trên cùng một bài, cộng một bài
+kiểm tra rò rỉ. Cả hai tự bỏ qua khi cơ sở dữ liệu chưa nạp đủ lĩnh vực, để bộ
+kiểm thử vẫn chạy được trên cơ sở dữ liệu trống của CI.
+
+Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua, production build thành
+công, **114/114 kiểm thử đạt**.

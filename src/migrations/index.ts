@@ -1,6 +1,7 @@
 import * as migration_20260908_102543_initial from './20260908_102543_initial';
 import * as migration_20260908_151554_content_completion from './20260908_151554_content_completion';
 import * as migration_20260910_010919_chinese_locale from './20260910_010919_chinese_locale';
+import * as migration_20260910_151830_keywords_field from './20260910_151830_keywords_field';
 
 export const migrations = [
   {
@@ -16,6 +17,11 @@ export const migrations = [
   {
     up: migration_20260910_010919_chinese_locale.up,
     down: migration_20260910_010919_chinese_locale.down,
-    name: '20260910_010919_chinese_locale'
+    name: '20260910_010919_chinese_locale',
+  },
+  {
+    up: migration_20260910_151830_keywords_field.up,
+    down: migration_20260910_151830_keywords_field.down,
+    name: '20260910_151830_keywords_field'
   },
 ];

@@ -162,6 +162,15 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         defaultValue: false,
       },
       { name: "summary", label: "Tóm tắt", type: "textarea", required: true },
+      {
+        name: "keywords",
+        label: "Từ khóa khách hàng thường gõ",
+        type: "textarea",
+        admin: {
+          description:
+            "Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.",
+        },
+      },
       { name: "body", label: "Nội dung chi tiết", type: "richText" },
       blocks,
       ...(slug === "pages"

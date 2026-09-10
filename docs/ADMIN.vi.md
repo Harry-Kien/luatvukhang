@@ -95,3 +95,29 @@ Dùng Live preview khi đăng nhập để xem bản nháp; khách chưa đăng 
 bản đã xuất bản hoặc nội dung mặc định. Duyệt rồi xuất bản để áp dụng nội dung.
 Đây là hướng dẫn khách hàng, không thay thế việc nhập hồ sơ luật sư, bài viết,
 kinh nghiệm hoặc tin tuyển dụng vào đúng bộ sưu tập tương ứng.
+
+## Ô "Từ khóa khách hàng thường gõ"
+
+Mỗi lĩnh vực chuyên môn có một ô từ khóa nằm ngay dưới phần Tóm tắt. Đây là chỗ
+ghi **cách nói thường ngày của khách**, ngăn cách bằng dấu phẩy:
+
+```
+sa thải, đuổi việc, nghỉ việc, trợ cấp thôi việc, bảo hiểm xã hội
+```
+
+Vì sao cần: nội dung trên website viết bằng thuật ngữ chuẩn, còn khách gõ theo
+cách họ quen. Trước khi có ô này, tìm "sa thải" trả về **không có kết quả nào**,
+dù trang Lao động & nhân sự nói đúng về việc đó — chỉ vì bài viết dùng chữ "chấm
+dứt hợp đồng lao động".
+
+Ba điều cần biết:
+
+- Từ khóa **chỉ dùng cho ô tìm kiếm trong website**. Không hiển thị ra trang,
+  không vào thẻ meta, không gửi cho Google. Nhồi từ khóa vào thẻ meta là cách
+  làm bị Google phạt từ lâu, nên hệ thống cố ý không làm vậy.
+- Thêm từ khóa **không cần xuất bản lại** nội dung.
+- Muốn biết cần thêm gì, xem báo cáo Search Console mục "Truy vấn" sau khi
+  website chạy: đó là danh sách chữ khách thật sự gõ.
+
+Bộ từ khóa khởi đầu cho 12 lĩnh vực đã được nạp sẵn. Cứ bổ sung thoải mái — càng
+sát cách khách nói thì ô tìm kiếm càng dẫn đúng chỗ.
