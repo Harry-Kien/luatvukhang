@@ -179,3 +179,34 @@ phần SEO. Có thời điểm cây mã không biên dịch được do tệp đ
 kiểm chứng phải dừng và chờ. Không nên chạy hai phiên đồng thời trên cùng bản làm
 việc; và dự án vẫn chưa khởi tạo git nên không có lịch sử để đối chiếu hay khôi
 phục khi hai bên ghi đè nhau.
+
+## Vòng hoàn thiện thứ tư — 10/09/2026
+
+Khởi tạo kho git. Dự án đã có `.gitignore` nhưng chưa từng chạy `git init`, nên
+không có lịch sử để đối chiếu hay khôi phục — đặc biệt rủi ro khi có hai phiên
+làm việc song song. Đã kiểm tra: không tệp bí mật nào (`.env`, `.local/`,
+`media/`) lọt vào kho. Đầu ra của trình chạy test trong `artifacts/` không được
+theo dõi; ảnh chụp bàn giao vẫn giữ.
+
+Rà soát mã lớp SEO, 11 phát hiện, tất cả đã sửa. Ba lỗi kiểm chứng bằng phản hồi
+thật của website:
+
+- `og:locale:alternate` tính bằng `locale === "vi" ? "en" : "vi"` nên chỉ nêu
+  được một ngôn ngữ: trang tiếng Trung không bao giờ giới thiệu bản tiếng Anh.
+- `availableLanguage` trong Organization thiếu tiếng Trung dù `/zh` đã công bố —
+  hai tín hiệu mâu thuẫn nhau với công cụ tìm kiếm.
+- Sitemap dựng lại toàn bộ dữ liệu bộ sưu tập bên trong vòng lặp ngôn ngữ dù giá
+  trị không phụ thuộc ngôn ngữ: 54 lượt đọc không phân trang mỗi yêu cầu thay vì
+  18 lượt cần thiết.
+
+Tám phát hiện còn lại đã sửa: mã ngôn ngữ viết cứng ở bốn nơi, trang chi tiết
+thiếu `x-default`, RSS dùng `zh` thay vì `zh-Hans`, RSS không loại ký tự điều
+khiển phá vỡ XML, `Host` trong robots.txt kèm giao thức, hạn mức gửi biểu mẫu
+tính trước khi kiểm tra trùng, và kiểm tra Origin cứng nhắc chặn nhầm tên miền
+phụ (nay có `ALLOWED_FORM_ORIGINS`).
+
+Bộ kiểm thử tiếp cận phủ thêm tiếng Anh và tiếng Trung; quét WCAG tự động chạy
+thêm trên `/zh` và `/zh/services`.
+
+Vòng kiểm tra cuối: TypeScript sạch, production build thành công, 84/84 kiểm thử
+desktop/mobile đạt.

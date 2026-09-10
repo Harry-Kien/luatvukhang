@@ -207,6 +207,18 @@ Hai điểm cần biết:
 Chưa chạy `/security-review` tự động vì công cụ này cần kho git, mà dự án chưa
 khởi tạo git dù đã có sẵn `.gitignore`.
 
+## Nguyên tắc đa ngôn ngữ
+
+Danh sách ngôn ngữ và mã BCP-47 khai một chỗ duy nhất: `locales` và
+`languageInfo` trong `src/lib/locales.ts`. Mọi nơi sinh hreflang, tiền tố đường
+dẫn, `og:locale`, `availableLanguage`, sitemap và RSS đều đọc từ đó.
+
+Đây là kết quả của một đợt rà soát: trước đây `vi|en|zh` được viết cứng ở bốn
+nơi, nên thêm ngôn ngữ thứ tư sẽ âm thầm sinh hreflang sai mà không có lỗi biên
+dịch hay kiểm thử nào bắt được. Khi thêm ngôn ngữ, chỉ cần bổ sung vào
+`locales.ts` và thêm mã ngôn ngữ vào `LOCALES`/`HREFLANG` trong
+`tests/seo.spec.ts` để bộ kiểm thử phủ theo.
+
 ## Kiểm tra trước khi ra mắt
 
 `npm run release:check` chặn phát hành khi thiếu cấu hình hoặc nội dung, và cảnh
