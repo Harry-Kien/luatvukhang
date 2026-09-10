@@ -162,7 +162,7 @@ export const practiceAreas: PracticeArea[] = [
     ],
     seoDescription: {
       vi: "Hỗ trợ pháp lý về đầu tư và doanh nghiệp tại Việt Nam: cơ cấu sở hữu, thủ tục đăng ký, điều lệ và thỏa thuận cổ đông, rà soát trước giao dịch, tuân thủ định kỳ.",
-      en: "Legal support for investment and corporate matters in Vietnam: ownership structure, registration procedures, charters and shareholders' agreements, pre-transaction due diligence and recurring compliance.",
+      en: "Investment and corporate law in Vietnam: ownership structure, registration, charters and shareholders' agreements, due diligence and compliance.",
       zh: "越南投资与企业法律支持：股权架构、登记手续、章程与股东协议、交易前尽职调查及定期合规。",
     },
   },
@@ -293,7 +293,7 @@ export const practiceAreas: PracticeArea[] = [
     ],
     seoDescription: {
       vi: "Hỗ trợ giải quyết tranh chấp: đánh giá chứng cứ và vị thế pháp lý, rà soát thời hiệu, thương lượng và hòa giải, chuẩn bị hồ sơ khởi kiện hoặc trọng tài.",
-      en: "Dispute resolution support: assessment of evidence and legal position, limitation review, negotiation and mediation, preparation of court or arbitration filings.",
+      en: "Dispute resolution: assessing evidence and your legal position, limitation review, negotiation and mediation, court and arbitration filings.",
       zh: "争议解决支持：证据与法律地位评估、时效审查、协商与调解、起诉或仲裁材料准备。",
     },
   },
@@ -423,8 +423,8 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Soạn thảo và rà soát hợp đồng thương mại: phân định quyền và nghĩa vụ, điều khoản bảo đảm và giới hạn trách nhiệm, hỗ trợ đàm phán, xử lý vướng mắc khi thực hiện.",
-      en: "Commercial contract drafting and review: allocation of rights and obligations, security and liability provisions, negotiation support and handling performance issues.",
+      vi: "Soạn thảo và rà soát hợp đồng thương mại: quyền và nghĩa vụ, điều khoản bảo đảm, giới hạn trách nhiệm, hỗ trợ đàm phán và xử lý vướng mắc.",
+      en: "Commercial contracts: drafting and review, rights and obligations, security and liability clauses, negotiation support and performance issues.",
       zh: "商事合同起草与审查：权利义务划分、担保与责任限制条款、谈判支持及履行障碍处理。",
     },
   },
@@ -554,8 +554,8 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Sở hữu trí tuệ và công nghệ: rà soát tài sản trí tuệ, đăng ký nhãn hiệu, quyền tác giả phần mềm, hợp đồng phát triển và cấp phép, đánh giá xử lý dữ liệu cá nhân.",
-      en: "Intellectual property and technology: asset review, trademark registration, software copyright, development and licensing agreements, personal data processing assessment.",
+      vi: "Sở hữu trí tuệ và công nghệ: rà soát tài sản trí tuệ, đăng ký nhãn hiệu, quyền tác giả phần mềm, hợp đồng cấp phép và xử lý dữ liệu cá nhân.",
+      en: "Intellectual property and technology: asset review, trademark registration, software copyright, licensing agreements and personal data checks.",
       zh: "知识产权与科技：知识产权资产梳理、商标注册、软件著作权、开发与许可合同、个人数据处理评估。",
     },
   },

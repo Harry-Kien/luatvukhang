@@ -72,6 +72,11 @@ test("every public page carries canonical, hreflang, description and breadcrumbs
       // Latin nên ngưỡng độ dài phải khác nhau theo hệ chữ viết.
       const minimum = locale === "zh" ? 15 : 50;
       expect(description?.length, `mô tả của ${path}`).toBeGreaterThan(minimum);
+      // Google cắt đoạn mô tả quanh mốc 160 ký tự; dài hơn là mất phần cuối.
+      expect(
+        description?.length,
+        `mô tả của ${path} dài quá, sẽ bị cắt`,
+      ).toBeLessThanOrEqual(160);
 
       // Đúng một h1 trên mỗi trang.
       expect(
