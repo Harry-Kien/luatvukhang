@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, Users, Search } from "lucide-react";
 import { PageHeading } from "./content";
 import { CmsImage } from "./cms-image";
-import { getRecords, type ContentRecord } from "@/lib/cms";
+import { getRecords, getSampleRecords, type ContentRecord } from "@/lib/cms";
 import { fold, t, type Locale } from "@/lib/content";
 type Query = {
   q?: string;
@@ -20,10 +20,20 @@ export async function PeopleDirectory({
   locale: Locale;
   query: Query;
 }) {
-  const [people, services] = await Promise.all([
+  const [published, services] = await Promise.all([
     getRecords("lawyers", locale),
     getRecords("services", locale),
   ]);
+  /**
+   * Chưa có hồ sơ thật thì dùng hồ sơ minh họa để công ty xem trước bố cục.
+   * Chỉ xảy ra ở chế độ demo; khi ra mắt, danh sách rỗng trở lại và trạng thái
+   * "đang cập nhật" phía dưới được hiển thị đúng như trước.
+   */
+  const sampleProfiles = published.length
+    ? []
+    : await getSampleRecords("lawyers", locale);
+  const people = published.length ? published : sampleProfiles;
+  const showingSamples = sampleProfiles.length > 0;
   const keyword = (query.q || "").slice(0, 150),
     service = query.service || "";
   const sort = query.sort === "za" ? "za" : "az";
@@ -92,6 +102,15 @@ export async function PeopleDirectory({
               locale,
               "Hồ sơ này chưa có bản dịch được công bố.",
               "This profile does not yet have a published translation.",
+            )}
+          </p>
+        )}
+        {showingSamples && (
+          <p className="sample-badge" role="note">
+            {t(
+              locale,
+              "Hồ sơ minh họa để xem trước bố cục — chưa phải nhân sự của công ty. Sửa hoặc thay bằng hồ sơ đã xác minh trong phần Đội ngũ của CMS.",
+              "Illustrative profiles shown to preview the layout — these are not the firm's people. Edit or replace them with verified profiles in the CMS.",
             )}
           </p>
         )}

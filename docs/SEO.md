@@ -255,3 +255,34 @@ node --env-file=.env --import tsx scripts/clean-qa-records.ts
 - Cấu hình proxy ghi `X-Forwarded-For` để hạn mức gửi biểu mẫu theo từng người
   có hiệu lực.
 - Theo dõi bản vá Payload cho advisory GHSA-jg8r-5jh2-v2xj.
+
+## Kênh liên hệ trực tiếp — 10/09/2026
+
+Số điện thoại trong Cài đặt là nguồn duy nhất cho ba đầu ra: nút gọi (`tel:` ở
+dạng E.164), nút Zalo (`https://zalo.me/` + số nội địa) và trường `telephone`
+trong `Organization`. Chuẩn hóa nằm ở `contactChannels()` trong
+`src/lib/contact.ts`, nhận cả bốn cách nhập thường gặp (`0832270898`,
+`083 227 0898`, `+84 832 270 898`, `84832270898`) và trả về `null` khi số không
+đủ chữ số — giao diện khi đó ẩn hẳn nút thay vì hiện liên kết gọi hỏng.
+
+Không tách trường riêng cho Zalo: ở Việt Nam Zalo gắn với chính số thuê bao, nên
+hai trường chỉ tạo ra khả năng lệch nhau mà không ai phát hiện.
+
+Biểu tượng Zalo là SVG nội tuyến. `img-src` trong CSP chỉ cho phép `'self'`, nên
+logo tải từ máy chủ Zalo sẽ bị chặn mà không báo lỗi. Đây là ký hiệu dẫn hướng
+kèm chữ "Zalo", không phải bản sao bộ nhận diện thương hiệu.
+
+Liên kết Zalo mở tab mới kèm `rel="noopener noreferrer"`. Cụm nút nổi đặt
+`aria-label` trực tiếp trên thẻ vì chữ hiển thị bị ẩn ở khung hẹp, và bị loại
+khỏi bản in.
+
+## Nội dung minh họa và dữ liệu có cấu trúc
+
+`getSampleRecords()` trong `src/lib/cms.ts` chỉ trả về bản ghi khi đang ở chế độ
+demo, và mệnh đề `isSample` là bắt buộc trong truy vấn: kể cả khi bỏ qua kiểm
+tra quyền để đọc được bản nháp, truy vấn vẫn không thể chạm tới bản nháp thường
+của biên tập viên.
+
+Trang chi tiết dựng từ bản ghi minh họa **không phát schema.org** — `Person`,
+`Article`, `Service` và `JobPosting` chỉ mô tả nội dung công ty đã công bố. Quy
+tắc này được kiểm chứng bằng `tests/contact-and-samples.spec.ts`.

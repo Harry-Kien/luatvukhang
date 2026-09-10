@@ -231,3 +231,56 @@ Chưa hoàn tất ra mắt: dữ liệu pháp nhân/hồ sơ luật sư được
 sách, tên miền/HTTPS, SMTP thực và nghiệm thu hạ tầng. Không đưa bí mật hoặc
 cơ sở dữ liệu khách hàng lên GitHub. Mã seed được bàn giao trong repository;
 15 bản nháp được tạo trong cơ sở dữ liệu local, không phải DB production.
+
+## Mở rộng lĩnh vực, đội ngũ minh họa và kênh liên hệ — 10/09/2026
+
+**Lĩnh vực pháp lý: 4 → 12.** Bổ sung Lao động & nhân sự, Đất đai & bất động
+sản, Thuế & tài chính doanh nghiệp, Hôn nhân/gia đình & thừa kế, Hình sự, Hành
+chính & giấy phép, Ngân hàng & tín dụng, Xây dựng & hạ tầng. Mỗi lĩnh vực có
+tóm tắt, đối tượng phù hợp, 6 mục phạm vi, 4 bước quy trình, 4 câu hỏi thường
+gặp và mô tả SEO riêng, ở cả ba ngôn ngữ — tổng 36 bản ghi, 72 mục phạm vi,
+45 bước quy trình, 44 câu hỏi.
+
+Nội dung giữ đúng giới hạn đã đặt từ đầu: chỉ mô tả phạm vi công việc và cách
+làm việc; không nêu số năm kinh nghiệm, quy mô, giải thưởng, tên khách hàng hay
+kết quả vụ việc; không dẫn số hiệu điều luật cụ thể vì trích dẫn chưa được rà
+soát trên website công ty luật là rủi ro nghề nghiệp. Phần hỏi đáp giữ ở mức
+quy trình, không tư vấn pháp lý cụ thể. Riêng mảng hình sự và gia đình được
+viết ở giọng bình tĩnh, không hứa hẹn kết quả và không gợi ý quan hệ với cơ
+quan tiến hành tố tụng.
+
+**Đội ngũ: 6 hồ sơ minh họa** (18 bản ghi ba ngôn ngữ), sửa được trong CMS. Chi
+tiết cơ chế bảo vệ ba lớp xem `docs/BUSINESS-INPUTS.md`. Điểm cốt lõi: cờ
+`isSample` khiến `publicationGuard` từ chối xuất bản **kể cả tài khoản quản
+trị** — đã có kiểm thử tự động chứng minh bằng yêu cầu thật; hồ sơ chỉ hiện ở
+chế độ demo, luôn kèm nhãn, và không phát schema.org `Person`.
+
+**Kênh liên hệ trực tiếp.** Số 0832270898 do công ty cung cấp đã vào Cài đặt và
+sinh ra nút gọi cùng nút Zalo ở thanh tiện ích, menu di động, chân trang, trang
+Liên hệ và một cụm nút nổi luôn trong tầm tay. Một nguồn duy nhất: đổi số trong
+Cài đặt là mọi nơi đổi theo, kể cả `telephone` trong `Organization`. Chưa nhập
+số thì toàn bộ khối không render, để website không mời một hành động không thực
+hiện được. Biểu tượng Zalo vẽ bằng SVG nội tuyến vì CSP chỉ cho phép ảnh cùng
+nguồn — tải logo từ máy chủ Zalo sẽ hỏng lặng lẽ.
+
+Lỗi bộ kiểm thử phát hiện và đã sửa: thanh tiện ích có thêm hai liên kết gây
+**tràn ngang ở khung 320px**. Dưới 700px phần này được ẩn; người dùng vẫn có nút
+nổi và mục liên hệ trong menu.
+
+Thêm `tests/contact-and-samples.spec.ts` — 5 bài × 2 khung: chuẩn hóa số điện
+thoại từ bốn cách nhập, loại số thiếu chữ số, kiểm tra liên kết gọi/Zalo trên ba
+ngôn ngữ, tên gọi trợ năng khi chữ bị ẩn ở khung hẹp, hồ sơ minh họa có nhãn và
+không phát `Person`, và bài chứng minh quản trị viên không xuất bản được nội
+dung minh họa.
+
+`release:check` nay liệt kê từng bản ghi minh họa cần thay trước khi ra mắt.
+
+Vòng kiểm tra cuối: TypeScript sạch, production build thành công, **108/108 kiểm
+thử desktop/mobile đạt**.
+
+**Chưa thay đổi điều kiện ra mắt.** `release:check` vẫn chặn 13 mục: demo mode,
+cờ duyệt ra mắt, tên miền HTTPS, SMTP, thông tin pháp nhân còn thiếu (địa chỉ,
+email, mã số thuế, đăng ký hành nghề), duyệt chính sách, 6 trang Quyền riêng
+tư/Điều khoản và hồ sơ luật sư thật. Ngoài ra, **36 bản ghi lĩnh vực chuyên môn
+đang ở trạng thái đã xuất bản nhưng do script soạn, chưa có luật sư của công ty
+đọc duyệt** — phải rà soát trước khi bật `SITE_LAUNCH_APPROVED`.

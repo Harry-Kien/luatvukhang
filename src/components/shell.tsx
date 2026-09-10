@@ -13,13 +13,16 @@ import {
 } from "lucide-react";
 import { navigation, t, type Locale } from "@/lib/content";
 import { Brand } from "./brand";
+import { ContactChannels } from "./contact-channels";
 export function Header({
   locale,
   services = [],
+  phone,
 }: {
   locale: Locale;
   companyName?: string;
   services?: { slug: string; title: string }[];
+  phone?: string | null;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -56,6 +59,8 @@ export function Header({
           {t(locale, "Tư vấn pháp lý · Việt Nam", "Legal counsel · Vietnam")}
         </span>
         <div>
+          <ContactChannels locale={locale} phone={phone} variant="bar" />
+          {phone && <span className="utility-divider" />}
           <Link href={"/" + locale + "/search"}>
             <Search size={14} />
             {t(locale, "Tìm kiếm", "Search")}
@@ -215,6 +220,7 @@ export function Header({
             {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
             <ArrowRight size={18} />
           </Link>
+          <ContactChannels locale={locale} phone={phone} variant="stack" />
         </nav>
       )}
     </header>
@@ -223,9 +229,11 @@ export function Header({
 export function Footer({
   locale,
   companyName,
+  phone,
 }: {
   locale: Locale;
   companyName?: string;
+  phone?: string | null;
 }) {
   return (
     <footer>
@@ -267,6 +275,7 @@ export function Footer({
               "Understand the matter. Decide with confidence.",
             )}
           </span>
+          <ContactChannels locale={locale} phone={phone} variant="stack" />
         </div>
         <div>
           <h3>{t(locale, "Khám phá Vũ Khang", "Explore Vũ Khang")}</h3>

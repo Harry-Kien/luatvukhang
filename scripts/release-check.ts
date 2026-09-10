@@ -100,6 +100,33 @@ for (const collection of [
     }
   }
 }
+// Nội dung minh họa không chặn phát hành vì nó không thể xuất bản, nhưng vẫn
+// hiển thị ở chế độ demo — nêu tên ra để không ai tưởng đó là hồ sơ thật.
+for (const collection of [
+  "pages",
+  "services",
+  "industries",
+  "lawyers",
+  "experience",
+  "articles",
+  "careers",
+] as const) {
+  const { docs } = await payload.find({
+    collection,
+    where: { isSample: { equals: true } },
+    draft: true,
+    pagination: false,
+    depth: 0,
+  });
+  const names = [
+    ...new Set((docs as Record<string, any>[]).map((doc) => doc.slug)),
+  ];
+  if (names.length)
+    warnings.push(
+      `${collection}: ${docs.length} illustrative record(s) across ${names.length} entr(y/ies) — ` +
+        `replace with verified content before launch (${names.join(", ")})`,
+    );
+}
 console.log(
   issues.length
     ? "RELEASE BLOCKED:\n" + issues.join("\n")

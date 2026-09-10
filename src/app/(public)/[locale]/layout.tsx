@@ -13,7 +13,8 @@ import "./styles.css";
 import "./brand.css";
 import { getSiteSettings } from "@/lib/site-settings";
 import { Header, Footer } from "@/components/shell";
-import {getRecords} from "@/lib/cms";
+import { ContactChannels } from "@/components/contact-channels";
+import { getRecords } from "@/lib/cms";
 import { demo, launched, samples, t } from "@/lib/content";
 import { JsonLd } from "@/components/json-ld";
 import { Analytics } from "@/components/analytics";
@@ -69,8 +70,12 @@ export default async function Layout({
   if (locale !== "vi" && locale !== "en" && locale !== "zh") notFound();
   setRequestLocale(locale);
   const settings = await getSiteSettings();
- const records=await getRecords('services',locale);
- const serviceLinks=records.length?records.map(r=>({slug:r.slug,title:r.title})):demo?samples.map(s=>({slug:s.slug,title:t(locale,s.vi,s.en)})):[];
+  const records = await getRecords("services", locale);
+  const serviceLinks = records.length
+    ? records.map((r) => ({ slug: r.slug, title: r.title }))
+    : demo
+      ? samples.map((s) => ({ slug: s.slug, title: t(locale, s.vi, s.en) }))
+      : [];
   const companyName =
     locale === "en" ? settings?.englishName : settings?.companyName;
   const organization = organizationJsonLd(settings, locale);
@@ -84,18 +89,34 @@ export default async function Layout({
           ]}
         />
         <a className="skip" href="#main">
-          {t(locale,"Đến nội dung chính","Skip to content")}
+          {t(locale, "Đến nội dung chính", "Skip to content")}
         </a>
         {demo && (
           <div className="demo-note">
             {locale === "vi"
               ? "Bản phát triển · Nội dung minh họa, chưa phải thông tin công bố của công ty."
-              : locale === "zh" ? "开发预览 · 示例内容，尚非公司正式发布的信息。" : "Development preview · Sample content, not an official statement of the firm."}
+              : locale === "zh"
+                ? "开发预览 · 示例内容，尚非公司正式发布的信息。"
+                : "Development preview · Sample content, not an official statement of the firm."}
           </div>
         )}
-        <Header locale={locale} companyName={companyName || undefined} services={serviceLinks} />
+        <Header
+          locale={locale}
+          companyName={companyName || undefined}
+          services={serviceLinks}
+          phone={settings?.phone}
+        />
         <main id="main">{children}</main>
-        <Footer locale={locale} companyName={companyName || undefined} />
+        <Footer
+          locale={locale}
+          companyName={companyName || undefined}
+          phone={settings?.phone}
+        />
+        <ContactChannels
+          locale={locale}
+          phone={settings?.phone}
+          variant="dock"
+        />
         <Analytics />
       </body>
     </html>

@@ -11,6 +11,7 @@ import { ArrowUpRight } from "lucide-react";
 import { PageHeading, EmptyContent, ContentBody } from "@/components/content";
 import { CmsImage } from "@/components/cms-image";
 import { ConsultationForm } from "@/components/consultation-form";
+import { ContactChannels } from "@/components/contact-channels";
 import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
@@ -430,6 +431,7 @@ export default async function Page({ params, searchParams }: Props) {
                     <a href={"mailto:" + settings.email}>{settings.email}</a>
                   </p>
                 )}
+                <ContactChannels locale={locale} phone={settings?.phone} />
                 {!settings?.address && !settings?.phone && !settings?.email && (
                   <p>
                     {t(

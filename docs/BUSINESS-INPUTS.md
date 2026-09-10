@@ -2,6 +2,15 @@
 
 Đã nhận tên chính thức: Công ty Luật TNHH Vũ Khang. Website đã cập nhật tên này.
 
+Đã nhận số điện thoại: **0832270898**. Số này nằm trong Cài đặt của CMS và là
+nguồn duy nhất sinh ra nút gọi (`tel:+84832270898`), nút Zalo
+(`https://zalo.me/0832270898`) và trường `telephone` trong dữ liệu có cấu trúc
+`Organization`. Đổi số trong Cài đặt là cả ba nơi đổi theo; không sửa trong mã.
+
+```
+node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
+```
+
 ## Quyết định trước khi công bố
 
 - Tên pháp lý, tên thương hiệu, tên tiếng Anh được sử dụng; thông tin đăng ký hành nghề.
@@ -24,7 +33,7 @@ soát và xuất bản:
 
 | Nội dung | Số bản ghi | Script |
 | --- | --- | --- |
-| Bốn lĩnh vực chuyên môn: tóm tắt, đối tượng phù hợp, phạm vi hỗ trợ, quy trình, câu hỏi thường gặp, mô tả SEO | 12 | `scripts/prepare-practice-areas.ts` |
+| **Mười hai** lĩnh vực chuyên môn: tóm tắt, đối tượng phù hợp, phạm vi hỗ trợ, quy trình, câu hỏi thường gặp, mô tả SEO | 36 | `scripts/prepare-practice-areas.ts` |
 | Trang Về chúng tôi, Liên hệ, Trang chủ | 9 | `scripts/prepare-page-content.ts` |
 | Dự thảo chính sách quyền riêng tư và điều khoản | đã có từ trước | `scripts/prepare-pages.ts` |
 
@@ -49,6 +58,31 @@ Sau khi rà soát, xuất bản bằng:
 node --env-file=.env --import tsx scripts/publish-drafts.ts            # liệt kê
 node --env-file=.env --import tsx scripts/publish-drafts.ts --confirm  # xuất bản
 ```
+
+## Hồ sơ đội ngũ minh họa — 10/09/2026
+
+Trang Đội ngũ đã có 6 hồ sơ **minh họa** (18 bản ghi, ba ngôn ngữ) để công ty
+xem trước bố cục, thử bộ lọc chuyên môn và sửa trực tiếp trong CMS thay vì dựng
+từ đầu. Nạp bằng `scripts/prepare-people.ts`.
+
+Ba lớp bảo vệ, không phụ thuộc vào việc ai đó nhớ ra:
+
+| Lớp | Tác dụng |
+| --- | --- |
+| Cờ `isSample` | `publicationGuard` từ chối xuất bản, kể cả tài khoản quản trị. Có kiểm thử tự động chứng minh. |
+| Chỉ hiện ở chế độ demo | Đặt `NEXT_PUBLIC_DEMO_MODE=false` lúc ra mắt là hồ sơ minh họa biến mất khỏi website. |
+| Nhãn trên giao diện | Trang danh sách và trang chi tiết đều ghi rõ "chưa phải nhân sự của công ty". |
+
+Hồ sơ minh họa **không phát dữ liệu có cấu trúc `Person`** và `release:check`
+vẫn coi trang Đội ngũ là chưa có nội dung thật, đồng thời liệt kê tên từng bản
+ghi cần thay.
+
+Trường "Thông tin nghề nghiệp" cố ý để lại câu nhắc việc thay vì số thẻ luật sư
+giả. Một hồ sơ hành nghề sai sự thật trên website công ty luật là rủi ro nghề
+nghiệp, không phải nội dung mẫu.
+
+Cách dùng làm hồ sơ thật: mở /admin → Đội ngũ → nhập thông tin đã xác minh và
+ảnh chân dung → **bỏ đánh dấu "Nội dung minh họa"** → duyệt chuyên môn → xuất bản.
 
 ## Vẫn phải do công ty cung cấp, không thể soạn thay
 
