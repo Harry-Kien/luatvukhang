@@ -7,3 +7,6 @@ test-results/
 playwright-report/
 *.tsbuildinfo
 .local/
+
+# Dau ra cua trinh chay test. Anh chup ban giao trong artifacts/ van duoc theo doi.
+artifacts/*-tests/
