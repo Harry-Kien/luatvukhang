@@ -227,6 +227,7 @@ cd /srv/luatvukhang
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/bootstrap.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-pages.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-practice-areas.ts
+sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-keywords.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-page-content.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
 ```

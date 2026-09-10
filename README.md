@@ -37,6 +37,7 @@ nội dung công ty đã biên tập.
 
 ```
 node --env-file=.env --import tsx scripts/prepare-practice-areas.ts   # 12 lĩnh vực × 3 ngôn ngữ
+node --env-file=.env --import tsx scripts/prepare-keywords.ts         # từ khóa cho ô tìm kiếm
 node --env-file=.env --import tsx scripts/prepare-page-content.ts     # trang nền
 node --env-file=.env --import tsx scripts/prepare-people.ts           # hồ sơ đội ngũ minh họa
 node --env-file=.env --import tsx scripts/set-contact.ts --phone "..." # số điện thoại / Zalo
