@@ -19,7 +19,7 @@ export const pageContent: PageContent[] = [
     summary: {
       vi: "Vũ Khang làm việc với những vấn đề pháp lý phát sinh từ hoạt động kinh doanh và đời sống thực tế — nơi câu trả lời đúng phụ thuộc vào bối cảnh nhiều như phụ thuộc vào quy định.",
       en: "Vũ Khang works on the legal questions that arise out of real business and personal circumstances — where the right answer depends on context as much as on the rules.",
-      zh: "遇安（Vũ Khang）处理源于真实经营与生活情境的法律问题——在这些问题上，正确答案既取决于规定，也同样取决于具体情境。",
+      zh: "Vũ Khang处理源于真实经营与生活情境的法律问题——在这些问题上，正确答案既取决于规定，也同样取决于具体情境。",
     },
     sections: [
       {
@@ -141,3 +141,4 @@ export const pageContent: PageContent[] = [
     ],
   },
 ];
+
