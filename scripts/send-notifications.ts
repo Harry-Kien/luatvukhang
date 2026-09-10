@@ -52,7 +52,7 @@ try {
     await client.query("SELECT pg_advisory_unlock(981710)");
   } finally {
     client.release();
+    await payload.destroy();
   }
-  await payload.destroy();
 }
 // Preserve a failure exit code for the hosting scheduler.

@@ -254,7 +254,16 @@ test("published records emit the right schema.org type", async ({ request }) => 
 test("public pages have no automatic accessibility violations", async ({
   page,
 }) => {
-  for (const path of ["/vi", "/vi/services", "/vi/lawyers", "/vi/contact", "/vi/consultation", "/en"]) {
+  for (const path of [
+    "/vi",
+    "/vi/services",
+    "/vi/lawyers",
+    "/vi/contact",
+    "/vi/consultation",
+    "/en",
+    "/zh",
+    "/zh/services",
+  ]) {
     await page.goto(path);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa"])

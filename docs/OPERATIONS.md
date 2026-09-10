@@ -54,3 +54,19 @@ Theo dõi Core Web Vitals bằng dữ liệu thật sau ra mắt; chưa có dữ
 ## Kiểm tra bảo mật phụ thuộc
 
 audit-report.json ghi kết quả npm audit. Đã nâng sharp và DOMPurify. Còn cảnh báo moderate từ Payload/chuỗi công cụ Drizzle. Quyền unlock của Users đã khóa cho admin để giảm rủi ro advisory account-unlock; cần kiểm tra lại bản vá upstream trước production. Không dùng npm audit fix --force để hạ major CMS.
+
+## Giám sát sức khỏe hệ thống
+- `/api/health/live`: trả 200 khi tiến trình web trả lời được. Dùng cho kiểm tra liveness.
+- `/api/health/ready`: trả 200 khi truy vấn DB thành công và các bảng chính tồn tại; trả 503 khi chưa sẵn sàng. Dùng để kiểm tra sau deploy và cảnh báo vận hành. Không tự restart web chỉ vì DB đang bảo trì.
+- Hai endpoint chỉ trả trạng thái, không có dữ liệu khách hàng, không cache. Đây không phải kiểm tra SMTP, quyền ghi, nội dung, hoặc toàn bộ tính toàn vẹn schema.
+- Pool thao tác vận hành tối đa 3 kết nối/tiến trình, chờ kết nối 3 giây, truy vấn 5 giây; pool CMS tối đa 10 kết nối/tiến trình, chờ kết nối 5 giây. Khi tăng số replica, cần tính tổng kết nối với giới hạn PostgreSQL.
+- SMTP chờ kết nối/chào 10 giây, socket 30 giây. Worker trả exit code khác 0 nếu có thông báo gửi thất bại để scheduler phát hiện; giải phóng khóa và đóng CMS trong finally.
+- Thông báo failed cần người vận hành kiểm tra trạng thái gửi ở nhà cung cấp trước khi chuyển về pending. Không gửi lại tự động nếu chưa biết email đã tới hay chưa; việc gửi email và cập nhật DB không phải giao dịch nguyên tử.
+
+## Khi có sự cố
+1. Kiểm tra live và ready để phân biệt web không trả lời với dữ liệu chưa sẵn sàng.
+2. Kiểm tra log hosting/DB, hạn mức kết nối và migration đã chạy; không ghi secret hoặc nội dung tư vấn vào log.
+3. Sau phục hồi, kiểm tra trang chính và gửi yêu cầu kiểm thử được đánh dấu, xác nhận DB/outbox rồi xóa dữ liệu kiểm thử theo quy trình.
+4. Kiểm tra email với cấu hình thật trước khi tuyên bố hệ thống thông báo hoạt động.
+
+Chưa kết nối dịch vụ giám sát bên ngoài hoặc tạo lịch gửi email trong phiên này. Các endpoint và hướng dẫn cần được cấu hình trên hosting thật.

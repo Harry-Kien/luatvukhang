@@ -9,6 +9,6 @@ export const operationsPool = (scope.operationsPool ||= new Pool({
   statement_timeout: 5000,
 }));
 // Idle connections can error after a database restart. Do not log connection strings.
-operationsPool.on("error", () =>
+if (operationsPool.listenerCount("error") === 0) operationsPool.on("error", () =>
   console.error("Operations database connection interrupted."),
 );

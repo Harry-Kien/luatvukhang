@@ -14,7 +14,12 @@ const PAGES = [
   "/vi/consultation",
   "/vi/contact",
   "/en",
+  "/en/services",
+  "/zh",
+  "/zh/services",
 ];
+/** Mã ngôn ngữ hợp lệ cho thuộc tính lang của thẻ html. */
+const LANGS = ["vi", "en", "zh-Hans"];
 
 /** Bấm Tab tối đa `limit` lần cho tới khi phần tử mong muốn nhận tiêu điểm. */
 async function tabUntil(page: Page, selector: string, limit = 60) {
@@ -149,7 +154,7 @@ test("landmarks and heading order match what a screen reader expects", async ({
     expect(structure.namedNavs, `${path}: mọi nav phải có aria-label`).toBe(
       structure.navs,
     );
-    expect(["vi", "en"]).toContain(structure.lang);
+    expect(LANGS, `${path} có lang không hợp lệ`).toContain(structure.lang);
 
     expect(structure.levels[0], `${path} phải bắt đầu bằng h1`).toBe(1);
     expect(
