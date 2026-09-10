@@ -210,10 +210,20 @@ p {
 .mega-intro .eyebrow {
   margin-bottom: 15px;
 }
+/* Danh mục chuyên môn dài ra theo số lĩnh vực công ty công bố. Hai cột chỉ đủ
+   cho danh sách ngắn; từ màn hình rộng trở lên chia ba cột để menu không đổ dài
+   quá màn hình và người dùng vẫn quét hết trong một tầm mắt. */
 .mega-links {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0 36px;
+  align-content: start;
+}
+@media (min-width: 1180px) {
+  .mega-links {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 30px;
+  }
 }
 .mega-links > a {
   display: grid;
@@ -221,7 +231,7 @@ p {
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid var(--line);
-  padding: 22px 0;
+  padding: 18px 0;
 }
 .mega-links > a > span {
   font-size: 11px;
@@ -1942,28 +1952,44 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
 .contact-channels svg {
   flex: none;
 }
-/* Nút nổi: đường liên hệ luôn trong tầm tay mà không chiếm chỗ trong bố cục. */
+/* Chữ hiệu Zalo mang màu thương hiệu khi nằm trên nền sáng. */
+.contact-channels.stack .zalo-link {
+  color: #0068ff;
+}
+.contact-channels.stack .zalo-link:hover {
+  border-color: #0068ff;
+  color: #0053cc;
+}
+/* Nút nổi: đường liên hệ luôn trong tầm tay mà không chiếm chỗ trong bố cục.
+   Neo bên trái và chừa sẵn góc phải: bộ chatbot nhúng (Zalo OA, Crisp, Tawk…)
+   mặc định chiếm góc phải dưới và không phải bộ nào cũng cho đổi vị trí. Khi
+   tích hợp chatbot, chỉnh --dock-inline nếu cần đẩy cụm nút ra xa hơn. */
 .contact-dock {
   position: fixed;
-  right: clamp(12px, 2vw, 26px);
-  bottom: clamp(12px, 2vw, 26px);
+  left: var(--dock-inline, clamp(12px, 2vw, 26px));
+  bottom: var(--dock-bottom, clamp(12px, 2vw, 26px));
   z-index: 60;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+/* Nút tròn thay vì viên thuốc có chữ: ở 1440px lề nội dung bắt đầu quanh 100px,
+   một nút có nhãn chữ rộng tới ~118px và che mất đầu dòng. Biểu tượng điện
+   thoại và chữ hiệu Zalo đều tự nói lên chức năng; tên gọi đầy đủ nằm ở
+   aria-label và title. */
 .contact-dock a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  min-height: 48px;
-  padding: 0 19px;
-  border-radius: 999px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   color: var(--white);
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 8px 24px rgba(16, 29, 53, 0.28);
+  box-shadow: 0 8px 24px rgba(16, 29, 53, 0.3);
+  transition: transform 0.15s ease;
+}
+.contact-dock a:hover {
+  transform: translateY(-2px);
 }
 .dock-call {
   background: var(--red);
@@ -1977,18 +2003,18 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
 .dock-zalo:hover {
   background: #0053cc;
 }
-/* Màn hình hẹp và khi phóng to: thu về dạng biểu tượng, xếp ngang cho khỏi
-   che mất chân trang. Tên gọi vẫn còn nhờ aria-label. */
-@media (max-width: 760px), (max-height: 620px) {
+/* Màn hình thấp: xếp ngang để cụm nút không chiếm hết chiều cao khung nhìn. */
+@media (max-height: 620px) {
   .contact-dock {
     flex-direction: row;
   }
+}
+@media (prefers-reduced-motion: reduce) {
   .contact-dock a {
-    min-width: 48px;
-    padding: 0 14px;
+    transition: none;
   }
-  .dock-text {
-    display: none;
+  .contact-dock a:hover {
+    transform: none;
   }
 }
 /* Bản in không bấm được: bỏ hẳn để khỏi tốn mực và che nội dung. */

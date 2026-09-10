@@ -284,3 +284,34 @@ email, mã số thuế, đăng ký hành nghề), duyệt chính sách, 6 trang 
 tư/Điều khoản và hồ sơ luật sư thật. Ngoài ra, **36 bản ghi lĩnh vực chuyên môn
 đang ở trạng thái đã xuất bản nhưng do script soạn, chưa có luật sư của công ty
 đọc duyệt** — phải rà soát trước khi bật `SITE_LAUNCH_APPROVED`.
+
+## Icon Zalo chính thức, chỗ cho chatbot và rà soát bố cục — 10/09/2026
+
+**Chữ hiệu Zalo chính thức** thay cho ký hiệu tự vẽ trước đó. Nguồn: bộ Simple
+Icons (tệp icon CC0; nhãn hiệu thuộc VNG), nhúng dưới dạng đường dẫn SVG nội
+tuyến vì CSP chỉ cho phép ảnh cùng nguồn. Phạm vi sử dụng và lưu ý pháp lý ghi
+ở `docs/DEPENDENCIES.md`. Vì chữ hiệu tự đọc thành "Zalo", nhãn chữ trùng lặp đã
+được bỏ; tên gọi cho trình đọc màn hình chuyển hẳn sang `aria-label`.
+
+**Lỗi bố cục phát hiện khi mở rộng lên 12 lĩnh vực.** Danh mục chuyên môn đánh
+số bằng chuỗi viết cứng `0{i+1}`, nên từ mục thứ mười trở đi hiện thành **"010",
+"011", "012"**. Bốn lĩnh vực thì không lộ; mười hai thì lộ ngay. Đã thay bằng
+hàm đệm theo độ dài danh sách và thêm `tests/navigation.spec.ts` để không tái
+diễn — bài kiểm thử này cũng đối chiếu danh mục với trang danh sách, vì hai nơi
+lệch nhau sẽ khiến người dùng thấy hai danh sách mâu thuẫn.
+
+**Mega menu chuyển sang ba cột** từ 1180px trở lên. Hai cột × 12 mục đổ dài quá
+tầm mắt; ba cột cho bốn hàng cân đối.
+
+**Cụm nút liên hệ chuyển sang góc trái dưới, dạng nút tròn.** Bản có nhãn chữ đã
+được dựng và chụp ảnh đối chiếu: ở 1440px nút rộng ~118px trong khi lề nội dung
+bắt đầu quanh 100px, tức là **che mất đầu dòng chữ**. Nút tròn 52px kết thúc ở
+~78px nên không chạm vào cột nội dung. Góc phải để trống có chủ đích cho phần
+chatbot sẽ tích hợp sau; hai biến `--dock-inline` và `--dock-bottom` cho phép
+chỉnh vị trí mà không phải sửa cấu trúc.
+
+Đã kiểm tra bằng ảnh chụp ở 390px, 1100px và 1440px: mega menu, trang chủ, chân
+trang và trang chuyên môn.
+
+Vòng kiểm tra cuối: TypeScript sạch, production build thành công, **110/110 kiểm
+thử desktop/mobile đạt**.

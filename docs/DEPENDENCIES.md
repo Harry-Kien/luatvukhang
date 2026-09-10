@@ -42,3 +42,19 @@ Font Noto Serif và Be Vietnam Pro: SIL Open Font License 1.1; bản giấy phé
 Payload/Next.js/TypeScript/Tailwind/next-intl cung cấp nền CMS và giao diện; React Hook Form + Zod xử lý biểu mẫu; Lucide cho biểu tượng; pg cho giới hạn gửi; nodemailer cho SMTP; Playwright + axe cho kiểm thử. Không cài Tailark, Magic UI, Motion hoặc Superpowers vì chưa có chức năng cần chúng. Không tìm thấy Superpowers trong thư mục kỹ năng/plugin đã kiểm tra.
 
 Không dùng npm audit fix --force. Còn cảnh báo moderate được ghi trong audit-report.json. Lockfile giữ toàn bộ cây phụ thuộc; danh sách này không thay thế rà soát pháp lý giấy phép khi phân phối.
+
+## Tài sản đồ họa nhúng trong mã
+
+| Tài sản | Nguồn | Giấy phép / căn cứ |
+| --- | --- | --- |
+| Chữ hiệu Zalo (`src/components/contact-channels.tsx`) | Bộ Simple Icons, tệp `icons/zalo.svg` | Tệp icon phát hành theo **CC0-1.0**. Nhãn hiệu và logo Zalo thuộc **VNG Corporation**. |
+
+Chữ hiệu được nhúng dưới dạng đường dẫn SVG nội tuyến, không tải từ máy chủ của
+Zalo, vì `img-src` trong Content-Security-Policy chỉ cho phép ảnh cùng nguồn.
+
+Cách dùng ở đây là **chỉ dẫn kênh liên hệ**: chữ hiệu chỉ xuất hiện trên liên kết
+mở đúng tài khoản Zalo của công ty, không dùng làm yếu tố nhận diện của Vũ Khang,
+không gợi ý Zalo tài trợ hay liên kết với công ty, và không sửa đổi hình dạng.
+Đây là cách dùng thông thường và được chấp nhận cho nút "liên hệ qua Zalo", nhưng
+**không phải ý kiến pháp lý**: nếu công ty muốn chắc chắn, hãy đối chiếu với điều
+khoản thương hiệu hiện hành của VNG trước khi ra mắt.

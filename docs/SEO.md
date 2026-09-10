@@ -268,13 +268,29 @@ trong `Organization`. Chuẩn hóa nằm ở `contactChannels()` trong
 Không tách trường riêng cho Zalo: ở Việt Nam Zalo gắn với chính số thuê bao, nên
 hai trường chỉ tạo ra khả năng lệch nhau mà không ai phát hiện.
 
-Biểu tượng Zalo là SVG nội tuyến. `img-src` trong CSP chỉ cho phép `'self'`, nên
-logo tải từ máy chủ Zalo sẽ bị chặn mà không báo lỗi. Đây là ký hiệu dẫn hướng
-kèm chữ "Zalo", không phải bản sao bộ nhận diện thương hiệu.
+Dùng **chữ hiệu Zalo chính thức**, nhúng dưới dạng đường dẫn SVG nội tuyến lấy
+từ bộ Simple Icons (tệp icon theo CC0; nhãn hiệu thuộc VNG). Không tải từ máy
+chủ Zalo vì `img-src` trong CSP chỉ cho phép `'self'` và ảnh ngoài sẽ bị chặn mà
+không báo lỗi. Căn cứ giấy phép và phạm vi sử dụng ghi ở `docs/DEPENDENCIES.md`.
 
-Liên kết Zalo mở tab mới kèm `rel="noopener noreferrer"`. Cụm nút nổi đặt
-`aria-label` trực tiếp trên thẻ vì chữ hiển thị bị ẩn ở khung hẹp, và bị loại
-khỏi bản in.
+Chữ hiệu tự nó đọc thành "Zalo" nên nút không kèm nhãn chữ trùng lặp; tên gọi
+cho trình đọc màn hình đặt bằng `aria-label` trên chính thẻ liên kết, ở mọi biến
+thể. Liên kết mở tab mới kèm `rel="noopener noreferrer"` và bị loại khỏi bản in.
+
+### Vị trí cụm nút nổi và chỗ dành cho chatbot
+
+Cụm nút neo ở **góc trái dưới**, dạng nút tròn 52px. Hai lý do:
+
+1. **Chừa sẵn góc phải cho chatbot.** Hầu hết bộ chat nhúng (Zalo OA, Crisp,
+   Tawk…) tự đặt mình ở góc phải dưới và không phải bộ nào cũng cho đổi vị trí.
+   Đặt sẵn bên trái thì lúc tích hợp không phải sửa lại bố cục.
+2. **Nút tròn thay vì viên thuốc có nhãn chữ.** Ở 1440px lề nội dung bắt đầu
+   quanh 100px; một nút có chữ rộng tới ~118px và che mất đầu dòng. Bản có nhãn
+   chữ đã được dựng thử và bị loại vì lý do này.
+
+Hai biến CSS để chỉnh khi tích hợp chatbot, khai trên `.contact-dock` trong
+`brand.css`: `--dock-inline` (khoảng cách mép ngang) và `--dock-bottom` (khoảng
+cách đáy — nâng cụm nút lên nếu chatbot cũng chiếm cạnh trái).
 
 ## Nội dung minh họa và dữ liệu có cấu trúc
 

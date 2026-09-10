@@ -14,6 +14,9 @@ import {
 import { navigation, t, type Locale } from "@/lib/content";
 import { Brand } from "./brand";
 import { ContactChannels } from "./contact-channels";
+/** Số thứ tự trong menu, đệm 0 theo độ dài danh sách chứ không cố định hai chữ số. */
+const ordinal = (index: number, total: number) =>
+  String(index + 1).padStart(String(total).length, "0");
 export function Header({
   locale,
   services = [],
@@ -176,7 +179,9 @@ export function Header({
                 href={"/" + locale + "/services/" + s.slug}
                 key={s.slug}
               >
-                <span>0{i + 1}</span>
+                {/* Đệm số theo độ dài danh sách: viết cứng "0" sẽ thành "010"
+                    khi công ty công bố từ mười lĩnh vực trở lên. */}
+                <span>{ordinal(i, services.length)}</span>
                 <strong>{s.title}</strong>
                 <ArrowUpRight size={18} />
               </Link>
@@ -207,7 +212,7 @@ export function Header({
               href={"/" + locale + "/" + slug}
               key={slug}
             >
-              <span>0{i + 1}</span>
+              <span>{ordinal(i, navigation.length)}</span>
               {t(locale, vi, en)}
               <ArrowUpRight size={19} />
             </Link>
