@@ -35,6 +35,18 @@ Chạy `node --env-file=.env --import tsx scripts/send-notifications.ts` bằng 
 Worker dùng khóa PostgreSQL để tránh hai tiến trình gửi đồng thời. Email chỉ có mã tham chiếu và liên kết quản trị. Gửi thành công SMTP không đồng nghĩa thư đã đến inbox.
 Outbox failed phải điều tra và đưa lại pending; chưa có backoff tự động.
 Nếu worker chết sau SMTP gửi nhưng trước đánh dấu sent, lần chạy lại có thể gửi lặp: delivery hiện at-least-once.
+
+Kiểm tra cấu hình trước khi có yêu cầu thật:
+`node --env-file=.env --import tsx scripts/send-notifications.ts --check`
+gửi một thư kiểm tra tới NOTIFICATION_EMAIL, không chứa dữ liệu khách hàng. Nhận
+được thư nghĩa là đường gửi thông báo đã thông.
+
+Thư gửi hỏng được **thử lại trong 24 giờ**. Trước đây một sự cố mạng thoáng qua
+đánh dấu thư là `failed` vĩnh viễn trong khi vòng quét chỉ lấy `pending`, nên
+yêu cầu của khách nằm im mà không ai được báo. Quá 24 giờ mà vẫn hỏng thì worker
+ngừng thử lại, trả exit code khác 0 và in số bản ghi cần người xử lý — mở mục
+Thông báo cần gửi trong /admin. Yêu cầu tư vấn của khách vẫn được lưu nguyên vẹn
+trong mọi trường hợp; chỉ có bước báo cho nhân viên là chưa xong.
 Không cấu hình SMTP: sendEmail báo lỗi, không ghi email/mật khẩu reset ra console.
 
 ## Sao lưu và khôi phục
