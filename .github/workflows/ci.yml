@@ -43,7 +43,7 @@ jobs:
       SITE_LAUNCH_APPROVED: "false"
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v5
         with:
