@@ -98,3 +98,32 @@ Chưa kết nối dịch vụ giám sát bên ngoài hoặc tạo lịch gửi e
   Kiểm tra cấu hình không chứng minh SMTP đã gửi được hoặc backup phục hồi được.
 - `npm run check:content` quét 42 lượt trang. Có thể đặt CONTENT_CHECK_URL khi
   kiểm thử cổng khác; không dùng bộ kiểm thử ghi dữ liệu trên production.
+
+## Triển khai bằng Docker
+
+`Dockerfile` dựng ảnh chạy production. CI dựng lại ảnh này trên mỗi lần đẩy nên
+nó luôn ở trạng thái dựng được.
+
+```
+docker build   --build-arg NEXT_PUBLIC_SITE_URL=https://ten-mien-that   --build-arg NEXT_PUBLIC_DEMO_MODE=false   -t luatvukhang:1.0 .
+```
+
+Ba điểm dễ sai:
+
+1. **Biến `NEXT_PUBLIC_*` được nhúng lúc dựng ảnh**, không đọc lúc chạy. Truyền
+   sai ở bước build thì canonical, hreflang và ảnh chia sẻ sẽ trỏ nhầm tên miền,
+   và đổi biến môi trường lúc chạy không sửa được — phải dựng lại ảnh.
+2. **Migration không chạy khi container khởi động.** Nhiều bản sao khởi động
+   cùng lúc sẽ cùng chạy migration. Chạy như một bước phát hành riêng, trước khi
+   đưa bản mới vào phục vụ:
+   `docker run --rm --env-file .env luatvukhang:1.0 npm run payload -- migrate`
+3. **`/app/media` phải gắn volume** hoặc chuyển sang object storage. Không gắn
+   thì mỗi lần triển khai lại mất toàn bộ ảnh biên tập viên đã tải lên.
+
+Container chạy bằng người dùng `node`, không phải root. `HEALTHCHECK` gọi
+`/api/health/ready`; bộ cân bằng tải nên dùng chính endpoint đó để quyết định
+khi nào đưa bản sao vào phục vụ.
+
+Vẫn cần đặt sau reverse proxy HTTPS, và chỉ bật `TRUST_PROXY_HEADERS=true` khi
+proxy đó thực sự ghi đè `X-Forwarded-For` — nếu bật khi chưa có proxy tin cậy,
+người gửi tự đặt được header và hạn mức theo địa chỉ mất tác dụng.
