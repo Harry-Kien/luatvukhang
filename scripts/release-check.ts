@@ -1,18 +1,17 @@
+import { releaseEnvironmentIssues } from "../src/lib/release-environment";
+import { locales } from "../src/lib/locales";
 import { getPayload, type Where } from "payload";
 import config from "../src/payload.config";
-const issues: string[] = [];
-/** Việc nên xử lý trước khi ra mắt nhưng không chặn phát hành. */
+const issues = releaseEnvironmentIssues(process.env);
 const warnings: string[] = [];
-if (process.env.NEXT_PUBLIC_DEMO_MODE !== "false")
-  issues.push("Turn off demo mode.");
-if (process.env.SITE_LAUNCH_APPROVED !== "true")
-  issues.push("Publication has not been approved.");
-if (!process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://"))
-  issues.push("HTTPS production origin is required.");
-if ((process.env.PAYLOAD_SECRET?.length || 0) < 32)
-  issues.push("Set a strong PAYLOAD_SECRET.");
-if (!process.env.SMTP_HOST || !process.env.NOTIFICATION_EMAIL)
-  issues.push("Configure notification delivery.");
+if (process.env.TRUST_PROXY_HEADERS !== "true")
+  warnings.push(
+    "Per-client rate limits disabled. Configure a trusted ingress before enabling TRUST_PROXY_HEADERS.",
+  );
+if (!process.env.DATABASE_URL) {
+  console.error("RELEASE BLOCKED:\n" + issues.join("\n"));
+  process.exit(1);
+}
 const payload = await getPayload({ config });
 const settings = await payload.findGlobal({ slug: "site-settings" });
 if (
@@ -25,7 +24,7 @@ if (
 )
   issues.push("Complete verified company settings.");
 if (!settings.privacyApproved) issues.push("Approve privacy policy.");
-for (const language of ["vi", "en", "zh"])
+for (const language of locales)
   for (const slug of ["home", "about", "contact", "privacy", "terms"]) {
     const result = await payload.count({
       collection: "pages",
@@ -42,8 +41,6 @@ for (const language of ["vi", "en", "zh"])
       issues.push("Missing approved " + language + "/" + slug);
   }
 // Kiểm tra SEO trên nội dung đã xuất bản.
-if (process.env.NEXT_PUBLIC_SITE_URL?.endsWith("/"))
-  issues.push("NEXT_PUBLIC_SITE_URL must not end with a slash.");
 const publishedOnly: Where[] = [
   { _status: { equals: "published" } },
   { isSample: { not_equals: true } },
@@ -63,6 +60,15 @@ for (const collection of [
     pagination: false,
     depth: 1,
   });
+  if (
+    ["services", "lawyers"].includes(collection) &&
+    !docs.some((doc) => doc.language === "vi")
+  )
+    issues.push(`Publish verified Vietnamese content in ${collection}.`);
+  if (["articles", "experience"].includes(collection) && !docs.length)
+    warnings.push(
+      `No published ${collection}; supply verified editorial content before promoting this section.`,
+    );
   for (const doc of docs as Record<string, any>[]) {
     const at = `${collection}/${doc.language}/${doc.slug}`;
     // Thiếu mô tả thì Google tự cắt một đoạn bất kỳ làm snippet.
@@ -70,7 +76,7 @@ for (const collection of [
       issues.push(`No search description for ${at}`);
     if (doc.seo?.description && doc.seo.description.length > 160)
       warnings.push(
-        `Search description over 160 characters, will be truncated: ${at}`,
+        `Search description over 160 characters; review snippet length: ${at}`,
       );
     // Nội dung pháp lý cần thể hiện rõ ai chịu trách nhiệm chuyên môn.
     if (collection === "articles" && !doc.author)

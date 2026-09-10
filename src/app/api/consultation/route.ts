@@ -1,21 +1,16 @@
+import {
+  BodyTooLarge,
+  readLimitedBody,
+  clientAddress,
+} from "@/lib/request-guards";
 import { NextResponse } from "next/server";
 import { createHmac, randomBytes } from "node:crypto";
-import {operationsPool as pool} from "@/lib/operations-db";
+import { operationsPool as pool } from "@/lib/operations-db";
 import { consultationSchema } from "@/lib/consultation";
 import { getCMS } from "@/lib/cms";
 
 const json = (body: unknown, status = 200) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
-/**
- * Địa chỉ người gửi sau proxy. Chỉ lấy IP đầu tiên trong X-Forwarded-For, là
- * phần do proxy tin cậy ghi; các phần sau có thể do người gửi tự đặt.
- * Không có header nào thì trả về null: chỉ áp hạn mức chung, xem POST bên dưới.
- */
-function clientAddress(request: Request) {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
-  return request.headers.get("x-real-ip");
-}
 /** Tăng bộ đếm của một khóa và cho biết đã vượt hạn mức hay chưa. */
 async function count(bucket: string, limit: number) {
   const result = await pool.query(
@@ -51,11 +46,13 @@ export async function POST(request: Request) {
     return json({ error: "Nội dung quá dài." }, 413);
   let input: unknown;
   try {
-    const text = await request.text();
+    const text = await readLimitedBody(request);
     if (Buffer.byteLength(text) > 16000)
       return json({ error: "Nội dung quá dài." }, 413);
     input = JSON.parse(text);
-  } catch {
+  } catch (error) {
+    if (error instanceof BodyTooLarge)
+      return json({ error: "Nội dung quá dài." }, 413);
     return json({ error: "Dữ liệu gửi không hợp lệ." }, 400);
   }
   const parsed = consultationSchema.safeParse(input);

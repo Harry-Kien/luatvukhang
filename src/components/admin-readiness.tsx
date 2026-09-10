@@ -8,26 +8,42 @@ export async function AdminReadiness({
   )
     return null;
   const checks = await Promise.all(
-    (["home", "about", "contact", "privacy", "terms"] as const).map(
-      async (slug) => {
-        const result = await payload.find({
-          collection: "pages",
-          where: { slug: { equals: slug } },
-          limit: 10,
-          depth: 0,
-          user,
-          overrideAccess: false,
-        });
-        return {
-          slug,
-          vi: result.docs.find((d) => d.language === "vi"),
-          en: result.docs.find((d) => d.language === "en"),
-          zh: result.docs.find((d) => d.language === "zh"),
-        };
-      },
-    ),
+    (
+      [
+        "home",
+        "about",
+        "contact",
+        "privacy",
+        "terms",
+        "lawyers",
+        "experience",
+        "industries",
+        "articles",
+        "careers",
+      ] as const
+    ).map(async (slug) => {
+      const result = await payload.find({
+        collection: "pages",
+        where: { slug: { equals: slug } },
+        limit: 10,
+        depth: 0,
+        user,
+        overrideAccess: false,
+      });
+      return {
+        slug,
+        vi: result.docs.find((d) => d.language === "vi"),
+        en: result.docs.find((d) => d.language === "en"),
+        zh: result.docs.find((d) => d.language === "zh"),
+      };
+    }),
   );
   const names: Record<string, string> = {
+    lawyers: "Hướng dẫn · Đội ngũ",
+    experience: "Hướng dẫn · Kinh nghiệm",
+    industries: "Hướng dẫn · Ngành nghề",
+    articles: "Hướng dẫn · Góc nhìn",
+    careers: "Hướng dẫn · Tuyển dụng",
     home: "Trang chủ",
     about: "Giới thiệu",
     contact: "Liên hệ",

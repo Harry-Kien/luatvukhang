@@ -1,3 +1,5 @@
+import { PageResources } from "@/components/page-resources";
+import { localText, pageResources } from "@/lib/page-resources";
 import { Insights } from "@/components/insights";
 import { searchScore } from "@/lib/search";
 import { ClientGuide } from "@/components/client-guide";
@@ -99,7 +101,22 @@ const descriptions: Record<string, [string, string]> = {
  * chung thay vì bỏ trống thẻ mô tả — trước đây trang Kinh nghiệm bản tiếng
  * Trung không có thẻ nào vì khóa bị sót.
  */
-const zhDescriptions: Record<string, string> = {about:"了解 Công ty Luật TNHH Vũ Khang 的介绍、团队及沟通方式。",services:"了解专业领域、支持范围及咨询申请流程。",experience:"浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",lawyers:"浏览已核实发布的律师履历、职业背景及专业领域。",articles:"按主题浏览法律文章，查阅来源并了解更新信息。",contact:"查看联系信息并向 Vũ Khang 提交咨询需求。",consultation:"简要说明您的问题。提交申请不代表预约已确认或建立律师与客户关系。",guide:"了解咨询前的准备事项、申请流程及常见问题。",privacy:"了解网站数据处理说明。草案正式发布前须经公司审核。",terms:"阅读网站使用条款。草案正式发布前须经公司审核。",industries:"按行业了解相关法律问题与已发布内容。",careers:"查看已发布的招聘职位、工作地点及申请方式。",search:"搜索专业领域、律师和法律文章。"};
+const zhDescriptions: Record<string, string> = {
+  about: "了解 Công ty Luật TNHH Vũ Khang 的介绍、团队及沟通方式。",
+  services: "了解专业领域、支持范围及咨询申请流程。",
+  experience: "浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",
+  lawyers: "浏览已核实发布的律师履历、职业背景及专业领域。",
+  articles: "按主题浏览法律文章，查阅来源并了解更新信息。",
+  contact: "查看联系信息并向 Vũ Khang 提交咨询需求。",
+  consultation:
+    "简要说明您的问题。提交申请不代表预约已确认或建立律师与客户关系。",
+  guide: "了解咨询前的准备事项、申请流程及常见问题。",
+  privacy: "了解网站数据处理说明。草案正式发布前须经公司审核。",
+  terms: "阅读网站使用条款。草案正式发布前须经公司审核。",
+  industries: "按行业了解相关法律问题与已发布内容。",
+  careers: "查看已发布的招聘职位、工作地点及申请方式。",
+  search: "搜索专业领域、律师和法律文章。",
+};
 const excluded = new Set(["search", "typography"]);
 export async function generateMetadata({ params }: Props) {
   const { locale, section } = await params;
@@ -208,17 +225,34 @@ export default async function Page({ params, searchParams }: Props) {
         "experience",
         "articles",
         "careers",
+        "pages",
       ].map(async (collection) => ({
         collection,
         records: await getRecords(collection, locale),
       })),
+    );
+    const pageGroup = groups.find((group) => group.collection === "pages")!;
+    pageGroup.records = Object.entries(pageResources).map(
+      ([slug, resource]) =>
+        pageGroup.records.find((record) => record.slug === slug) || {
+          id: `resource-${slug}`,
+          slug,
+          title: localText(resource.title, locale),
+          summary: localText(resource.intro, locale),
+          blocks: resource.cards.map(([title, body]) => ({
+            blockType: "callout",
+            visible: true,
+            heading: localText(title, locale),
+            body: localText(body, locale),
+          })),
+        },
     );
     if (demo && !groups[0].records.length)
       groups[0].records = samples.map((s) => ({
         id: s.slug,
         slug: s.slug,
         title: t(locale, s.vi, s.en),
-        summary: t(locale,s.description[0],s.description[1]),
+        summary: t(locale, s.description[0], s.description[1]),
       }));
     const results = q
       ? groups.flatMap((g) =>
@@ -235,6 +269,7 @@ export default async function Page({ params, searchParams }: Props) {
       experience: ["Kinh nghiệm", "Experience"],
       articles: ["Bài viết", "Articles"],
       careers: ["Tuyển dụng", "Careers"],
+      pages: ["Hướng dẫn", "Guidance"],
     };
     const kind = query.kind && kinds[query.kind] ? query.kind : "";
     const selected = kind
@@ -294,7 +329,9 @@ export default async function Page({ params, searchParams }: Props) {
               ["", t(locale, "Tất cả", "All")],
               ...Object.entries(kinds).map(([key, label]) => [
                 key,
-                t(locale, ...label),
+                key === "pages"
+                  ? localText(["Hướng dẫn", "Guidance", "指南"], locale)
+                  : t(locale, ...label),
               ]),
             ].map(([key, label]) => (
               <Link
@@ -310,7 +347,11 @@ export default async function Page({ params, searchParams }: Props) {
             <Link
               className="service-row"
               key={r.collection + r.slug}
-              href={`/${locale}/${r.collection}/${r.slug}`}
+              href={
+                r.collection === "pages"
+                  ? `/${locale}/${r.slug}`
+                  : `/${locale}/${r.collection}/${r.slug}`
+              }
             >
               <span className="number">↗</span>
               <h2>{r.title}</h2>
@@ -364,9 +405,46 @@ export default async function Page({ params, searchParams }: Props) {
           locale={locale}
           path={pagePath}
           title={record?.title || title}
+          summary={record?.summary}
         />
         <section className="section content-grid">
           <article className="article-body">
+            {section === "contact" && (
+              <div className="contact-details">
+                <h2>
+                  {localText(
+                    ["Kết nối với Vũ Khang", "Contact", "联系方式"],
+                    locale,
+                  )}
+                </h2>
+                {settings?.address && <p>{settings.address}</p>}
+                {settings?.phone && (
+                  <p>
+                    <a href={"tel:" + settings.phone.replace(/[^+0-9]/g, "")}>
+                      {settings.phone}
+                    </a>
+                  </p>
+                )}
+                {settings?.email && (
+                  <p>
+                    <a href={"mailto:" + settings.email}>{settings.email}</a>
+                  </p>
+                )}
+                {!settings?.address && !settings?.phone && !settings?.email && (
+                  <p>
+                    {t(
+                      locale,
+                      "Thông tin văn phòng, số điện thoại và email sẽ được hiển thị sau khi công ty xác nhận.",
+                      "Office details, telephone numbers and email addresses will appear after confirmation by the firm.",
+                    )}
+                  </p>
+                )}
+                <Link className="button red" href={`/${locale}/consultation`}>
+                  {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
+                  <ArrowUpRight size={19} />
+                </Link>
+              </div>
+            )}
             {record ? (
               <ContentBody record={record} />
             ) : section === "about" ? (
@@ -396,41 +474,16 @@ export default async function Page({ params, searchParams }: Props) {
                 )}
               </>
             ) : section === "contact" ? (
-              <>
-                <h2>
-                  {t(
-                    locale,
-                    "Trao đổi về nhu cầu của bạn.",
-                    "Tell us what you need.",
-                  )}
-                </h2>
-                {settings?.address && <p>{settings.address}</p>}
-                {settings?.phone && (
-                  <p>
-                    <a href={"tel:" + settings.phone.replace(/[^+0-9]/g, "")}>
-                      {settings.phone}
-                    </a>
-                  </p>
+              <p>
+                {localText(
+                  [
+                    "Nêu ngắn gọn vấn đề, kết quả mong muốn và thời hạn cần lưu ý. Bạn có thể xem hướng dẫn khách hàng trước khi gửi yêu cầu.",
+                    "Briefly describe your matter, preferred outcome and relevant dates. Read the client guide before submitting your request.",
+                    "请简要说明问题、期望结果及需要注意的日期。提交前可查阅客户指南。",
+                  ],
+                  locale,
                 )}
-                {settings?.email && (
-                  <p>
-                    <a href={"mailto:" + settings.email}>{settings.email}</a>
-                  </p>
-                )}
-                {!settings?.address && !settings?.phone && !settings?.email && (
-                  <p>
-                    {t(
-                      locale,
-                      "Thông tin văn phòng, số điện thoại và email sẽ được hiển thị sau khi công ty xác nhận.",
-                      "Office details, telephone numbers and email addresses will appear after confirmation by the firm.",
-                    )}
-                  </p>
-                )}
-                <Link className="button red" href={`/${locale}/consultation`}>
-                  {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
-                  <ArrowUpRight size={19} />
-                </Link>
-              </>
+              </p>
             ) : demo && (section === "privacy" || section === "terms") ? (
               <PolicyDraft kind={section} locale={locale} />
             ) : (
@@ -473,7 +526,7 @@ export default async function Page({ params, searchParams }: Props) {
       id: s.slug,
       slug: s.slug,
       title: t(locale, s.vi, s.en),
-      summary: t(locale,s.description[0],s.description[1]),
+      summary: t(locale, s.description[0], s.description[1]),
     }));
   const keyword = (query.q || "").slice(0, 150);
   const filtered = records.filter((r) =>
@@ -506,7 +559,16 @@ export default async function Page({ params, searchParams }: Props) {
             : undefined
         }
       />
-      <section className="section">
+      <section
+        className={
+          section === "industries" &&
+          !records.length &&
+          !keyword &&
+          !query.translation
+            ? "section collection-no-records"
+            : "section"
+        }
+      >
         {query.translation === "unavailable" && (
           <p role="status">
             {t(
@@ -583,14 +645,48 @@ export default async function Page({ params, searchParams }: Props) {
               </span>
             </Link>
           ))
-        ) : (
+        ) : section === "careers" ? (
+          <div className="editorial-note">
+            <h2>
+              {localText(
+                [
+                  "Chưa có vị trí tuyển dụng được công bố",
+                  "No vacancies currently published",
+                  "暂无已发布的招聘职位",
+                ],
+                locale,
+              )}
+            </h2>
+            <p>
+              {localText(
+                [
+                  "Vị trí, yêu cầu và cách ứng tuyển sẽ được đăng tại đây khi có thông báo chính thức.",
+                  "Roles, requirements and application instructions will appear here when an official notice is available.",
+                  "正式招聘通知发布后，本页将提供职位、要求及申请方式。",
+                ],
+                locale,
+              )}
+            </p>
+          </div>
+        ) : section === "industries" && !keyword ? null : (
           <EmptyContent
             locale={locale}
-            title={t(
-              locale,
-              "Chưa có nội dung đã xác minh để hiển thị.",
-              "No verified content is available yet.",
-            )}
+            title={
+              keyword
+                ? localText(
+                    [
+                      "Không có kết quả phù hợp",
+                      "No matching results",
+                      "没有匹配结果",
+                    ],
+                    locale,
+                  )
+                : t(
+                    locale,
+                    "Chưa có nội dung đã xác minh để hiển thị.",
+                    "No verified content is available yet.",
+                  )
+            }
           />
         )}
         {pageCount > 1 && (
@@ -610,6 +706,11 @@ export default async function Page({ params, searchParams }: Props) {
           </nav>
         )}
       </section>
+      <PageResources
+        section={section}
+        locale={locale}
+        preview={query.preview === "true"}
+      />
     </>
   );
 }

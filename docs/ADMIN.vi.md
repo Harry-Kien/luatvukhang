@@ -82,3 +82,16 @@ Email thông báo chỉ chứa mã yêu cầu và liên kết admin, không ch�
 Cấu hình mã, nhãn và thẻ ngôn ngữ nằm tại src/lib/locales.ts. Nút chuyển có tên ngôn ngữ đầy đủ trong title và lang/hreflang phù hợp. Chỉ nối bản dịch theo translationKey có giá trị; không chuyển tới bản nháp hay đường dẫn ngoài phạm vi công khai.
 Chạy npm run check:translations khi thay giao diện. Lệnh kiểm tra các lời gọi t() có chuỗi tiếng Anh tĩnh; không thay thế rà soát nội dung CMS, chuỗi động và chất lượng ngôn ngữ.
 Trước mỗi đợt phát hành: chạy typecheck, check:translations, test, build và release:check trong môi trường cấu hình phù hợp. Sau đó nghiệm thu gửi yêu cầu, email, bản dịch và sao lưu trên hosting thực tế.
+
+## Nội dung hướng dẫn chỉnh sửa trong CMS
+
+Chạy `npm run prepare:resources` một lần trên môi trường cần biên tập. Lệnh tạo
+15 bản nháp trong **Chỉnh sửa website**, không ghi đè bản ghi hiện có. Đường dẫn
+`lawyers`, `experience`, `industries`, `articles`, `careers` tương ứng với phần
+hướng dẫn cuối từng trang. Có ba bản ngôn ngữ độc lập; chỉnh tiêu đề, tóm tắt,
+rich text hoặc các khối nội dung. Bảng tổng quan có liên kết tới từng bản.
+
+Dùng Live preview khi đăng nhập để xem bản nháp; khách chưa đăng nhập chỉ thấy
+bản đã xuất bản hoặc nội dung mặc định. Duyệt rồi xuất bản để áp dụng nội dung.
+Đây là hướng dẫn khách hàng, không thay thế việc nhập hồ sơ luật sư, bài viết,
+kinh nghiệm hoặc tin tuyển dụng vào đúng bộ sưu tập tương ứng.

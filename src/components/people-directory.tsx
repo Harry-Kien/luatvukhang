@@ -1,3 +1,4 @@
+import { PageResources } from "./page-resources";
 import Link from "next/link";
 import { ArrowUpRight, Users, Search } from "lucide-react";
 import { PageHeading } from "./content";
@@ -9,6 +10,7 @@ type Query = {
   service?: string;
   page?: string;
   sort?: string;
+  preview?: string;
   translation?: string;
 };
 export async function PeopleDirectory({
@@ -290,6 +292,11 @@ export async function PeopleDirectory({
           <ArrowUpRight size={18} />
         </Link>
       </section>
+      <PageResources
+        section="lawyers"
+        locale={locale}
+        preview={query.preview === "true"}
+      />
     </>
   );
 }

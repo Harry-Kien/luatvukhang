@@ -11,7 +11,8 @@ const measurementId = process.env.NEXT_PUBLIC_ANALYTICS_ID;
  * Bật biến này thì phải mở CSP cho googletagmanager: xem next.config.mjs.
  */
 export function Analytics() {
-  if (!launched || !measurementId) return null;
+  if (!launched || !measurementId || !/^G-[A-Z0-9]+$/.test(measurementId))
+    return null;
   return (
     <>
       <Script

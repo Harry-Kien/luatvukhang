@@ -59,6 +59,9 @@ jobs:
       - name: Kiểm tra kiểu TypeScript
         run: npm run typecheck
 
+      - name: Kiểm tra bản dịch
+        run: npm run check:translations
+
       - name: Tạo lược đồ cơ sở dữ liệu
         run: |
           npm run payload -- migrate
@@ -98,6 +101,9 @@ jobs:
 
       - name: Chạy kiểm thử
         run: npx playwright test
+
+      - name: Kiểm tra nội dung và tiếp cận trên ba ngôn ngữ
+        run: npm run check:content
 
       - name: Lưu báo cáo khi kiểm thử hỏng
         if: failure()

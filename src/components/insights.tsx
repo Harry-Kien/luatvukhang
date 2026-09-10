@@ -1,3 +1,4 @@
+import { PageResources } from "./page-resources";
 import Link from "next/link";
 import { PageHeading } from "./content";
 import { getRecords } from "@/lib/cms";
@@ -8,7 +9,13 @@ export async function Insights({
   query,
 }: {
   locale: Locale;
-  query: { q?: string; category?: string; page?: string; translation?: string };
+  query: {
+    q?: string;
+    category?: string;
+    page?: string;
+    preview?: string;
+    translation?: string;
+  };
 }) {
   const [articles, categories] = await Promise.all([
     getRecords("articles", locale),
@@ -42,7 +49,15 @@ export async function Insights({
         )}
       />
       <section className="section insights-section">
-        {query.translation === "unavailable" && <p className="status" role="status">{t(locale,"Bản dịch của nội dung này chưa được công bố.","The translation of this content is not yet published.")}</p>}
+        {query.translation === "unavailable" && (
+          <p className="status" role="status">
+            {t(
+              locale,
+              "Bản dịch của nội dung này chưa được công bố.",
+              "The translation of this content is not yet published.",
+            )}
+          </p>
+        )}
         <div className="directory-intro">
           <div>
             <span className="eyebrow dark">
@@ -212,6 +227,11 @@ export async function Insights({
           </Link>
         </div>
       </section>
+      <PageResources
+        section="articles"
+        locale={locale}
+        preview={query.preview === "true"}
+      />
     </>
   );
 }

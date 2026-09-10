@@ -1,4 +1,5 @@
 "use client";
+import { officeDate } from "@/lib/appointment-date";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { t, type Locale } from "@/lib/content";
@@ -63,16 +64,18 @@ export function ConsultationForm({
         return;
       }
       setDone(true);
-      setStatus(locale === "zh" ? `已收到并保存申请 ${data.reference}。预约尚未确认。` :
-        t(
-          locale,
-          "Đã nhận yêu cầu " +
-            data.reference +
-            ". Yêu cầu đã được lưu. Lịch hẹn chưa được xác nhận.",
-          "Request " +
-            data.reference +
-            " received and saved. Your appointment is not yet confirmed.",
-        ),
+      setStatus(
+        locale === "zh"
+          ? `已收到并保存申请 ${data.reference}。预约尚未确认。`
+          : t(
+              locale,
+              "Đã nhận yêu cầu " +
+                data.reference +
+                ". Yêu cầu đã được lưu. Lịch hẹn chưa được xác nhận.",
+              "Request " +
+                data.reference +
+                " received and saved. Your appointment is not yet confirmed.",
+            ),
       );
     } catch {
       setStatus(
@@ -128,7 +131,9 @@ export function ConsultationForm({
           )}
         </div>
         <div className="field">
-          <label htmlFor="email">{locale === "zh" ? "电子邮箱 *" : "Email *"}</label>
+          <label htmlFor="email">
+            {locale === "zh" ? "电子邮箱 *" : "Email *"}
+          </label>
           <input
             id="email"
             type="email"
@@ -186,7 +191,7 @@ export function ConsultationForm({
           <input
             id="preferredDate"
             type="date"
-            min={new Date().toISOString().slice(0, 10)}
+            min={officeDate()}
             {...register("preferredDate")}
           />
         </div>
@@ -242,7 +247,19 @@ export function ConsultationForm({
           {...register("website")}
         />
       </div>
-      <p className="meta"><a href={`/${locale}/privacy`} target="_blank" rel="noreferrer">{t(locale, "Đọc chính sách quyền riêng tư", "Read the privacy notice")}</a>{" · "}<a href={`/${locale}/terms`} target="_blank" rel="noreferrer">{t(locale, "Điều khoản sử dụng", "Terms of use")}</a></p>
+      <p className="meta">
+        <a href={`/${locale}/privacy`} target="_blank" rel="noreferrer">
+          {t(
+            locale,
+            "Đọc chính sách quyền riêng tư",
+            "Read the privacy notice",
+          )}
+        </a>
+        {" · "}
+        <a href={`/${locale}/terms`} target="_blank" rel="noreferrer">
+          {t(locale, "Điều khoản sử dụng", "Terms of use")}
+        </a>
+      </p>
       <label className="check-label">
         <input type="checkbox" {...register("consent", { required })} />
         <span>

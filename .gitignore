@@ -10,3 +10,8 @@ playwright-report/
 
 # Dau ra cua trinh chay test. Anh chup ban giao trong artifacts/ van duoc theo doi.
 artifacts/*-tests/
+
+# Generated content audit outputs (recreate with npm run check:content).
+artifacts/content-*.png
+artifacts/content-*.jpg
+artifacts/audit-current.json

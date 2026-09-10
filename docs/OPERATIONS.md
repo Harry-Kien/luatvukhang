@@ -82,3 +82,19 @@ audit-report.json ghi kết quả npm audit. Đã nâng sharp và DOMPurify. Cò
 4. Kiểm tra email với cấu hình thật trước khi tuyên bố hệ thống thông báo hoạt động.
 
 Chưa kết nối dịch vụ giám sát bên ngoài hoặc tạo lịch gửi email trong phiên này. Các endpoint và hướng dẫn cần được cấu hình trên hosting thật.
+
+## Cập nhật kiểm soát biểu mẫu và phát hành — 10/09/2026
+
+- Ngày hẹn dùng lịch `Asia/Ho_Chi_Minh` ở cả trình duyệt và máy chủ. Ngày không
+  tồn tại như 31/11 hoặc 29/02 năm không nhuận bị từ chối.
+- Giới hạn 16.000 byte áp dụng trong lúc đọc luồng yêu cầu, kể cả khi người gửi
+  không khai Content-Length. Proxy vẫn cần cấu hình giới hạn request và timeout.
+- `TRUST_PROXY_HEADERS=false` là mặc định. Khi chưa tin cậy proxy, không dùng IP
+  do khách tự khai để phân loại hạn mức. Chỉ bật `true` sau khi ingress đã được
+  kiểm chứng **ghi đè** X-Forwarded-For và X-Real-IP, không giữ chuỗi do khách gửi.
+  Chặn truy cập trực tiếp origin khi bật. Hạn mức chung 120/phút vẫn hoạt động.
+- `release:check` kiểm tra origin HTTPS đúng cấu trúc, SMTP_FROM, cổng SMTP,
+  mật khẩu khi dùng SMTP_USER, measurement ID và nội dung dịch vụ/luật sư VI.
+  Kiểm tra cấu hình không chứng minh SMTP đã gửi được hoặc backup phục hồi được.
+- `npm run check:content` quét 42 lượt trang. Có thể đặt CONTENT_CHECK_URL khi
+  kiểm thử cổng khác; không dùng bộ kiểm thử ghi dữ liệu trên production.

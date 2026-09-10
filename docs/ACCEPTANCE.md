@@ -210,3 +210,24 @@ thêm trên `/zh` và `/zh/services`.
 
 Vòng kiểm tra cuối: TypeScript sạch, production build thành công, 84/84 kiểm thử
 desktop/mobile đạt.
+
+## Hoàn thiện nội dung và kiểm soát vận hành — 10/09/2026
+
+- 16 khối hướng dẫn Việt/Anh/Trung; 15 trang nháp có thể biên tập trong CMS.
+  Script khởi tạo chạy lại tạo 0 bản ghi, không ghi đè nội dung đang có.
+- Trang Liên hệ không còn bỏ qua thông tin doanh nghiệp khi có nội dung CMS.
+- Nội dung hướng dẫn có thể tìm qua tìm kiếm và dẫn tới đúng trang.
+- Preview yêu cầu quyền biên tập; sửa bản nháp không thay nội dung công khai.
+- Ngày hẹn được kiểm tra ngày thực tế và múi giờ Việt Nam; giới hạn request
+  áp dụng theo byte ngay trong luồng đọc; chỉ tin header IP khi cấu hình ingress.
+- Bổ sung kiểm tra cấu hình phát hành, dữ liệu dịch vụ và hồ sơ luật sư.
+- Production build và TypeScript đạt; toàn bộ 98 kiểm thử đạt. Sau bổ sung
+  tìm kiếm hướng dẫn, 8 kiểm thử liên quan đạt. Quét 42 lượt trang ba ngôn ngữ,
+  desktop/mobile không có lỗi axe, tràn ngang hoặc thiếu h1 trong phạm vi quét.
+- npm audit production: 7 moderate, 0 high, 0 critical trong nhóm Payload;
+  không dùng hạ cấp major tự động để che cảnh báo.
+
+Chưa hoàn tất ra mắt: dữ liệu pháp nhân/hồ sơ luật sư được xác minh, duyệt chính
+sách, tên miền/HTTPS, SMTP thực và nghiệm thu hạ tầng. Không đưa bí mật hoặc
+cơ sở dữ liệu khách hàng lên GitHub. Mã seed được bàn giao trong repository;
+15 bản nháp được tạo trong cơ sở dữ liệu local, không phải DB production.
