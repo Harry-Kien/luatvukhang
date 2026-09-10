@@ -219,6 +219,14 @@ dịch hay kiểm thử nào bắt được. Khi thêm ngôn ngữ, chỉ cần 
 `locales.ts` và thêm mã ngôn ngữ vào `LOCALES`/`HREFLANG` trong
 `tests/seo.spec.ts` để bộ kiểm thử phủ theo.
 
+## Bản in
+
+Nội dung pháp lý thường được in ra để đọc kỹ, chuyền tay nội bộ hoặc kẹp vào hồ
+sơ. `brand.css` có khối `@media print`: bỏ điều hướng và nút bấm, đổi nền navy
+của tiêu đề trang thành nền trắng cho đỡ tốn mực, in kèm địa chỉ sau mỗi liên
+kết ngoài để tờ giấy còn truy được nguồn, tránh ngắt trang giữa tiêu đề và nội
+dung, và mở sẵn phần hỏi đáp đang thu gọn để câu trả lời không bị mất.
+
 ## Kiểm tra trước khi ra mắt
 
 `npm run release:check` chặn phát hành khi thiếu cấu hình hoặc nội dung, và cảnh

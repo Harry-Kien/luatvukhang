@@ -189,3 +189,35 @@ test("every form control exposes an accessible name", async ({ page }) => {
     expect(unnamed, `${path} có ô nhập thiếu nhãn`).toEqual([]);
   }
 });
+
+test("printed pages drop the navigation and keep the whole answer", async ({
+  page,
+}) => {
+  await page.goto("/vi/guide");
+  await page.evaluate(() => document.fonts.ready);
+  await page.emulateMedia({ media: "print" });
+  const printed = await page.evaluate(() => {
+    const hidden = (selector: string) => {
+      const el = document.querySelector(selector);
+      return !el || getComputedStyle(el).display === "none";
+    };
+    const answer = document.querySelector(".faq-list details p");
+    const heading = document.querySelector(".page-heading");
+    return {
+      headerHidden: hidden("header"),
+      footerHidden: hidden("footer"),
+      // Nền navy in ra là một mảng mực đen.
+      headingBackground: heading
+        ? getComputedStyle(heading).backgroundColor
+        : "",
+      // Phần hỏi đáp thu gọn vẫn phải in ra đầy đủ câu trả lời.
+      answerHeight: answer ? Math.round(answer.getBoundingClientRect().height) : 0,
+    };
+  });
+  expect(printed.headerHidden, "bản in không được có thanh điều hướng").toBe(true);
+  expect(printed.footerHidden, "bản in không được có chân trang").toBe(true);
+  expect(printed.headingBackground, "tiêu đề trang phải nền trắng khi in").toBe(
+    "rgb(255, 255, 255)",
+  );
+  expect(printed.answerHeight, "câu trả lời phải hiện trên bản in").toBeGreaterThan(0);
+});

@@ -1710,3 +1710,103 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
   flex-shrink: 0;
 }
 
+
+/*
+ * Bản in.
+ *
+ * Nội dung pháp lý thường được in ra để đọc kỹ, chuyền tay trong nội bộ hoặc
+ * kẹp vào hồ sơ. Bản in cần bỏ phần điều hướng, đổi nền tối thành nền trắng
+ * cho đỡ tốn mực, và ghi rõ địa chỉ trang để tờ giấy còn truy được nguồn.
+ */
+@media print {
+  .header,
+  footer,
+  .skip,
+  .demo-note,
+  .hero-actions,
+  .hero-scroll,
+  .pathway-strip,
+  .detail-back,
+  .pagination,
+  .directory-filters,
+  .search-bar,
+  .not-found-search,
+  .not-found-links,
+  .button,
+  .preview-note {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  /* Tiêu đề trang dùng nền navy chữ trắng: in ra sẽ là một mảng mực đen. */
+  .page-heading,
+  .hero,
+  .process,
+  .people-contact,
+  .editorial-people {
+    background: #fff !important;
+    color: #000 !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .page-heading h1,
+  .page-heading p,
+  .hero h1,
+  .hero p {
+    color: #000 !important;
+  }
+
+  .section,
+  .content-grid {
+    display: block;
+    padding: 0;
+    margin: 0 0 12pt;
+  }
+
+  /* Ảnh minh họa không mang thông tin pháp lý, bỏ để tiết kiệm giấy. */
+  .hero-photo,
+  .practice-photo,
+  .person-photo,
+  .banner-image {
+    display: none !important;
+  }
+
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+  /* Trên giấy, liên kết mất tác dụng nếu không thấy được địa chỉ. */
+  .article-body a[href^="http"]::after,
+  .sources a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    word-break: break-all;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  li,
+  tr,
+  figure,
+  .faq-list details {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  /* Câu trả lời trong phần hỏi đáp phải hiện trên giấy, kể cả khi đang thu gọn. */
+  .faq-list details > *:not(summary) {
+    display: block !important;
+  }
+
+  @page {
+    margin: 18mm 16mm;
+  }
+}
