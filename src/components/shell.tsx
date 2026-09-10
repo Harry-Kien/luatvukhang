@@ -14,9 +14,13 @@ import {
 import { navigation, t, type Locale } from "@/lib/content";
 import { Brand } from "./brand";
 import { ContactChannels } from "./contact-channels";
-/** Số thứ tự trong menu, đệm 0 theo độ dài danh sách chứ không cố định hai chữ số. */
+/**
+ * Số thứ tự trong menu. Giữ tối thiểu hai chữ số theo đúng kiểu đánh số của
+ * thiết kế, và nới thêm khi danh sách dài hơn 99 mục — viết cứng tiền tố "0"
+ * thì mục thứ mười trở đi sẽ hiện thành "010".
+ */
 const ordinal = (index: number, total: number) =>
-  String(index + 1).padStart(String(total).length, "0");
+  String(index + 1).padStart(Math.max(2, String(total).length), "0");
 export function Header({
   locale,
   services = [],

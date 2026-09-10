@@ -25,9 +25,10 @@ test("the expertise menu lists every published practice area and numbers them co
     0,
   );
 
-  // Viết cứng tiền tố "0" từng khiến mục thứ mười hiện thành "010".
+  // Viết cứng tiền tố "0" từng khiến mục thứ mười hiện thành "010"; đệm theo độ
+  // dài danh sách nhưng vẫn giữ tối thiểu hai chữ số như thiết kế.
   const numbers = await items.locator("> span").allTextContents();
-  const width = String(count).length;
+  const width = Math.max(2, String(count).length);
   expect(numbers).toEqual(
     Array.from({ length: count }, (_, i) => String(i + 1).padStart(width, "0")),
   );
@@ -69,5 +70,11 @@ test("the expertise menu matches the practice areas listing page", async ({
   ).filter(Boolean);
   // Menu và trang danh sách đọc cùng một nguồn; lệch nhau nghĩa là một trong hai
   // đang lọc theo tiêu chí khác và người dùng sẽ thấy hai danh sách mâu thuẫn.
-  expect([...inMenu].sort()).toEqual([...unique].sort());
+  // Trang danh sách phân trang 12 mục, còn menu liệt kê tất cả — nên chỉ đối
+  // chiếu bằng nhau khi danh sách gọn trong một trang.
+  const paginated = (await page.locator(".pagination").count()) > 0;
+  if (paginated)
+    for (const href of unique)
+      expect(inMenu, `Menu thiếu ${href}`).toContain(href);
+  else expect([...inMenu].sort()).toEqual([...unique].sort());
 });

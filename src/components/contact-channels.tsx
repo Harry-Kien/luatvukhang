@@ -47,16 +47,14 @@ type Props = {
 export function ContactChannels({ locale, phone, variant = "stack" }: Props) {
   const channels = contactChannels(phone);
   if (!channels) return null;
-  const callTitle = t(
-    locale,
-    "Gọi " + channels.display,
-    "Call " + channels.display,
-  );
-  const zaloTitle = t(
-    locale,
-    "Nhắn Zalo tới " + channels.display,
-    "Message " + channels.display + " on Zalo",
-  );
+  // Ghép nhãn từ chuỗi tĩnh rồi mới nối số: chuỗi dựng động không lọt vào
+  // scripts/check-translations.ts, nên bản tiếng Trung sẽ âm thầm rơi về tiếng
+  // Anh mà không có gì báo.
+  const callTitle = t(locale, "Gọi", "Call") + " " + channels.display;
+  const zaloTitle =
+    t(locale, "Nhắn tin Zalo tới", "Chat on Zalo with") +
+    " " +
+    channels.display;
   const newTab = t(locale, "mở trong tab mới", "opens in a new tab");
   if (variant === "dock")
     return (
