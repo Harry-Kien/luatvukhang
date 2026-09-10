@@ -1,0 +1,27 @@
+version: 2
+updates:
+  # Payload đang có một advisory chưa được vá (GHSA-jg8r-5jh2-v2xj), hiện được
+  # vô hiệu ở tầng ứng dụng bằng `unlock: isAdmin`. Dependabot sẽ báo ngay khi
+  # bản vá phát hành, thay vì phải nhớ kiểm tra thủ công.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      # Gom các gói Payload vào một PR: chúng phải lên cùng phiên bản.
+      payload:
+        patterns:
+          - payload
+          - "@payloadcms/*"
+      next:
+        patterns:
+          - next
+          - react
+          - react-dom
+          - "@types/react*"
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
