@@ -1,0 +1,50 @@
+# Dịch vụ systemd chạy website. Chép sang /etc/systemd/system/luatvukhang.service
+#
+#   sudo cp deploy/luatvukhang.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now luatvukhang
+#
+# Đổi User, WorkingDirectory và đường dẫn nếu đặt mã ở chỗ khác.
+
+[Unit]
+Description=Website Cong ty Luat TNHH Vu Khang
+# Ứng dụng đọc cơ sở dữ liệu ngay khi khởi động; chờ PostgreSQL lên trước.
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=luatvukhang
+Group=luatvukhang
+WorkingDirectory=/srv/luatvukhang
+
+# Biến môi trường đọc từ .env. Định dạng systemd không hiểu dấu nháy hay nối
+# biến: mỗi dòng phải là KHOA=giá-trị trần, không có "export", không có nháy bao
+# quanh, không có khoảng trắng quanh dấu =.
+EnvironmentFile=/srv/luatvukhang/.env
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+
+# Chỉ nghe trên localhost. Nginx là đường vào duy nhất — nếu mở ra ngoài, khách
+# có thể gọi thẳng cổng 3000 và tự đặt header X-Forwarded-For, làm hạn mức gửi
+# biểu mẫu theo địa chỉ mất tác dụng.
+ExecStart=/srv/luatvukhang/node_modules/.bin/next start --hostname 127.0.0.1 --port 3000
+
+Restart=on-failure
+RestartSec=5
+# Cho ứng dụng thời gian đóng kết nối cơ sở dữ liệu khi dừng.
+TimeoutStopSec=20
+
+# Giới hạn quyền: dịch vụ web không có việc gì phải ghi ra ngoài thư mục của nó.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/luatvukhang/media /srv/luatvukhang/.next
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=luatvukhang
+
+[Install]
+WantedBy=multi-user.target

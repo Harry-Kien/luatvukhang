@@ -50,6 +50,7 @@ hồ sơ thật.
 ## Bàn giao
 
 - [Hướng dẫn admin](docs/ADMIN.vi.md)
+- [**Triển khai lên VPS từng bước**](docs/DEPLOY-VPS.md) — tên miền, PostgreSQL, systemd, Nginx, HTTPS, sao lưu
 - [Vận hành và triển khai](docs/OPERATIONS.md)
 - [Mô hình dữ liệu](docs/DATA-MODEL.md)
 - [Báo cáo kiểm thử và giới hạn](docs/ACCEPTANCE.md)
