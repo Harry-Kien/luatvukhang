@@ -1,4 +1,6 @@
 import { createClient, type Client } from "@libsql/client";
+import { mkdirSync } from "node:fs";
+import { dirname } from "node:path";
 
 /**
  * Kết nối dùng cho các truy vấn vận hành nằm ngoài CMS: đếm hạn mức gửi biểu
@@ -9,9 +11,22 @@ import { createClient, type Client } from "@libsql/client";
  * tranh chấp khóa ghi mà không nhanh hơn.
  */
 const scope = globalThis as typeof globalThis & { operationsDb?: Client };
-export const operationsDb = (scope.operationsDb ||= createClient({
-  url: process.env.DATABASE_URL || "file:./.local/law.db",
-}));
+
+/**
+ * Tạo client ở lần dùng đầu tiên, không phải lúc nạp module.
+ *
+ * `createClient` mở tệp ngay, nên tạo ở cấp module sẽ chạy cả trong `next build`
+ * — lúc đó thư mục chứa cơ sở dữ liệu thường chưa có, và bước dựng hỏng với một
+ * lỗi chẳng liên quan gì tới việc đang dựng.
+ */
+function db(): Client {
+  if (scope.operationsDb) return scope.operationsDb;
+  const url = process.env.DATABASE_URL || "file:./.local/law.db";
+  // Thư mục phải có trước: SQLite không tự tạo đường dẫn.
+  if (url.startsWith("file:"))
+    mkdirSync(dirname(url.replace(/^file:/, "")), { recursive: true });
+  return (scope.operationsDb = createClient({ url }));
+}
 
 /**
  * Bảng đếm hạn mức tự tạo lại khi thiếu.
@@ -42,18 +57,18 @@ export async function query(
   args: (string | number)[] = [],
 ): Promise<Rows> {
   try {
-    return shape(await operationsDb.execute({ sql, args }));
+    return shape(await db().execute({ sql, args }));
   } catch (error) {
     // Thử lại đúng một lần, và chỉ khi lỗi là thiếu bảng. Mọi lỗi khác ném lên
     // nguyên vẹn để không che mất sự cố thật.
     if (!/no such table/i.test(String((error as Error)?.message ?? "")))
       throw error;
-    await operationsDb.execute(CREATE_TABLE);
-    return shape(await operationsDb.execute({ sql, args }));
+    await db().execute(CREATE_TABLE);
+    return shape(await db().execute({ sql, args }));
   }
 }
 
 /** Dùng khi cần chắc bảng có mặt mà chưa truy vấn gì, ví dụ kiểm tra sức khỏe. */
 export async function ensureOperationsTable() {
-  await operationsDb.execute(CREATE_TABLE);
+  await db().execute(CREATE_TABLE);
 }

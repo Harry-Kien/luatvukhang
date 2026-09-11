@@ -50,6 +50,7 @@ jobs:
 
       - name: Tạo lược đồ cơ sở dữ liệu
         run: |
+          mkdir -p .local   # SQLite khong tu tao thu muc chua tep
           npm run payload -- migrate
           node -e "import('@libsql/client').then(async m=>{const fs=await import('node:fs');const c=m.createClient({url:process.env.DATABASE_URL});await c.execute(fs.readFileSync('scripts/init-rate-limit.sql','utf8'))})"
 

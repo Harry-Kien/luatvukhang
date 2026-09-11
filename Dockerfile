@@ -45,7 +45,10 @@ COPY --from=build --chown=node:node /app/package.json ./package.json
 COPY --from=build --chown=node:node /app/next.config.mjs ./next.config.mjs
 COPY --from=build --chown=node:node /app/tsconfig.json ./tsconfig.json
 # Thư mục tải lên phải tồn tại và thuộc quyền người dùng chạy ứng dụng.
-RUN mkdir -p /app/media && chown node:node /app/media
+# Thư mục tải lên và thư mục chứa cơ sở dữ liệu SQLite phải tồn tại và thuộc
+# quyền người dùng chạy ứng dụng. Cả hai đều cần gắn volume, nếu không mỗi lần
+# triển khai lại sẽ mất ảnh biên tập viên đã tải và toàn bộ dữ liệu.
+RUN mkdir -p /app/media /app/.local && chown node:node /app/media /app/.local
 USER node
 EXPOSE 3000
 # Hạ tầng nên dùng /api/health/ready để quyết định khi nào đưa bản sao vào phục
