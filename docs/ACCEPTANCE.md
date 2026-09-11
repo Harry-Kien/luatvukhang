@@ -517,3 +517,58 @@ chứ không phải giữa lúc triển khai.
 Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua (234 chuỗi), build thành
 công, **126/126 kiểm thử đạt** — chạy trên chính tiến trình `server.js` mà
 hosting sẽ dùng, không phải `next start`. npm audit 0 lỗ hổng.
+
+## Script cài đặt một lệnh, và lỗi trang tiếng Trung không được tạo — 11/09/2026
+
+Thêm `scripts/hosting-setup.mjs`: chạy cả chuỗi cài đặt bằng một lệnh, đúng thứ
+tự bắt buộc. Chuỗi này có ràng buộc thứ tự mà gõ tay rất dễ sai — dựng bản build
+trước khi tạo lược đồ thì hỏng, nạp nội dung trước khi có tài khoản quản trị
+cũng hỏng — và lỗi chỉ lộ ra ở lệnh sau cùng.
+
+Chạy thử từ đầu đến cuối trên **cơ sở dữ liệu trống** (đúng tình huống hosting)
+và đã chạy đúng: kiểm tra môi trường → migrate → bảng hạn mức → build → tài
+khoản quản trị → nạp nội dung nền.
+
+Ba lỗi phát hiện nhờ chạy thử thật, đều đã sửa:
+
+1. **Không gọi được `npm` trên Windows.** `npm` là `npm.cmd`, mà Node từ chối
+   spawn tệp `.cmd` trực tiếp kể từ bản vá CVE-2024-27980. Hosting chạy Linux
+   nên không gặp, nhưng người bàn giao thử trên máy Windows sẽ thấy một lỗi
+   trông y hệt lỗi cấu hình hosting và chẩn đoán nhầm.
+2. **`payload migrate` treo vô hạn.** Khi cơ sở dữ liệu từng bị đẩy lược đồ ở
+   chế độ dev, lệnh này dừng lại hỏi một câu xác nhận có nguy cơ mất dữ liệu rồi
+   **đứng chờ gõ phím**. Trên hosting không có bàn phím. Đã đặt hạn giờ 3 phút và
+   thông báo rõ nguyên nhân. Cố ý **không** tự trả lời "có": câu hỏi đó cảnh báo
+   mất dữ liệu, và đó là quyết định của người vận hành. Trên cơ sở dữ liệu trống
+   câu hỏi này không xuất hiện — CI chứng minh điều đó mỗi lần chạy.
+3. **`--skip-install`** để chạy lại sau khi hỏng ở bước sau mà không phải cài
+   lại phụ thuộc — bước lâu nhất.
+
+### Lỗi trang tiếng Trung không bao giờ được tạo
+
+`scripts/prepare-pages.ts` viết cứng `["vi", "en"]` từ thời website mới có hai
+ngôn ngữ, và không được cập nhật khi thêm tiếng Trung. Hậu quả trên một cài đặt
+mới, đo trực tiếp trên cơ sở dữ liệu trống:
+
+```
+vi (5): about, contact, home, privacy, terms
+en (5): about, contact, home, privacy, terms
+zh (0):
+```
+
+Bản tiếng Trung không có bản ghi trang nào trong CMS: công ty không sửa được nội
+dung tiếng Trung, và `release:check` báo thiếu `zh/privacy` với `zh/terms` mãi
+mãi vì hai trang đó chưa từng tồn tại để mà xuất bản.
+
+Lỗi này không lộ ra trên máy đang làm việc vì các trang tiếng Trung ở đó được
+tạo thủ công trong một vòng trước. Chỉ chạy cài đặt trên cơ sở dữ liệu trống mới
+thấy.
+
+Đã sửa: script đọc danh sách ngôn ngữ từ `locales` và lấy dự thảo chính sách
+tiếng Trung từ `zh-content.ts` — nội dung đó vốn đã có sẵn, chỉ chưa ai nạp vào
+CMS. Kiểm chứng lại trên cơ sở dữ liệu trống: đủ 5 trang × 3 ngôn ngữ, trang
+chính sách tiếng Trung có 8 khối nội dung.
+
+Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua, build thành công,
+**126/126 kiểm thử đạt** — chạy trên chính tiến trình `server.js` mà hosting sẽ
+dùng.
