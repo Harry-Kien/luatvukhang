@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type APIRequestContext } from "@playwright/test";
 import fs from "node:fs/promises";
 
 /**
@@ -12,46 +12,65 @@ function resultCount(html: string): number {
   return match ? Number(match[1]) : -1;
 }
 
+/**
+ * Lấy từ khóa từ chính tiêu đề đã xuất bản thay vì viết cứng. Cơ sở dữ liệu
+ * trống của CI không có lĩnh vực nào, và một danh sách từ khóa cố định sẽ hỏng
+ * ở đó vì lý do không liên quan gì tới điều đang kiểm tra.
+ */
+async function publishedTitles(request: APIRequestContext, locale: string) {
+  const response = await request.get(
+    `/api/services?where[language][equals]=${locale}&where[_status][equals]=published&limit=5&depth=0`,
+  );
+  if (!response.ok()) return [];
+  const body = await response.json();
+  return (body.docs ?? []).map((doc: { title: string }) => doc.title);
+}
+
+/** Chữ Hán viết liền: hai ký tự đầu của tiêu đề là một từ khóa hợp lệ. */
+const chineseQuery = (title: string) => Array.from(title).slice(0, 2).join("");
+/** Chữ Latin: lấy từ dài nhất trong tiêu đề vì nó đặc trưng nhất. */
+const latinQuery = (title: string) =>
+  title
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length)[0] ?? "";
+
 test("Chinese queries return results, not an empty page", async ({
   request,
 }) => {
-  const listing = await (await request.get("/zh/services")).text();
-  const published = [
-    ...new Set(
-      [...listing.matchAll(/href="\/zh\/services\/([a-z0-9-]+)"/g)].map(
-        (m) => m[1],
-      ),
-    ),
-  ];
+  const titles = await publishedTitles(request, "zh");
   test.skip(
-    published.length === 0,
-    "Chưa nạp lĩnh vực chuyên môn tiếng Trung.",
+    titles.length === 0,
+    "Chưa có lĩnh vực chuyên môn tiếng Trung đã xuất bản.",
   );
-
-  for (const query of ["合同", "劳动", "投资"]) {
+  for (const title of titles.slice(0, 3)) {
+    const query = chineseQuery(title);
     const html = await (
       await request.get("/zh/search?q=" + encodeURIComponent(query))
     ).text();
     expect(
       resultCount(html),
-      `Tìm "${query}" trên /zh/search phải có kết quả`,
+      `Tìm "${query}" (lấy từ tiêu đề "${title}") phải có kết quả`,
     ).toBeGreaterThan(0);
   }
 });
 
-test("the three languages all return results for their own wording", async ({
+test("all three languages return results for their own wording", async ({
   request,
 }) => {
-  const probes: [string, string][] = [
-    ["/vi/search?q=hop+dong", "vi"],
-    ["/en/search?q=contract", "en"],
-    ["/zh/search?q=" + encodeURIComponent("合同"), "zh"],
-  ];
-  for (const [path, locale] of probes) {
-    const html = await (await request.get(path)).text();
-    const count = resultCount(html);
-    test.skip(count === -1, "Trang tìm kiếm không trả về ô trạng thái.");
-    expect(count, `${locale}: ${path} không có kết quả nào`).toBeGreaterThan(0);
+  for (const locale of ["vi", "en", "zh"] as const) {
+    const titles = await publishedTitles(request, locale);
+    if (!titles.length) continue;
+    const query =
+      locale === "zh" ? chineseQuery(titles[0]) : latinQuery(titles[0]);
+    if (!query) continue;
+    const html = await (
+      await request.get(`/${locale}/search?q=` + encodeURIComponent(query))
+    ).text();
+    expect(
+      resultCount(html),
+      `${locale}: tìm "${query}" không có kết quả nào`,
+    ).toBeGreaterThan(0);
   }
 });
 

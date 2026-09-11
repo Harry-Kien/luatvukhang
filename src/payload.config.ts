@@ -518,7 +518,15 @@ const Outbox: CollectionConfig = {
  */
 function payloadSecret() {
   const secret = process.env.PAYLOAD_SECRET;
-  if (process.env.NODE_ENV === "production" && (secret || "").length < 32)
+  // Không chặn lúc dựng bản build. Ảnh Docker và CI dựng mà không có bí mật —
+  // đó là đúng, bí mật chỉ nên xuất hiện lúc chạy. Chặn ở đây sẽ làm hỏng việc
+  // dựng ảnh thay vì bảo vệ được gì.
+  const building = process.env.NEXT_PHASE === "phase-production-build";
+  if (
+    process.env.NODE_ENV === "production" &&
+    !building &&
+    (secret || "").length < 32
+  )
     throw new Error(
       "PAYLOAD_SECRET phải có ít nhất 32 ký tự ngẫu nhiên ở môi trường production. " +
         "Sinh bằng: openssl rand -hex 32",
