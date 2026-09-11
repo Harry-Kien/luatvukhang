@@ -36,6 +36,15 @@ hoặc thiếu tệp cấu hình. Cách chắc chắn nhất là tải thẳng t
 git clone https://github.com/Harry-Kien/luatvukhang.git
 ```
 
+Kho mã để **công khai** nên lệnh này không cần tài khoản, mật khẩu hay khóa SSH.
+Đã kiểm chứng: bản clone ẩn danh có đủ `package.json`, `package-lock.json`,
+`next.config.mjs`, `server.js`, `tsconfig.json`, `scripts/hosting-setup.mjs` và
+`importMap.js` của admin, và **không** kèm `.env`, `.local/` hay `node_modules/`.
+
+Không có SSH thì dùng **Git™ Version Control** trong cPanel: Create → dán URL
+trên vào ô *Clone URL*, đặt *Repository Path* là thư mục ứng dụng. Cách này clone
+được mà không cần dòng lệnh.
+
 Không dùng được `git` trên hosting thì đóng gói sẵn ở máy cá nhân:
 
 ```bash
@@ -155,6 +164,27 @@ liệu — kiểm tra lại `DATABASE_URL`.
 Chỉ làm khi `npm run release:check` không còn mục nào bị chặn. Đổi
 `SITE_LAUNCH_APPROVED` thành `true`, rồi **dựng lại** (`npm run build`) và
 Restart. Chỉ Restart là không đủ: biến này được đọc cả lúc dựng.
+
+## Cập nhật website về sau
+
+Đã clone bằng git thì lần sau chỉ cần kéo bản mới về:
+
+```bash
+cd ~/luatvukhang
+source /home/<tài-khoản>/nodevenv/luatvukhang/20/bin/activate
+git pull
+node scripts/hosting-setup.mjs --skip-install
+```
+
+Bỏ `--skip-install` nếu bản cập nhật có thay đổi phụ thuộc — xem phần
+`dependencies` trong `package.json` có đổi không. Sau đó bấm **Restart** trong
+Setup Node.js App.
+
+`git pull` không đụng tới `.env`, `.local/` và `media/` vì cả ba đều nằm ngoài
+kho mã, nên nội dung và cấu hình của công ty không bị ghi đè.
+
+Dùng **Git™ Version Control** của cPanel thì bấm **Update from Remote** thay cho
+`git pull`, rồi chạy script như trên.
 
 ## Những giới hạn phải biết trước
 
