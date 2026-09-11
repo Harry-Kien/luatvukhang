@@ -459,3 +459,35 @@ nền phải tìm được, và bài kiểm tra rò rỉ trường nội bộ.
 
 Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua, build thành công,
 **126/126 kiểm thử đạt**, npm audit 0 lỗ hổng.
+
+## Đường triển khai cho hosting cPanel — 11/09/2026
+
+Nhà cung cấp báo bộ mã "chưa đầy đủ cấu hình cần thiết để ứng dụng Node.js hoạt
+động trên Hosting". Thiếu thật, và đây là phần thiếu:
+
+**Thêm `server.js`.** Hosting cPanel chạy Node qua Passenger, tức nạp thẳng một
+tệp JavaScript và tự quản lý vòng đời tiến trình — `next start` không cắm vào
+được. `server.js` dựng máy chủ HTTP của Next bằng mã theo đúng cách Next tài
+liệu hóa, tự nạp `.env` (Passenger không làm việc đó) và cảnh báo khi thiếu
+`DATABASE_URL`. Đã chạy thử: trang chủ, trang danh sách, trang chi tiết,
+`/admin/login` và `sitemap.xml` đều trả 200.
+
+Trên VPS và trong Docker **không dùng tệp này** — ở đó `npm start` chạy thẳng
+`next start`, nhẹ hơn và được hỗ trợ đầy đủ hơn.
+
+**Thêm bước CI khởi động `server.js` và gọi thử ba đường dẫn.** Không ai chạy
+tệp này hằng ngày, nên nếu không kiểm tự động thì nó hỏng lúc nào không biết và
+chỉ lộ ra đúng lúc đang triển khai.
+
+**Thêm `docs/DEPLOY-HOSTING-CPANEL.md`.** Bước 0 của tài liệu là ba câu hỏi phải
+gửi nhà cung cấp trước khi làm bất cứ việc gì: có PostgreSQL không, Node.js có
+từ bản 20 trở lên không, và tiến trình được cấp bao nhiêu RAM. Một câu trả lời
+"không" là gói hosting đó không chạy được, và mọi bước phía sau đều vô ích —
+nói trước còn hơn để mất mấy ngày cài rồi hỏng.
+
+Tài liệu cũng ghi thẳng bốn giới hạn của hosting dùng chung, trong đó nặng nhất
+là **không đặt được lịch chạy worker gửi email**: yêu cầu tư vấn của khách vẫn
+được lưu đầy đủ nhưng không ai được báo, phải vào `/admin` xem thủ công. Riêng
+điểm đó đã đủ là lý do để một công ty luật dùng VPS.
+
+Vòng kiểm tra: TypeScript sạch, 126/126 kiểm thử đạt, `server.js` phục vụ đúng.

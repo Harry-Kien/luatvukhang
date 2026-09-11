@@ -105,6 +105,32 @@ jobs:
       - name: Kiểm tra nội dung và tiếp cận trên ba ngôn ngữ
         run: npm run check:content
 
+      - name: Kiểm tra tệp khởi động cho hosting Passenger
+        # server.js là đường vào cho hosting cPanel, nơi Passenger nạp thẳng một
+        # tệp JavaScript chứ không chạy "npm start". Không ai chạy nó hằng ngày,
+        # nên nếu không kiểm ở đây thì nó hỏng lúc nào không biết — và chỉ lộ ra
+        # đúng lúc đang triển khai.
+        run: |
+          NODE_ENV=production PORT=3100 node server.js > /tmp/passenger.log 2>&1 &
+          ready=""
+          for i in $(seq 1 60); do
+            if curl -sf -o /dev/null http://127.0.0.1:3100/api/health/ready; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [ -z "$ready" ]; then
+            echo "server.js khong len sau 60 giay. Log:"
+            cat /tmp/passenger.log
+            exit 1
+          fi
+          for path in /vi /vi/services /admin/login; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:3100$path")
+            echo "$path -> $code"
+            [ "$code" = "200" ] || { echo "server.js tra $code cho $path"; exit 1; }
+          done
+
       - name: Lưu báo cáo khi kiểm thử hỏng
         if: failure()
         uses: actions/upload-artifact@v7
