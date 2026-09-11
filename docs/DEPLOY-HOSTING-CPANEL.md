@@ -109,7 +109,7 @@ Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biế
 | Biến | Giá trị |
 | --- | --- |
 | `NODE_ENV` | `production` |
-| `DATABASE_URL` | `file:./.local/law.db` |
+| `DATABASE_URL` | `file:/home/TÊN-TÀI-KHOẢN/luatvukhang/.local/law.db` — dùng đường dẫn **tuyệt đối**, lấy bằng `pwd` trong Terminal |
 | `PAYLOAD_SECRET` | 64 ký tự ngẫu nhiên — sinh bằng `openssl rand -hex 32` |
 | `NEXT_PUBLIC_SITE_URL` | `https://luatvukhang.com` |
 | `NEXT_PUBLIC_DEMO_MODE` | `false` |
@@ -158,6 +158,41 @@ Script làm toàn bộ theo đúng thứ tự: kiểm tra môi trường → `np
 nội dung nền. Gặp vấn đề ở bước nào nó dừng và nói rõ nguyên nhân.
 
 Chạy lại sau khi đã sửa lỗi: thêm `--skip-install` để khỏi cài lại phụ thuộc.
+
+### Nếu hosting giết tiến trình (SIGKILL) vì thiếu bộ nhớ
+
+Hosting dùng chung đặt trần bộ nhớ cho mỗi tiến trình. `npm ci` và nhất là
+`npm run build` có thể vượt trần và bị giết — dấu hiệu là `signal: 'SIGKILL'`,
+không kèm thông báo lỗi nào khác.
+
+Xem trần hiện tại:
+
+```bash
+cat /sys/fs/cgroup/memory.max 2>/dev/null || ulimit -v
+```
+
+Cần khoảng **2 GB** cho bước dựng. Thiếu thì làm ở máy cá nhân rồi tải lên:
+
+```bash
+npm run build
+```
+
+```bash
+node scripts/make-hosting-bundle.mjs --with-build
+```
+
+Tải cả `hosting-source.zip` lẫn `hosting-build.zip` lên, giải nén vào cùng thư
+mục, rồi chạy trên hosting:
+
+```bash
+node scripts/hosting-setup.mjs --skip-install --skip-build
+```
+
+Hai cờ này bỏ qua đúng hai bước nặng, các bước còn lại vẫn chạy đủ.
+
+Riêng `node_modules` vẫn phải cài trên hosting — nó chứa bản biên dịch riêng cho
+Linux, không chép từ Windows sang được. Nếu chính `npm ci` cũng bị giết, phải
+nhờ nhà cung cấp nâng trần bộ nhớ.
 
 ### Nếu không có Terminal
 

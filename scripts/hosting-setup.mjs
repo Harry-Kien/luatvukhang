@@ -35,6 +35,29 @@ const REQUIRED_ENV = [
   ["NEXT_PUBLIC_SITE_URL", "https://tên-miền-của-bạn"],
 ];
 
+/**
+ * Thông báo dùng chung cho cả bước cài phụ thuộc lẫn bước dựng bản build.
+ *
+ * SIGKILL nghĩa là hệ điều hành giết tiến trình, không phải lệnh tự lỗi — trên
+ * hosting dùng chung gần như luôn là vượt trần bộ nhớ. Stack trace của Node ở
+ * trường hợp này không nói gì hữu ích, nên thay hẳn bằng việc cần làm.
+ */
+const OUT_OF_MEMORY = `Tien trinh bi he dieu hanh giet (SIGKILL) — gan nhu chac chan la vuot tran bo nho.
+
+    Day la gioi han cua goi hosting, khong phai loi ma nguon. Ba huong xu ly:
+
+    1. Xem tran bo nho hien tai, roi hoi nha cung cap co nang duoc khong:
+         cat /sys/fs/cgroup/memory.max 2>/dev/null || ulimit -v
+       Can khoang 2 GB cho buoc dung ban build.
+
+    2. Dung san o may ca nhan roi tai len — khong can dung tren hosting:
+         (tren may ca nhan)  npm run build
+         (tren may ca nhan)  node scripts/make-hosting-bundle.mjs --with-build
+       Tai ca hai tep zip len, giai nen, roi chay lai lenh nay voi --skip-install
+       va --skip-build.
+
+    3. Chuyen sang VPS — xem docs/DEPLOY-VPS.md.`;
+
 let step = 0;
 const say = (message) => console.log(`\n[${++step}] ${message}`);
 const fail = (message) => {
@@ -91,13 +114,43 @@ if (!/^file:/.test(process.env.DATABASE_URL || ""))
   );
 console.log("    Biến môi trường — đủ");
 
-// --- Cài phụ thuộc -----------------------------------------------------------
+// Đường dẫn tương đối phụ thuộc thư mục làm việc của tiến trình. Máy chủ web và
+// một lệnh chạy tay từ thư mục khác sẽ mở HAI tệp khác nhau, và triệu chứng là
+// "dữ liệu vừa nhập tự nhiên biến mất" — rất khó lần ra.
+if (/^file:[.]/.test(process.env.DATABASE_URL))
+  console.warn(
+    "    Canh bao: DATABASE_URL dung duong dan tuong doi. Nen doi sang duong dan" +
+      String.fromCharCode(10) +
+      "    tuyet doi de moi tien trinh mo dung mot tep, vi du:" +
+      String.fromCharCode(10) +
+      "      file:" +
+      join(process.cwd(), ".local", "law.db").split("\\").join("/"),
+  );
+
 if (process.argv.includes("--skip-install"))
   say("Bỏ qua cài phụ thuộc theo yêu cầu (--skip-install)");
 else {
   say("Cài phụ thuộc (npm ci) — bước này lâu nhất");
-  // Giữ cả phụ thuộc phát triển: các script quản trị chạy bằng tsx nằm trong đó.
-  run("npm", ["ci"]);
+  try {
+    /**
+     * Giảm mức tiêu thụ bộ nhớ hết mức có thể: hosting dùng chung đặt trần bộ
+     * nhớ cho mỗi tiến trình, và npm mặc định tải song song rất nhiều luồng.
+     *
+     * Giữ cả phụ thuộc phát triển — các script quản trị chạy bằng tsx, và
+     * `next build` cần typescript, cả hai đều nằm trong nhóm đó.
+     */
+    run("npm", [
+      "ci",
+      "--no-audit",
+      "--no-fund",
+      "--maxsockets",
+      "3",
+      "--prefer-offline",
+    ]);
+  } catch (error) {
+    if (error.signal === "SIGKILL") fail(OUT_OF_MEMORY);
+    throw error;
+  }
 }
 
 // --- Lược đồ cơ sở dữ liệu ---------------------------------------------------
@@ -163,15 +216,25 @@ await db.execute(readFileSync("scripts/init-rate-limit.sql", "utf8"));
 console.log("    Xong");
 
 // --- Dựng bản production -----------------------------------------------------
-say("Dựng bản production (npm run build) — cần khoảng 1–2 GB RAM");
-try {
-  run("npm", ["run", "build"]);
-} catch {
-  fail(
-    "Bước dựng bị dừng. Nguyên nhân thường gặp nhất là hosting không đủ RAM.\n" +
-      "    Cách đi vòng: dựng ở máy cá nhân rồi tải thư mục .next lên —\n" +
-      "    node scripts/make-hosting-bundle.mjs --with-build",
-  );
+if (process.argv.includes("--skip-build"))
+  say("Bỏ qua dựng bản build theo yêu cầu (--skip-build)");
+else {
+  say("Dựng bản production (npm run build) — cần khoảng 1–2 GB RAM");
+  try {
+    run("npm", ["run", "build"]);
+  } catch (error) {
+    // Hết bộ nhớ và lỗi dựng thật cần hai lời khuyên khác nhau, nhưng cả hai
+    // đều đi tiếp được bằng cách dựng ở máy cá nhân.
+    fail(
+      error.signal === "SIGKILL"
+        ? OUT_OF_MEMORY
+        : "Bước dựng thất bại. Xem thông báo phía trên để biết nguyên nhân." +
+            String.fromCharCode(10) +
+            "    Nếu không rõ, dựng ở máy cá nhân rồi tải lên:" +
+            String.fromCharCode(10) +
+            "      node scripts/make-hosting-bundle.mjs --with-build",
+    );
+  }
 }
 
 // --- Tài khoản quản trị và nội dung nền --------------------------------------
