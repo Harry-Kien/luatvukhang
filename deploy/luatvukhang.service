@@ -8,8 +8,9 @@
 
 [Unit]
 Description=Website Cong ty Luat TNHH Vu Khang
-# Ứng dụng đọc cơ sở dữ liệu ngay khi khởi động; chờ PostgreSQL lên trước.
-After=network-online.target postgresql.service
+# Cơ sở dữ liệu là một tệp SQLite trong thư mục ứng dụng, không phải dịch vụ
+# riêng — nên không có gì phải chờ ngoài mạng.
+After=network-online.target
 Wants=network-online.target
 
 [Service]
@@ -40,7 +41,10 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/srv/luatvukhang/media /srv/luatvukhang/.next
+# `.local` phải ghi được: cơ sở dữ liệu SQLite nằm trong đó, và SQLite ghi cả
+# tệp -wal, -shm bên cạnh tệp chính. Thiếu dòng này website chạy nhưng mọi thao
+# tác ghi đều hỏng, kể cả gửi biểu mẫu.
+ReadWritePaths=/srv/luatvukhang/media /srv/luatvukhang/.next /srv/luatvukhang/.local
 
 StandardOutput=journal
 StandardError=journal

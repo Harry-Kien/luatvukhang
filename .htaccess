@@ -1,0 +1,21 @@
+# Lưới an toàn cho trường hợp thư mục ứng dụng bị đặt vào vùng máy chủ web phục
+# vụ trực tiếp (ví dụ public_html).
+#
+# Bình thường tệp này KHÔNG có tác dụng gì: Application root nằm ngoài
+# public_html nên Apache/LiteSpeed không bao giờ đọc tới đây. Nó chỉ có ý nghĩa
+# đúng vào ngày ai đó đặt sai chỗ — và ngày đó, thứ bị tải về là toàn bộ yêu cầu
+# tư vấn của khách hàng.
+#
+# Đây là lớp phòng vệ thứ hai, KHÔNG thay thế được việc đặt đúng thư mục.
+
+Options -Indexes
+
+# Cơ sở dữ liệu, bí mật, mã nguồn, lịch sử Git.
+RedirectMatch 404 "^/\.local(/|$)"
+RedirectMatch 404 "^/\.git(/|$)"
+RedirectMatch 404 "^/\.next(/|$)"
+RedirectMatch 404 "^/(node_modules|src|scripts|tests|docs|deploy|artifacts|design)(/|$)"
+
+<FilesMatch "(^\.env|\.db$|\.db-wal$|\.db-shm$|\.sqlite$|\.sql$|\.zip$|\.dump$|^package-lock\.json$|^tsconfig\.json$)">
+  Require all denied
+</FilesMatch>

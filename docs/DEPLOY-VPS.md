@@ -89,30 +89,26 @@ lệnh dùng lại nhiều lần trong tài liệu:
 sudo -u luatvukhang bash -c 'cd /srv/luatvukhang && <lệnh>'
 ```
 
-## Bước 3 — PostgreSQL
+## Bước 3 — Cơ sở dữ liệu: không phải cài gì cả
+
+Không có bước cài đặt ở đây, và đó là chủ ý. Hệ thống dùng **SQLite**: cơ sở dữ
+liệu là một tệp duy nhất nằm trong thư mục ứng dụng, tạo ra ở Bước 7 lúc chạy
+migration. Không có dịch vụ nào phải cài, phải bật, phải đặt mật khẩu.
+
+Chỉ có một việc phải làm đúng, và nó nằm ở Bước 5: `DATABASE_URL` trỏ vào một
+đường dẫn **tuyệt đối** nằm **ngoài** thư mục Nginx phục vụ ra Internet.
 
 ```bash
-sudo apt install -y postgresql
-sudo systemctl enable --now postgresql
+sudo -u luatvukhang mkdir -p /srv/luatvukhang/.local
+sudo -u luatvukhang chmod 700 /srv/luatvukhang/.local
 ```
 
-Tạo mật khẩu ngẫu nhiên rồi tạo người dùng và cơ sở dữ liệu. **Ghi lại mật khẩu
-này**, bước 5 cần đến:
+`chmod 700` để chỉ người dùng chạy website đọc được tệp. Trên máy dùng chung,
+đây là thứ ngăn tài khoản khác đọc trộm dữ liệu khách hàng.
 
-```bash
-DBPASS=$(openssl rand -hex 24); echo "Mat khau DB: $DBPASS"
-sudo -u postgres psql -c "CREATE USER law WITH PASSWORD '$DBPASS';"
-sudo -u postgres psql -c "CREATE DATABASE law OWNER law ENCODING 'UTF8' LC_COLLATE 'C' LC_CTYPE 'C' TEMPLATE template0;"
-```
-
-Dùng `LC_COLLATE 'C'` để khớp cấu hình đã kiểm thử. PostgreSQL chỉ nghe trên
-localhost theo mặc định của Ubuntu — giữ nguyên, không mở ra mạng.
-
-Kiểm chứng:
-
-```bash
-psql "postgresql://law:$DBPASS@127.0.0.1:5432/law" -c "SELECT version();"
-```
+Cấu hình Nginx ở Bước 9 chỉ có `proxy_pass`, không có `root` hay `alias`, nên
+Nginx không bao giờ phục vụ tệp từ thư mục này — mọi yêu cầu đều đi qua ứng
+dụng. Giữ nguyên như vậy.
 
 ## Bước 4 — Lấy mã nguồn
 
@@ -162,7 +158,7 @@ sudo -u luatvukhang nano /srv/luatvukhang/.env
 NEXT_PUBLIC_SITE_URL=https://luatvukhang.com
 NEXT_PUBLIC_DEMO_MODE=false
 SITE_LAUNCH_APPROVED=false
-DATABASE_URL=postgresql://law:<mat-khau-o-buoc-3>@127.0.0.1:5432/law
+DATABASE_URL=file:/srv/luatvukhang/.local/law.db
 PAYLOAD_SECRET=<64 ky tu ngau nhien>
 TRUST_PROXY_HEADERS=false
 ```
@@ -197,7 +193,13 @@ sudo -u luatvukhang bash -c '
   cd /srv/luatvukhang
   set -a; source .env; set +a
   npm run payload -- migrate
-  psql "$DATABASE_URL" -f scripts/init-rate-limit.sql
+  node -e '"'"'
+    const { createClient } = require("@libsql/client");
+    const { readFileSync } = require("node:fs");
+    createClient({ url: process.env.DATABASE_URL })
+      .execute(readFileSync("scripts/init-rate-limit.sql", "utf8"))
+      .then(() => process.exit(0));
+  '"'"'
 '
 ```
 
@@ -423,7 +425,7 @@ Chạy sao lưu trước khi migrate nếu bản cập nhật có thay đổi l�
 | Hiện tượng | Việc cần làm |
 | --- | --- |
 | Trang trả 502 | `sudo systemctl status luatvukhang` và `sudo journalctl -u luatvukhang -n 100` |
-| `/api/health/ready` trả 503 | Cơ sở dữ liệu chưa sẵn sàng: `sudo systemctl status postgresql`, kiểm tra `DATABASE_URL` |
+| `/api/health/ready` trả 503 | Cơ sở dữ liệu chưa sẵn sàng: kiểm tra `DATABASE_URL` trỏ đúng tệp, và người dùng `luatvukhang` có quyền ghi vào thư mục chứa tệp đó |
 | Đổi `.env` mà không thấy tác dụng | Biến `NEXT_PUBLIC_*` và `SITE_LAUNCH_APPROVED` cần `npm run build` lại |
 | Ảnh tải lên mất sau khi cập nhật | Thư mục `media/` bị ghi đè; phục hồi từ bản sao lưu |
 | Chứng chỉ hết hạn | `sudo certbot renew` rồi `sudo systemctl reload nginx` |

@@ -14,18 +14,20 @@ Gửi đúng ba câu này cho bộ phận kỹ thuật của nhà cung cấp. **
 | 2 | Mục **Setup Node.js App** có **Node.js 20 trở lên** không? | Dự án kiểm thử trên Node 24. Node 18 trở xuống không chạy. |
 | 3 | Tiến trình Node.js được cấp **bao nhiêu RAM**? | `npm run build` cần khoảng 1–2 GB. Dưới mức đó bước dựng sẽ bị hệ thống giết giữa chừng. |
 
-Hỏi thêm hai câu nếu có thể: có **SSH** không, và có cho phép **kết nối ra ngoài
-tới cổng 5432** không (dùng khi PostgreSQL đặt ở dịch vụ khác).
+Hỏi thêm một câu nếu có thể: có **SSH** không.
 
-### Nếu câu 1 là "không có PostgreSQL"
+Câu 2 hoặc câu 3 là "không" thì chuyển sang VPS. Đó không phải thất bại kỹ
+thuật, chỉ là chọn đúng loại dịch vụ.
 
-Còn một đường: dùng **PostgreSQL quản lý sẵn ở bên ngoài** (Neon, Supabase,
-Aiven…) và trỏ `DATABASE_URL` sang đó. Đường này chỉ đi được khi hosting cho
-phép kết nối ra ngoài tới cổng 5432 — nhiều gói dùng chung chặn. Với một công ty
-luật còn cần cân nhắc: dữ liệu khách hàng khi đó nằm trên máy chủ ở nước ngoài.
+### Cơ sở dữ liệu bây giờ là một tệp — và điều đó đổi cách chọn thư mục
 
-Không đi được cả hai đường thì chuyển sang VPS. Đó không phải thất bại kỹ thuật,
-chỉ là chọn đúng loại dịch vụ.
+Trước đây dữ liệu nằm trong PostgreSQL, một dịch vụ riêng mà trình duyệt không
+với tới được. Từ khi chuyển sang SQLite, **toàn bộ dữ liệu khách hàng nằm trong
+một tệp bên trong thư mục ứng dụng**: `.local/law.db`.
+
+Hệ quả duy nhất, và nó quan trọng hơn mọi bước còn lại trong tài liệu này: thư
+mục ứng dụng **không được nằm trong vùng máy chủ web phục vụ trực tiếp**. Xem
+khung cảnh báo ở Bước 2.
 
 ## Bước 1 — Lấy đủ bộ mã nguồn
 
@@ -89,13 +91,56 @@ hosting), `.env` (tạo riêng, xem bước 3), `.local/`, `media/` của máy c
 > cao nhất mà dưới 20.9 thì gói hosting này **không chạy được website**, và mọi
 > bước sau đều vô ích.
 
+> ## ⛔ Application root KHÔNG ĐƯỢC là `public_html`
+>
+> Đây là ô nguy hiểm nhất trong toàn bộ quá trình triển khai, và cPanel không hề
+> cảnh báo khi điền sai.
+>
+> `public_html` là thư mục mà máy chủ web phục vụ **thẳng ra Internet**: mọi tệp
+> đặt trong đó đều tải về được bằng một đường link. Còn thư mục ứng dụng chứa
+> những thứ không bao giờ được ra Internet. Đặt trùng hai thứ đó vào nhau thì
+> bất kỳ ai gõ đúng đường dẫn cũng tải được:
+>
+> | Đường dẫn | Thứ họ lấy được |
+> | --- | --- |
+> | `/.local/law.db` | **Toàn bộ cơ sở dữ liệu** — mọi yêu cầu tư vấn: họ tên, email, số điện thoại, nội dung khách hàng trình bày, ghi chú nội bộ |
+> | `/.env` | `PAYLOAD_SECRET` — đủ để tự ký vé đăng nhập và vào thẳng trang quản trị với quyền cao nhất |
+> | `/.local/admin-access.txt` | Mật khẩu quản trị dạng chữ thường, nếu tệp này bị tải lên |
+> | `/.git/config` | Đủ để dựng lại nguyên vẹn kho mã |
+>
+> Với một công ty luật, mục đầu tiên không chỉ là sự cố kỹ thuật: đó là toàn bộ
+> thông tin khách hàng đã tin tưởng gửi đi.
+>
+> **Điền đúng:** Application root là một thư mục **ngang hàng** với
+> `public_html`, không phải bên trong nó.
+>
+> ```
+> /home/tên-tài-khoản/
+> ├── public_html/     ← máy chủ web phục vụ thư mục này ra Internet
+> └── luatvukhang/     ← ĐIỀN THƯ MỤC NÀY vào ô Application root
+>     ├── .env
+>     ├── .local/law.db
+>     └── server.js
+> ```
+>
+> Ô Application root nhận đường dẫn tính từ thư mục gốc tài khoản, nên chỉ cần
+> gõ `luatvukhang`. Nếu ô đó đang là `public_html`, `public_html/luatvukhang`
+> hay bất cứ thứ gì bắt đầu bằng `public_html` — **sửa lại ngay bây giờ**, trước
+> khi làm tiếp.
+>
+> Website vẫn chạy trên tên miền bình thường: ô **Application URL** mới là thứ
+> quyết định địa chỉ, và Passenger chuyển tiếp yêu cầu vào ứng dụng đang nằm ở
+> chỗ khác. Đặt ngoài `public_html` không hề làm website khó truy cập hơn.
+>
+> Bước 6 có một lệnh kiểm chứng để biết chắc mình đã điền đúng.
+
 cPanel → **Setup Node.js App** → Create Application:
 
 | Ô | Giá trị |
 | --- | --- |
 | Node.js version | 20 trở lên, chọn cao nhất có sẵn |
 | Application mode | Production |
-| Application root | thư mục vừa tải mã lên, ví dụ `luatvukhang` |
+| **Application root** | thư mục vừa tải mã lên, ví dụ `luatvukhang` — **ngoài `public_html`**, xem khung trên |
 | Application URL | tên miền hoặc thư mục con sẽ chạy website |
 | **Application startup file** | **`server.js`** |
 
@@ -293,6 +338,41 @@ https://luatvukhang.com/admin                 → đăng nhập được
 `/api/health/ready` trả 503 nghĩa là ứng dụng chạy nhưng không nối được cơ sở dữ
 liệu — kiểm tra lại `DATABASE_URL`.
 
+### Kiểm chứng thư mục ứng dụng không bị phơi ra Internet
+
+Ba lệnh này hỏi máy chủ xem nó có chịu phục vụ những tệp đáng lẽ không ai được
+thấy hay không. Dán vào Terminal của cPanel, hoặc chạy ở máy cá nhân:
+
+```bash
+curl -sI https://luatvukhang.com/.env | head -1
+curl -sI https://luatvukhang.com/.local/law.db | head -1
+curl -sI https://luatvukhang.com/.git/config | head -1
+```
+
+**Đúng:** cả ba đều trả `HTTP/2 404` (hoặc `403`).
+
+**Sai:** bất kỳ dòng nào trả `HTTP/2 200`. Khi đó dữ liệu khách hàng đang tải về
+được từ Internet. Xử lý theo đúng thứ tự này:
+
+1. Trong **Setup Node.js App**, sửa **Application root** sang thư mục ngoài
+   `public_html` (xem khung cảnh báo ở Bước 2), rồi **Restart**.
+2. Đổi `PAYLOAD_SECRET` sang giá trị mới — giá trị cũ phải coi như đã lộ. Dựng
+   lại và Restart.
+3. Đổi mật khẩu tài khoản quản trị.
+4. Chạy lại ba lệnh trên để xác nhận đã thành 404.
+
+Kho mã có sẵn một tệp `.htaccess` ở thư mục gốc chặn các đường dẫn này. Nó là
+lưới an toàn phòng khi điền sai, **không thay thế** việc đặt đúng thư mục: một
+số cấu hình máy chủ bỏ qua `.htaccess`, và nó không che được tệp nào nằm ngoài
+danh sách.
+
+Nếu đã tải `hosting-source.zip` / `hosting-build.zip` lên hosting, **xóa hai tệp
+zip sau khi giải nén xong** — chúng chứa nguyên bộ mã nguồn và không cần giữ lại:
+
+```bash
+rm -f ~/luatvukhang/hosting-*.zip
+```
+
 ## Bước 7 — Ra mắt
 
 Chỉ làm khi `npm run release:check` không còn mục nào bị chặn. Đổi
@@ -331,7 +411,9 @@ Hosting dùng chung không cho bằng VPS, và đây là những chỗ sẽ vư�
 - **Tiến trình bị ngủ khi không có truy cập** trên nhiều gói, nên lần truy cập
   đầu sau một lúc vắng sẽ chậm.
 - **Sao lưu tự động** phải dựa vào công cụ của nhà cung cấp; `deploy/backup.sh`
-  cần cron và `pg_dump`.
+  cần cron. Không có cron thì tự tải `.local/law.db` về theo định kỳ — đó là
+  toàn bộ dữ liệu, một tệp duy nhất. Tải khi website đang chạy có thể ra bản
+  rách; dừng ứng dụng vài giây rồi hẵng tải.
 - **Ảnh tải lên nằm ở `media/`** — kiểm tra xem nhà cung cấp có xóa thư mục này
   khi triển khai lại không.
 

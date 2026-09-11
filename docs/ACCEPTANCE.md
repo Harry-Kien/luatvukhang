@@ -1,6 +1,6 @@
 # Báo cáo nghiệm thu — 08/09/2026
 
-**Chưa đủ điều kiện ra mắt.** Đây là bản phát triển có website công khai, CMS thực và PostgreSQL thực; không phải sản phẩm đã hoàn thành toàn bộ đặc tả.
+**Chưa đủ điều kiện ra mắt.** Đây là bản phát triển có website công khai, CMS thực và cơ sở dữ liệu thực; không phải sản phẩm đã hoàn thành toàn bộ đặc tả.
 
 ## Đã thực hiện và có kiểm chứng
 
@@ -480,7 +480,7 @@ tệp này hằng ngày, nên nếu không kiểm tự động thì nó hỏng l
 chỉ lộ ra đúng lúc đang triển khai.
 
 **Thêm `docs/DEPLOY-HOSTING-CPANEL.md`.** Bước 0 của tài liệu là ba câu hỏi phải
-gửi nhà cung cấp trước khi làm bất cứ việc gì: có PostgreSQL không, Node.js có
+gửi nhà cung cấp trước khi làm bất cứ việc gì: Node.js có
 từ bản 20 trở lên không, và tiến trình được cấp bao nhiêu RAM. Một câu trả lời
 "không" là gói hosting đó không chạy được, và mọi bước phía sau đều vô ích —
 nói trước còn hơn để mất mấy ngày cài rồi hỏng.

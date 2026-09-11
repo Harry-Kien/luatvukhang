@@ -24,11 +24,11 @@ Node.js 24 đã được dùng để kiểm thử. Cài phụ thuộc bằng `np
 5. `npm run typecheck`, `npm test`, `npm run build`.
 
 Mỗi lần đẩy lên `main` và mỗi pull request đều chạy lại đúng chuỗi này trên CI,
-từ một cơ sở dữ liệu PostgreSQL trống: migration, kiểm tra kiểu, dựng bản
+từ một cơ sở dữ liệu trống: migration, kiểm tra kiểu, dựng bản
 production, nạp trang nền rồi chạy toàn bộ kiểm thử Playwright trên máy chủ thật.
 Cấu hình ở `.github/workflows/ci.yml`.
 
-Nếu dùng Docker: khai báo POSTGRES_PASSWORD, dùng cùng mật khẩu trong DATABASE_URL, rồi chạy `docker compose up -d`. Docker Desktop trên máy này không hoàn tất khởi động, nên bộ kiểm thử đã sử dụng PostgreSQL cục bộ thay thế.
+Không cần cài máy chủ cơ sở dữ liệu: hệ thống dùng SQLite, và `DATABASE_URL` mặc định trỏ vào `file:./.local/law.db` — tệp tự tạo ra ở lần chạy migration đầu tiên.
 
 ## Nạp nội dung
 
@@ -52,7 +52,7 @@ hồ sơ thật.
 
 - [Hướng dẫn admin](docs/ADMIN.vi.md)
 - [**Triển khai lên hosting cPanel có Node.js**](docs/DEPLOY-HOSTING-CPANEL.md) — đọc Bước 0 trước, ba câu hỏi quyết định gói hosting có chạy được không. Đóng gói bằng `npm run bundle:hosting`
-- [**Triển khai lên VPS từng bước**](docs/DEPLOY-VPS.md) — tên miền, PostgreSQL, systemd, Nginx, HTTPS, sao lưu
+- [**Triển khai lên VPS từng bước**](docs/DEPLOY-VPS.md) — tên miền, systemd, Nginx, HTTPS, sao lưu
 - [Vận hành và triển khai](docs/OPERATIONS.md)
 - [Mô hình dữ liệu](docs/DATA-MODEL.md)
 - [Báo cáo kiểm thử và giới hạn](docs/ACCEPTANCE.md)

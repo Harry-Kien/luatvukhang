@@ -23,7 +23,7 @@ node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
 - Bản Việt–Anh đã được biên tập theo ngữ cảnh.
 - Chính sách quyền riêng tư và điều khoản đã được rà soát: đơn vị kiểm soát dữ liệu, mục đích/căn cứ, lưu giữ, quyền của chủ thể, đầu mối liên hệ, nhà cung cấp, chuyển dữ liệu nếu có.
 - Người tiếp nhận, thời gian phản hồi thực tế, lịch làm việc, quy trình xác nhận lịch, phân công và phí tư vấn.
-- Tên miền, đơn vị hosting Node.js, PostgreSQL production, nơi lưu ảnh, SMTP và email nhận thông báo.
+- Tên miền, đơn vị hosting Node.js, nơi lưu ảnh, SMTP và email nhận thông báo.
 - Danh sách tài khoản / vai trò, phương án MFA hoặc SSO, người sở hữu sao lưu và khôi phục.
 
 ## Nội dung dự thảo đã soạn sẵn — 10/09/2026

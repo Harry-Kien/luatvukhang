@@ -4,13 +4,17 @@
 
 Dùng .env.example. Bí mật lưu ở secret manager của nền tảng, không trong Git. NEXT_PUBLIC_SITE_URL phải là origin tin cậy, production HTTPS. Không dùng mật khẩu phát triển.
 
-Stack chạy Node.js + PostgreSQL qua TCP. Không chuyển sang runtime Sites/Cloudflare Workers vì môi trường đó không hỗ trợ raw TCP theo hướng dẫn đã kiểm tra; giữ bộ công nghệ người dùng yêu cầu.
+Stack chạy Node.js + SQLite (tệp trên đĩa). Không chuyển sang runtime Sites/Cloudflare Workers vì môi trường đó không có hệ thống tệp ghi được lâu dài; giữ bộ công nghệ người dùng yêu cầu.
+
+DATABASE_URL phải là `file:` + đường dẫn tuyệt đối, trỏ ra ngoài mọi thư mục mà máy chủ web phục vụ trực tiếp. Tệp này là toàn bộ dữ liệu khách hàng: đặt trong vùng phục vụ tĩnh thì nó tải về được bằng một đường link.
 
 ## Cơ sở dữ liệu
 
-- Local đã kiểm thử PostgreSQL 18.4 qua embedded-postgres trên Windows, UTF-8. Wrapper beta chỉ là công cụ phát triển.
-- docker-compose.yml chuẩn bị PostgreSQL 17; cấu hình này chưa chạy được trên Docker máy hiện tại.
-- Production cần kiểm thử phiên bản PostgreSQL chọn dùng, TLS, quyền DB tối thiểu và quy trình migration.
+- SQLite qua @payloadcms/db-sqlite và @libsql/client. Không có máy chủ cơ sở dữ liệu, không có cổng mạng, không có mật khẩu DB.
+- Quyền tệp thay cho quyền DB: đặt `chmod 700` thư mục chứa và để đúng một người dùng hệ thống ghi được.
+- Ghi vào SQLite là tuần tự. Không chạy nhiều tiến trình ứng dụng trên cùng một tệp; muốn tăng tải thì tăng CPU cho một tiến trình, không tăng số replica.
+- `push` tắt hẳn trong payload.config.ts. SQLite không có schema tách biệt nên cơ chế đồng bộ lược đồ của Payload xóa cả bảng ngoài CMS.
+- Sao lưu bằng `VACUUM INTO`, không bao giờ bằng `cp`: chế độ WAL giữ dữ liệu mới ở tệp -wal, chép thẳng sẽ ra bản rách.
 - Không bật schema push trong production. Chạy `npm run payload -- migrate` sau khi có bản sao lưu.
 - Migration ban đầu nằm ở src/migrations. Sau migration, chạy scripts/init-rate-limit.sql.
 - Không chạy DOWN migration trên DB có dữ liệu thật nếu chưa có kế hoạch và xác nhận; có thể mất bảng.
@@ -32,7 +36,7 @@ Stack chạy Node.js + PostgreSQL qua TCP. Không chuyển sang runtime Sites/Cl
 
 SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_FROM, NOTIFICATION_EMAIL.
 Chạy `node --env-file=.env --import tsx scripts/send-notifications.ts` bằng worker định kỳ của hạ tầng.
-Worker dùng khóa PostgreSQL để tránh hai tiến trình gửi đồng thời. Email chỉ có mã tham chiếu và liên kết quản trị. Gửi thành công SMTP không đồng nghĩa thư đã đến inbox.
+Worker dùng một hàng khóa trong bảng để tránh hai tiến trình gửi đồng thời. Email chỉ có mã tham chiếu và liên kết quản trị. Gửi thành công SMTP không đồng nghĩa thư đã đến inbox.
 Outbox failed phải điều tra và đưa lại pending; chưa có backoff tự động.
 Nếu worker chết sau SMTP gửi nhưng trước đánh dấu sent, lần chạy lại có thể gửi lặp: delivery hiện at-least-once.
 
@@ -51,10 +55,10 @@ Không cấu hình SMTP: sendEmail báo lỗi, không ghi email/mật khẩu res
 
 ## Sao lưu và khôi phục
 
-- Phép thử cục bộ: node --env-file=.env scripts/verify-local-restore.mjs. Chụp dữ liệu nhất quán, tạo DB law_restore_<timestamp>, áp migration ban đầu, nạp lại và so sánh từng dòng.
-- Tệp sao lưu chứa dữ liệu riêng và hash mật khẩu nằm trong .local/backups, không đưa vào Git. Mã thử phục hồi chỉ dành cho DB cục bộ dùng quyền superuser; không chạy trên production.
+- Phép thử phục hồi: chạy deploy/backup.sh, rồi trỏ `DATABASE_URL` của một phiên `next dev` riêng vào tệp vừa sao lưu và đối chiếu số bản ghi. Sao lưu chưa thử phục hồi thì chưa tính là sao lưu.
+- Tệp sao lưu chứa dữ liệu riêng và hash mật khẩu. Đặt `chmod 600`, để ngoài Git, và đưa một bản ra khỏi máy chủ gốc.
 - Kết quả: docs/restore-test.json.
-- Production dùng pg_dump/pg_restore hoặc snapshot/PITR của nhà cung cấp, mã hóa, quản lý quyền, thời hạn lưu và thử RTO/RPO.
+- Production dùng deploy/backup.sh (`VACUUM INTO` + nén thư mục media) chạy theo cron, hoặc snapshot của nhà cung cấp; mã hóa, quản lý quyền, thời hạn lưu và thử RTO/RPO.
 - Sao lưu Media riêng cùng metadata, kiểm tra khôi phục ảnh. Chưa có ảnh công ty trong DB thử.
 - Giữ version triển khai và migration tương ứng. Quay lại ứng dụng trước chỉ khi schema tương thích; không tự động rollback DB.
 
@@ -71,7 +75,7 @@ audit-report.json ghi kết quả npm audit. Đã nâng sharp và DOMPurify. Cò
 - `/api/health/live`: trả 200 khi tiến trình web trả lời được. Dùng cho kiểm tra liveness.
 - `/api/health/ready`: trả 200 khi truy vấn DB thành công và các bảng chính tồn tại; trả 503 khi chưa sẵn sàng. Dùng để kiểm tra sau deploy và cảnh báo vận hành. Không tự restart web chỉ vì DB đang bảo trì.
 - Hai endpoint chỉ trả trạng thái, không có dữ liệu khách hàng, không cache. Đây không phải kiểm tra SMTP, quyền ghi, nội dung, hoặc toàn bộ tính toàn vẹn schema.
-- Pool thao tác vận hành tối đa 3 kết nối/tiến trình, chờ kết nối 3 giây, truy vấn 5 giây; pool CMS tối đa 10 kết nối/tiến trình, chờ kết nối 5 giây. Khi tăng số replica, cần tính tổng kết nối với giới hạn PostgreSQL.
+- Không còn nhóm kết nối: SQLite là tệp trên đĩa, giữ một kết nối duy nhất cho mỗi tiến trình. Giới hạn thực tế là khóa ghi của SQLite, không phải số kết nối.
 - SMTP chờ kết nối/chào 10 giây, socket 30 giây. Worker trả exit code khác 0 nếu có thông báo gửi thất bại để scheduler phát hiện; giải phóng khóa và đóng CMS trong finally.
 - Thông báo failed cần người vận hành kiểm tra trạng thái gửi ở nhà cung cấp trước khi chuyển về pending. Không gửi lại tự động nếu chưa biết email đã tới hay chưa; việc gửi email và cập nhật DB không phải giao dịch nguyên tử.
 

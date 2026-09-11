@@ -232,8 +232,8 @@ try {
 }
 
 say("Tạo bảng hạn mức gửi biểu mẫu");
-// Dùng pg thay vì psql: hosting dùng chung thường không cài công cụ dòng lệnh
-// của PostgreSQL, còn pg thì đã là phụ thuộc của chính ứng dụng.
+// Dùng thư viện thay vì lệnh `sqlite3`: hosting dùng chung thường không cài
+// công cụ dòng lệnh, còn thư viện thì đã là phụ thuộc của chính ứng dụng.
 const { createClient } = await import("@libsql/client");
 const db = createClient({ url: process.env.DATABASE_URL });
 await db.execute(readFileSync("scripts/init-rate-limit.sql", "utf8"));
