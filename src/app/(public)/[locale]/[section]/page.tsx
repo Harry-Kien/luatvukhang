@@ -233,6 +233,11 @@ export default async function Page({ params, searchParams }: Props) {
       })),
     );
     const pageGroup = groups.find((group) => group.collection === "pages")!;
+    // Gộp chứ không thay thế: gán đè sẽ vứt mất Về chúng tôi, Liên hệ và Trang
+    // chủ khỏi kết quả tìm kiếm, vì pageResources chỉ liệt kê 5 trang hướng dẫn.
+    const otherPages = pageGroup.records.filter(
+      (record) => !(record.slug in pageResources),
+    );
     pageGroup.records = Object.entries(pageResources).map(
       ([slug, resource]) =>
         pageGroup.records.find((record) => record.slug === slug) || {
@@ -248,6 +253,7 @@ export default async function Page({ params, searchParams }: Props) {
           })),
         },
     );
+    pageGroup.records = [...pageGroup.records, ...otherPages];
     if (demo && !groups[0].records.length)
       groups[0].records = samples.map((s) => ({
         id: s.slug,
@@ -281,7 +287,7 @@ export default async function Page({ params, searchParams }: Props) {
      * để còn đường đi tiếp, thay vì để họ đứng trước một câu nhắn cụt.
      */
     const suggestions =
-      q && !results.length
+      q && !selected.length
         ? (groups.find((group) => group.collection === "services")?.records ??
           [])
         : [];

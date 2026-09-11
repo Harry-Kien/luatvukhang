@@ -11,6 +11,7 @@ import { emailAdapter } from "./cms/email";
 import {
   isAdmin,
   editorial,
+  editorialField,
   reception,
   publicRead,
   publicationGuard,
@@ -330,7 +331,13 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         : []),
       ...(slug === "experience"
         ? [
-            text("disclosureApproval", "Căn cứ được phép công bố", true),
+            {
+              ...text("disclosureApproval", "Căn cứ được phép công bố", true),
+              // Căn cứ nội bộ cho phép công bố một vụ việc. Không hiển thị ở
+              // đâu trên website, nhưng REST API trả nguyên văn bản ghi đã xuất
+              // bản, nên nếu không chặn ở mức trường thì ai cũng đọc được.
+              access: { read: editorialField },
+            } as Field,
             relation("services", "Chuyên môn", "services"),
           ]
         : []),
@@ -500,11 +507,27 @@ const Outbox: CollectionConfig = {
     },
   ],
 };
+/**
+ * Khóa bí mật ký phiên đăng nhập quản trị.
+ *
+ * Ở production phải dừng hẳn khi thiếu: giá trị dự phòng nằm công khai trong
+ * kho mã, nên nếu biến môi trường bị mất hay gõ sai, ứng dụng vẫn khởi động
+ * bình thường với một khóa ai cũng biết — đủ để người ngoài tự ký một phiên
+ * quản trị và đọc toàn bộ yêu cầu tư vấn của khách. Hỏng lúc khởi động dễ phát
+ * hiện hơn nhiều so với một website chạy êm mà không còn bảo vệ gì.
+ */
+function payloadSecret() {
+  const secret = process.env.PAYLOAD_SECRET;
+  if (process.env.NODE_ENV === "production" && (secret || "").length < 32)
+    throw new Error(
+      "PAYLOAD_SECRET phải có ít nhất 32 ký tự ngẫu nhiên ở môi trường production. " +
+        "Sinh bằng: openssl rand -hex 32",
+    );
+  return secret || "development-only-set-a-real-secret-before-deployment";
+}
 export default buildConfig({
   email: emailAdapter,
-  secret:
-    process.env.PAYLOAD_SECRET ||
-    "development-only-set-a-real-secret-before-deployment",
+  secret: payloadSecret(),
   serverURL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   admin: {
     user: "users",

@@ -6,7 +6,7 @@ import { getRecords, getSampleRecords } from "@/lib/cms";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
 import { PreviewRefresh } from "@/components/preview-refresh";
-import { demo, samples, t, type Locale } from "@/lib/content";
+import { demo, locales, samples, t, type Locale } from "@/lib/content";
 import { navigation } from "@/lib/content";
 import { JsonLd } from "@/components/json-ld";
 import {
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: Props) {
       ? samples.find((s) => s.slug === p.slug)
       : null;
   const languages: Partial<Record<Locale, string>> = {};
-  for (const language of ["vi", "en", "zh"] as const) {
+  for (const language of locales) {
     if (language === p.locale && (r || s))
       languages[language] = `/${language}/${p.section}/${p.slug}`;
     else if (r?.translationKey) {
@@ -262,7 +262,7 @@ export default async function Detail({ params, searchParams }: Props) {
                 />
                 <ContentBody record={record} />
                 <RelatedContent record={record} locale={locale} />
-                {record.scope && (
+                {!!record.scope?.length && (
                   <>
                     <h2>{t(locale, "Phạm vi hỗ trợ", "Scope of support")}</h2>
                     <ul>

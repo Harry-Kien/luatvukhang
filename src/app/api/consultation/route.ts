@@ -100,16 +100,25 @@ export async function POST(request: Request) {
     // Không nhận diện được người gửi thì chỉ áp hạn mức chung. Áp hạn mức cá
     // nhân cho toàn bộ lưu lượng gộp một chỗ sẽ chặn nhầm khách thật khi proxy
     // phía trước chưa gắn X-Forwarded-For.
-    const buckets = [count(`${minute}:all`, 120)];
+    /**
+     * Kiểm tra hạn mức cá nhân TRƯỚC, và chỉ chạm vào bộ đếm chung khi người gửi
+     * còn trong hạn mức của mình.
+     *
+     * Trước đây hai bộ đếm chạy song song, nên bộ đếm chung vẫn tăng cả với
+     * những yêu cầu đã bị hạn mức cá nhân chặn: một nguồn gửi tự động chỉ cần
+     * 120 yêu cầu mỗi phút là chiếm hết hạn mức chung và chặn mọi khách thật —
+     * đúng điều mà đoạn chú thích ngay trên nói là phải tránh.
+     */
+    let limited = false;
     if (address) {
       const caller = createHmac("sha256", process.env.PAYLOAD_SECRET!)
         .update(address)
         .digest("hex")
         .slice(0, 32);
-      buckets.push(count(`${minute}:${caller}`, 5));
+      limited = await count(`${minute}:${caller}`, 5);
     }
-    const limited = await Promise.all(buckets);
-    if (limited.some(Boolean))
+    if (!limited) limited = await count(`${minute}:all`, 120);
+    if (limited)
       return json(
         {
           error:

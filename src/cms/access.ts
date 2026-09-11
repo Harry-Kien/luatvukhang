@@ -6,6 +6,16 @@ export const editorial: Access = ({ req }) =>
   ["admin", "editor", "reviewer", "publisher"].includes(roleOf(req.user) || "");
 export const reception: Access = ({ req }) =>
   ["admin", "reception"].includes(roleOf(req.user) || "");
+/**
+ * Trường chỉ dành cho người làm nội dung.
+ *
+ * Quyền ở mức bộ sưu tập chỉ quyết định trả về BẢN GHI nào, không quyết định
+ * trả về TRƯỜNG nào — nên một bản ghi đã xuất bản vẫn mang theo mọi trường nội
+ * bộ khi đọc qua REST API. Dùng cái này cho những trường không bao giờ hiển thị
+ * ra website.
+ */
+export const editorialField: FieldAccess = ({ req }) =>
+  ["admin", "editor", "reviewer", "publisher"].includes(roleOf(req.user) || "");
 export const canPublish: FieldAccess = ({ req }) =>
   ["admin", "publisher"].includes(roleOf(req.user) || "");
 export const publicRead: Access = ({ req }) =>

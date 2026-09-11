@@ -1,8 +1,15 @@
 import { fold } from "./content";
 import type { ContentRecord } from "./cms";
 
-/** Tiếng Việt viết rời từng âm tiết, nên tách theo mọi ký tự không phải chữ/số. */
-const SEPARATOR = /[^a-z0-9]+/;
+/**
+ * Tách theo khoảng trắng, dấu câu và ký hiệu — KHÔNG tách theo "mọi ký tự không
+ * phải a-z0-9". Cách viết cũ coi mọi chữ Hán là dấu phân cách, nên truy vấn
+ * tiếng Trung tách ra thành mảng rỗng và tìm kiếm tiếng Trung trả về 0 kết quả
+ * cho mọi từ khóa, kể cả tiêu đề chính xác của lĩnh vực đang hiển thị.
+ */
+const SEPARATOR = /[\s\p{P}\p{S}]+/u;
+/** Chữ Hán viết liền, không có khoảng trắng giữa các từ. */
+const CJK = /[㐀-䶿一-鿿豈-﫿]/u;
 
 /** Only visible editorial fields; never serialize whole CMS documents or relationships. */
 function richText(value: any): string {
@@ -71,7 +78,11 @@ function signalText(record: ContentRecord): string {
  * sự" — bỏ dấu xong thì "nhãn" và "nhân" đều thành "nhan", và "nhan" lại nằm
  * lọt trong "nhanh". Cho phép khớp phần đầu để người dùng gõ dở vẫn ra kết quả.
  */
-function hasWord(tokens: string[], word: string): boolean {
+function hasWord(tokens: string[], word: string, text: string): boolean {
+  // Tiếng Trung không đặt khoảng trắng giữa các từ, nên "合同" là một phần nằm
+  // trong "施工合同" chứ không phải một âm tiết đứng riêng. Ranh giới âm tiết ở
+  // đây vô nghĩa; phải dò chuỗi con.
+  if (CJK.test(word)) return text.includes(word);
   return tokens.some((token) => token === word || token.startsWith(word));
 }
 
@@ -101,7 +112,8 @@ export function searchScore(record: ContentRecord, query: string): number {
   for (const word of words) {
     let best = 0;
     for (const field of fields)
-      if (hasWord(field.tokens, word)) best = Math.max(best, field.word);
+      if (hasWord(field.tokens, word, field.text))
+        best = Math.max(best, field.word);
     if (!best) return 0;
     score += best;
   }

@@ -388,3 +388,74 @@ sửa.
 
 Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua (234 chuỗi), production
 build thành công, **118/118 kiểm thử đạt**.
+
+## Rà soát có hệ thống: 9 lỗi, một trong đó làm hỏng hẳn tìm kiếm tiếng Trung — 11/09/2026
+
+Ba lượt rà soát độc lập (đúng sai chức năng, bảo mật/lộ dữ liệu, SEO) trên toàn
+bộ mã nguồn. Những phát hiện đã xác minh bằng phản hồi thật và đã sửa:
+
+### Nghiêm trọng — tìm kiếm tiếng Trung trả về 0 kết quả với mọi từ khóa
+
+`src/lib/search.ts` tách từ bằng `/[^a-z0-9]+/`. Mọi chữ Hán rơi vào lớp "không
+phải a-z0-9" nên bị coi là dấu phân cách: truy vấn tách ra thành mảng rỗng và
+hàm trả về 0 cho mọi bản ghi. Đo trực tiếp trước khi sửa:
+
+| Truy vấn | Kết quả |
+| --- | --- |
+| `/zh/search?q=合同` | **0** |
+| `/zh/search?q=投资与企业` (tiêu đề chính xác của một lĩnh vực đang hiển thị) | **0** |
+| `/zh/services?q=合同` (lọc chuỗi con, không qua hàm tính điểm) | 3 |
+
+Toàn bộ chức năng tìm kiếm của bản tiếng Trung — 12 lĩnh vực đã xuất bản — nằm
+chết. Đây là hồi quy do chính vòng sửa tìm kiếm hôm 10/09 gây ra, và lọt qua vì
+không bài kiểm thử nào chạm tới `/zh/search`.
+
+Đã tách theo khoảng trắng, dấu câu và ký hiệu; riêng chữ Hán dò theo chuỗi con
+vì tiếng Trung viết liền, "合同" là một phần nằm trong "施工合同" chứ không phải
+một âm tiết đứng riêng.
+
+### Các lỗi khác đã sửa
+
+- **Tìm kiếm bỏ mất trang Về chúng tôi, Liên hệ và Trang chủ.** Bộ trang hướng
+  dẫn được *gán đè* lên toàn bộ nhóm kết quả `pages` thay vì gộp vào, mà bộ đó
+  chỉ có 5 khóa. Tìm đúng tiêu đề trang Liên hệ cũng không ra trang Liên hệ.
+- **Khối gợi ý khi không có kết quả** tính theo tập chưa lọc nhưng hiển thị theo
+  tập đã lọc, nên khi bộ lọc loại hết kết quả thì lại không có gợi ý — đúng
+  trường hợp cần nó nhất.
+- **Danh sách ngôn ngữ viết cứng** `["vi","en","zh"]` còn sót ở trang chi tiết —
+  nơi duy nhất sinh hreflang cho toàn bộ 36 trang lĩnh vực.
+- **`inLanguage` khai `zh`** trong dữ liệu có cấu trúc trong khi `html lang` và
+  hreflang đều là `zh-Hans`; trang tự mâu thuẫn với chính nó.
+- **Chuyển hướng `/` là 307 (tạm thời)** thay vì 308. Đây là địa chỉ nhận mọi
+  liên kết từ bên ngoài; báo tạm thời khiến công cụ tìm kiếm không dồn tín hiệu
+  về bản tiếng Việt.
+- **Phạm vi hỗ trợ rỗng** vẫn dựng tiêu đề trên một danh sách trống, vì `scope`
+  luôn là mảng nên luôn "đúng" trong điều kiện kiểm tra.
+
+### Bảo mật
+
+- **Một nguồn gửi có thể chiếm hết hạn mức biểu mẫu và chặn mọi khách thật.**
+  Hai bộ đếm chạy song song nên bộ đếm chung vẫn tăng cả với yêu cầu đã bị hạn
+  mức cá nhân chặn: 120 yêu cầu mỗi phút từ một máy là khóa kênh tiếp nhận của
+  công ty. Đúng điều mà chú thích ngay bên trên nói là phải tránh. Nay kiểm tra
+  hạn mức cá nhân trước và chỉ chạm bộ đếm chung khi người gửi còn trong hạn mức.
+- **`PAYLOAD_SECRET` âm thầm rơi về một giá trị nằm công khai trong kho mã.**
+  Biến môi trường mất hay gõ sai thì ứng dụng vẫn khởi động bình thường với khóa
+  ai cũng biết — đủ để người ngoài tự ký một phiên quản trị và đọc toàn bộ yêu
+  cầu tư vấn của khách. Nay dừng hẳn lúc khởi động ở môi trường production.
+- **Căn cứ được phép công bố lộ qua REST API.** Quyền ở mức bộ sưu tập chỉ lọc
+  *bản ghi*, không lọc *trường*, nên bản ghi kinh nghiệm đã xuất bản mang theo
+  cả căn cứ nội bộ. Đã chặn ở mức trường; có kiểm thử tạo bản ghi thật, xác nhận
+  khách ẩn danh không đọc được còn biên tập viên vẫn đọc được, rồi xóa.
+
+### Nâng cấp Payload 3.88.0 → 3.89.0
+
+Bản này vá GHSA-jg8r-5jh2-v2xj — advisory duy nhất đứng sau cả 7 cảnh báo
+moderate. `npm audit` nay báo **0 vulnerabilities**. Không có nâng cấp major nào
+kèm theo; ngoài Payload chỉ có vài bản vá nhỏ của types, nodemailer và zod.
+
+Thêm `tests/multilingual-search.spec.ts`: tìm kiếm trên cả ba ngôn ngữ, trang
+nền phải tìm được, và bài kiểm tra rò rỉ trường nội bộ.
+
+Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua, build thành công,
+**126/126 kiểm thử đạt**, npm audit 0 lỗ hổng.

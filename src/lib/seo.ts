@@ -18,7 +18,9 @@ export const siteName = "Vũ Khang";
 export const ORGANIZATION_ID = `${siteUrl}/#organization`;
 export const WEBSITE_ID = `${siteUrl}/#website`;
 
-const OG_LOCALE: Record<Locale, string> = Object.fromEntries(Object.entries(languageInfo).map(([key,value])=>[key,value.openGraph])) as Record<Locale,string>;
+const OG_LOCALE: Record<Locale, string> = Object.fromEntries(
+  Object.entries(languageInfo).map(([key, value]) => [key, value.openGraph]),
+) as Record<Locale, string>;
 
 /**
  * Ảnh chia sẻ mặc định. Khai báo tường minh thay vì dựa vào tệp
@@ -57,7 +59,8 @@ export function prune<T extends Json>(value: T): T {
 export function languageAlternates(paths: Partial<Record<Locale, string>>) {
   const languages: Record<string, string> = {};
   for (const language of locales)
-    if (paths[language]) languages[languageInfo[language].tag] = paths[language];
+    if (paths[language])
+      languages[languageInfo[language].tag] = paths[language];
   const fallback = locales.map((l) => paths[l]).find(Boolean);
   if (fallback) languages["x-default"] = paths.vi ?? fallback;
   return languages;
@@ -208,7 +211,7 @@ export function websiteJsonLd(locale: Locale, name: string) {
     "@id": WEBSITE_ID,
     url: absolute(`/${locale}`),
     name,
-    inLanguage: locale,
+    inLanguage: languageInfo[locale].tag,
     publisher: { "@id": ORGANIZATION_ID },
     potentialAction: {
       "@type": "SearchAction",
@@ -271,7 +274,7 @@ export function personJsonLd(record: SeoRecord, locale: Locale, path: string) {
     knowsLanguage: record.languages || undefined,
     hasCredential: record.qualifications || undefined,
     worksFor: { "@id": ORGANIZATION_ID },
-    inLanguage: locale,
+    inLanguage: languageInfo[locale].tag,
   });
 }
 
@@ -297,7 +300,7 @@ export function articleJsonLd(record: SeoRecord, locale: Locale, path: string) {
     author,
     publisher: { "@id": ORGANIZATION_ID },
     mainEntityOfPage: { "@type": "WebPage", "@id": absolute(path) },
-    inLanguage: locale,
+    inLanguage: languageInfo[locale].tag,
     citation: record.sources?.length
       ? record.sources.map((source) =>
           prune({
@@ -320,7 +323,7 @@ export function serviceJsonLd(record: SeoRecord, locale: Locale, path: string) {
     serviceType: record.title,
     provider: { "@id": ORGANIZATION_ID },
     url: absolute(path),
-    inLanguage: locale,
+    inLanguage: languageInfo[locale].tag,
     hasOfferCatalog: record.scope?.length
       ? {
           "@type": "OfferCatalog",
