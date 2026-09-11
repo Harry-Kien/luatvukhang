@@ -110,18 +110,49 @@ Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biế
 > và một website chạy êm với khóa ai cũng biết nguy hiểm hơn nhiều so với một
 > website báo lỗi ngay.
 
-## Bước 4 — Cài, tạo lược đồ, dựng
+## Bước 4 — Cài đặt bằng một lệnh
 
-Bấm **Run NPM Install** trong giao diện, hoặc qua SSH:
+### Mở terminal ngay trong cPanel (không cần SSH)
+
+cPanel → mục **Advanced** → **Terminal**. Đây là cửa sổ dòng lệnh chạy thẳng
+trong trình duyệt, cùng quyền với tài khoản hosting — không cần cài PuTTY, không
+cần bật SSH, không cần khóa. Lần đầu mở sẽ có một cảnh báo, bấm đồng ý là vào.
+
+Không thấy mục Terminal nghĩa là nhà cung cấp tắt nó; xem cách đi vòng ở cuối
+bước này.
+
+### Nạp môi trường Node của ứng dụng
+
+Trong **Setup Node.js App**, ở dòng đầu màn hình ứng dụng có một lệnh dạng
+`source /home/.../activate`. Bấm vào biểu tượng chép, rồi dán vào Terminal và
+Enter. **Bắt buộc làm bước này trước** — nếu không, `node` trong Terminal là bản
+mặc định cũ của hệ thống chứ không phải bản Node 20+ của ứng dụng.
+
+Kiểm tra đã đúng chưa:
 
 ```bash
-cd ~/luatvukhang
-source /home/<tài-khoản>/nodevenv/luatvukhang/20/bin/activate   # đường dẫn cPanel in ra
-npm ci
-npm run payload -- migrate
-psql "$DATABASE_URL" -f scripts/init-rate-limit.sql
-npm run build
+node -v
 ```
+
+Phải in ra `v20.x` trở lên. Nếu ra `v14` hay `v16` thì lệnh activate chưa chạy.
+
+### Chạy cài đặt
+
+```bash
+cd ~/luatvukhang && node scripts/hosting-setup.mjs
+```
+
+Script làm toàn bộ theo đúng thứ tự: kiểm tra môi trường → `npm ci` → tạo lược
+đồ cơ sở dữ liệu → bảng hạn mức → dựng bản production → tài khoản quản trị → nạp
+nội dung nền. Gặp vấn đề ở bước nào nó dừng và nói rõ nguyên nhân.
+
+Chạy lại sau khi đã sửa lỗi: thêm `--skip-install` để khỏi cài lại phụ thuộc.
+
+### Nếu không có Terminal
+
+Dùng giao diện **Setup Node.js App**: bấm **Run NPM Install**, rồi ô **Run JS
+script** nhập `scripts/hosting-setup.mjs`. Chậm hơn và khó đọc lỗi hơn, nhưng
+làm được cùng việc.
 
 Giữ cả phụ thuộc phát triển — các script quản trị chạy bằng `tsx` nằm trong nhóm
 đó. **Đừng dùng `--omit=dev`.**
@@ -130,21 +161,34 @@ Bước `npm run build` là nặng nhất. Bị giết giữa chừng nghĩa là
 RAM; khi đó dựng ở máy cá nhân rồi tải nguyên thư mục `.next` lên — nhớ dựng với
 đúng các biến `NEXT_PUBLIC_*` của production, vì chúng được nhúng lúc dựng.
 
-## Bước 5 — Nội dung nền và tài khoản quản trị
+## Bước 5 — Số điện thoại và tài khoản quản trị
+
+Bước 4 đã tạo tài khoản quản trị và nạp trang nền, 12 lĩnh vực chuyên môn cùng
+bộ từ khóa tìm kiếm. Còn một việc chưa nằm trong script vì nó là dữ liệu thật của
+doanh nghiệp — chạy khi số điện thoại đã được xác nhận:
 
 ```bash
-node --env-file=.env --import tsx scripts/bootstrap.ts
-node --env-file=.env --import tsx scripts/prepare-pages.ts
-node --env-file=.env --import tsx scripts/prepare-practice-areas.ts
-node --env-file=.env --import tsx scripts/prepare-keywords.ts
-node --env-file=.env --import tsx scripts/prepare-page-content.ts
-node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
+node --import tsx scripts/set-contact.ts --phone "0832270898"
 ```
 
-Không chạy `scripts/prepare-people.ts` trên máy chủ thật — đó là hồ sơ minh họa.
+Số này đồng thời sinh ra nút gọi, nút Zalo và trường `telephone` trong dữ liệu có
+cấu trúc. Đổi số thì sửa ở đây hoặc trong `/admin` > Cài đặt, không sửa trong mã.
 
-Đọc mật khẩu quản trị ở `.local/admin-access.txt`, đăng nhập `/admin`, **đổi mật
-khẩu ngay**, rồi xóa tệp đó.
+Đọc mật khẩu quản trị:
+
+```bash
+cat .local/admin-access.txt
+```
+
+Đăng nhập `/admin`, **đổi mật khẩu ngay**, rồi xóa tệp đó:
+
+```bash
+rm .local/admin-access.txt
+```
+
+`scripts/prepare-people.ts` cố ý không nằm trong script cài đặt và **không chạy
+trên máy chủ thật** — đó là hồ sơ luật sư minh họa, chỉ dùng để xem trước bố cục
+ở máy phát triển.
 
 ## Bước 6 — Khởi động lại và kiểm chứng
 
@@ -169,11 +213,10 @@ Restart. Chỉ Restart là không đủ: biến này được đọc cả lúc d
 
 Đã clone bằng git thì lần sau chỉ cần kéo bản mới về:
 
+Mở **Terminal** trong cPanel, dán lệnh `source .../activate` như ở Bước 4, rồi:
+
 ```bash
-cd ~/luatvukhang
-source /home/<tài-khoản>/nodevenv/luatvukhang/20/bin/activate
-git pull
-node scripts/hosting-setup.mjs --skip-install
+cd ~/luatvukhang && git pull && node scripts/hosting-setup.mjs --skip-install
 ```
 
 Bỏ `--skip-install` nếu bản cập nhật có thay đổi phụ thuộc — xem phần
