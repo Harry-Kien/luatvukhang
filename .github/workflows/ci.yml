@@ -20,18 +20,6 @@ jobs:
     timeout-minutes: 25
 
     env:
-          POSTGRES_USER: law
-          POSTGRES_PASSWORD: law-ci-password
-          POSTGRES_DB: law
-        ports:
-          - 5434:5432
-        options: >-
-          --health-cmd "pg_isready -U law"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 20
-
-    env:
       # SQLite là một tệp trên đĩa: CI không cần dựng dịch vụ cơ sở dữ liệu nào.
       DATABASE_URL: file:./.local/law.db
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
