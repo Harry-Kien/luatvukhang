@@ -294,6 +294,7 @@ const translations: Record<string, string> = {
   "opens in a new tab": "在新标签页中打开",
   "Illustrative content shown to preview the layout — not the firm's official information":
     "示例内容，仅用于预览版面，并非本所正式发布的信息",
+  "Or choose the area closest to your matter": "或选择与您的问题最接近的领域",
   "Illustrative profiles shown to preview the layout — these are not the firm's people. Edit or replace them with verified profiles in the CMS.":
     "以下为用于预览版面的示例档案，并非本所人员。请在 CMS 中修改，或替换为已核实的律师档案。",
 };

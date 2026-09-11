@@ -89,3 +89,23 @@ test("search keywords never reach the page, the meta tags or the feeds", async (
     expect(body, `Từ khóa lọt vào ${path}`).not.toContain(secret);
   }
 });
+
+test("a search with no results still offers a way forward", async ({
+  page,
+}) => {
+  await page.goto("/vi/search?q=" + encodeURIComponent("zxqwvkhongtontai"));
+  await expect(page.getByRole("status")).toContainText("0 kết quả");
+
+  // Không có kết quả từng là ngõ cụt: chỉ một câu nhắn rồi hết. Khách gõ sai từ
+  // vẫn phải có đường đi tiếp tới lĩnh vực họ cần.
+  const suggestions = page.locator(".search-suggestions a");
+  const count = await suggestions.count();
+  test.skip(count === 0, "Chưa có lĩnh vực chuyên môn nào để gợi ý.");
+  expect(count).toBeGreaterThan(0);
+
+  const first = suggestions.first();
+  const href = await first.getAttribute("href");
+  expect(href).toMatch(/^\/vi\/services\//);
+  const response = await page.goto(href!);
+  expect(response?.status(), "Gợi ý phải dẫn tới trang có thật").toBe(200);
+});

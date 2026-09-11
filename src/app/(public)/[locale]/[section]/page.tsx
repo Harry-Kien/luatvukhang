@@ -276,6 +276,15 @@ export default async function Page({ params, searchParams }: Props) {
     const selected = kind
       ? results.filter((r) => r.collection === kind)
       : results;
+    /**
+     * Không có kết quả là lúc khách dễ rời đi nhất. Đưa sẵn danh sách lĩnh vực
+     * để còn đường đi tiếp, thay vì để họ đứng trước một câu nhắn cụt.
+     */
+    const suggestions =
+      q && !results.length
+        ? (groups.find((group) => group.collection === "services")?.records ??
+          [])
+        : [];
     const totalPages = Math.max(1, Math.ceil(selected.length / 10));
     const currentPage = Math.min(
       totalPages,
@@ -380,13 +389,36 @@ export default async function Page({ params, searchParams }: Props) {
             </nav>
           )}
           {q && !selected.length && (
-            <p>
-              {t(
-                locale,
-                "Thử từ khóa ngắn hơn hoặc một lĩnh vực liên quan.",
-                "Try a shorter phrase or a related topic.",
+            <div className="search-empty">
+              <p>
+                {t(
+                  locale,
+                  "Thử từ khóa ngắn hơn hoặc một lĩnh vực liên quan.",
+                  "Try a shorter phrase or a related topic.",
+                )}
+              </p>
+              {suggestions.length > 0 && (
+                <>
+                  <h2>
+                    {t(
+                      locale,
+                      "Hoặc chọn lĩnh vực gần với vấn đề của bạn",
+                      "Or choose the area closest to your matter",
+                    )}
+                  </h2>
+                  <div className="search-suggestions">
+                    {suggestions.map((record) => (
+                      <Link
+                        key={record.slug}
+                        href={`/${locale}/services/${record.slug}`}
+                      >
+                        {record.title}
+                      </Link>
+                    ))}
+                  </div>
+                </>
               )}
-            </p>
+            </div>
           )}
         </section>
       </>

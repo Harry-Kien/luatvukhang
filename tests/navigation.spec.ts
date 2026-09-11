@@ -78,3 +78,21 @@ test("the expertise menu matches the practice areas listing page", async ({
       expect(inMenu, `Menu thiếu ${href}`).toContain(href);
   else expect([...inMenu].sort()).toEqual([...unique].sort());
 });
+
+test("the homepage numbers its practice areas without a stray zero", async ({
+  page,
+}) => {
+  await page.goto("/vi");
+  const numbers = await page
+    .locator(".practice-list .practice-item .number")
+    .allTextContents();
+  test.skip(numbers.length === 0, "Trang chủ chưa liệt kê lĩnh vực nào.");
+  // Cùng lỗi viết cứng tiền tố "0" đã từng có ở danh mục chuyên môn: với mười
+  // hai lĩnh vực, mục thứ mười hiện thành "010".
+  const width = Math.max(2, String(numbers.length).length);
+  expect(numbers).toEqual(
+    Array.from({ length: numbers.length }, (_, i) =>
+      String(i + 1).padStart(width, "0"),
+    ),
+  );
+});

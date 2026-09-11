@@ -93,6 +93,15 @@ export const samples = [
     ],
   },
 ];
+/**
+ * Số thứ tự hiển thị trong danh sách. Giữ tối thiểu hai chữ số theo kiểu đánh
+ * số của thiết kế, và nới thêm khi danh sách dài hơn 99 mục.
+ *
+ * Viết cứng tiền tố "0" như trước đây thì mục thứ mười trở đi hiện thành "010".
+ * Lỗi này từng có ở hai nơi khác nhau, nên hàm đặt chung ở đây thay vì chép lại.
+ */
+export const ordinal = (index: number, total: number) =>
+  String(index + 1).padStart(Math.max(2, String(total).length), "0");
 export function fold(value: string) {
   return value
     .normalize("NFD")

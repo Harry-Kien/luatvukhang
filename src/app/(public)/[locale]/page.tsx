@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BannerPhoto } from "@/components/banner-photo";
 import Image from "next/image";
 import { ArrowUpRight, ArrowRight, ArrowDown, MoveUpRight } from "lucide-react";
-import { t, type Locale, demo, samples } from "@/lib/content";
+import { t, type Locale, demo, ordinal, samples } from "@/lib/content";
 import { getPreviewRecord } from "@/lib/preview";
 import { PreviewRefresh } from "@/components/preview-refresh";
 import { ContentBody } from "@/components/content";
@@ -53,7 +53,7 @@ export default async function Home({
       ? samples.map((s) => ({
           slug: s.slug,
           title: t(locale, s.vi, s.en),
-          summary: t(locale,s.description[0],s.description[1]),
+          summary: t(locale, s.description[0], s.description[1]),
         }))
       : [];
   return (
@@ -240,7 +240,7 @@ export default async function Home({
                 href={"/" + locale + "/services/" + s.slug}
                 key={s.slug}
               >
-                <span className="number">0{i + 1}</span>
+                <span className="number">{ordinal(i, services.length)}</span>
                 <div>
                   <h3>{s.title}</h3>
                   <p>{s.summary}</p>

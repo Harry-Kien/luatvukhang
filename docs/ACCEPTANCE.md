@@ -366,3 +366,25 @@ kiểm thử vẫn chạy được trên cơ sở dữ liệu trống của CI.
 
 Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua, production build thành
 công, **114/114 kiểm thử đạt**.
+
+## Sửa lỗi đánh số ở trang chủ và ngõ cụt khi tìm không ra — 11/09/2026
+
+**Lỗi đánh số còn sót ở trang chủ.** Vòng trước đã sửa danh mục chuyên môn
+nhưng bỏ sót danh sách lĩnh vực trên trang chủ: cùng một cách viết cứng tiền tố
+`0`, nên với 12 lĩnh vực nó hiện "010", "011", "012". Đã kiểm chứng bằng phản
+hồi thật của website trước và sau khi sửa.
+
+Nguyên nhân sót là hàm đếm số được viết riêng trong `shell.tsx`. Đã chuyển thành
+`ordinal` dùng chung trong `src/lib/content.ts` để không còn hai bản sao lệch
+nhau, và thêm kiểm thử cho cả hai nơi.
+
+**Tìm không ra kết quả không còn là ngõ cụt.** Trước đây trang chỉ hiện một câu
+"Thử từ khóa ngắn hơn" rồi hết — khách gõ sai từ là hết đường, trong khi lĩnh
+vực họ cần vẫn đang có trên website. Nay bên dưới câu đó là danh sách toàn bộ
+lĩnh vực đã xuất bản, bấm được thẳng sang trang chi tiết.
+
+Đã rà lại trang 404: vốn đã có liên kết các mục chính và ô tìm kiếm, không cần
+sửa.
+
+Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua (234 chuỗi), production
+build thành công, **118/118 kiểm thử đạt**.

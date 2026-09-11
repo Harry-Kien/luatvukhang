@@ -2030,3 +2030,36 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
     display: none;
   }
 }
+
+/* --- Tìm kiếm không có kết quả -------------------------------------------- */
+/* Trước đây chỗ này chỉ có một câu nhắn rồi hết. Khách gõ sai từ là gặp ngõ
+   cụt, trong khi lĩnh vực họ cần vẫn đang có trên website. */
+.search-empty {
+  margin-top: 26px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+.search-empty h2 {
+  margin: 26px 0 16px;
+  font-size: clamp(19px, 1.7vw, 23px);
+}
+.search-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.search-suggestions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 500;
+}
+.search-suggestions a:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
