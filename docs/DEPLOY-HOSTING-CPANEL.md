@@ -78,6 +78,17 @@ hosting), `.env` (tạo riêng, xem bước 3), `.local/`, `media/` của máy c
 
 ## Bước 2 — Tạo ứng dụng Node.js trong cPanel
 
+> **Tải mã nguồn về TRƯỚC khi tạo ứng dụng.** cPanel tự tạo `app.js` và
+> `package.json` mẫu trong thư mục ứng dụng nếu nó đang trống, và `git clone`
+> sẽ từ chối ghi vào một thư mục không trống. Làm Bước 1 xong rồi mới làm bước
+> này thì không vướng.
+>
+> **Kiểm tra ô Node.js version trước tiên.** Bấm vào ô đó xem có bản **20 trở
+> lên** không. Next.js khai `engines: node >= 20.9.0` và Payload khai
+> `>= 20.9.0` — đây là yêu cầu của chính thư viện, không phải khuyến nghị. Bản
+> cao nhất mà dưới 20.9 thì gói hosting này **không chạy được website**, và mọi
+> bước sau đều vô ích.
+
 cPanel → **Setup Node.js App** → Create Application:
 
 | Ô | Giá trị |
