@@ -98,6 +98,73 @@ else {
 }
 
 // --- Lược đồ cơ sở dữ liệu ---------------------------------------------------
+say("Kiểm tra kết nối tới PostgreSQL");
+/**
+ * Thử kết nối trước khi gọi migrate. Payload thất bại ở đây sẽ đổ ra hàng chục
+ * dòng stack trace mà dòng quan trọng nhất — ECONNREFUSED — nằm lẫn ở giữa và
+ * không nói cho người đọc biết phải làm gì.
+ */
+{
+  const { default: pgMod } = await import("pg");
+  const probe = new pgMod.Client({
+    connectionString: process.env.DATABASE_URL,
+    connectionTimeoutMillis: 10_000,
+  });
+  const target = (() => {
+    try {
+      const parsed = new URL(process.env.DATABASE_URL);
+      return `${parsed.hostname}:${parsed.port || 5432}${parsed.pathname}`;
+    } catch {
+      return "(DATABASE_URL sai định dạng)";
+    }
+  })();
+  try {
+    await probe.connect();
+    await probe.end();
+    console.log(`    Kết nối được tới ${target}`);
+  } catch (error) {
+    const hints = {
+      ECONNREFUSED: [
+        `Không có gì đang lắng nghe ở ${target}.`,
+        "",
+        "    Nghĩa là PostgreSQL không chạy ở địa chỉ đó. Ba khả năng:",
+        "      1. Gói hosting không có PostgreSQL — chỉ có MySQL. Kiểm tra trong",
+        "         cPanel xem có mục 'PostgreSQL Databases' không.",
+        "      2. Có PostgreSQL nhưng nằm ở máy chủ khác, không phải 127.0.0.1.",
+        "         Hỏi nhà cung cấp địa chỉ và cổng thật.",
+        "      3. Dùng PostgreSQL bên ngoài (Neon, Supabase) — sửa DATABASE_URL",
+        "         trỏ sang đó.",
+        "",
+        "    MySQL KHÔNG thay thế được: toàn bộ dữ liệu chạy trên PostgreSQL.",
+      ],
+      ENOTFOUND: [
+        `Không phân giải được tên máy chủ trong ${target}.`,
+        "    Kiểm tra lại phần sau dấu @ trong DATABASE_URL.",
+      ],
+      ETIMEDOUT: [
+        `Kết nối tới ${target} hết giờ.`,
+        "    Thường do tường lửa chặn kết nối ra ngoài cổng 5432.",
+        "    Hỏi nhà cung cấp xem hosting có cho kết nối ra ngoài không.",
+      ],
+      "28P01": [
+        "Sai tên đăng nhập hoặc mật khẩu cơ sở dữ liệu.",
+        "    cPanel tự thêm tiền tố tài khoản vào tên user và tên database —",
+        "    dùng đúng tên đầy đủ cPanel hiển thị, không phải tên bạn gõ.",
+      ],
+      "3D000": [
+        "Cơ sở dữ liệu không tồn tại.",
+        "    Tạo trong cPanel > PostgreSQL Databases, rồi gán user với quyền",
+        "    ALL PRIVILEGES.",
+      ],
+    };
+    fail(
+      (hints[error.code] || [`Không kết nối được: ${error.message}`]).join(
+        String.fromCharCode(10),
+      ),
+    );
+  }
+}
+
 say("Tạo lược đồ cơ sở dữ liệu");
 /**
  * Đặt hạn giờ. Trên cơ sở dữ liệu mới tinh lệnh này chạy thẳng, nhưng nếu cơ sở
