@@ -10,7 +10,7 @@ Gửi đúng ba câu này cho bộ phận kỹ thuật của nhà cung cấp. **
 
 | # | Câu hỏi | Vì sao quyết định |
 | --- | --- | --- |
-| 1 | **Gói hosting có PostgreSQL không?** (không phải MySQL) | Toàn bộ dữ liệu chạy trên PostgreSQL. MySQL không thay thế được nếu không viết lại tầng dữ liệu và toàn bộ migration. |
+| 1 | ~~Gói hosting có PostgreSQL không?~~ **Không còn cần** | Hệ thống đã chuyển sang SQLite — cơ sở dữ liệu là một tệp trong thư mục ứng dụng. Không cần PostgreSQL, không cần MySQL, không cần máy chủ cơ sở dữ liệu nào. |
 | 2 | Mục **Setup Node.js App** có **Node.js 20 trở lên** không? | Dự án kiểm thử trên Node 24. Node 18 trở xuống không chạy. |
 | 3 | Tiến trình Node.js được cấp **bao nhiêu RAM**? | `npm run build` cần khoảng 1–2 GB. Dưới mức đó bước dựng sẽ bị hệ thống giết giữa chừng. |
 
@@ -109,7 +109,7 @@ Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biế
 | Biến | Giá trị |
 | --- | --- |
 | `NODE_ENV` | `production` |
-| `DATABASE_URL` | `postgresql://người-dùng:mật-khẩu@máy-chủ:5432/tên-db` |
+| `DATABASE_URL` | `file:./.local/law.db` |
 | `PAYLOAD_SECRET` | 64 ký tự ngẫu nhiên — sinh bằng `openssl rand -hex 32` |
 | `NEXT_PUBLIC_SITE_URL` | `https://luatvukhang.com` |
 | `NEXT_PUBLIC_DEMO_MODE` | `false` |

@@ -1,27 +1,9 @@
-import * as migration_20260908_102543_initial from './20260908_102543_initial';
-import * as migration_20260908_151554_content_completion from './20260908_151554_content_completion';
-import * as migration_20260910_010919_chinese_locale from './20260910_010919_chinese_locale';
-import * as migration_20260910_151830_keywords_field from './20260910_151830_keywords_field';
+import * as migration_20260911_142959_initial_sqlite from './20260911_142959_initial_sqlite';
 
 export const migrations = [
   {
-    up: migration_20260908_102543_initial.up,
-    down: migration_20260908_102543_initial.down,
-    name: '20260908_102543_initial',
-  },
-  {
-    up: migration_20260908_151554_content_completion.up,
-    down: migration_20260908_151554_content_completion.down,
-    name: '20260908_151554_content_completion',
-  },
-  {
-    up: migration_20260910_010919_chinese_locale.up,
-    down: migration_20260910_010919_chinese_locale.down,
-    name: '20260910_010919_chinese_locale',
-  },
-  {
-    up: migration_20260910_151830_keywords_field.up,
-    down: migration_20260910_151830_keywords_field.down,
-    name: '20260910_151830_keywords_field'
+    up: migration_20260911_142959_initial_sqlite.up,
+    down: migration_20260911_142959_initial_sqlite.down,
+    name: '20260911_142959_initial_sqlite'
   },
 ];

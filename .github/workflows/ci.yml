@@ -19,10 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
-    services:
-      postgres:
-        image: postgres:18-alpine
-        env:
+    env:
           POSTGRES_USER: law
           POSTGRES_PASSWORD: law-ci-password
           POSTGRES_DB: law
@@ -35,7 +32,8 @@ jobs:
           --health-retries 20
 
     env:
-      DATABASE_URL: postgresql://law:law-ci-password@localhost:5434/law
+      # SQLite là một tệp trên đĩa: CI không cần dựng dịch vụ cơ sở dữ liệu nào.
+      DATABASE_URL: file:./.local/law.db
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
       # Bản CI chạy ở chế độ minh họa và chưa duyệt ra mắt, giống bản phát
       # triển: kiểm thử đối chiếu đúng trạng thái mà website đang ở.
@@ -65,7 +63,7 @@ jobs:
       - name: Tạo lược đồ cơ sở dữ liệu
         run: |
           npm run payload -- migrate
-          psql "$DATABASE_URL" -f scripts/init-rate-limit.sql
+          node -e "import('@libsql/client').then(async m=>{const fs=await import('node:fs');const c=m.createClient({url:process.env.DATABASE_URL});await c.execute(fs.readFileSync('scripts/init-rate-limit.sql','utf8'))})"
 
       - name: Dựng bản production
         run: npm run build

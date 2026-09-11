@@ -20,7 +20,8 @@
  * từng bước.
  */
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import path, { join } from "node:path";
 
 try {
   process.loadEnvFile();
@@ -29,7 +30,7 @@ try {
 }
 
 const REQUIRED_ENV = [
-  ["DATABASE_URL", "chuỗi kết nối PostgreSQL"],
+  ["DATABASE_URL", "đường dẫn tệp SQLite, ví dụ file:./.local/law.db"],
   ["PAYLOAD_SECRET", "64 ký tự ngẫu nhiên"],
   ["NEXT_PUBLIC_SITE_URL", "https://tên-miền-của-bạn"],
 ];
@@ -82,9 +83,11 @@ if ((process.env.PAYLOAD_SECRET || "").length < 32)
     "PAYLOAD_SECRET ngắn hơn 32 ký tự. Sinh chuỗi mới bằng: openssl rand -hex 32",
   );
 
-if (!/^postgresql:\/\//.test(process.env.DATABASE_URL || ""))
+if (!/^file:/.test(process.env.DATABASE_URL || ""))
   fail(
-    "DATABASE_URL phải bắt đầu bằng postgresql:// — hệ thống chạy PostgreSQL, không phải MySQL.",
+    "DATABASE_URL phải bắt đầu bằng file: — hệ thống chạy SQLite." +
+      String.fromCharCode(10) +
+      "    Ví dụ: file:./.local/law.db",
   );
 console.log("    Biến môi trường — đủ");
 
@@ -98,69 +101,26 @@ else {
 }
 
 // --- Lược đồ cơ sở dữ liệu ---------------------------------------------------
-say("Kiểm tra kết nối tới PostgreSQL");
+say("Kiểm tra ghi được tệp cơ sở dữ liệu");
 /**
- * Thử kết nối trước khi gọi migrate. Payload thất bại ở đây sẽ đổ ra hàng chục
- * dòng stack trace mà dòng quan trọng nhất — ECONNREFUSED — nằm lẫn ở giữa và
- * không nói cho người đọc biết phải làm gì.
+ * SQLite là một tệp trên đĩa: lỗi hay gặp không phải "không kết nối được" mà là
+ * "không có quyền ghi vào thư mục". Kiểm tra trước để báo đúng việc cần làm.
  */
 {
-  const { default: pgMod } = await import("pg");
-  const probe = new pgMod.Client({
-    connectionString: process.env.DATABASE_URL,
-    connectionTimeoutMillis: 10_000,
-  });
-  const target = (() => {
-    try {
-      const parsed = new URL(process.env.DATABASE_URL);
-      return `${parsed.hostname}:${parsed.port || 5432}${parsed.pathname}`;
-    } catch {
-      return "(DATABASE_URL sai định dạng)";
-    }
-  })();
+  const target = process.env.DATABASE_URL.replace(/^file:/, "");
+  const folder = path.dirname(target);
   try {
-    await probe.connect();
-    await probe.end();
-    console.log(`    Kết nối được tới ${target}`);
+    mkdirSync(folder, { recursive: true });
+    const probe = join(folder, ".write-probe");
+    writeFileSync(probe, "x");
+    unlinkSync(probe);
+    console.log(`    Ghi được vào ${folder}`);
   } catch (error) {
-    const hints = {
-      ECONNREFUSED: [
-        `Không có gì đang lắng nghe ở ${target}.`,
-        "",
-        "    Nghĩa là PostgreSQL không chạy ở địa chỉ đó. Ba khả năng:",
-        "      1. Gói hosting không có PostgreSQL — chỉ có MySQL. Kiểm tra trong",
-        "         cPanel xem có mục 'PostgreSQL Databases' không.",
-        "      2. Có PostgreSQL nhưng nằm ở máy chủ khác, không phải 127.0.0.1.",
-        "         Hỏi nhà cung cấp địa chỉ và cổng thật.",
-        "      3. Dùng PostgreSQL bên ngoài (Neon, Supabase) — sửa DATABASE_URL",
-        "         trỏ sang đó.",
-        "",
-        "    MySQL KHÔNG thay thế được: toàn bộ dữ liệu chạy trên PostgreSQL.",
-      ],
-      ENOTFOUND: [
-        `Không phân giải được tên máy chủ trong ${target}.`,
-        "    Kiểm tra lại phần sau dấu @ trong DATABASE_URL.",
-      ],
-      ETIMEDOUT: [
-        `Kết nối tới ${target} hết giờ.`,
-        "    Thường do tường lửa chặn kết nối ra ngoài cổng 5432.",
-        "    Hỏi nhà cung cấp xem hosting có cho kết nối ra ngoài không.",
-      ],
-      "28P01": [
-        "Sai tên đăng nhập hoặc mật khẩu cơ sở dữ liệu.",
-        "    cPanel tự thêm tiền tố tài khoản vào tên user và tên database —",
-        "    dùng đúng tên đầy đủ cPanel hiển thị, không phải tên bạn gõ.",
-      ],
-      "3D000": [
-        "Cơ sở dữ liệu không tồn tại.",
-        "    Tạo trong cPanel > PostgreSQL Databases, rồi gán user với quyền",
-        "    ALL PRIVILEGES.",
-      ],
-    };
     fail(
-      (hints[error.code] || [`Không kết nối được: ${error.message}`]).join(
-        String.fromCharCode(10),
-      ),
+      `Không ghi được vào thư mục ${folder} (${error.code || error.message}).
+    Cơ sở dữ liệu SQLite là một tệp, nên thư mục chứa nó phải ghi được.
+    Kiểm tra quyền thư mục, hoặc đổi DATABASE_URL sang chỗ khác trong
+    thư mục ứng dụng.`,
     );
   }
 }
@@ -197,14 +157,10 @@ try {
 say("Tạo bảng hạn mức gửi biểu mẫu");
 // Dùng pg thay vì psql: hosting dùng chung thường không cài công cụ dòng lệnh
 // của PostgreSQL, còn pg thì đã là phụ thuộc của chính ứng dụng.
-const { default: pg } = await import("pg");
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-try {
-  await pool.query(readFileSync("scripts/init-rate-limit.sql", "utf8"));
-  console.log("    Xong");
-} finally {
-  await pool.end();
-}
+const { createClient } = await import("@libsql/client");
+const db = createClient({ url: process.env.DATABASE_URL });
+await db.execute(readFileSync("scripts/init-rate-limit.sql", "utf8"));
+console.log("    Xong");
 
 // --- Dựng bản production -----------------------------------------------------
 say("Dựng bản production (npm run build) — cần khoảng 1–2 GB RAM");

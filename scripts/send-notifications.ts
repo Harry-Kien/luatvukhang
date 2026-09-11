@@ -1,3 +1,4 @@
+import { query } from "../src/lib/operations-db";
 /**
  * Gửi thông báo yêu cầu tư vấn từ hàng đợi outbox.
  *
@@ -52,13 +53,36 @@ if (checkOnly) {
     await payload.destroy();
   }
 } else {
-  // Khóa advisory của PostgreSQL bảo đảm chỉ một tiến trình nhận việc.
-  const client = await payload.db.pool.connect();
+  /**
+   * Chỉ một tiến trình được nhận việc gửi.
+   *
+   * SQLite không có khóa advisory như PostgreSQL, nên dùng một hàng trong bảng
+   * làm khóa: khóa chính khiến lần chèn thứ hai thất bại, và đó chính là cơ chế
+   * loại trừ. Khóa cũ hơn STALE_LOCK_MINUTES được coi là của một tiến trình đã
+   * chết và bị thu hồi — nếu không, một lần bị giết giữa chừng sẽ chặn việc gửi
+   * thư vĩnh viễn.
+   */
+  const LOCK = "notifications";
+  const STALE_LOCK_MINUTES = 15;
+  await query(
+    "CREATE TABLE IF NOT EXISTS operations_worker_lock (name TEXT PRIMARY KEY, acquired_at TEXT NOT NULL)",
+  );
+  await query(
+    "DELETE FROM operations_worker_lock WHERE name = ? AND acquired_at < ?",
+    [LOCK, new Date(Date.now() - STALE_LOCK_MINUTES * 60 * 1000).toISOString()],
+  );
+  let locked = false;
   try {
-    const lock = await client.query(
-      "SELECT pg_try_advisory_lock(981710) AS locked",
+    await query(
+      "INSERT INTO operations_worker_lock (name, acquired_at) VALUES (?, ?)",
+      [LOCK, new Date().toISOString()],
     );
-    if (!lock.rows[0].locked) process.exitCode = 0;
+    locked = true;
+  } catch {
+    // Hàng đã tồn tại: một tiến trình khác đang gửi.
+  }
+  try {
+    if (!locked) process.exitCode = 0;
     else {
       const retryAfter = new Date(
         Date.now() - RETRY_WINDOW_HOURS * 60 * 60 * 1000,
@@ -131,9 +155,12 @@ if (checkOnly) {
     }
   } finally {
     try {
-      await client.query("SELECT pg_advisory_unlock(981710)");
+      if (locked)
+        await query("DELETE FROM operations_worker_lock WHERE name = ?", [
+          LOCK,
+        ]);
     } finally {
-      client.release();
+      // Không còn kết nối riêng phải trả lại: SQLite dùng chung một kết nối.
       await payload.destroy();
     }
   }

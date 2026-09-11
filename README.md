@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Harry-Kien/luatvukhang/actions/workflows/ci.yml/badge.svg)](https://github.com/Harry-Kien/luatvukhang/actions/workflows/ci.yml)
 
-Website Next.js / Payload / PostgreSQL, giao diện Việt–Anh navy–đỏ.
+Website Next.js / Payload / SQLite, giao diện Việt–Anh navy–đỏ.
 
 **Trạng thái:** bản triển khai phát triển đã chạy và kiểm thử cục bộ; chưa nghiệm thu ra mắt. Không công bố hồ sơ, giải thưởng, khách hàng hay số liệu giả.
 
@@ -18,7 +18,7 @@ Website Next.js / Payload / PostgreSQL, giao diện Việt–Anh navy–đỏ.
 Node.js 24 đã được dùng để kiểm thử. Cài phụ thuộc bằng `npm ci`.
 
 1. Sao chép `.env.example` thành `.env`, tạo PAYLOAD_SECRET ngẫu nhiên ít nhất 32 ký tự.
-2. Chọn PostgreSQL thật theo hướng dẫn triển khai, hoặc cho phát triển Windows: `node scripts/local-db.mjs`. Giữ tiến trình chạy. Bộ chạy PostgreSQL nhúng là phụ thuộc **chỉ cho phát triển**, wrapper hiện mang nhãn beta; không dùng trong production.
+2. Cơ sở dữ liệu là SQLite — một tệp ở `.local/law.db`, không cần cài hay chạy máy chủ nào. Tạo lược đồ bằng `npm run payload -- migrate`.
 3. `node --env-file=.env --import tsx scripts/bootstrap.ts` tạo tài khoản quản trị cục bộ khi chưa có người dùng. Không ghi đè người dùng hiện có.
 4. `npm run dev -- --hostname 127.0.0.1`.
 5. `npm run typecheck`, `npm test`, `npm run build`.

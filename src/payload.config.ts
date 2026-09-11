@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildConfig, type CollectionConfig, type Field } from "payload";
-import { postgresAdapter } from "@payloadcms/db-postgres";
+import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vi } from "@payloadcms/translations/languages/vi";
 import { en } from "@payloadcms/translations/languages/en";
@@ -609,15 +609,28 @@ export default buildConfig({
     },
   ],
   editor: lexicalEditor(),
-  db: postgresAdapter({
-    pool: {
-      connectionTimeoutMillis: 5000,
-      idleTimeoutMillis: 30000,
-      max: 10,
-      connectionString:
-        process.env.DATABASE_URL || "postgresql://localhost:5434/law",
-    },
-    push: process.env.NODE_ENV !== "production",
+  db: sqliteAdapter({
+    client: { url: process.env.DATABASE_URL || "file:./.local/law.db" },
+    /**
+     * Tắt hẳn, kể cả khi phát triển.
+     *
+     * PostgreSQL đặt bảng đếm hạn mức trong schema riêng nên cơ chế đồng bộ
+     * lược đồ không thấy nó. SQLite không có schema: mỗi lần chạy một script
+     * quản trị, cơ chế này lại đòi XÓA bảng đó và dừng chờ gõ phím — trên máy
+     * chủ không có bàn phím thì treo vĩnh viễn.
+     *
+     * Dự án vốn đã dùng migration cho mọi thay đổi lược đồ, nên tắt ở đây không
+     * mất gì: đổi mô hình dữ liệu thì chạy `payload migrate:create`.
+     */
+    push: false,
+    /**
+     * Bắt buộc phải khai, dù để rỗng: adapter SQLite chỉ bật giao dịch khi có
+     * `transactionOptions`, còn không thì `beginTransaction` trả về null. Biểu
+     * mẫu tư vấn lưu yêu cầu của khách và hàng đợi thông báo trong cùng một
+     * giao dịch để hai thứ không bao giờ lệch nhau — thiếu dòng này thì mọi yêu
+     * cầu gửi lên đều thất bại với lỗi 503.
+     */
+    transactionOptions: {},
   }),
   sharp,
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },

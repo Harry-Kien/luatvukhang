@@ -5,7 +5,7 @@ import {
 } from "@/lib/request-guards";
 import { NextResponse } from "next/server";
 import { createHmac, randomBytes } from "node:crypto";
-import { operationsPool as pool } from "@/lib/operations-db";
+import { query } from "@/lib/operations-db";
 import { consultationSchema } from "@/lib/consultation";
 import { getCMS } from "@/lib/cms";
 
@@ -13,11 +13,13 @@ const json = (body: unknown, status = 200) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 /** Tăng bộ đếm của một khóa và cho biết đã vượt hạn mức hay chưa. */
 async function count(bucket: string, limit: number) {
-  const result = await pool.query(
-    "INSERT INTO operations.consultation_rate_limits (bucket, count) VALUES ($1, 1) ON CONFLICT (bucket) DO UPDATE SET count = consultation_rate_limits.count + 1 RETURNING count",
+  const result = await query(
+    "INSERT INTO operations_consultation_rate_limits (bucket, count) VALUES (?, 1) " +
+      "ON CONFLICT (bucket) DO UPDATE SET count = operations_consultation_rate_limits.count + 1 " +
+      "RETURNING count",
     [bucket],
   );
-  return result.rows[0].count > limit;
+  return Number(result.rows[0].count) > limit;
 }
 /**
  * Các nguồn gửi được chấp nhận.
@@ -128,12 +130,15 @@ export async function POST(request: Request) {
       );
     // Dọn bộ đếm cũ theo xác suất, tránh bảng phình vô hạn mà không cần cron.
     if (Math.random() < 0.02)
-      await pool
-        .query(
-          "DELETE FROM operations.consultation_rate_limits WHERE split_part(bucket, ':', 1) ~ '^[0-9]+$' AND split_part(bucket, ':', 1)::bigint < $1",
-          [minute - 60],
-        )
-        .catch(() => undefined);
+      await query(
+        // SQLite không có split_part; cắt phần trước dấu hai chấm bằng instr.
+        // Điều kiện instr > 1 loại những khóa không đúng định dạng, tránh việc
+        // chuỗi rỗng bị ép thành 0 rồi xóa nhầm.
+        "DELETE FROM operations_consultation_rate_limits " +
+          "WHERE instr(bucket, ':') > 1 " +
+          "AND CAST(substr(bucket, 1, instr(bucket, ':') - 1) AS INTEGER) < ?",
+        [minute - 60],
+      ).catch(() => undefined);
     const transactionID = await cms.db.beginTransaction();
     if (!transactionID) throw new Error("Transaction unavailable");
     try {
@@ -176,7 +181,13 @@ export async function POST(request: Request) {
         });
       throw error;
     }
-  } catch {
+  } catch (error) {
+    // Ghi lại nguyên nhân: khách chỉ cần biết "thử lại", nhưng người vận hành
+    // cần biết vì sao, và một lỗi 503 câm là thứ không thể chẩn đoán.
+    console.error(
+      "Khong luu duoc yeu cau tu van:",
+      error instanceof Error ? error.message : error,
+    );
     return json(
       {
         error:

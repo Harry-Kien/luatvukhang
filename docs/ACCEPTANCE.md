@@ -572,3 +572,56 @@ chính sách tiếng Trung có 8 khối nội dung.
 Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua, build thành công,
 **126/126 kiểm thử đạt** — chạy trên chính tiến trình `server.js` mà hosting sẽ
 dùng.
+
+## Chuyển từ PostgreSQL sang SQLite — 11/09/2026
+
+Gói hosting của công ty không có PostgreSQL, chỉ có MySQL qua phpMyAdmin. Payload
+CMS **không có adapter MySQL** — chỉ có PostgreSQL, MongoDB và SQLite. Nên lựa
+chọn duy nhất chạy được trên đúng gói hosting đã mua là SQLite: cơ sở dữ liệu là
+một tệp trong thư mục ứng dụng, không cần máy chủ nào.
+
+Đã kiểm chứng trước khi làm: `libsql` có sẵn bản biên dịch cho `linux-x64`, nên
+cài được trên hosting dùng chung mà không cần trình biên dịch.
+
+### Bốn lỗi phát hiện khi chạy thật, đều đã sửa
+
+1. **Biểu mẫu tư vấn hỏng hoàn toàn, trả 503 cho mọi yêu cầu.** Adapter SQLite
+   chỉ bật giao dịch khi được khai `transactionOptions`; thiếu nó thì
+   `beginTransaction` trả về null. Yêu cầu của khách và hàng đợi thông báo được
+   lưu trong cùng một giao dịch để không lệch nhau, nên không có giao dịch là
+   không lưu được gì.
+
+2. **Bảng đếm hạn mức bị xóa mất.** PostgreSQL đặt bảng này trong schema riêng
+   nên Payload không thấy. SQLite không có schema: cơ chế đồng bộ lược đồ của
+   Payload coi đây là bảng lạ và **đòi xóa**, dừng chờ gõ phím — trên máy chủ
+   không có bàn phím thì treo vĩnh viễn. Đã tắt hẳn cơ chế đồng bộ (dự án vốn
+   dùng migration cho mọi thay đổi lược đồ) và cho bảng tự tạo lại khi truy vấn
+   gặp lỗi thiếu bảng.
+
+3. **Khóa của worker gửi email.** Dùng khóa advisory của PostgreSQL, thứ SQLite
+   không có. Thay bằng một hàng trong bảng làm khóa; khóa cũ quá 15 phút được
+   coi là của tiến trình đã chết và bị thu hồi, để một lần bị giết giữa chừng
+   không chặn việc gửi thư vĩnh viễn.
+
+4. **Kiểm tra sức khỏe** dùng `to_regclass` của PostgreSQL; đã chuyển sang đọc
+   `sqlite_master`.
+
+### Những chỗ khác đã chuyển
+
+Cú pháp `$1` → `?`; `split_part(...)::bigint` → `instr`/`substr`/`CAST`;
+`CREATE SCHEMA operations` → một bảng có tiền tố `operations_`; 5 migration viết
+cho PostgreSQL thay bằng một migration SQLite tạo 113 bảng; CI bỏ hẳn dịch vụ
+PostgreSQL; gỡ `pg`, `@payloadcms/db-postgres`, `embedded-postgres` và trình
+chạy PostgreSQL nhúng dùng cho phát triển.
+
+Cũng đã thêm ghi log nguyên nhân cho lỗi 503 của biểu mẫu tư vấn — trước đó nó
+trả về một thông báo chung chung và không ghi gì, nên không chẩn đoán được.
+
+### Điều phải biết về SQLite
+
+Ghi đồng thời bị khóa lần lượt. Với website giới thiệu có biểu mẫu liên hệ thì
+không thành vấn đề — lượng ghi rất thấp. Sao lưu đơn giản hơn hẳn: chép một tệp.
+
+Vòng kiểm tra cuối trên SQLite: TypeScript sạch, cổng bản dịch qua, build thành
+công, **128/128 kiểm thử đạt**, npm audit 0 lỗ hổng, kiểm tra sức khỏe trả
+`ready`, và biểu mẫu tư vấn lưu được yêu cầu thật (mã YC-C3E79AE885C9).
