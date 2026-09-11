@@ -131,6 +131,12 @@ jobs:
             [ "$code" = "200" ] || { echo "server.js tra $code cho $path"; exit 1; }
           done
 
+      - name: Kiểm tra gói tải lên hosting đủ tệp
+        # Nhà cung cấp từng báo "bộ mã nguồn chưa đầy đủ". Bước này dựng đúng
+        # gói sẽ tải lên và đối chiếu danh sách tệp bắt buộc, để việc xóa nhầm
+        # một tệp cấu hình lộ ra ở đây chứ không phải giữa lúc triển khai.
+        run: npm run bundle:hosting
+
       - name: Lưu báo cáo khi kiểm thử hỏng
         if: failure()
         uses: actions/upload-artifact@v7

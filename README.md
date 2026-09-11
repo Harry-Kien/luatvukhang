@@ -51,7 +51,7 @@ hồ sơ thật.
 ## Bàn giao
 
 - [Hướng dẫn admin](docs/ADMIN.vi.md)
-- [**Triển khai lên hosting cPanel có Node.js**](docs/DEPLOY-HOSTING-CPANEL.md) — đọc Bước 0 trước, ba câu hỏi quyết định gói hosting có chạy được không
+- [**Triển khai lên hosting cPanel có Node.js**](docs/DEPLOY-HOSTING-CPANEL.md) — đọc Bước 0 trước, ba câu hỏi quyết định gói hosting có chạy được không. Đóng gói bằng `npm run bundle:hosting`
 - [**Triển khai lên VPS từng bước**](docs/DEPLOY-VPS.md) — tên miền, PostgreSQL, systemd, Nginx, HTTPS, sao lưu
 - [Vận hành và triển khai](docs/OPERATIONS.md)
 - [Mô hình dữ liệu](docs/DATA-MODEL.md)

@@ -36,9 +36,28 @@ hoặc thiếu tệp cấu hình. Cách chắc chắn nhất là tải thẳng t
 git clone https://github.com/Harry-Kien/luatvukhang.git
 ```
 
-Nếu chỉ tải lên được bằng File Manager, nén cả thư mục rồi giải nén trên hosting.
-**Phải có đủ những tệp này**, trong đó vài tệp bắt đầu bằng dấu chấm nên trình
-quản lý tệp hay ẩn đi:
+Không dùng được `git` trên hosting thì đóng gói sẵn ở máy cá nhân:
+
+```bash
+npm run bundle:hosting
+```
+
+Lệnh này tạo `.local/hosting-source.zip` dựng từ đúng danh sách tệp Git đang
+theo dõi, nên không thể rơi mất tệp như khi kéo thả bằng File Manager. Nó tự đối
+chiếu danh sách tệp bắt buộc và báo lỗi nếu thiếu, đồng thời **không** kèm
+`.env`, `.local/`, `media/` hay `node_modules/` — bí mật không đi qua tệp nén.
+
+Hosting không đủ RAM để dựng thì thêm bản dựng sẵn:
+
+```bash
+npm run build            # nhớ dùng đúng các biến NEXT_PUBLIC_* của production
+node scripts/make-hosting-bundle.mjs --with-build
+```
+
+Tải cả hai tệp zip lên rồi giải nén vào cùng thư mục ứng dụng.
+
+Dù đóng gói cách nào, **phải có đủ những tệp này** — vài tệp bắt đầu bằng dấu
+chấm nên trình quản lý tệp hay ẩn đi:
 
 ```
 package.json  package-lock.json  next.config.mjs  postcss.config.mjs

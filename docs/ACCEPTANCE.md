@@ -491,3 +491,29 @@ là **không đặt được lịch chạy worker gửi email**: yêu cầu tư 
 điểm đó đã đủ là lý do để một công ty luật dùng VPS.
 
 Vòng kiểm tra: TypeScript sạch, 126/126 kiểm thử đạt, `server.js` phục vụ đúng.
+
+## Công cụ đóng gói tải lên hosting — 11/09/2026
+
+Nhà cung cấp báo "bộ mã nguồn chưa đầy đủ thông tin/cấu hình cần thiết". Nguyên
+nhân thường gặp khi tải lên bằng File Manager là rơi mất tệp bắt đầu bằng dấu
+chấm hoặc sót thư mục con — thao tác tay không có gì kiểm lại.
+
+Thêm `npm run bundle:hosting`: dựng gói từ đúng danh sách tệp Git đang theo dõi,
+nên không phụ thuộc vào thao tác kéo thả. Công cụ tự đối chiếu danh sách tệp bắt
+buộc và dừng với lỗi nếu thiếu, đồng thời loại `.env`, `.local/`, `media/` và
+`node_modules/` — bí mật và dữ liệu không đi qua tệp nén.
+
+Đã kiểm chứng gói sinh ra: 237 mục, có đủ `package.json`, `package-lock.json`,
+`next.config.mjs`, `server.js`, `tsconfig.json`, `postcss.config.mjs`,
+`src/payload.config.ts`, `importMap.js` của admin và `init-rate-limit.sql`;
+không có tệp nào thuộc `node_modules`, `.env`, `.local` hay `.next`.
+
+Cờ `--with-build` đính kèm thư mục `.next` dựng sẵn, dùng khi hosting không đủ
+RAM chạy `npm run build`.
+
+CI chạy công cụ này mỗi lần đẩy, nên việc xóa nhầm một tệp cấu hình lộ ra ngay
+chứ không phải giữa lúc triển khai.
+
+Vòng kiểm tra cuối: TypeScript sạch, cổng bản dịch qua (234 chuỗi), build thành
+công, **126/126 kiểm thử đạt** — chạy trên chính tiến trình `server.js` mà
+hosting sẽ dùng, không phải `next start`. npm audit 0 lỗ hổng.
