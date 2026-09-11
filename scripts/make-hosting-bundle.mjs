@@ -83,19 +83,55 @@ if (withBuild) {
     console.error("Chua co thu muc .next. Chay `npm run build` truoc.");
     process.exit(1);
   }
-  // Windows không có `zip`, Linux/macOS không có Compress-Archive.
+  /**
+   * Bỏ `.next/cache` và `.next/dev` ra khỏi gói.
+   *
+   * `cache` là bộ nhớ đệm của quá trình dựng, không cần để chạy — nhưng nó
+   * chiếm phần lớn dung lượng: đo trên dự án này là 1,2 GB đệm so với 76 MB
+   * thật sự cần. Nén cả vào thì gói phình gấp hơn mười lăm lần và việc tải lên
+   * hosting trở thành bất khả thi.
+   *
+   * `dev` chỉ sinh ra khi chạy chế độ phát triển và chứa liên kết tượng trưng,
+   * thứ không chép được trên Windows nếu không có quyền quản trị.
+   */
+  const SKIP = new Set(["cache", "dev"]);
+  /**
+   * KHÔNG bỏ qua liên kết tượng trưng — phải chép nội dung thật của chúng.
+   *
+   * Turbopack đặt trong `.next/node_modules` các liên kết mang tên có mã băm,
+   * ví dụ `pino-28069d5257187539`, và mã đã dựng gọi đúng tên đó. Bỏ chúng đi
+   * thì máy chủ khởi động được nhưng mọi trang trả về lỗi 500 với thông báo
+   * "Cannot find module" — đã đo đúng như vậy trước khi sửa.
+   *
+   * `dereference` chép nội dung đích thay vì tạo lại liên kết, nên gói giải nén
+   * ra là thư mục thật, chạy được ở mọi hệ điều hành.
+   */
+  const staging = path.join(outDir, "build-upload");
+  await fs.promises.rm(staging, { recursive: true, force: true });
+  await fs.promises.cp(".next", path.join(staging, ".next"), {
+    recursive: true,
+    dereference: true,
+    filter: (source) => !source.split(path.sep).some((part) => SKIP.has(part)),
+  });
   if (process.platform === "win32")
     execFileSync(
       "powershell",
       [
         "-NoProfile",
         "-Command",
-        `Compress-Archive -Path .next -DestinationPath ${buildZip} -Force`,
+        `Compress-Archive -Path '${staging}/.next' -DestinationPath '${buildZip}' -Force`,
       ],
       { stdio: "inherit" },
     );
-  else execFileSync("zip", ["-qr", buildZip, ".next"], { stdio: "inherit" });
-  console.log(`Ban dung san: ${buildZip} (${size(buildZip)}).`);
+  else
+    execFileSync("zip", ["-qr", path.resolve(buildZip), ".next"], {
+      cwd: staging,
+      stdio: "inherit",
+    });
+  await fs.promises.rm(staging, { recursive: true, force: true });
+  console.log(
+    `Ban dung san: ${buildZip} (${size(buildZip)}), da bo .next/cache.`,
+  );
 }
 
 console.log(

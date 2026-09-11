@@ -224,6 +224,16 @@ node scripts/hosting-setup.mjs --skip-install --skip-build
 
 Hai cờ này bỏ qua đúng hai bước nặng, các bước còn lại vẫn chạy đủ.
 
+Gói bản dựng chỉ khoảng **23 MB** vì đã loại `.next/cache` — phần đệm của quá
+trình dựng, chiếm tới 1,2 GB mà không cần để chạy. Đã kiểm chứng: xóa sạch
+`.next`, giải nén riêng gói này rồi chạy máy chủ, toàn bộ trang và cả `/admin`
+đều trả 200, và 128/128 kiểm thử đạt.
+
+> **Trên Windows, đừng xóa `.next` bằng `Remove-Item -Recurse -Force`.** Thư mục
+> `.next/node_modules` chứa liên kết tượng trưng trỏ ngược về `node_modules`
+> thật, và lệnh đó đi theo liên kết rồi xóa luôn gói gốc — hỏng cả cây phụ
+> thuộc. Xóa các liên kết trước, hoặc dùng `npm run build` đè lên.
+
 Riêng `node_modules` vẫn phải cài trên hosting — nó chứa bản biên dịch riêng cho
 Linux, không chép từ Windows sang được. Nếu chính `npm ci` cũng bị giết, phải
 nhờ nhà cung cấp nâng trần bộ nhớ.
