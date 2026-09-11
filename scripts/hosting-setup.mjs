@@ -20,7 +20,14 @@
  * từng bước.
  */
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
 import path, { join } from "node:path";
 
 try {
@@ -130,6 +137,23 @@ if (/^file:[.]/.test(process.env.DATABASE_URL))
 if (process.argv.includes("--skip-install"))
   say("Bỏ qua cài phụ thuộc theo yêu cầu (--skip-install)");
 else {
+  /**
+   * CloudLinux (nền của phần lớn hosting cPanel) bắt `node_modules` trong thư
+   * mục ứng dụng phải là liên kết tượng trưng trỏ sang môi trường ảo riêng. Một
+   * lần cài dở dang — ví dụ bị giết vì thiếu bộ nhớ — để lại thư mục thật ở đó,
+   * và từ đó mọi thao tác đều bị từ chối với một thông báo khó hiểu.
+   */
+  if (existsSync("node_modules") && !lstatSync("node_modules").isSymbolicLink())
+    console.warn(
+      "    Canh bao: node_modules dang la thu muc that, khong phai lien ket." +
+        String.fromCharCode(10) +
+        "    Tren hosting cPanel/CloudLinux day la trang thai hong — thuong do mot" +
+        String.fromCharCode(10) +
+        "    lan cai bi ngat giua chung. Xoa no roi cai lai:" +
+        String.fromCharCode(10) +
+        "      rm -rf node_modules",
+    );
+
   say("Cài phụ thuộc (npm ci) — bước này lâu nhất");
   try {
     /**

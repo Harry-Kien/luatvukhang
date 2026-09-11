@@ -159,6 +159,40 @@ nội dung nền. Gặp vấn đề ở bước nào nó dừng và nói rõ ngu
 
 Chạy lại sau khi đã sửa lỗi: thêm `--skip-install` để khỏi cài lại phụ thuộc.
 
+### Lỗi "application should not contain folder/file with such name"
+
+Thông báo đầy đủ từ CloudLinux NodeJS Selector:
+
+> Cloudlinux NodeJS Selector demands to store node modules for application in
+> separate folder (virtual environment) pointed by symlink called "node_modules".
+
+CloudLinux — nền của phần lớn hosting cPanel — bắt `node_modules` trong thư mục
+ứng dụng phải là **liên kết tượng trưng** trỏ sang môi trường ảo riêng, không
+được là thư mục thật. Một lần cài dở dang (ví dụ bị giết vì thiếu bộ nhớ) để lại
+thư mục thật ở đó, và từ đó mọi thao tác đều bị từ chối.
+
+Xóa đi rồi cài lại:
+
+```bash
+cd ~/luatvukhang && rm -rf node_modules
+```
+
+Sau đó **bắt buộc nạp môi trường ảo trước khi cài** — nếu không, npm lại tạo ra
+đúng thư mục thật gây lỗi này:
+
+```bash
+source /home/TÊN-TÀI-KHOẢN/nodevenv/luatvukhang/22/bin/activate
+```
+
+Kiểm tra đã nạp đúng chưa — phải thấy một đường dẫn nằm trong `nodevenv`:
+
+```bash
+which npm
+```
+
+Rồi mới cài. Hoặc đơn giản hơn: bấm nút **Run NPM Install** trong Setup Node.js
+App, nút đó tự làm đúng.
+
 ### Nếu hosting giết tiến trình (SIGKILL) vì thiếu bộ nhớ
 
 Hosting dùng chung đặt trần bộ nhớ cho mỗi tiến trình. `npm ci` và nhất là
