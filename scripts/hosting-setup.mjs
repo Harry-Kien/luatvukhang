@@ -143,7 +143,10 @@ else {
    * lần cài dở dang — ví dụ bị giết vì thiếu bộ nhớ — để lại thư mục thật ở đó,
    * và từ đó mọi thao tác đều bị từ chối với một thông báo khó hiểu.
    */
-  if (existsSync("node_modules") && !lstatSync("node_modules").isSymbolicLink())
+  const link =
+    existsSync("node_modules") && lstatSync("node_modules").isSymbolicLink();
+
+  if (existsSync("node_modules") && !link)
     console.warn(
       "    Canh bao: node_modules dang la thu muc that, khong phai lien ket." +
         String.fromCharCode(10) +
@@ -154,17 +157,34 @@ else {
         "      rm -rf node_modules",
     );
 
-  say("Cài phụ thuộc (npm ci) — bước này lâu nhất");
+  /**
+   * `npm ci` XÓA TRẮNG node_modules trước khi cài. Trên máy thường đó là ưu
+   * điểm — bảo đảm cây phụ thuộc đúng y lockfile. Trên CloudLinux nó là tai
+   * họa: thứ bị xóa là LIÊN KẾT trỏ sang môi trường ảo, và npm dựng lại một
+   * thư mục thật ở đúng chỗ đó. Từ lúc ấy Node.js Selector từ chối làm việc với
+   * ứng dụng, kèm một thông báo chẳng nói gì về nguyên nhân.
+   *
+   * `npm install` không xóa trắng nên liên kết còn nguyên; với lockfile không
+   * đổi thì kết quả giống hệt `npm ci`.
+   */
+  const command = link ? "install" : "ci";
+  say(
+    link
+      ? "Cài phụ thuộc (npm install — giữ liên kết CloudLinux) — bước này lâu nhất"
+      : "Cài phụ thuộc (npm ci) — bước này lâu nhất",
+  );
   try {
     /**
      * Giảm mức tiêu thụ bộ nhớ hết mức có thể: hosting dùng chung đặt trần bộ
      * nhớ cho mỗi tiến trình, và npm mặc định tải song song rất nhiều luồng.
      *
-     * Giữ cả phụ thuộc phát triển — các script quản trị chạy bằng tsx, và
-     * `next build` cần typescript, cả hai đều nằm trong nhóm đó.
+     * Giữ cả phụ thuộc phát triển. Đã đo: `--omit=dev` chỉ bỏ được 5 gói trên
+     * tổng 550 — typescript, esbuild, prettier đều nằm trong cây phụ thuộc
+     * production của Payload và Next — mà một trong 5 gói bị bỏ lại là `tsx`,
+     * thứ các script nạp nội dung ở dưới cần. Lỗ vốn hoàn toàn.
      */
     run("npm", [
-      "ci",
+      command,
       "--no-audit",
       "--no-fund",
       "--maxsockets",

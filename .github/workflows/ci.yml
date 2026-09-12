@@ -93,12 +93,15 @@ jobs:
         run: npm run check:content
 
       - name: Kiểm tra tệp khởi động cho hosting Passenger
-        # server.js là đường vào cho hosting cPanel, nơi Passenger nạp thẳng một
-        # tệp JavaScript chứ không chạy "npm start". Không ai chạy nó hằng ngày,
-        # nên nếu không kiểm ở đây thì nó hỏng lúc nào không biết — và chỉ lộ ra
-        # đúng lúc đang triển khai.
+        # server.cjs là đường vào cho hosting cPanel. Passenger KHÔNG chạy tệp
+        # này như một chương trình — nó nạp bằng require(). Khác biệt đó từng
+        # làm hỏng cả đợt triển khai: bản `server.js` cũ chạy tốt bằng
+        # `node server.js` nên CI vẫn xanh, nhưng require() nó thì ném
+        # ERR_REQUIRE_ASYNC_MODULE và website không bao giờ lên.
+        #
+        # Nên ở đây phải nạp ĐÚNG cách Passenger nạp, không phải cách tiện nhất.
         run: |
-          NODE_ENV=production PORT=3100 node server.js > /tmp/passenger.log 2>&1 &
+          NODE_ENV=production PORT=3100 node -e "require('./server.cjs')" > /tmp/passenger.log 2>&1 &
           ready=""
           for i in $(seq 1 60); do
             if curl -sf -o /dev/null http://127.0.0.1:3100/api/health/ready; then
@@ -108,14 +111,14 @@ jobs:
             sleep 1
           done
           if [ -z "$ready" ]; then
-            echo "server.js khong len sau 60 giay. Log:"
+            echo "server.cjs khong len sau 60 giay khi nap bang require(). Log:"
             cat /tmp/passenger.log
             exit 1
           fi
           for path in /vi /vi/services /admin/login; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:3100$path")
             echo "$path -> $code"
-            [ "$code" = "200" ] || { echo "server.js tra $code cho $path"; exit 1; }
+            [ "$code" = "200" ] || { echo "server.cjs tra $code cho $path"; exit 1; }
           done
 
       - name: Kiểm tra gói tải lên hosting đủ tệp

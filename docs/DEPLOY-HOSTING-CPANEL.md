@@ -40,7 +40,7 @@ git clone https://github.com/Harry-Kien/luatvukhang.git
 
 Kho mã để **công khai** nên lệnh này không cần tài khoản, mật khẩu hay khóa SSH.
 Đã kiểm chứng: bản clone ẩn danh có đủ `package.json`, `package-lock.json`,
-`next.config.mjs`, `server.js`, `tsconfig.json`, `scripts/hosting-setup.mjs` và
+`next.config.mjs`, `server.cjs`, `tsconfig.json`, `scripts/hosting-setup.mjs` và
 `importMap.js` của admin, và **không** kèm `.env`, `.local/` hay `node_modules/`.
 
 Không có SSH thì dùng **Git™ Version Control** trong cPanel: Create → dán URL
@@ -72,7 +72,7 @@ chấm nên trình quản lý tệp hay ẩn đi:
 
 ```
 package.json  package-lock.json  next.config.mjs  postcss.config.mjs
-tsconfig.json  server.js  src/  public/  scripts/
+tsconfig.json  server.cjs  src/  public/  scripts/
 ```
 
 **Không tải lên**: `node_modules/` (cài trên hosting), `.next/` (dựng trên
@@ -120,7 +120,7 @@ hosting), `.env` (tạo riêng, xem bước 3), `.local/`, `media/` của máy c
 > └── luatvukhang/     ← ĐIỀN THƯ MỤC NÀY vào ô Application root
 >     ├── .env
 >     ├── .local/law.db
->     └── server.js
+>     └── server.cjs
 > ```
 >
 > Ô Application root nhận đường dẫn tính từ thư mục gốc tài khoản, nên chỉ cần
@@ -142,10 +142,19 @@ cPanel → **Setup Node.js App** → Create Application:
 | Application mode | Production |
 | **Application root** | thư mục vừa tải mã lên, ví dụ `luatvukhang` — **ngoài `public_html`**, xem khung trên |
 | Application URL | tên miền hoặc thư mục con sẽ chạy website |
-| **Application startup file** | **`server.js`** |
+| **Application startup file** | **`server.cjs`** |
 
-`server.js` có sẵn trong kho mã. Nó tồn tại vì Passenger nạp thẳng một tệp
+`server.cjs` có sẵn trong kho mã. Nó tồn tại vì Passenger nạp thẳng một tệp
 JavaScript chứ không chạy `npm start`, nên `next start` không cắm vào được.
+
+> **Phải là `server.cjs`, không phải `server.js`.** Passenger không *chạy* tệp
+> khởi động, nó **nạp bằng `require()`**. Dự án khai `"type": "module"` nên mọi
+> tệp `.js` là ES module, và `require()` một ES module thì hỏng — Node 20 báo
+> `ERR_REQUIRE_ESM`, Node 22 trở lên báo `ERR_REQUIRE_ASYNC_MODULE`. Đuôi
+> `.cjs` buộc tệp là CommonJS nên nạp được ở mọi phiên bản.
+>
+> Sai chỗ này thì triệu chứng duy nhất nhìn thấy là website không lên, còn
+> `node server.js` chạy tay lại vẫn tốt — nên rất dễ đi tìm nhầm chỗ.
 
 ## Bước 3 — Khai biến môi trường
 

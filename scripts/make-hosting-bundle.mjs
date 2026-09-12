@@ -33,7 +33,7 @@ const REQUIRED = [
   "next.config.mjs",
   "postcss.config.mjs",
   "tsconfig.json",
-  "server.js",
+  "server.cjs",
   "src/payload.config.ts",
   "src/app/(payload)/admin/importMap.js",
   "scripts/bootstrap.ts",
@@ -141,6 +141,6 @@ console.log(
       ? `  2. Tai ${buildZip} len va giai nen cung cho, de khoi phai build tren hosting.\n`
       : "  2. Chay npm ci roi npm run build tren hosting.\n") +
     "  3. Khai bien moi truong trong Setup Node.js App (KHONG tai .env len).\n" +
-    "  4. Dat Application startup file la server.js.\n" +
+    "  4. Dat Application startup file la server.cjs.\n" +
     "\nChi tiet tung buoc: docs/DEPLOY-HOSTING-CPANEL.md",
 );
