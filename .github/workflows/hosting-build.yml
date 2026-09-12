@@ -1,0 +1,122 @@
+name: Gói bản dựng cho hosting
+
+# Dựng `.next` trên Linux rồi đính vào một bản phát hành GitHub, để hosting tải
+# thẳng về bằng một lệnh `curl`.
+#
+# Vì sao cần:
+#
+# 1. Gói SSD Hosting dùng chung giết tiến trình `npm run build` vì thiếu RAM.
+#    Dựng ở đây thì bước nặng nhất không còn chạy trên hosting nữa.
+# 2. Bản dựng trên Windows KHÔNG mang sang Linux được:
+#    `.next/required-server-files.json` nhúng đường dẫn tuyệt đối của máy dựng
+#    (`"appDir": "D:\\LuatVuKhang"`) và dùng dấu gạch ngược làm phân cách. Máy
+#    chạy Linux không có đường dẫn đó.
+#
+# Chạy bằng tay: tab Actions trên GitHub → "Gói bản dựng cho hosting" → Run workflow.
+
+on:
+  workflow_dispatch:
+    inputs:
+      launch_approved:
+        description: "Bật SITE_LAUNCH_APPROVED — chỉ bật khi đã nghiệm thu xong"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Dựng trên Linux và phát hành
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    env:
+      # Các biến NEXT_PUBLIC_* được nhúng thẳng vào mã lúc dựng, nên phải là
+      # giá trị của bản chạy thật ngay từ đây — đổi trên hosting sau sẽ không có
+      # tác dụng.
+      NEXT_PUBLIC_SITE_URL: https://luatvukhang.com
+      NEXT_PUBLIC_DEMO_MODE: "false"
+      SITE_LAUNCH_APPROVED: ${{ inputs.launch_approved && 'true' || 'false' }}
+      DATABASE_URL: file:./.local/law.db
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cài phụ thuộc
+        run: npm ci
+
+      - name: Tạo cơ sở dữ liệu tạm để dựng
+        # Bước dựng đọc nội dung qua Payload, nên cần một cơ sở dữ liệu có lược
+        # đồ. Tệp này chỉ sống trong lần chạy CI và KHÔNG đi vào gói phát hành.
+        run: |
+          mkdir -p .local
+          echo "PAYLOAD_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+
+      - name: Tạo lược đồ
+        run: npm run payload -- migrate
+
+      - name: Dựng bản production
+        run: npm run build
+
+      - name: Kiểm tra gói trước khi phát hành
+        # Ba điều kiện, sai bất kỳ cái nào thì bản dựng không dùng được và phải
+        # dừng ở đây chứ không phải lúc website đã 503.
+        run: |
+          test -f .next/BUILD_ID || { echo "Thieu .next/BUILD_ID"; exit 1; }
+
+          # Đường dẫn tuyệt đối của máy dựng: trên Linux phải là /home/runner/...
+          # và đó chính là thứ khiến bản dựng Windows không mang sang được.
+          node -e '
+            const j = require("./.next/required-server-files.json");
+            if (/^[A-Za-z]:\\/.test(j.appDir || ""))
+              throw new Error("appDir la duong dan Windows: " + j.appDir);
+            console.log("appDir:", j.appDir);
+          '
+
+          # Liên kết tượng trưng trong .next sẽ đứt khi giải nén sang máy khác.
+          links=$(find .next -type l | head -20)
+          if [ -n "$links" ]; then
+            echo "Canh bao: .next co lien ket tuong trung, se dereference khi nen:"
+            echo "$links"
+          fi
+
+      - name: Đóng gói
+        # `-h` đi theo liên kết tượng trưng để gói ra tệp thật; `.next/cache`
+        # chỉ phục vụ lần dựng sau, bỏ đi để gói nhỏ lại nhiều lần.
+        run: |
+          tar --exclude='.next/cache' -czhf hosting-build.tar.gz .next
+          ls -lh hosting-build.tar.gz
+          echo "SIZE=$(du -h hosting-build.tar.gz | cut -f1)" >> "$GITHUB_ENV"
+
+      - name: Phát hành
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="hosting-$(date -u +%Y%m%d-%H%M%S)"
+          gh release create "$tag" hosting-build.tar.gz \
+            --latest \
+            --title "Bản dựng cho hosting — $tag" \
+            --notes "Dựng trên Ubuntu/Node 24 từ \`${GITHUB_SHA}\`.
+
+          Kích thước: ${SIZE}
+          NEXT_PUBLIC_SITE_URL=\`${NEXT_PUBLIC_SITE_URL}\`
+          NEXT_PUBLIC_DEMO_MODE=\`${NEXT_PUBLIC_DEMO_MODE}\`
+          SITE_LAUNCH_APPROVED=\`${SITE_LAUNCH_APPROVED}\`
+
+          Tải về trên hosting:
+
+          \`\`\`bash
+          curl -fL -o /tmp/hosting-build.tar.gz \\
+            https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/hosting-build.tar.gz
+          \`\`\`
+
+          Gói chỉ chứa \`.next\`. Mã nguồn lấy bằng \`git pull\`; \`.env\`, \`.local/\`
+          và \`media/\` không nằm trong gói."
+
+          echo "Da phat hanh: $tag"
