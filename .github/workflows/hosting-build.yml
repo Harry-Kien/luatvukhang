@@ -45,7 +45,11 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 24
+          # PHẢI khớp phiên bản Node của hosting (22.x). Thư viện có phần mã máy
+          # đều dùng N-API nên về lý thuyết chạy chéo phiên bản được, nhưng gói
+          # node_modules dựng ở đây được giải nén thẳng lên máy chủ thật —
+          # không có lý do gì để đánh cược vào "về lý thuyết".
+          node-version: 22
           cache: npm
 
       - name: Cài phụ thuộc
@@ -94,17 +98,32 @@ jobs:
           ls -lh hosting-build.tar.gz
           echo "SIZE=$(du -h hosting-build.tar.gz | cut -f1)" >> "$GITHUB_ENV"
 
+      - name: Đóng gói node_modules
+        # Gói hosting dùng chung giết cả `npm install` vì thiếu bộ nhớ: npm cần
+        # giải nén 550 gói và dựng cây phụ thuộc trong RAM. Không có cờ nào của
+        # npm lách được trần đó một cách chắc chắn.
+        #
+        # Nên gói luôn cây phụ thuộc đã cài sẵn ở đây. Máy chủ chỉ còn phải giải
+        # nén — việc này chạy theo luồng, gần như không tốn bộ nhớ.
+        #
+        # KHÔNG dùng `-h`: node_modules/.bin toàn liên kết tượng trưng, đi theo
+        # chúng vừa làm gói phình to vừa làm hỏng các lệnh trong .bin.
+        run: |
+          tar -czf hosting-node-modules.tar.gz node_modules
+          ls -lh hosting-node-modules.tar.gz
+          echo "MODULES_SIZE=$(du -h hosting-node-modules.tar.gz | cut -f1)" >> "$GITHUB_ENV"
+
       - name: Phát hành
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag="hosting-$(date -u +%Y%m%d-%H%M%S)"
-          gh release create "$tag" hosting-build.tar.gz \
+          gh release create "$tag" hosting-build.tar.gz hosting-node-modules.tar.gz \
             --latest \
             --title "Bản dựng cho hosting — $tag" \
-            --notes "Dựng trên Ubuntu/Node 24 từ \`${GITHUB_SHA}\`.
+            --notes "Dựng trên Ubuntu/Node 22 — khớp phiên bản Node của hosting — từ \`${GITHUB_SHA}\`.
 
-          Kích thước: ${SIZE}
+          Kích thước: \`.next\` ${SIZE}, \`node_modules\` ${MODULES_SIZE}
           NEXT_PUBLIC_SITE_URL=\`${NEXT_PUBLIC_SITE_URL}\`
           NEXT_PUBLIC_DEMO_MODE=\`${NEXT_PUBLIC_DEMO_MODE}\`
           SITE_LAUNCH_APPROVED=\`${SITE_LAUNCH_APPROVED}\`
@@ -116,7 +135,7 @@ jobs:
             https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/hosting-build.tar.gz
           \`\`\`
 
-          Gói chỉ chứa \`.next\`. Mã nguồn lấy bằng \`git pull\`; \`.env\`, \`.local/\`
-          và \`media/\` không nằm trong gói."
+          Mã nguồn lấy bằng \`git pull\`; \`.env\`, \`.local/\` và \`media/\` không nằm
+          trong gói nào."
 
           echo "Da phat hanh: $tag"
