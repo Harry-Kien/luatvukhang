@@ -225,7 +225,18 @@ CloudLinux — nền của phần lớn hosting cPanel — bắt `node_modules` 
 được là thư mục thật. Một lần cài dở dang (ví dụ bị giết vì thiếu bộ nhớ) để lại
 thư mục thật ở đó, và từ đó mọi thao tác đều bị từ chối.
 
-Xóa đi rồi cài lại:
+**Kiểm tra trước khi xóa** — lệnh dưới chỉ đúng khi `node_modules` đã thành thư
+mục thật:
+
+```bash
+ls -ld ~/luatvukhang/node_modules
+```
+
+Dòng kết quả bắt đầu bằng `l` là **liên kết tượng trưng, tức đang bình thường —
+KHÔNG được xóa**. Xóa liên kết đó là gỡ ứng dụng khỏi môi trường ảo, và
+Node.js Selector sẽ báo lỗi khó hiểu hơn hẳn lỗi ban đầu.
+
+Chỉ khi dòng đó bắt đầu bằng `d` (thư mục thật) mới xóa:
 
 ```bash
 cd ~/luatvukhang && rm -rf node_modules
@@ -390,17 +401,56 @@ Restart. Chỉ Restart là không đủ: biến này được đọc cả lúc d
 
 ## Cập nhật website về sau
 
-Đã clone bằng git thì lần sau chỉ cần kéo bản mới về:
+Toàn bộ việc này làm được bằng Terminal, không cần đụng vào giao diện cPanel.
 
-Mở **Terminal** trong cPanel, dán lệnh `source .../activate` như ở Bước 4, rồi:
+Trình tự có ba phần: lấy mã nguồn mới, lấy bản dựng mới, rồi khởi động lại.
+
+**1. Dựng bản mới trên GitHub** (một lần, trên trình duyệt): tab **Actions** →
+*Gói bản dựng cho hosting* → **Run workflow**. Chờ khoảng hai phút.
+
+Bước dựng chạy trên máy Linux của GitHub chứ không trên hosting, vì hai lý do:
+`npm run build` cần 1–2 GB RAM mà gói dùng chung không cấp đủ, và bản dựng trên
+máy Windows không mang sang Linux được — `.next/required-server-files.json`
+nhúng đường dẫn tuyệt đối của máy dựng.
+
+**2. Cập nhật trên hosting** (Terminal):
 
 ```bash
-cd ~/luatvukhang && git pull && node scripts/hosting-setup.mjs --skip-install
+source ~/nodevenv/luatvukhang/*/bin/activate && cd ~/luatvukhang
+git pull
+rm -rf .next && curl -fL -o ~/hb.tar.gz https://github.com/Harry-Kien/luatvukhang/releases/latest/download/hosting-build.tar.gz && tar -xzf ~/hb.tar.gz -C ~/luatvukhang && rm -f ~/hb.tar.gz && cat .next/BUILD_ID
+node scripts/hosting-setup.mjs --skip-install --skip-build
 ```
 
-Bỏ `--skip-install` nếu bản cập nhật có thay đổi phụ thuộc — xem phần
-`dependencies` trong `package.json` có đổi không. Sau đó bấm **Restart** trong
-Setup Node.js App.
+> **Hai cờ `--skip-install --skip-build` là bắt buộc.** Thiếu `--skip-install`
+> thì script chạy `npm install`, thiếu `--skip-build` thì nó chạy
+> `npm run build` — cả hai đều bị hosting giết vì thiếu bộ nhớ, và lần cài dở
+> dang để lại thư mục rỗng trong `node_modules` gây lỗi
+> `Cannot find package` về sau.
+
+Chỉ tải lại `node_modules` khi `package.json` đổi phần `dependencies`:
+
+```bash
+curl -fL -o ~/nm.tar.gz https://github.com/Harry-Kien/luatvukhang/releases/latest/download/hosting-node-modules.tar.gz
+tar -xzf ~/nm.tar.gz -C ~/nodevenv/luatvukhang/22/lib && rm -f ~/nm.tar.gz
+```
+
+**3. Khởi động lại bằng Terminal:**
+
+```bash
+mkdir -p ~/luatvukhang/tmp && touch ~/luatvukhang/tmp/restart.txt
+```
+
+Passenger theo dõi tệp `tmp/restart.txt`; chạm vào nó là tiến trình được nạp
+lại ở lần truy cập kế tiếp. Cách này thay hẳn nút **Restart** trong cPanel —
+hữu ích vì giao diện đó có lúc báo "Can't acquire lock" hoặc "No such
+application" trong khi website vẫn chạy tốt.
+
+Kiểm chứng:
+
+```bash
+curl -sI https://luatvukhang.com/api/health/ready | head -1
+```
 
 `git pull` không đụng tới `.env`, `.local/` và `media/` vì cả ba đều nằm ngoài
 kho mã, nên nội dung và cấu hình của công ty không bị ghi đè.

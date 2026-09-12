@@ -3,7 +3,18 @@
   --red-hover: #a51f32;
   --border-dark: #344158;
   --soft: #edf0f4;
-  --serif: "Noto Serif Variable", Georgia, serif;
+  /*
+   * Phông dự phòng PHẢI đọc được tiếng Việt.
+   *
+   * Trước đây ở đây là Georgia, và Georgia không có glyph cho nguyên âm mang
+   * hai dấu — ấ ầ ế ề ắ ố. Trình duyệt phải tự ghép, và ra "Thâ´u hiê`u" với
+   * dấu văng sang bên phải. Vì `font-display: swap`, mọi khách vào lần đầu đều
+   * nhìn thấy cảnh đó trong lúc phông chính đang tải, và nhìn thấy vĩnh viễn
+   * nếu phông tải hỏng.
+   *
+   * Times New Roman có đủ bộ tiếng Việt trên cả Windows và macOS.
+   */
+  --serif: "Noto Serif Variable", "Times New Roman", Times, serif;
   --sans: "Be Vietnam Pro", Arial, sans-serif;
 }
 html {
@@ -1656,7 +1667,7 @@ footer {
 @media(max-width:600px){.insight-cards,.insights-filter{grid-template-columns:1fr}.insights-filter{padding:22px}.editorial-note{padding:24px}.insight-card h2{font-size:24px}}
 /* Chinese uses native CJK font families, avoiding synthetic Latin glyph styling. */
 html[lang="zh-Hans"]{--sans:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;--serif:"Songti SC","SimSun","Noto Serif CJK SC",serif}
-html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh-Hans"] h2,html[lang="zh-Hans"] h3{word-break:normal;line-break:strict;letter-spacing:0;line-height:1.45}html[lang="zh-Hans"] .hero h1{font-size:clamp(38px,4.5vw,70px)}html[lang="zh-Hans"] .brand{--serif:"Noto Serif Variable",Georgia,serif;--sans:"Be Vietnam Pro",sans-serif}
+html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh-Hans"] h2,html[lang="zh-Hans"] h3{word-break:normal;line-break:strict;letter-spacing:0;line-height:1.45}html[lang="zh-Hans"] .hero h1{font-size:clamp(38px,4.5vw,70px)}html[lang="zh-Hans"] .brand{--serif:"Noto Serif Variable","Times New Roman",Times,serif;--sans:"Be Vietnam Pro",sans-serif}
 
 /* Trang 404: giúp người truy cập tìm lại đường thay vì chỉ báo lỗi. */
 .not-found h1 {
