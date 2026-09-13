@@ -13,10 +13,18 @@ export function Brand({
       href={"/" + locale}
       aria-label={locale === "zh" ? "Vũ Khang — 首页" : locale === "en" ? "Vũ Khang — Home" : "Vũ Khang — Trang chủ"}
     >
-      <span className="brand-monogram" aria-hidden="true">
-        <span>V</span>
-        <span>K</span>
-      </span>
+      {/* Huy hiệu tròn sinh từ design/logo.jpg; nền ngoài vòng trong suốt nên
+          dùng chung cho header nền trắng và footer nền navy. Tên đã có trong
+          aria-label của liên kết, ảnh để alt rỗng tránh đọc lặp. */}
+      <img
+        className="brand-logo"
+        src="/brand/logo-192.png"
+        alt=""
+        width={192}
+        height={192}
+        decoding="async"
+        fetchPriority="high"
+      />
       <span className="brand-wordmark">
         <small>CÔNG TY LUẬT TNHH</small>
         <strong>VŨ KHANG</strong>

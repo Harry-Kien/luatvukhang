@@ -11,9 +11,16 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "browser",
     background_color: "#ffffff",
     theme_color: "#101d35",
+    // Sinh bởi scripts/generate-brand-assets.mjs từ design/logo.jpg.
     icons: [
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml" },
-      { src: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+      { src: "/brand/logo-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/brand/logo-512.png", sizes: "512x512", type: "image/png" },
+      {
+        src: "/brand/logo-maskable-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      },
     ],
   };
 }

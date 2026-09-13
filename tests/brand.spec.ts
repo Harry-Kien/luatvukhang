@@ -8,6 +8,14 @@ test("Vũ Khang navigation, mobile menu and image loading", async ({
     "VŨ KHANG",
   );
   await expect(page).toHaveTitle(/Vũ Khang/);
+  expect(
+    await page
+      .locator(".brand-logo")
+      .first()
+      .evaluate(
+        (image: HTMLImageElement) => image.complete && image.naturalWidth > 0,
+      ),
+  ).toBeTruthy();
   await page.evaluate(() => document.fonts.ready);
   expect(
     await page

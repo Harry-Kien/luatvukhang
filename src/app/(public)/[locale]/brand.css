@@ -101,27 +101,11 @@ p {
   flex-shrink: 0;
   color: var(--navy);
 }
-.brand-monogram {
-  height: 58px;
-  width: 61px;
+.brand-logo {
   display: block;
-  position: relative;
-  border-bottom: 3px solid var(--red);
-  font-family: var(--serif);
-  font-size: 46px;
-  font-weight: 500;
-  line-height: 1;
-}
-.brand-monogram span:first-child {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.brand-monogram span:last-child {
-  position: absolute;
-  left: 25px;
-  top: 9px;
-  font-size: 38px;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
 }
 .brand-wordmark {
   display: flex;
@@ -958,10 +942,9 @@ footer {
   .brand-wordmark strong {
     font-size: 28px;
   }
-  .brand-monogram {
-    transform: scale(0.9);
-    transform-origin: left center;
-    width: 54px;
+  .brand-logo {
+    width: 56px;
+    height: 56px;
   }
   .brand {
     gap: 10px;
@@ -1187,17 +1170,9 @@ footer {
     padding: 14px 6%;
     gap: 16px;
   }
-  .brand-monogram {
-    height: 49px;
-    width: 48px;
-    transform: none;
-    font-size: 39px;
-    border-bottom-width: 2px;
-  }
-  .brand-monogram span:last-child {
-    left: 22px;
-    top: 8px;
-    font-size: 32px;
+  .brand-logo {
+    width: 50px;
+    height: 50px;
   }
   .brand-wordmark strong {
     font-size: 27px;

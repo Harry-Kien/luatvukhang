@@ -60,13 +60,19 @@ hoặc [Schema Markup Validator](https://validator.schema.org/).
 
 | Tệp | Vai trò |
 | --- | --- |
-| `src/app/icon.svg` | favicon |
-| `src/app/apple-icon.png` | biểu tượng màn hình chính iOS (180×180) |
+| `design/logo.jpg` | logo gốc, nguồn duy nhất để sinh mọi tệp dưới đây |
+| `src/app/favicon.ico` | favicon 16/32/48 cho Safari và các bộ dò gọi thẳng `/favicon.ico` |
+| `src/app/icon.png` | favicon 192×192 (Google yêu cầu bội số của 48) |
+| `src/app/apple-icon.png` | biểu tượng màn hình chính iOS (180×180, nền trắng đặc) |
+| `public/brand/logo-192.png`, `logo-512.png` | huy hiệu tròn nền trong suốt: header, footer, manifest, `logo` trong schema.org |
+| `public/brand/logo-maskable-512.png` | biểu tượng Android dạng maskable, huy hiệu nằm trong vùng an toàn 80% |
 | `src/app/opengraph-image.png` | ảnh chia sẻ 1200×630 |
 | `src/app/opengraph-image.alt.txt` | mô tả ảnh chia sẻ |
 | `src/app/manifest.ts` | web manifest |
 
-Sinh lại sau khi đổi màu thương hiệu: `node scripts/generate-brand-assets.mjs`.
+Sinh lại sau khi thay logo hoặc đổi màu thương hiệu:
+`node scripts/generate-brand-assets.mjs`. Script tự dò vòng tròn của logo và cắt
+trong suốt phần ngoài vòng; không sửa tay các tệp PNG/ICO.
 
 ## RSS
 

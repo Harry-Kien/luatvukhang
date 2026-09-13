@@ -285,6 +285,21 @@ tư/Điều khoản và hồ sơ luật sư thật. Ngoài ra, **36 bản ghi l�
 đang ở trạng thái đã xuất bản nhưng do script soạn, chưa có luật sư của công ty
 đọc duyệt** — phải rà soát trước khi bật `SITE_LAUNCH_APPROVED`.
 
+## Logo chính thức thay monogram chữ — 13/09/2026
+
+**Logo thật của công ty** (chữ V navy, K vàng, sách mở, viền tròn vàng) thay cho
+monogram "VK" vẽ bằng chữ. Logo gốc lưu ở `design/logo.jpg`; mọi tệp nhận diện
+sinh bằng `scripts/generate-brand-assets.mjs`, không chỉnh tay.
+
+Ba khoảng trống phát hiện khi rà soát trước đó đã được lấp: `/favicon.ico` từng
+trả 404 (Safari không đọc favicon SVG, Google/Zalo gọi thẳng đường dẫn này);
+manifest chưa có biểu tượng 192/512 và bản maskable cho Android; `logo` trong
+schema.org trỏ tới SVG thay vì PNG ≥ 112×112 như Google khuyến nghị.
+
+Đã kiểm chứng bằng mắt: header và footer trên máy tính lẫn điện thoại, favicon
+ở 16/32 px, ảnh chia sẻ 1200×630, biểu tượng iOS nền trắng. Bài kiểm thử
+`tests/brand.spec.ts` thêm điều kiện ảnh logo phải tải xong.
+
 ## Icon Zalo chính thức, chỗ cho chatbot và rà soát bố cục — 10/09/2026
 
 **Chữ hiệu Zalo chính thức** thay cho ký hiệu tự vẽ trước đó. Nguồn: bộ Simple

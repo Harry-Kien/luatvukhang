@@ -180,7 +180,8 @@ export function organizationJsonLd(settings: Settings, locale: Locale) {
     name,
     alternateName: alternateName || undefined,
     url: absolute(`/${locale}`),
-    logo: absolute("/icon.svg"),
+    // Google yêu cầu logo tối thiểu 112×112, ưu tiên PNG/JPG hơn SVG.
+    logo: absolute("/brand/logo-512.png"),
     telephone: settings?.phone || undefined,
     email: settings?.email || undefined,
     identifier: settings?.registration || undefined,
