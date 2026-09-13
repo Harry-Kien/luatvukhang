@@ -123,12 +123,14 @@ async function ogImage(badge380) {
     <path d="M960 0 L1200 240"/>
     <path d="M1060 0 L1200 140"/>
   </g>
-  <text x="556" y="268" font-family="${SERIF}" font-size="82" font-weight="600"
+  <text x="558" y="204" font-family="${SANS}" font-size="22" font-weight="500"
+        fill="#c8d2e0" letter-spacing="6">CÔNG TY LUẬT</text>
+  <text x="556" y="292" font-family="${SERIF}" font-size="82" font-weight="600"
         fill="#ffffff" letter-spacing="5">VŨ KHANG</text>
-  <rect x="558" y="300" width="86" height="4" fill="${RED}"/>
-  <text x="558" y="356" font-family="${SANS}" font-size="26" font-weight="500"
-        fill="#c8d2e0" letter-spacing="6">CÔNG TY LUẬT TNHH</text>
-  <text x="558" y="424" font-family="${SANS}" font-size="22"
+  <rect x="558" y="322" width="86" height="4" fill="${RED}"/>
+  <text x="558" y="378" font-family="${SANS}" font-size="26" font-weight="500"
+        fill="#c8d2e0" letter-spacing="6">SOLUTIONS &amp; PARTNERS</text>
+  <text x="558" y="442" font-family="${SANS}" font-size="22"
         fill="#8b98ab" letter-spacing="1">Góc nhìn pháp lý cho những quyết định quan trọng</text>
 </svg>`;
   return sharp(Buffer.from(svg))

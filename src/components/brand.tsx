@@ -26,8 +26,9 @@ export function Brand({
         fetchPriority="high"
       />
       <span className="brand-wordmark">
-        <small>CÔNG TY LUẬT TNHH</small>
+        <small>CÔNG TY LUẬT</small>
         <strong>VŨ KHANG</strong>
+        <small>SOLUTIONS &amp; PARTNERS</small>
       </span>
     </Link>
   );

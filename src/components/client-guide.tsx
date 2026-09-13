@@ -136,7 +136,7 @@ export function ClientGuide({ locale }: { locale: Locale }) {
           </div>
         </article>
         <aside className="sidebar">
-          <span className="eyebrow dark">Công ty Luật TNHH Vũ Khang</span>
+          <span className="eyebrow dark">Công ty Luật Vũ Khang Solutions & Partners</span>
           <h2>{t(locale, "Bạn đã sẵn sàng trao đổi?", "Ready to talk?")}</h2>
           <p>
             {t(

@@ -28,9 +28,9 @@ const TITLES: Record<PageSlug, Record<Locale, string>> = {
     zh: "深入理解问题，从容作出决策。",
   },
   about: {
-    vi: "Về Công ty Luật TNHH Vũ Khang",
+    vi: "Về Công ty Luật Vũ Khang Solutions & Partners",
     en: "About Vũ Khang",
-    zh: "关于 Công ty Luật TNHH Vũ Khang",
+    zh: "关于 Công ty Luật Vũ Khang Solutions & Partners",
   },
   contact: { vi: "Liên hệ", en: "Contact", zh: "联系我们" },
   privacy: { vi: "Quyền riêng tư", en: "Privacy", zh: "隐私政策" },
@@ -38,9 +38,9 @@ const TITLES: Record<PageSlug, Record<Locale, string>> = {
 };
 
 const SUMMARIES: Record<Locale, string> = {
-  vi: "Nội dung dự thảo của Công ty Luật TNHH Vũ Khang — cần rà soát trước khi xuất bản.",
-  en: "Draft content for Công ty Luật TNHH Vũ Khang — review before publication.",
-  zh: "Công ty Luật TNHH Vũ Khang 的内容草案 — 发布前须经审核。",
+  vi: "Nội dung dự thảo của Công ty Luật Vũ Khang Solutions & Partners — cần rà soát trước khi xuất bản.",
+  en: "Draft content for Công ty Luật Vũ Khang Solutions & Partners — review before publication.",
+  zh: "Công ty Luật Vũ Khang Solutions & Partners 的内容草案 — 发布前须经审核。",
 };
 
 /** Dự thảo chính sách tiếng Trung nằm ở tệp riêng, không nằm trong policyDrafts. */

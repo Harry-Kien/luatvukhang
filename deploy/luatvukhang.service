@@ -7,7 +7,7 @@
 # Đổi User, WorkingDirectory và đường dẫn nếu đặt mã ở chỗ khác.
 
 [Unit]
-Description=Website Cong ty Luat TNHH Vu Khang
+Description=Website Cong ty Luat Vu Khang Solutions & Partners
 # Cơ sở dữ liệu là một tệp SQLite trong thư mục ứng dụng, không phải dịch vụ
 # riêng — nên không có gì phải chờ ngoài mạng.
 After=network-online.target

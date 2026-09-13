@@ -269,7 +269,7 @@ export function Footer({
       <div className="footer-directory">
         <div className="footer-identity">
           <Brand locale={locale} inverted />
-          <p>{companyName || "Công ty Luật TNHH Vũ Khang"}</p>
+          <p>{companyName || "Công ty Luật Vũ Khang Solutions & Partners"}</p>
           <span className="footer-motto">
             {t(
               locale,

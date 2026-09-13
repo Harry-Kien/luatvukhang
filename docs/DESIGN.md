@@ -1,6 +1,6 @@
 # Nhận diện website Vũ Khang — vòng thiết kế 2
 
-Tên công ty do người dùng cung cấp: **Công ty Luật TNHH Vũ Khang**. Đã lưu vào SiteSettings và dùng trong website. Không tự đặt tên pháp lý tiếng Anh.
+Tên công ty do người dùng cung cấp: **Công ty Luật Vũ Khang Solutions & Partners**. Đã lưu vào SiteSettings và dùng trong website. Không tự đặt tên pháp lý tiếng Anh.
 
 ## Thay đổi
 - Wordmark VŨ KHANG và chữ ghép VK bằng typography, thay nhận diện “Công ty luật” chung.

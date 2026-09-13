@@ -31,7 +31,7 @@ const DEFAULT_OG_IMAGE = {
   url: "/opengraph-image.png",
   width: 1200,
   height: 630,
-  alt: "Công ty Luật TNHH Vũ Khang — Góc nhìn pháp lý cho những quyết định quan trọng",
+  alt: "Công ty Luật Vũ Khang Solutions & Partners — Góc nhìn pháp lý cho những quyết định quan trọng",
 };
 
 /**
@@ -170,7 +170,7 @@ export function organizationJsonLd(settings: Settings, locale: Locale) {
   const name =
     (locale === "en" ? settings?.englishName : settings?.companyName) ||
     settings?.companyName ||
-    "Công ty Luật TNHH Vũ Khang";
+    "Công ty Luật Vũ Khang Solutions & Partners";
   const alternateName =
     locale === "en" ? settings?.companyName : settings?.englishName;
   return prune({

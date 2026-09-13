@@ -1,6 +1,6 @@
 # Thông tin cần công ty cung cấp và xác nhận
 
-Đã nhận tên chính thức: Công ty Luật TNHH Vũ Khang. Website đã cập nhật tên này.
+Đã nhận tên chính thức: Công ty Luật Vũ Khang Solutions & Partners. Website đã cập nhật tên này.
 
 Đã nhận số điện thoại: **0832270898**. Số này nằm trong Cài đặt của CMS và là
 nguồn duy nhất sinh ra nút gọi (`tel:+84832270898`), nút Zalo

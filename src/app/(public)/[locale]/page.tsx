@@ -10,7 +10,7 @@ import { getRecords } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 const INTRO: Record<Locale, string> = {
   zh: "Vũ Khang — 为越南投资、企业经营、合同与争议问题提供清晰的法律视角。",
-  vi: "Công ty Luật TNHH Vũ Khang — góc nhìn pháp lý rõ ràng cho đầu tư, doanh nghiệp, hợp đồng và giải quyết tranh chấp tại Việt Nam.",
+  vi: "Công ty Luật Vũ Khang Solutions & Partners — góc nhìn pháp lý rõ ràng cho đầu tư, doanh nghiệp, hợp đồng và giải quyết tranh chấp tại Việt Nam.",
   en: "Vũ Khang — a clear legal perspective on investment, corporate, contract and dispute matters in Vietnam.",
 };
 export async function generateMetadata({
@@ -26,7 +26,7 @@ export async function generateMetadata({
     locale,
     title: t(
       locale,
-      "Công ty Luật TNHH Vũ Khang — Tư vấn pháp lý doanh nghiệp",
+      "Công ty Luật Vũ Khang Solutions & Partners — Tư vấn pháp lý doanh nghiệp",
       "Vũ Khang — Legal counsel in Vietnam",
     ),
     titleAbsolute: true,
@@ -65,7 +65,7 @@ export default async function Home({
             <span />
             {t(
               locale,
-              "Công ty Luật TNHH Vũ Khang",
+              "Công ty Luật Vũ Khang Solutions & Partners",
               "Vũ Khang · Legal counsel",
             )}
           </div>

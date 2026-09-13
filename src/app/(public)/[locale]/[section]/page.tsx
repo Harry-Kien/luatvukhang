@@ -52,7 +52,7 @@ const descriptions: Record<string, [string, string]> = {
     "How to make an enquiry with Vũ Khang: what to prepare, how the process works and answers to frequently asked questions.",
   ],
   about: [
-    "Tìm hiểu Công ty Luật TNHH Vũ Khang: cách tiếp cận vấn đề pháp lý, phạm vi hoạt động và nguyên tắc làm việc với khách hàng.",
+    "Tìm hiểu Công ty Luật Vũ Khang Solutions & Partners: cách tiếp cận vấn đề pháp lý, phạm vi hoạt động và nguyên tắc làm việc với khách hàng.",
     "Learn about Vũ Khang: how the firm approaches legal matters, its scope of practice and the principles behind client work.",
   ],
   services: [
@@ -72,7 +72,7 @@ const descriptions: Record<string, [string, string]> = {
     "Legal insights from Vũ Khang on new regulations, practical application and the issues businesses encounter.",
   ],
   contact: [
-    "Thông tin liên hệ Công ty Luật TNHH Vũ Khang: địa chỉ văn phòng, điện thoại và email tiếp nhận yêu cầu.",
+    "Thông tin liên hệ Công ty Luật Vũ Khang Solutions & Partners: địa chỉ văn phòng, điện thoại và email tiếp nhận yêu cầu.",
     "Contact details for Vũ Khang: office address, telephone and the email address for enquiries.",
   ],
   consultation: [
@@ -84,15 +84,15 @@ const descriptions: Record<string, [string, string]> = {
     "Legal experience at Vũ Khang organised by industry and the particulars of each business sector.",
   ],
   careers: [
-    "Cơ hội nghề nghiệp tại Công ty Luật TNHH Vũ Khang: vị trí đang tuyển, nơi làm việc và cách ứng tuyển.",
+    "Cơ hội nghề nghiệp tại Công ty Luật Vũ Khang Solutions & Partners: vị trí đang tuyển, nơi làm việc và cách ứng tuyển.",
     "Careers at Vũ Khang: open positions, work locations and how to apply.",
   ],
   privacy: [
-    "Cách Công ty Luật TNHH Vũ Khang thu thập, sử dụng và bảo vệ thông tin cá nhân của người truy cập website.",
+    "Cách Công ty Luật Vũ Khang Solutions & Partners thu thập, sử dụng và bảo vệ thông tin cá nhân của người truy cập website.",
     "How Vũ Khang collects, uses and protects the personal information of visitors to this website.",
   ],
   terms: [
-    "Điều khoản sử dụng website của Công ty Luật TNHH Vũ Khang, bao gồm giới hạn trách nhiệm đối với nội dung tham khảo.",
+    "Điều khoản sử dụng website của Công ty Luật Vũ Khang Solutions & Partners, bao gồm giới hạn trách nhiệm đối với nội dung tham khảo.",
     "Terms of use for the Vũ Khang website, including the limits of responsibility for reference content.",
   ],
 };
@@ -103,7 +103,7 @@ const descriptions: Record<string, [string, string]> = {
  * Trung không có thẻ nào vì khóa bị sót.
  */
 const zhDescriptions: Record<string, string> = {
-  about: "了解 Công ty Luật TNHH Vũ Khang 的介绍、团队及沟通方式。",
+  about: "了解 Công ty Luật Vũ Khang Solutions & Partners 的介绍、团队及沟通方式。",
   services: "了解专业领域、支持范围及咨询申请流程。",
   experience: "浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",
   lawyers: "浏览已核实发布的律师履历、职业背景及专业领域。",

@@ -285,6 +285,21 @@ tư/Điều khoản và hồ sơ luật sư thật. Ngoài ra, **36 bản ghi l�
 đang ở trạng thái đã xuất bản nhưng do script soạn, chưa có luật sư của công ty
 đọc duyệt** — phải rà soát trước khi bật `SITE_LAUNCH_APPROVED`.
 
+## Đổi tên công ty thành Công ty Luật Vũ Khang Solutions & Partners — 13/09/2026
+
+Tên đầy đủ mới thay cho "Công ty Luật TNHH Vũ Khang" ở mọi nơi: tiêu đề mặc
+định, manifest, schema.org, ảnh chia sẻ, mô tả trang, bản dự thảo chính sách
+(ba ngôn ngữ), tài liệu và tệp dịch vụ. Tên ngắn "Vũ Khang" trong tiêu đề trang
+và siteName giữ nguyên.
+
+Wordmark ở header và footer chuyển sang ba dòng: CÔNG TY LUẬT / VŨ KHANG /
+SOLUTIONS & PARTNERS, chiều cao vẫn nằm trong khung header 103px.
+
+Dữ liệu CMS đã có (trang Về chúng tôi, Quyền riêng tư, Điều khoản ở ba ngôn
+ngữ) đổi bằng `scripts/rename-company.ts`, giữ nguyên trạng thái nháp/xuất bản.
+**Script này phải chạy thêm một lần trên hosting** vì cơ sở dữ liệu ở đó tách
+biệt với máy cá nhân.
+
 ## Logo chính thức thay monogram chữ — 13/09/2026
 
 **Logo thật của công ty** (chữ V navy, K vàng, sách mở, viền tròn vàng) thay cho

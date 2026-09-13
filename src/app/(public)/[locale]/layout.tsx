@@ -27,7 +27,7 @@ import {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Công ty Luật TNHH Vũ Khang",
+    default: "Công ty Luật Vũ Khang Solutions & Partners",
     template: "%s | Vũ Khang",
   },
   description: "Tìm hiểu chuyên môn và gửi yêu cầu tư vấn pháp lý.",

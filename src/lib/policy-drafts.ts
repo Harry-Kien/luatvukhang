@@ -3,7 +3,7 @@ export const policyDrafts = {
     vi: [
       [
         "Phạm vi sử dụng",
-        "Website giới thiệu Công ty Luật TNHH Vũ Khang, cung cấp nội dung tham khảo và tiếp nhận yêu cầu trao đổi. Bản dự thảo này cần được công ty rà soát trước khi công bố chính thức.",
+        "Website giới thiệu Công ty Luật Vũ Khang Solutions & Partners, cung cấp nội dung tham khảo và tiếp nhận yêu cầu trao đổi. Bản dự thảo này cần được công ty rà soát trước khi công bố chính thức.",
       ],
       [
         "Thông tin tham khảo và tư vấn riêng",
@@ -37,7 +37,7 @@ export const policyDrafts = {
     en: [
       [
         "Scope",
-        "This website introduces Công ty Luật TNHH Vũ Khang, provides general information and receives enquiries. This draft requires review by the firm before official publication.",
+        "This website introduces Công ty Luật Vũ Khang Solutions & Partners, provides general information and receives enquiries. This draft requires review by the firm before official publication.",
       ],
       [
         "General information and individual advice",
@@ -73,7 +73,7 @@ export const policyDrafts = {
     vi: [
       [
         "Đơn vị và phạm vi thông báo",
-        "Dự thảo dành cho website Công ty Luật TNHH Vũ Khang và biểu mẫu yêu cầu tư vấn. Công ty cần xác nhận địa chỉ, đầu mối bảo vệ dữ liệu, đơn vị cung cấp hạ tầng và nội dung xử lý thực tế trước khi công bố.",
+        "Dự thảo dành cho website Công ty Luật Vũ Khang Solutions & Partners và biểu mẫu yêu cầu tư vấn. Công ty cần xác nhận địa chỉ, đầu mối bảo vệ dữ liệu, đơn vị cung cấp hạ tầng và nội dung xử lý thực tế trước khi công bố.",
       ],
       [
         "Thông tin biểu mẫu tiếp nhận",
@@ -111,7 +111,7 @@ export const policyDrafts = {
     en: [
       [
         "Operator and scope",
-        "This draft covers the website of Công ty Luật TNHH Vũ Khang and its enquiry form. The firm must confirm its address, privacy contact, infrastructure providers and actual processing before publication.",
+        "This draft covers the website of Công ty Luật Vũ Khang Solutions & Partners and its enquiry form. The firm must confirm its address, privacy contact, infrastructure providers and actual processing before publication.",
       ],
       [
         "Information collected",

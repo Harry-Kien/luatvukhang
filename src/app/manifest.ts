@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Công ty Luật TNHH Vũ Khang",
+    name: "Công ty Luật Vũ Khang Solutions & Partners",
     short_name: "Vũ Khang",
     description:
       "Góc nhìn pháp lý rõ ràng cho những quyết định quan trọng của doanh nghiệp và cá nhân.",

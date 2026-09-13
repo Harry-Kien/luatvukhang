@@ -1,1 +1,1 @@
-import {getPayload} from 'payload';import config from '../src/payload.config';const cms=await getPayload({config});await cms.updateGlobal({slug:'site-settings',data:{companyName:'Công ty Luật TNHH Vũ Khang'}});console.log('Company name updated.');await cms.destroy();process.exit();
+import {getPayload} from 'payload';import config from '../src/payload.config';const cms=await getPayload({config});await cms.updateGlobal({slug:'site-settings',data:{companyName:'Công ty Luật Vũ Khang Solutions & Partners'}});console.log('Company name updated.');await cms.destroy();process.exit();
