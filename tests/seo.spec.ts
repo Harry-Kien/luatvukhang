@@ -145,8 +145,23 @@ test("robots, sitemap, manifest and feed respond correctly", async ({
   expect(manifest.ok()).toBeTruthy();
   expect((await manifest.json()).start_url).toBe("/vi");
 
-  for (const asset of ["/icon.svg", "/apple-icon.png", "/opengraph-image.png"])
+  // Bộ nhận diện sinh từ design/logo.jpg (scripts/generate-brand-assets.mjs).
+  // /favicon.ico bắt buộc: Safari không đọc favicon SVG, Google/Zalo gọi thẳng.
+  for (const asset of [
+    "/favicon.ico",
+    "/icon.png",
+    "/apple-icon.png",
+    "/opengraph-image.png",
+    "/brand/logo-192.png",
+    "/brand/logo-512.png",
+    "/brand/logo-maskable-512.png",
+  ])
     expect((await request.get(asset)).ok(), `${asset} phải tải được`).toBeTruthy();
+  const icons = (await manifest.json()).icons as { sizes: string; purpose?: string }[];
+  expect(icons.map((i) => i.sizes)).toEqual(
+    expect.arrayContaining(["192x192", "512x512"]),
+  );
+  expect(icons.some((i) => i.purpose === "maskable")).toBeTruthy();
 
   // Feed chỉ mở sau khi duyệt ra mắt; trước đó phải là 404.
   const feed = await request.get("/vi/feed.xml");
