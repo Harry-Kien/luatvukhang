@@ -357,9 +357,16 @@ export default async function Home({
               {t(locale, "Tìm luật sư", "Find a lawyer")}
               <ArrowRight size={18} />
             </span>
-            <span className="editorial-word" aria-hidden="true">
-              VK.
-            </span>
+            {/* Huy hiệu công ty làm dấu nền, thay cho chữ VK trang trí trước đây. */}
+            <img
+              className="editorial-mark"
+              src="/brand/logo-512.png"
+              alt=""
+              width={512}
+              height={512}
+              loading="lazy"
+              decoding="async"
+            />
           </Link>
           <Link
             className="editorial-insights"
