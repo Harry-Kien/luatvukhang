@@ -285,6 +285,19 @@ tư/Điều khoản và hồ sơ luật sư thật. Ngoài ra, **36 bản ghi l�
 đang ở trạng thái đã xuất bản nhưng do script soạn, chưa có luật sư của công ty
 đọc duyệt** — phải rà soát trước khi bật `SITE_LAUNCH_APPROVED`.
 
+## Lấp hai mục trống bằng bản nháp, và tùy chọn xem trước hồ sơ minh họa — 13/09/2026
+
+Bài viết (3 bài) và Ngành nghề (6 ngành) có bản nháp ba ngôn ngữ qua
+`scripts/prepare-editorial.ts`, chạy tự động trong `hosting-setup.mjs`. Nội dung
+giữ đúng nguyên tắc của dự án: quy trình và quy định chung có dẫn nguồn, không
+khẳng định kết quả hay khách hàng.
+
+Quy trình "Gói bản dựng cho hosting" thêm tùy chọn `demo_mode`. Bật lên thì bản
+dựng hiện 6 hồ sơ luật sư minh họa kèm nhãn và dải "Bản phát triển", đồng thời
+tự tắt ra mắt; dùng để công ty xem trước bố cục trang Đội ngũ trên tên miền
+thật. Trước khi ra mắt phải dựng lại với `demo_mode` tắt. Hồ sơ minh họa vẫn
+không thể xuất bản và không thay được hồ sơ thật.
+
 ## Trang quản trị mang nhận diện công ty và bảng tổng quan đầy đủ hơn — 13/09/2026
 
 Trang đăng nhập và thanh điều hướng /admin dùng logo công ty thay logo Payload;

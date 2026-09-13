@@ -21,6 +21,10 @@ on:
         description: "Bật SITE_LAUNCH_APPROVED — chỉ bật khi đã nghiệm thu xong"
         type: boolean
         default: false
+      demo_mode:
+        description: "Bật NEXT_PUBLIC_DEMO_MODE — hiện hồ sơ minh họa có nhãn, dải 'Bản phát triển'; tự tắt ra mắt"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -36,7 +40,7 @@ jobs:
       # giá trị của bản chạy thật ngay từ đây — đổi trên hosting sau sẽ không có
       # tác dụng.
       NEXT_PUBLIC_SITE_URL: https://luatvukhang.com
-      NEXT_PUBLIC_DEMO_MODE: "false"
+      NEXT_PUBLIC_DEMO_MODE: ${{ inputs.demo_mode && 'true' || 'false' }}
       SITE_LAUNCH_APPROVED: ${{ inputs.launch_approved && 'true' || 'false' }}
       DATABASE_URL: file:./.local/law.db
 

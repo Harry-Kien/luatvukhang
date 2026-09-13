@@ -59,6 +59,18 @@ node --env-file=.env --import tsx scripts/publish-drafts.ts            # liệt 
 node --env-file=.env --import tsx scripts/publish-drafts.ts --confirm  # xuất bản
 ```
 
+## Bài viết và Ngành nghề dự thảo — 13/09/2026
+
+Hai mục từng trống trên website thật nay có bản nháp ba ngôn ngữ, nạp bằng
+`scripts/prepare-editorial.ts` (đã thêm vào `hosting-setup.mjs`):
+
+| Nội dung | Số bản ghi | Ghi chú |
+| --- | --- | --- |
+| 3 bài viết: rà soát hợp đồng, các bước trước khi khởi kiện, chuẩn bị gặp luật sư | 9 | Chỉ nói quy trình và quy định chung, có dẫn số hiệu văn bản. Cần ghi tên tác giả chịu trách nhiệm trước khi xuất bản. |
+| 6 ngành nghề: sản xuất, bất động sản, công nghệ, thương mại, giáo dục và y tế, dịch vụ và tài chính | 18 | Cắt những ngành công ty không thực sự phục vụ. |
+
+Trang Kinh nghiệm vẫn cố ý để trống: đó là khẳng định về việc đã làm.
+
 ## Hồ sơ đội ngũ minh họa — 10/09/2026
 
 Trang Đội ngũ đã có 6 hồ sơ **minh họa** (18 bản ghi, ba ngôn ngữ) để công ty

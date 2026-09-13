@@ -291,6 +291,7 @@ for (const script of [
   "prepare-practice-areas.ts",
   "prepare-keywords.ts",
   "prepare-page-content.ts",
+  "prepare-editorial.ts",
 ]) {
   console.log(`    ${script}`);
   run("node", ["--import", "tsx", `scripts/${script}`]);

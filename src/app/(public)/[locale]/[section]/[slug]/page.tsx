@@ -276,8 +276,8 @@ export default async function Detail({ params, searchParams }: Props) {
                   <>
                     <h2>{t(locale, "Nguồn tham khảo", "Sources")}</h2>
                     <ul>
-                      {record.sources.map((s) => (
-                        <li key={s.url}>
+                      {record.sources.map((s, index) => (
+                        <li key={`${index}-${s.url}`}>
                           <a
                             href={
                               /^https?:\/\//.test(s.url) ? s.url : undefined
