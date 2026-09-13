@@ -285,6 +285,18 @@ tư/Điều khoản và hồ sơ luật sư thật. Ngoài ra, **36 bản ghi l�
 đang ở trạng thái đã xuất bản nhưng do script soạn, chưa có luật sư của công ty
 đọc duyệt** — phải rà soát trước khi bật `SITE_LAUNCH_APPROVED`.
 
+## Trang quản trị mang nhận diện công ty và bảng tổng quan đầy đủ hơn — 13/09/2026
+
+Trang đăng nhập và thanh điều hướng /admin dùng logo công ty thay logo Payload;
+tiêu đề tab có hậu tố "· Vũ Khang" (`admin.meta`, `admin.components.graphics`,
+`src/components/admin-brand.tsx`).
+
+Bảng tổng quan thêm ba khối trước bảng trang cố định: sáu ô Cài đặt còn thiếu
+ô nào; số bản ghi thật đã xuất bản theo mục và ngôn ngữ (bản minh họa không
+tính); trạng thái cấu hình email thông báo và hàng đợi thông báo. Mục đích: người
+quản trị nhìn một trang là biết website đang trống chỗ nào và vì sao chưa nhận
+được email yêu cầu tư vấn. Kiểm thử CMS và Đội ngũ đạt.
+
 ## Đổi tên công ty thành Công ty Luật Vũ Khang Solutions & Partners — 13/09/2026
 
 Tên đầy đủ mới thay cho "Công ty Luật TNHH Vũ Khang" ở mọi nơi: tiêu đề mặc

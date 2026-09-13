@@ -540,8 +540,19 @@ export default buildConfig({
   admin: {
     user: "users",
     importMap: { baseDir: path.resolve(dirname) },
+    // Trang quản trị mang nhận diện công ty thay cho logo Payload mặc định.
+    meta: {
+      titleSuffix: " · Vũ Khang",
+      description:
+        "Trang quản trị website Công ty Luật Vũ Khang Solutions & Partners",
+      icons: [{ rel: "icon", type: "image/png", url: "/brand/logo-192.png" }],
+    },
     components: {
       beforeDashboard: ["/components/admin-dashboard#AdminDashboard"],
+      graphics: {
+        Logo: "/components/admin-brand#AdminLogo",
+        Icon: "/components/admin-brand#AdminIcon",
+      },
     },
     livePreview: {
       breakpoints: [

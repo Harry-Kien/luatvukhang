@@ -4,6 +4,23 @@
 
 Mở /admin. Tài khoản cục bộ được tạo với mật khẩu ngẫu nhiên trong .local/admin-access.txt. Đây không phải tài khoản production. Đổi mật khẩu, thiết lập email khôi phục và lớp MFA/SSO trước khi ra mắt.
 
+## Bảng tổng quan
+
+Trang đầu sau khi đăng nhập gồm bốn khối, đọc từ trên xuống là biết còn thiếu gì:
+
+- **Thông tin công ty**: sáu ô bắt buộc trong Cài đặt còn thiếu ô nào, và cờ
+  "Chính sách quyền riêng tư đã được rà soát" đã bật chưa.
+- **Nội dung đã xuất bản**: số bản ghi thật đã xuất bản của Dịch vụ, Đội ngũ,
+  Ngành nghề, Kinh nghiệm, Bài viết, Văn phòng theo từng ngôn ngữ. Số 0 nghĩa
+  là trang tương ứng trên website đang trống.
+- **Thông báo yêu cầu tư vấn** (chỉ quản trị viên): email thông báo đã cấu hình
+  chưa, hàng đợi còn bao nhiêu thông báo chờ gửi hoặc gửi lỗi.
+- **Nội dung cần hoàn tất trước khi ra mắt**: trạng thái từng trang cố định.
+
+Trang quản trị mang logo và tên công ty; tiêu đề tab có hậu tố "· Vũ Khang".
+Ngôn ngữ giao diện theo trình duyệt (Việt hoặc Anh); đổi trong Tài khoản →
+Language.
+
 ## Các khu vực
 
 - **Tổng quan công việc:** lối tắt và số yêu cầu mới cho quản trị/tiếp nhận.
