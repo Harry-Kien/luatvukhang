@@ -138,3 +138,30 @@ Ba điều cần biết:
 
 Bộ từ khóa khởi đầu cho 12 lĩnh vực đã được nạp sẵn. Cứ bổ sung thoải mái — càng
 sát cách khách nói thì ô tìm kiếm càng dẫn đúng chỗ.
+
+## Sửa ngay trên website
+
+Đăng nhập /admin rồi mở website: đầu trang có thanh quản trị. Bấm **Bật chế độ
+sửa** — rê chuột lên vùng nào cũng thấy nút "✎ Sửa …", bấm là mở đúng mục đó
+với khung xem trước bên cạnh. **Sửa trang này** mở bản ghi của trang đang xem.
+Khách truy cập không thấy gì trong số này; chế độ sửa chỉ có tác dụng khi đã
+đăng nhập.
+
+## Giao diện website
+
+Mục **Giao diện website** gồm bốn tab: Đầu trang (dòng chữ nhỏ, menu, nút đặt
+lịch), Trang chủ (mọi chữ ở trang chủ), Chân trang, Liên hệ và mạng xã hội
+(Zalo, Facebook, LinkedIn, YouTube, giờ làm việc, bản đồ). Mỗi ô có ba ngôn
+ngữ — chọn VI / EN / ZH ở góc trên bên phải. Ô để trống dùng bản mặc định của
+đúng ngôn ngữ đó. Lưu là có hiệu lực ngay, không qua bản nháp.
+
+## Dịch máy và duyệt
+
+Trên bản ghi tiếng Việt, cột phải có bảng **Bản dịch** với nút *Dịch bằng AI
+sang EN / ZH*. Bản dịch được tạo dưới dạng nháp và gắn cờ "Bản dịch máy, chưa
+duyệt"; hệ thống **không cho xuất bản** tới khi có người mở bản đó, đọc, sửa
+nếu cần và bấm **Đã rà soát bản dịch** (ai bấm và lúc nào được ghi lại). Với
+Giao diện website và Cài đặt, nút *Dịch từ tiếng Việt* điền thẳng vào tab
+EN/ZH để rà soát rồi Lưu. Cần khai `ANTHROPIC_API_KEY` trong `.env`; mỗi
+người tối đa 60 lượt dịch một giờ. Tên công ty và số hiệu văn bản được giữ
+nguyên; thuật ngữ pháp lý dịch theo bảng trong `src/cms/translation/glossary.ts`.

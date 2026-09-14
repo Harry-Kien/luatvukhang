@@ -4,6 +4,7 @@ Phiên bản đã cài theo package-lock.json. Ngày kiểm tra: 08/09/2026.
 
 | Gói | Phiên bản | Giấy phép | Phạm vi |
 |---|---|---|---|
+| @anthropic-ai/sdk | 0.125.0 | MIT | runtime |
 | @fontsource-variable/noto-serif | 5.3.0 | OFL-1.1 | runtime |
 | @fontsource/be-vietnam-pro | 5.3.0 | OFL-1.1 | runtime |
 | @hookform/resolvers | 5.9.1 | MIT | runtime |

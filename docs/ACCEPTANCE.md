@@ -310,6 +310,36 @@ tính); trạng thái cấu hình email thông báo và hàng đợi thông báo
 quản trị nhìn một trang là biết website đang trống chỗ nào và vì sao chưa nhận
 được email yêu cầu tư vấn. Kiểm thử CMS và Đội ngũ đạt.
 
+## Sửa tại chỗ, Giao diện website, dịch máy có duyệt — 14/09/2026
+
+Thiết kế: `docs/superpowers/specs/2026-09-14-sua-tai-cho-va-dich-may-design.md`.
+Bốn đợt, mỗi đợt có kiểm thử tự động riêng (tổng cộng 16 bài mới, chạy trên
+cả desktop và mobile):
+
+1. **Thanh quản trị và chế độ sửa** trên website cho phiên đăng nhập thật
+   (`tests/admin-bar.spec.ts`): khách không nhận thêm một byte HTML nào; người
+   biên tập có thanh quản trị, công tắc chế độ sửa (cookie `vk-edit`, vô
+   hiệu khi chưa đăng nhập) và khung "✎ Sửa" trỏ đúng màn hình biên tập.
+2. **Global "Giao diện website"** (`tests/site-layout.spec.ts`): menu, trang
+   chủ, chân trang, liên hệ và mạng xã hội trong CMS, ba ngôn ngữ trên cùng
+   một màn hình (localization của Payload, chỉ cho global và địa chỉ trong
+   Cài đặt). Chữ trong mã thành mặc định; ô trống dùng mặc định đúng ngôn ngữ.
+3. **Dịch máy có duyệt** (`tests/translate.spec.ts`): endpoint
+   `POST /api/translate` dùng Claude (`claude-opus-5`, structured output,
+   bảng thuật ngữ) tạo bản nháp EN/ZH có cờ máy dịch; cổng xuất bản chặn tới
+   khi bấm "Đã rà soát bản dịch"; hạn mức 60 lượt/giờ/người; thiếu khóa trả
+   503. Kiểm thử chạy với nhà cung cấp giả lập `TRANSLATION_PROVIDER=mock`.
+4. **Trang quản trị gọn hơn** (`tests/admin-polish.spec.ts`): lối tắt trên
+   bảng điều khiển, nhóm "Nâng cao" gấp lại, mã liên kết bản dịch tự sinh từ
+   đường dẫn, nút "Xem trên website", nhóm Nội dung website lên đầu.
+
+Giới hạn còn lại: dịch máy cần khóa API do công ty đăng ký; Giao diện website
+không có bản nháp (lưu là có hiệu lực); bản Trung mặc định của giao diện sinh
+từ bản Anh qua từ điển như phần còn lại của website.
+
+Cập nhật hosting: chạy migration (hosting-setup làm tự động) và tải lại
+`node_modules` vì có phụ thuộc mới.
+
 ## Bổ sung loại hình "TNHH" vào tên công ty — 14/09/2026
 
 Tên pháp lý đầy đủ là **Công ty Luật TNHH Vũ Khang Solutions & Partners**; bản

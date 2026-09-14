@@ -169,6 +169,7 @@ Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biế
 | `NEXT_PUBLIC_DEMO_MODE` | `false` |
 | `SITE_LAUNCH_APPROVED` | `false` cho tới khi nghiệm thu xong |
 | `TRUST_PROXY_HEADERS` | `false` |
+| `ANTHROPIC_API_KEY` | Khóa API Anthropic để bật nút dịch máy trong trang quản trị. Không bắt buộc; thiếu thì nút báo "chưa cấu hình" |
 
 > `PAYLOAD_SECRET` ngắn hơn 32 ký tự sẽ khiến ứng dụng dừng ngay khi khởi động ở
 > chế độ production. Đó là chủ ý: giá trị dự phòng nằm công khai trong kho mã,
@@ -428,7 +429,8 @@ node scripts/hosting-setup.mjs --skip-install --skip-build
 > dang để lại thư mục rỗng trong `node_modules` gây lỗi
 > `Cannot find package` về sau.
 
-Chỉ tải lại `node_modules` khi `package.json` đổi phần `dependencies`:
+Chỉ tải lại `node_modules` khi `package.json` đổi phần `dependencies` (bản
+14/09/2026 thêm `@anthropic-ai/sdk`, nên lần cập nhật đó **phải** tải lại):
 
 ```bash
 curl -fL -o ~/nm.tar.gz https://github.com/Harry-Kien/luatvukhang/releases/latest/download/hosting-node-modules.tar.gz

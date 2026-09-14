@@ -8,6 +8,10 @@ if (process.env.TRUST_PROXY_HEADERS !== "true")
   warnings.push(
     "Per-client rate limits disabled. Configure a trusted ingress before enabling TRUST_PROXY_HEADERS.",
   );
+if (!process.env.ANTHROPIC_API_KEY)
+  warnings.push(
+    "Machine translation disabled: set ANTHROPIC_API_KEY to enable the translate buttons.",
+  );
 if (!process.env.DATABASE_URL) {
   console.error("RELEASE BLOCKED:\n" + issues.join("\n"));
   process.exit(1);
@@ -78,6 +82,8 @@ for (const collection of [
       warnings.push(
         `Search description over 160 characters; review snippet length: ${at}`,
       );
+    if (doc.machineTranslated)
+      warnings.push(`Machine translation not reviewed: ${at}`);
     // Nội dung pháp lý cần thể hiện rõ ai chịu trách nhiệm chuyên môn.
     if (collection === "articles" && !doc.author)
       warnings.push(`Article has no author, weakens expertise signals: ${at}`);

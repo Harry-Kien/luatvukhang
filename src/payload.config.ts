@@ -120,6 +120,9 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         url: ({ data }) =>
           `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/${data.language || "vi"}/${slug === "pages" ? "" : slug + "/"}${slug === "pages" && data.slug === "home" ? "" : data.slug || ""}?preview=true`,
       },
+      // Nút "Xem trên website": bản nháp mở kèm ?preview=true.
+      preview: (doc) =>
+        `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/${(doc as any).language || "vi"}/${slug === "pages" ? "" : slug + "/"}${slug === "pages" && (doc as any).slug === "home" ? "" : (doc as any).slug || ""}${(doc as any)._status === "published" ? "" : "?preview=true"}`,
     },
     access: {
       read: publicRead,
@@ -130,10 +133,19 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
     },
     versions: { drafts: { autosave: { interval: 700 } }, maxPerDoc: 50 },
     lockDocuments: { duration: 300 },
-    hooks: { beforeChange: [publicationGuard], afterChange: [trackSlugChange] },
+    hooks: {
+      beforeValidate: [
+        ({ data }) => {
+          if (data && !data.translationKey && data.slug)
+            data.translationKey = data.slug;
+          return data;
+        },
+      ],
+      beforeChange: [publicationGuard],
+      afterChange: [trackSlugChange],
+    },
     fields: [
       text("title", slug === "lawyers" ? "Họ và tên" : "Tiêu đề", true),
-      text("slug", "Đường dẫn (chữ thường, không dấu)", true),
       {
         name: "language",
         label: "Ngôn ngữ",
@@ -146,7 +158,6 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
           { label: "简体中文", value: "zh" },
         ],
       },
-      text("translationKey", "Mã liên kết bản dịch", true),
       {
         name: "reviewState",
         label: "Duyệt chuyên môn",
@@ -200,15 +211,6 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         },
       },
       { name: "summary", label: "Tóm tắt", type: "textarea", required: true },
-      {
-        name: "keywords",
-        label: "Từ khóa khách hàng thường gõ",
-        type: "textarea",
-        admin: {
-          description:
-            "Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.",
-        },
-      },
       { name: "body", label: "Nội dung chi tiết", type: "richText" },
       blocks,
       ...(slug === "pages"
@@ -379,12 +381,42 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
           ]
         : []),
       {
-        type: "group",
-        name: "seo",
-        label: "Hiển thị trên công cụ tìm kiếm",
+        type: "collapsible",
+        label: "Nâng cao (đường dẫn, mã liên kết bản dịch, từ khóa, SEO)",
+        admin: { initCollapsed: true },
         fields: [
-          text("title", "Tiêu đề kết quả tìm kiếm"),
-          { name: "description", label: "Mô tả ngắn", type: "textarea" },
+          {
+            ...text("slug", "Đường dẫn (chữ thường, không dấu)", true),
+            admin: {
+              description:
+                "Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.",
+            },
+          } as Field,
+          {
+            ...text("translationKey", "Mã liên kết bản dịch", true),
+            admin: {
+              description:
+                "Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.",
+            },
+          } as Field,
+          {
+            name: "keywords",
+            label: "Từ khóa khách hàng thường gõ",
+            type: "textarea",
+            admin: {
+              description:
+                "Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.",
+            },
+          },
+          {
+            type: "group",
+            name: "seo",
+            label: "Hiển thị trên công cụ tìm kiếm",
+            fields: [
+              text("title", "Tiêu đề kết quả tìm kiếm"),
+              { name: "description", label: "Mô tả ngắn", type: "textarea" },
+            ],
+          },
         ],
       },
     ],
@@ -615,11 +647,11 @@ export default buildConfig({
   },
   endpoints: [translateEndpoint],
   collections: [
-    Users,
     ...contentCollections,
     Media,
     Requests,
     Outbox,
+    Users,
     {
       slug: "redirects",
       labels: { singular: "Chuyển hướng", plural: "Chuyển hướng" },

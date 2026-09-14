@@ -1,6 +1,11 @@
 import { APIError, type Access, type CollectionBeforeChangeHook, type FieldAccess } from "payload";
 /** Lỗi 400 mang thông điệp: Payload giấu thông điệp của Error thường thành "Something went wrong". */
-const refuse = (message: string) => new APIError(message, 400, {}, true);
+const refuse = (message: string) => {
+  const error = new APIError(message, 400, {}, true);
+  // Tên lớp có thể bị rút gọn khi đóng gói; Payload dựa vào tên để trả thông điệp.
+  error.name = "APIError";
+  return error;
+};
 export const roleOf = (user: unknown) =>
   (user as { role?: string } | null)?.role;
 export const isAdmin: Access = ({ req }) => roleOf(req.user) === "admin";
