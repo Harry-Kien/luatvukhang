@@ -21,7 +21,7 @@ export function AdminLogo() {
       />
       <div style={{ lineHeight: 1.2, textAlign: "left" }}>
         <div style={{ fontSize: 10, letterSpacing: "0.18em" }}>
-          CÔNG TY LUẬT
+          CÔNG TY LUẬT TNHH
         </div>
         <div
           style={{

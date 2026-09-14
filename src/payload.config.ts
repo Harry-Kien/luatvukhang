@@ -544,7 +544,7 @@ export default buildConfig({
     meta: {
       titleSuffix: " · Vũ Khang",
       description:
-        "Trang quản trị website Công ty Luật Vũ Khang Solutions & Partners",
+        "Trang quản trị website Công ty Luật TNHH Vũ Khang Solutions & Partners",
       icons: [{ rel: "icon", type: "image/png", url: "/brand/logo-192.png" }],
     },
     components: {

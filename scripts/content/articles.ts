@@ -85,7 +85,7 @@ export const draftArticles: DraftArticle[] = [
       },
     ],
     seoDescription: {
-      vi: "Năm dấu hiệu doanh nghiệp nên để luật sư rà soát hợp đồng trước khi ký, việc rà soát gồm những gì và cần chuẩn bị gì. Công ty Luật Vũ Khang Solutions & Partners.",
+      vi: "Năm dấu hiệu doanh nghiệp nên để luật sư rà soát hợp đồng trước khi ký, việc rà soát gồm những gì và cần chuẩn bị gì. Công ty Luật TNHH Vũ Khang Solutions & Partners.",
       en: "Five signs a business should have a lawyer review a contract before signing, what a review covers and how to prepare. Vũ Khang Solutions & Partners.",
       zh: "企业签署前应请律师审查合同的五个信号、审查内容及准备事项。武康 Solutions & Partners 律师事务所。",
     },

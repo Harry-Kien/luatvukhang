@@ -11,8 +11,8 @@
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 
-const OLD = "Công ty Luật TNHH Vũ Khang";
-const NEW = "Công ty Luật Vũ Khang Solutions & Partners";
+const OLD = "Công ty Luật Vũ Khang Solutions & Partners";
+const NEW = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
 const swap = (value: unknown) =>
   typeof value === "string" && value.includes(OLD) ? value.split(OLD).join(NEW) : value;
 
@@ -45,6 +45,23 @@ try {
     });
     changed++;
     console.log(`đã đổi: [${page.language}] ${page.slug} (${page._status})`);
+  }
+
+  // Mô tả tìm kiếm và tóm tắt của bài viết cũng nhắc tên công ty.
+  const articles = await cms.find({ collection: "articles", draft: true, limit: 500 });
+  for (const article of articles.docs) {
+    const summary = swap(article.summary);
+    const description = swap(article.seo?.description);
+    if (summary === article.summary && description === article.seo?.description) continue;
+    await cms.update({
+      collection: "articles",
+      id: article.id,
+      user: admin,
+      draft: article._status !== "published",
+      data: { summary, seo: { ...article.seo, description } } as never,
+    });
+    changed++;
+    console.log(`đã đổi: [${article.language}] articles/${article.slug} (${article._status})`);
   }
 
   const settings = await cms.findGlobal({ slug: "site-settings" });

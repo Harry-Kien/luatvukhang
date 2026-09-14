@@ -124,7 +124,7 @@ async function ogImage(badge380) {
     <path d="M1060 0 L1200 140"/>
   </g>
   <text x="558" y="204" font-family="${SANS}" font-size="22" font-weight="500"
-        fill="#c8d2e0" letter-spacing="6">CÔNG TY LUẬT</text>
+        fill="#c8d2e0" letter-spacing="6">CÔNG TY LUẬT TNHH</text>
   <text x="556" y="292" font-family="${SERIF}" font-size="82" font-weight="600"
         fill="#ffffff" letter-spacing="5">VŨ KHANG</text>
   <rect x="558" y="322" width="86" height="4" fill="${RED}"/>

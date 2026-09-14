@@ -310,6 +310,21 @@ tính); trạng thái cấu hình email thông báo và hàng đợi thông báo
 quản trị nhìn một trang là biết website đang trống chỗ nào và vì sao chưa nhận
 được email yêu cầu tư vấn. Kiểm thử CMS và Đội ngũ đạt.
 
+## Bổ sung loại hình "TNHH" vào tên công ty — 14/09/2026
+
+Tên pháp lý đầy đủ là **Công ty Luật TNHH Vũ Khang Solutions & Partners**; bản
+13/09 thiếu chữ "TNHH". Đã thay ở mọi nơi dùng tên đầy đủ: tiêu đề mặc định,
+manifest, schema.org (`legalName`), ảnh chia sẻ và alt, mô tả trang, bản dự
+thảo chính sách ba ngôn ngữ, tiêu đề trang quản trị, tài liệu và tệp dịch vụ
+systemd. Tên ngắn "Vũ Khang" trong tiêu đề trang và siteName giữ nguyên.
+
+Wordmark header, footer và trang quản trị: dòng đầu thành CÔNG TY LUẬT TNHH,
+vẫn ngắn hơn dòng SOLUTIONS & PARTNERS nên bố cục không đổi.
+
+Dữ liệu CMS đổi bằng `scripts/rename-company.ts` (đã mở rộng để đổi cả mô tả
+tìm kiếm và tóm tắt bài viết): 9 bản ghi trên máy cá nhân, giữ nguyên trạng thái
+nháp/xuất bản. **Script này phải chạy thêm một lần trên hosting.**
+
 ## Đổi tên công ty thành Công ty Luật Vũ Khang Solutions & Partners — 13/09/2026
 
 Tên đầy đủ mới thay cho "Công ty Luật TNHH Vũ Khang" ở mọi nơi: tiêu đề mặc
