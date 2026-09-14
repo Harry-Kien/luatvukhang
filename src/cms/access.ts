@@ -1,4 +1,6 @@
-import type { Access, CollectionBeforeChangeHook, FieldAccess } from "payload";
+import { APIError, type Access, type CollectionBeforeChangeHook, type FieldAccess } from "payload";
+/** Lỗi 400 mang thông điệp: Payload giấu thông điệp của Error thường thành "Something went wrong". */
+const refuse = (message: string) => new APIError(message, 400, {}, true);
 export const roleOf = (user: unknown) =>
   (user as { role?: string } | null)?.role;
 export const isAdmin: Access = ({ req }) => roleOf(req.user) === "admin";
@@ -33,22 +35,41 @@ export const publicationGuard: CollectionBeforeChangeHook = async ({
     !["admin", "reviewer"].includes(role || "") &&
     originalDoc?.reviewState !== "approved"
   )
-    throw new Error("Chỉ người duyệt chuyên môn được phê duyệt nội dung.");
+    throw refuse("Chỉ người duyệt chuyên môn được phê duyệt nội dung.");
   const contentChanged = Object.keys(data).some(
     (key) =>
-      !["reviewState", "_status", "updatedAt", "id", "createdAt"].includes(
-        key,
-      ) && JSON.stringify(data[key]) !== JSON.stringify(originalDoc?.[key]),
+      ![
+        "reviewState",
+        "_status",
+        "updatedAt",
+        "id",
+        "createdAt",
+        "machineTranslated",
+        "reviewedBy",
+        "reviewedAt",
+      ].includes(key) &&
+      JSON.stringify(data[key]) !== JSON.stringify(originalDoc?.[key]),
   );
+  // Bản dịch máy: ghi nhận ai rà soát và chặn xuất bản khi chưa rà soát.
+  const wasMachine = originalDoc?.machineTranslated === true;
+  const isMachine = data.machineTranslated ?? originalDoc?.machineTranslated;
+  if (wasMachine && data.machineTranslated === false) {
+    data.reviewedBy = req.user?.id;
+    data.reviewedAt = new Date().toISOString();
+  }
   if (contentChanged && !["admin", "reviewer"].includes(role || ""))
     data.reviewState = "working";
   if (data._status === "published") {
     if (!["admin", "publisher"].includes(role || ""))
-      throw new Error("Bạn không có quyền xuất bản.");
+      throw refuse("Bạn không có quyền xuất bản.");
     if ((data.reviewState ?? originalDoc?.reviewState) !== "approved")
-      throw new Error("Nội dung cần được duyệt chuyên môn trước khi xuất bản.");
+      throw refuse("Nội dung cần được duyệt chuyên môn trước khi xuất bản.");
     if (data.isSample ?? originalDoc?.isSample)
-      throw new Error("Không được xuất bản nội dung minh họa.");
+      throw refuse("Không được xuất bản nội dung minh họa.");
+    if (isMachine === true)
+      throw refuse(
+        "Bản dịch máy phải được rà soát trước khi xuất bản. Bấm 'Đã rà soát bản dịch' trong cột phải.",
+      );
   }
   return data;
 };

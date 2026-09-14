@@ -6,21 +6,14 @@ import {
 import { NextResponse } from "next/server";
 import { createHmac, randomBytes } from "node:crypto";
 import { query } from "@/lib/operations-db";
+import { overLimit } from "@/lib/rate-limit";
 import { consultationSchema } from "@/lib/consultation";
 import { getCMS } from "@/lib/cms";
 
 const json = (body: unknown, status = 200) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
-/** Tăng bộ đếm của một khóa và cho biết đã vượt hạn mức hay chưa. */
-async function count(bucket: string, limit: number) {
-  const result = await query(
-    "INSERT INTO operations_consultation_rate_limits (bucket, count) VALUES (?, 1) " +
-      "ON CONFLICT (bucket) DO UPDATE SET count = operations_consultation_rate_limits.count + 1 " +
-      "RETURNING count",
-    [bucket],
-  );
-  return Number(result.rows[0].count) > limit;
-}
+/** Bộ đếm hạn mức dùng chung với endpoint dịch máy (src/lib/rate-limit.ts). */
+const count = overLimit;
 /**
  * Các nguồn gửi được chấp nhận.
  *

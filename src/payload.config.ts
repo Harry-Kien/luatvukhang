@@ -9,6 +9,7 @@ import sharp from "sharp";
 import { trackSlugChange } from "./cms/redirect-hook";
 import { emailAdapter } from "./cms/email";
 import { SiteLayout } from "./cms/site-layout";
+import { translateEndpoint } from "./cms/translation/endpoint";
 import {
   isAdmin,
   editorial,
@@ -162,6 +163,41 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         label: "Nội dung minh họa (không được xuất bản)",
         type: "checkbox",
         defaultValue: false,
+      },
+      {
+        name: "machineTranslated",
+        label: "Bản dịch máy, chưa duyệt",
+        type: "checkbox",
+        defaultValue: false,
+        admin: {
+          position: "sidebar",
+          readOnly: true,
+          description:
+            "Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.",
+        },
+      },
+      {
+        name: "reviewedBy",
+        label: "Người rà soát bản dịch",
+        type: "relationship",
+        relationTo: "users",
+        admin: { position: "sidebar", readOnly: true },
+      },
+      {
+        name: "reviewedAt",
+        label: "Rà soát lúc",
+        type: "date",
+        admin: { position: "sidebar", readOnly: true },
+      },
+      {
+        name: "translations",
+        type: "ui",
+        admin: {
+          position: "sidebar",
+          components: {
+            Field: "/components/admin/translation-panel#TranslationPanel",
+          },
+        },
       },
       { name: "summary", label: "Tóm tắt", type: "textarea", required: true },
       {
@@ -577,6 +613,7 @@ export default buildConfig({
     defaultLocale: "vi",
     fallback: true,
   },
+  endpoints: [translateEndpoint],
   collections: [
     Users,
     ...contentCollections,
@@ -624,6 +661,16 @@ export default buildConfig({
       },
       access: { read: () => true, update: isAdmin },
       fields: [
+        {
+          name: "translateTools",
+          type: "ui",
+          admin: {
+            components: {
+              Field:
+                "/components/admin/translate-global-button#TranslateGlobalButton",
+            },
+          },
+        },
         text("companyName", "Tên công ty chính thức"),
         text("englishName", "Tên tiếng Anh"),
         text("registration", "Thông tin đăng ký hoạt động"),

@@ -73,7 +73,7 @@ jobs:
 
       - name: Khởi động máy chủ và chờ sẵn sàng
         run: |
-          npm start -- --hostname 127.0.0.1 > /tmp/server.log 2>&1 &
+          TRANSLATION_PROVIDER=mock npm start -- --hostname 127.0.0.1 > /tmp/server.log 2>&1 &
           ready=""
           for i in $(seq 1 90); do
             if curl -sf -o /dev/null http://127.0.0.1:3000/vi; then

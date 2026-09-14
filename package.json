@@ -20,6 +20,7 @@
     "bundle:hosting": "node scripts/make-hosting-bundle.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "0.125.0",
     "@fontsource-variable/noto-serif": "5.3.0",
     "@fontsource/be-vietnam-pro": "5.3.0",
     "@hookform/resolvers": "^5.0.0",

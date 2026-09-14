@@ -190,6 +190,12 @@ export interface Page {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -327,6 +333,12 @@ export interface Service {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -435,6 +447,12 @@ export interface Lawyer {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -525,6 +543,12 @@ export interface Office {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -609,6 +633,12 @@ export interface Experience {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -695,6 +725,12 @@ export interface Article {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -788,6 +824,12 @@ export interface Category {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -872,6 +914,12 @@ export interface Industry {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -971,6 +1019,12 @@ export interface Recognition {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -1055,6 +1109,12 @@ export interface Career {
   translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
+  /**
+   * Tắt bằng nút 'Đã rà soát bản dịch' trong bảng Bản dịch.
+   */
+  machineTranslated?: boolean | null;
+  reviewedBy?: (number | null) | User;
+  reviewedAt?: string | null;
   summary: string;
   /**
    * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
@@ -1333,6 +1393,9 @@ export interface PagesSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1401,6 +1464,9 @@ export interface ServicesSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1480,6 +1546,9 @@ export interface IndustriesSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1550,6 +1619,9 @@ export interface LawyersSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1611,6 +1683,9 @@ export interface ExperienceSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1668,6 +1743,9 @@ export interface ArticlesSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1732,6 +1810,9 @@ export interface CategoriesSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1787,6 +1868,9 @@ export interface OfficesSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1842,6 +1926,9 @@ export interface RecognitionsSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;
@@ -1897,6 +1984,9 @@ export interface CareersSelect<T extends boolean = true> {
   translationKey?: T;
   reviewState?: T;
   isSample?: T;
+  machineTranslated?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
   summary?: T;
   keywords?: T;
   body?: T;

@@ -280,6 +280,16 @@ export const SiteLayout: GlobalConfig = {
   access: { read: () => true, update: editorial },
   fields: [
     {
+      name: "translateTools",
+      type: "ui",
+      admin: {
+        components: {
+          Field:
+            "/components/admin/translate-global-button#TranslateGlobalButton",
+        },
+      },
+    },
+    {
       type: "tabs",
       tabs: [
         {
