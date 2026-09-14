@@ -16,6 +16,8 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
 import { PreviewRefresh } from "@/components/preview-refresh";
+import { Editable } from "@/components/editable";
+import { getSiteLayout } from "@/lib/site-layout";
 import { getRecords } from "@/lib/cms";
 import { t, demo, samples, fold, type Locale, navigation } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -432,13 +434,26 @@ export default async function Page({ params, searchParams }: Props) {
   }
   if (["about", "contact", "privacy", "terms"].includes(section)) {
     const settings = await getSiteSettings();
+    const contact = (await getSiteLayout(locale)).contact;
     const records = await getRecords("pages", locale);
     const record =
       query.preview === "true"
         ? await getPreviewRecord("pages", locale, section)
         : records.find((r) => r.slug === section);
+    // Bọc trang trong khung sửa khi có bản ghi; không có thì trả về nguyên vẹn.
+    const Wrap = ({ children }: { children: React.ReactNode }) =>
+      record?.id ? (
+        <Editable
+          target={{ collection: "pages", id: record.id }}
+          label="trang này"
+        >
+          {children}
+        </Editable>
+      ) : (
+        <>{children}</>
+      );
     return (
-      <>
+      <Wrap>
         {query.preview === "true" && record && <PreviewRefresh />}
         <PageHeading
           locale={locale}
@@ -469,7 +484,27 @@ export default async function Page({ params, searchParams }: Props) {
                     <a href={"mailto:" + settings.email}>{settings.email}</a>
                   </p>
                 )}
+                {contact.hours && (
+                  <p style={{ whiteSpace: "pre-line" }}>{contact.hours}</p>
+                )}
                 <ContactChannels locale={locale} phone={settings?.phone} />
+                {contact.mapEmbed && (
+                  <iframe
+                    className="contact-map"
+                    src={contact.mapEmbed}
+                    title={t(locale, "Bản đồ văn phòng", "Office map")}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    style={{ width: "100%", height: 320, border: 0 }}
+                  />
+                )}
+                {contact.mapUrl && (
+                  <p>
+                    <a href={contact.mapUrl} rel="noreferrer" target="_blank">
+                      {t(locale, "Mở bản đồ", "Open map")}
+                    </a>
+                  </p>
+                )}
                 {!settings?.address && !settings?.phone && !settings?.email && (
                   <p>
                     {t(
@@ -557,7 +592,7 @@ export default async function Page({ params, searchParams }: Props) {
             </Link>
           </aside>
         </section>
-      </>
+      </Wrap>
     );
   }
   let records = await getRecords(section, locale);

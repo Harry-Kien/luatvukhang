@@ -8,6 +8,7 @@ import { en } from "@payloadcms/translations/languages/en";
 import sharp from "sharp";
 import { trackSlugChange } from "./cms/redirect-hook";
 import { emailAdapter } from "./cms/email";
+import { SiteLayout } from "./cms/site-layout";
 import {
   isAdmin,
   editorial,
@@ -126,7 +127,7 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
       delete: isAdmin,
       readVersions: editorial,
     },
-    versions: { drafts: { autosave: { interval: 1500 } }, maxPerDoc: 50 },
+    versions: { drafts: { autosave: { interval: 700 } }, maxPerDoc: 50 },
     lockDocuments: { duration: 300 },
     hooks: { beforeChange: [publicationGuard], afterChange: [trackSlugChange] },
     fields: [
@@ -562,6 +563,20 @@ export default buildConfig({
     },
   },
   i18n: { supportedLanguages: { vi, en }, fallbackLanguage: "vi" },
+  /**
+   * Chỉ các ô đánh dấu localized (global Giao diện website, địa chỉ trong Cài
+   * đặt) tách theo ngôn ngữ. Các collection nội dung vẫn giữ mô hình mỗi ngôn
+   * ngữ một bản ghi nối bằng translationKey.
+   */
+  localization: {
+    locales: [
+      { label: "Tiếng Việt", code: "vi" },
+      { label: "English", code: "en" },
+      { label: "简体中文", code: "zh" },
+    ],
+    defaultLocale: "vi",
+    fallback: true,
+  },
   collections: [
     Users,
     ...contentCollections,
@@ -602,6 +617,11 @@ export default buildConfig({
     {
       slug: "site-settings",
       label: "Cài đặt",
+      admin: {
+        group: "Nội dung website",
+        preview: () =>
+          `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/vi/contact`,
+      },
       access: { read: () => true, update: isAdmin },
       fields: [
         text("companyName", "Tên công ty chính thức"),
@@ -609,7 +629,7 @@ export default buildConfig({
         text("registration", "Thông tin đăng ký hoạt động"),
         text("phone", "Điện thoại"),
         { name: "email", label: "Email tiếp nhận", type: "email" },
-        text("address", "Địa chỉ"),
+        { name: "address", label: "Địa chỉ", type: "text", localized: true },
         {
           name: "privacyApproved",
           label: "Chính sách quyền riêng tư đã được rà soát",
@@ -618,6 +638,7 @@ export default buildConfig({
         },
       ],
     },
+    SiteLayout,
   ],
   editor: lexicalEditor(),
   db: sqliteAdapter({

@@ -112,14 +112,16 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('vi' | 'en' | 'zh') | ('vi' | 'en' | 'zh')[];
   globals: {
     'site-settings': SiteSetting;
+    'site-layout': SiteLayout;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'site-layout': SiteLayoutSelect<false> | SiteLayoutSelect<true>;
   };
-  locale: null;
+  locale: 'vi' | 'en' | 'zh';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -2084,6 +2086,111 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Menu, trang chủ, chân trang và liên hệ. Mỗi ô có ba ngôn ngữ — chọn ngôn ngữ ở góc trên bên phải. Ô để trống sẽ dùng bản tiếng Việt.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-layout".
+ */
+export interface SiteLayout {
+  id: number;
+  header?: {
+    tagline?: string | null;
+    menu?:
+      | {
+          label?: string | null;
+          href: string;
+          visible?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    cta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+  };
+  home?: {
+    heroKicker?: string | null;
+    heroTitle?: string | null;
+    heroSummary?: string | null;
+    heroPrimary?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    heroSecondary?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    discoverTitle?: string | null;
+    discoverCards?:
+      | {
+          title?: string | null;
+          href?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    aboutKicker?: string | null;
+    aboutTitle?: string | null;
+    aboutLead?: string | null;
+    aboutText?: string | null;
+    aboutLink?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    expertiseKicker?: string | null;
+    expertiseTitle?: string | null;
+    expertiseText?: string | null;
+    expertiseLink?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    startKicker?: string | null;
+    startTitle?: string | null;
+    startText?: string | null;
+    startCta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    steps?:
+      | {
+          title?: string | null;
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  footer?: {
+    kicker?: string | null;
+    title?: string | null;
+    invitation?: string | null;
+    invitationCta?: {
+      label?: string | null;
+      href?: string | null;
+    };
+    motto?: string | null;
+    exploreTitle?: string | null;
+    connectTitle?: string | null;
+    extraLinks?:
+      | {
+          label?: string | null;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+    copyright?: string | null;
+  };
+  contact?: {
+    zalo?: string | null;
+    facebook?: string | null;
+    linkedin?: string | null;
+    youtube?: string | null;
+    hours?: string | null;
+    mapUrl?: string | null;
+    mapEmbed?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
@@ -2095,6 +2202,131 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   email?: T;
   address?: T;
   privacyApproved?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-layout_select".
+ */
+export interface SiteLayoutSelect<T extends boolean = true> {
+  header?:
+    | T
+    | {
+        tagline?: T;
+        menu?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              visible?: T;
+              id?: T;
+            };
+        cta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+      };
+  home?:
+    | T
+    | {
+        heroKicker?: T;
+        heroTitle?: T;
+        heroSummary?: T;
+        heroPrimary?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        heroSecondary?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        discoverTitle?: T;
+        discoverCards?:
+          | T
+          | {
+              title?: T;
+              href?: T;
+              id?: T;
+            };
+        aboutKicker?: T;
+        aboutTitle?: T;
+        aboutLead?: T;
+        aboutText?: T;
+        aboutLink?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        expertiseKicker?: T;
+        expertiseTitle?: T;
+        expertiseText?: T;
+        expertiseLink?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        startKicker?: T;
+        startTitle?: T;
+        startText?: T;
+        startCta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        steps?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              id?: T;
+            };
+      };
+  footer?:
+    | T
+    | {
+        kicker?: T;
+        title?: T;
+        invitation?: T;
+        invitationCta?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+            };
+        motto?: T;
+        exploreTitle?: T;
+        connectTitle?: T;
+        extraLinks?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        copyright?: T;
+      };
+  contact?:
+    | T
+    | {
+        zalo?: T;
+        facebook?: T;
+        linkedin?: T;
+        youtube?: T;
+        hours?: T;
+        mapUrl?: T;
+        mapEmbed?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

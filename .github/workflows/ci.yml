@@ -65,6 +65,9 @@ jobs:
         # khởi tạo đúng cách, không phải một cơ sở dữ liệu trống.
         run: node --import tsx scripts/prepare-pages.ts
 
+      - name: Nạp giao diện website mặc định
+        run: node --import tsx scripts/prepare-site-layout.ts
+
       - name: Cài trình duyệt Chromium
         run: npx playwright install --with-deps chromium
 

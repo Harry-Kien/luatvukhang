@@ -1,8 +1,8 @@
-import zh from "./zh";
 export { locales, type Locale } from "./locales";
 import type { Locale } from "./locales";
-export const chinese = (english: string) =>
-  (zh as Record<string, string>)[english] || english;
+import type { SiteLayoutData } from "@/cms/site-layout";
+export { chinese } from "./zh";
+import { chinese } from "./zh";
 export const demo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 export const launched = process.env.SITE_LAUNCH_APPROVED === "true" && !demo;
 export const navigation = [
@@ -13,6 +13,21 @@ export const navigation = [
   ["articles", "Góc nhìn", "Insights"],
   ["contact", "Liên hệ", "Contact"],
 ] as const;
+export type NavItem = { slug: string; label: string; href: string };
+/** Menu chính đọc từ global "Giao diện website": chỉ mục đang hiện, tối đa 8. */
+export function navigationFrom(layout: SiteLayoutData): NavItem[] {
+  return (layout.header.menu ?? [])
+    .filter((m) => m.visible !== false && m.href && m.label)
+    .slice(0, 8)
+    .map((m) => ({
+      slug: String(m.href).replace(/^\//, "").split("/")[0],
+      label: String(m.label),
+      href: String(m.href),
+    }));
+}
+/** Đường dẫn nội bộ được gắn tiền tố ngôn ngữ; liên kết ngoài giữ nguyên. */
+export const localizeHref = (locale: Locale, href?: string | null) =>
+  !href ? "/" + locale : href.startsWith("/") ? "/" + locale + href : href;
 export const t = (locale: Locale, vi: string, en: string) =>
   locale === "vi" ? vi : locale === "zh" ? chinese(en) : en;
 export const samples = [

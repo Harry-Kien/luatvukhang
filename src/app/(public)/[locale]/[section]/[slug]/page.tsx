@@ -6,6 +6,7 @@ import { getRecords, getSampleRecords } from "@/lib/cms";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
 import { PreviewRefresh } from "@/components/preview-refresh";
+import { Editable } from "@/components/editable";
 import { demo, locales, samples, t, type Locale } from "@/lib/content";
 import { navigation } from "@/lib/content";
 import { JsonLd } from "@/components/json-ld";
@@ -160,8 +161,20 @@ export default async function Detail({ params, searchParams }: Props) {
     preview || sampleRecord
       ? []
       : structuredDataFor(published, locale, section, path);
+  // Bọc trang trong khung sửa khi có bản ghi thật (bản minh họa từ mã thì không).
+  const Wrap = ({ children }: { children: React.ReactNode }) =>
+    record?.id ? (
+      <Editable
+        target={{ collection: section, id: record.id }}
+        label={sectionLabel}
+      >
+        {children}
+      </Editable>
+    ) : (
+      <>{children}</>
+    );
   return (
-    <>
+    <Wrap>
       {preview && record && <PreviewRefresh />}
       {structured.length > 0 && <JsonLd data={structured} />}
       <PageHeading
@@ -322,6 +335,6 @@ export default async function Detail({ params, searchParams }: Props) {
           </Link>
         </aside>
       </section>
-    </>
+    </Wrap>
   );
 }

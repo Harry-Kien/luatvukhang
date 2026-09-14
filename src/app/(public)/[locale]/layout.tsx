@@ -18,6 +18,11 @@ import { getRecords } from "@/lib/cms";
 import { demo, launched, samples, t } from "@/lib/content";
 import { JsonLd } from "@/components/json-ld";
 import { Analytics } from "@/components/analytics";
+import { AdminBar } from "@/components/admin-bar";
+import { Editable } from "@/components/editable";
+import { getEditor } from "@/lib/editor";
+import { getSiteLayout } from "@/lib/site-layout";
+import { navigationFrom } from "@/lib/content";
 import {
   organizationJsonLd,
   siteName,
@@ -79,8 +84,14 @@ export default async function Layout({
   const companyName =
     locale === "en" ? settings?.englishName : settings?.companyName;
   const organization = organizationJsonLd(settings, locale);
+  const editor = await getEditor();
+  const layout = await getSiteLayout(locale);
+  const nav = navigationFrom(layout);
   return (
-    <html lang={locale === "zh" ? "zh-Hans" : locale}>
+    <html
+      lang={locale === "zh" ? "zh-Hans" : locale}
+      className={editor ? "has-admin-bar" : undefined}
+    >
       <body id="top">
         <JsonLd
           data={[
@@ -91,6 +102,7 @@ export default async function Layout({
         <a className="skip" href="#main">
           {t(locale, "Đến nội dung chính", "Skip to content")}
         </a>
+        <AdminBar locale={locale} />
         {demo && (
           <div className="demo-note">
             {locale === "vi"
@@ -100,18 +112,28 @@ export default async function Layout({
                 : "Development preview · Sample content, not an official statement of the firm."}
           </div>
         )}
-        <Header
-          locale={locale}
-          companyName={companyName || undefined}
-          services={serviceLinks}
-          phone={settings?.phone}
-        />
+        <Editable target={{ global: "site-layout", tab: "header" }} label="đầu trang">
+          <Header
+            locale={locale}
+            companyName={companyName || undefined}
+            services={serviceLinks}
+            phone={settings?.phone}
+            // Chỉ gửi những gì header cần; mục menu đang ẩn không xuống trình duyệt.
+            layout={{ tagline: layout.header.tagline, cta: layout.header.cta }}
+            nav={nav}
+          />
+        </Editable>
         <main id="main">{children}</main>
-        <Footer
-          locale={locale}
-          companyName={companyName || undefined}
-          phone={settings?.phone}
-        />
+        <Editable target={{ global: "site-layout", tab: "footer" }} label="chân trang">
+          <Footer
+            locale={locale}
+            companyName={companyName || undefined}
+            phone={settings?.phone}
+            layout={layout.footer}
+            contact={layout.contact}
+            nav={nav}
+          />
+        </Editable>
         <ContactChannels
           locale={locale}
           phone={settings?.phone}

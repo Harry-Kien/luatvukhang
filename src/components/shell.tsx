@@ -11,18 +11,29 @@ import {
   Search,
   ChevronDown,
 } from "lucide-react";
-import { navigation, ordinal, t, type Locale } from "@/lib/content";
+import {
+  ordinal,
+  t,
+  localizeHref,
+  type Locale,
+  type NavItem,
+} from "@/lib/content";
+import type { SiteLayoutData } from "@/cms/site-layout";
 import { Brand } from "./brand";
 import { ContactChannels } from "./contact-channels";
 export function Header({
   locale,
   services = [],
   phone,
+  layout,
+  nav,
 }: {
   locale: Locale;
   companyName?: string;
   services?: { slug: string; title: string }[];
   phone?: string | null;
+  layout: SiteLayoutData["header"];
+  nav: NavItem[];
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -52,12 +63,14 @@ export function Header({
       document.removeEventListener("pointerdown", outside);
     };
   }, []);
+  const cta = {
+    label: layout.cta?.label || t(locale, "Đặt lịch tư vấn", "Consultation"),
+    href: localizeHref(locale, layout.cta?.href || "/consultation"),
+  };
   return (
     <header className="header" ref={ref}>
       <div className="utility-bar">
-        <span>
-          {t(locale, "Tư vấn pháp lý · Việt Nam", "Legal counsel · Vietnam")}
-        </span>
+        <span>{layout.tagline}</span>
         <div>
           <ContactChannels locale={locale} phone={phone} variant="bar" />
           {phone && <span className="utility-divider" />}
@@ -101,33 +114,35 @@ export function Header({
           className="desktop-nav"
           aria-label={t(locale, "Điều hướng chính", "Main navigation")}
         >
-          {navigation.map(([slug, vi, en]) =>
-            slug === "services" ? (
+          {nav.map((item) =>
+            item.slug === "services" ? (
               <button
                 className={"nav-dropdown" + (expertise ? " expanded" : "")}
-                key={slug}
+                key={item.href}
                 aria-expanded={expertise}
                 aria-controls="expertise-menu"
                 onClick={() => setExpertise(!expertise)}
               >
-                {t(locale, vi, en)}
+                {item.label}
                 <ChevronDown size={13} />
               </button>
             ) : (
               <Link
-                key={slug}
-                href={"/" + locale + "/" + slug}
+                key={item.href}
+                href={localizeHref(locale, item.href)}
                 aria-current={
-                  pathname.includes("/" + slug) ? "page" : undefined
+                  item.href.startsWith("/") && pathname.includes(item.href)
+                    ? "page"
+                    : undefined
                 }
               >
-                {t(locale, vi, en)}
+                {item.label}
               </Link>
             ),
           )}
         </nav>
-        <Link className="header-cta" href={"/" + locale + "/consultation"}>
-          {t(locale, "Đặt lịch tư vấn", "Consultation")}
+        <Link className="header-cta" href={cta.href}>
+          {cta.label}
           <ArrowUpRight size={17} />
         </Link>
         <button
@@ -203,14 +218,14 @@ export function Header({
           id="mobile-menu"
           aria-label={t(locale, "Menu di động", "Mobile navigation")}
         >
-          {navigation.map(([slug, vi, en], i) => (
+          {nav.map((item, i) => (
             <Link
               onClick={() => setOpen(false)}
-              href={"/" + locale + "/" + slug}
-              key={slug}
+              href={localizeHref(locale, item.href)}
+              key={item.href}
             >
-              <span>{ordinal(i, navigation.length)}</span>
-              {t(locale, vi, en)}
+              <span>{ordinal(i, nav.length)}</span>
+              {item.label}
               <ArrowUpRight size={19} />
             </Link>
           ))}
@@ -228,40 +243,52 @@ export function Header({
     </header>
   );
 }
+const SOCIAL: [keyof SiteLayoutData["contact"], string][] = [
+  ["facebook", "Facebook"],
+  ["linkedin", "LinkedIn"],
+  ["youtube", "YouTube"],
+];
 export function Footer({
   locale,
   companyName,
   phone,
+  layout,
+  contact,
+  nav,
 }: {
   locale: Locale;
   companyName?: string;
   phone?: string | null;
+  layout: SiteLayoutData["footer"];
+  contact: SiteLayoutData["contact"];
+  nav: NavItem[];
 }) {
+  const lines = (value?: string | null) =>
+    (value || "").split("\n").map((line, i, all) => (
+      <span key={i}>
+        {line}
+        {i < all.length - 1 && <br />}
+      </span>
+    ));
+  const social = SOCIAL.filter(([key]) => contact[key]);
   return (
     <footer>
       <div className="footer-top">
         <div>
-          <span className="eyebrow">
-            {t(locale, "Trao đổi cùng Vũ Khang", "Talk to Vũ Khang")}
-          </span>
-          <h2>
-            {t(
-              locale,
-              "Bước tiếp theo,\nbắt đầu từ sự rõ ràng.",
-              "Your next step\nstarts with clarity.",
-            )}
-          </h2>
+          <span className="eyebrow">{layout.kicker}</span>
+          <h2>{lines(layout.title)}</h2>
         </div>
         <div className="footer-invitation">
-          <p>
-            {t(
+          <p>{layout.invitation}</p>
+          <Link
+            className="button red"
+            href={localizeHref(
               locale,
-              "Chia sẻ vấn đề bạn đang quan tâm để bắt đầu một cuộc trao đổi có trọng tâm.",
-              "Tell us about your matter to start a focused conversation.",
+              layout.invitationCta?.href || "/consultation",
             )}
-          </p>
-          <Link className="button red" href={"/" + locale + "/consultation"}>
-            {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
+          >
+            {layout.invitationCta?.label ||
+              t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
             <ArrowUpRight size={18} />
           </Link>
         </div>
@@ -269,50 +296,55 @@ export function Footer({
       <div className="footer-directory">
         <div className="footer-identity">
           <Brand locale={locale} inverted />
-          <p>{companyName || "Công ty Luật TNHH Vũ Khang Solutions & Partners"}</p>
-          <span className="footer-motto">
-            {t(
-              locale,
-              "Thấu hiểu vấn đề. Vững vàng quyết định.",
-              "Understand the matter. Decide with confidence.",
-            )}
-          </span>
+          <p>
+            {companyName || "Công ty Luật TNHH Vũ Khang Solutions & Partners"}
+          </p>
+          <span className="footer-motto">{layout.motto}</span>
           <ContactChannels locale={locale} phone={phone} variant="stack" />
+          {social.length > 0 && (
+            <ul className="footer-social">
+              {social.map(([key, label]) => (
+                <li key={key}>
+                  <a
+                    href={String(contact[key])}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div>
-          <h3>{t(locale, "Khám phá Vũ Khang", "Explore Vũ Khang")}</h3>
-          {navigation.slice(0, 4).map(([slug, vi, en]) => (
-            <Link key={slug} href={"/" + locale + "/" + slug}>
-              {t(locale, vi, en)}
+          <h3>{layout.exploreTitle}</h3>
+          {nav.slice(0, 4).map((item) => (
+            <Link key={item.href} href={localizeHref(locale, item.href)}>
+              {item.label}
             </Link>
           ))}
         </div>
         <div>
-          <h3>{t(locale, "Kết nối", "Connect")}</h3>
-          {navigation.slice(4).map(([slug, vi, en]) => (
-            <Link key={slug} href={"/" + locale + "/" + slug}>
-              {t(locale, vi, en)}
+          <h3>{layout.connectTitle}</h3>
+          {nav.slice(4).map((item) => (
+            <Link key={item.href} href={localizeHref(locale, item.href)}>
+              {item.label}
             </Link>
           ))}
-          <Link href={"/" + locale + "/industries"}>
-            {t(locale, "Ngành nghề", "Industries")}
-          </Link>
-          <Link href={"/" + locale + "/careers"}>
-            {t(locale, "Cơ hội nghề nghiệp", "Careers")}
-          </Link>
-          <Link href={"/" + locale + "/guide"}>
-            {t(locale, "Hướng dẫn khách hàng", "Client guide")}
-          </Link>
-          <Link href={"/" + locale + "/search"}>
-            {t(locale, "Tìm kiếm", "Search")}
-          </Link>
-          <Link href={"/" + locale + "/consultation"}>
-            {t(locale, "Đặt lịch tư vấn", "Request an appointment")}
-          </Link>
+          {(layout.extraLinks ?? [])
+            .filter((l) => l.href && l.label)
+            .map((l) => (
+              <Link key={l.href} href={localizeHref(locale, l.href)}>
+                {l.label}
+              </Link>
+            ))}
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Vũ Khang.</span>
+        <span>
+          © {new Date().getFullYear()} {layout.copyright}
+        </span>
         <div>
           <Link href={"/" + locale + "/privacy"}>
             {t(locale, "Quyền riêng tư", "Privacy")}

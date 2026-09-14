@@ -288,6 +288,7 @@ run("node", ["--import", "tsx", "scripts/bootstrap.ts"]);
 say("Nạp nội dung nền — chạy lại không tạo bản trùng");
 for (const script of [
   "prepare-pages.ts",
+  "prepare-site-layout.ts",
   "prepare-practice-areas.ts",
   "prepare-keywords.ts",
   "prepare-page-content.ts",

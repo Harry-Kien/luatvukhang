@@ -32,6 +32,8 @@ const contentSecurityPolicy = [
   `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"}${analytics ? " " + gtm : ""}`,
   `connect-src 'self'${analytics ? " " + ga + " " + gtm : ""}`,
   "manifest-src 'self'",
+  // Bản đồ nhúng ở trang Liên hệ: chỉ khung Google Maps, khai trong Cài đặt.
+  "frame-src 'self' https://www.google.com",
   ...(isProduction ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 

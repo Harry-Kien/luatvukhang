@@ -893,3 +893,94 @@ footer {
     transition: none !important;
   }
 }
+
+/* Thanh quản trị: chỉ có khi đăng nhập, nằm trong luồng nên không che nội dung. */
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  padding: 0 20px;
+  background: #101d35;
+  color: #fff;
+  font-size: 13px;
+}
+.has-admin-bar .header {
+  top: 40px;
+}
+.admin-bar-user {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.admin-bar-user span {
+  opacity: 0.7;
+}
+.admin-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.admin-bar-actions form {
+  margin: 0;
+}
+.admin-bar-actions a,
+.admin-bar-actions button {
+  color: #fff;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  padding: 4px 10px;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+.admin-bar-actions button.on {
+  background: #b3202c;
+  border-color: #b3202c;
+}
+.admin-bar-preview {
+  color: #ffd166;
+}
+@media (max-width: 700px) {
+  .admin-bar {
+    flex-wrap: wrap;
+    padding: 6px 12px;
+  }
+  .admin-bar-email {
+    display: none;
+  }
+}
+/* Vùng sửa được: chỉ tồn tại khi chế độ sửa bật. */
+.editable {
+  position: relative;
+  outline: 1px dashed transparent;
+  outline-offset: 4px;
+  transition: outline-color 0.15s;
+}
+.editable:hover {
+  outline-color: #b3202c;
+}
+.editable-link {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 40;
+  background: #b3202c;
+  color: #fff;
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 3px;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+}
+.editable:hover > .editable-link,
+.editable-link:focus {
+  opacity: 1;
+  pointer-events: auto;
+}

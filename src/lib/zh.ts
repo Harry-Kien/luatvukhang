@@ -299,3 +299,4 @@ const translations: Record<string, string> = {
     "以下为用于预览版面的示例档案，并非本所人员。请在 CMS 中修改，或替换为已核实的律师档案。",
 };
 export default translations;
+export const chinese = (english: string) => translations[english] || english;

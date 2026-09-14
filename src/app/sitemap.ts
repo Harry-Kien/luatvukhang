@@ -1,19 +1,10 @@
 import type { MetadataRoute } from "next";
-import { launched, navigation } from "@/lib/content";
+import { launched, navigationFrom } from "@/lib/content";
+import { getSiteLayout } from "@/lib/site-layout";
 import { detailCollections, languageInfo, locales } from "@/lib/locales";
 import { getRecords } from "@/lib/cms";
 import { siteUrl } from "@/lib/seo";
 
-const STATIC_PATHS = [
-  "",
-  ...navigation.map((n) => n[0]),
-  "industries",
-  "careers",
-  "guide",
-  "consultation",
-  "privacy",
-  "terms",
-];
 
 const url = (locale: string, path: string) =>
   `${siteUrl}/${locale}${path ? "/" + path : ""}`;
@@ -21,6 +12,19 @@ const url = (locale: string, path: string) =>
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!launched) return [];
   const result: MetadataRoute.Sitemap = [];
+  const nav = navigationFrom(await getSiteLayout("vi"));
+  const STATIC_PATHS = [
+    ...new Set([
+      "",
+      ...nav.filter((n) => n.href.startsWith("/")).map((n) => n.slug),
+      "industries",
+      "careers",
+      "guide",
+      "consultation",
+      "privacy",
+      "terms",
+    ]),
+  ];
 
   for (const path of STATIC_PATHS)
     for (const locale of locales)
