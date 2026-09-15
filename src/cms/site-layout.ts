@@ -245,8 +245,15 @@ const en: SiteLayoutData = {
 
 /** Bản Trung sinh từ bản Anh qua từ điển zh.ts như phần còn lại của website. */
 function toChinese(data: SiteLayoutData): SiteLayoutData {
+  // Từ điển có cả cụm nhiều dòng lẫn từng dòng (tiêu đề hero được dịch theo
+  // dòng trong mã cũ); không thấy cả cụm thì dịch từng dòng rồi ghép lại.
+  const translate = (value: string) => {
+    const whole = chinese(value);
+    if (whole !== value || !value.includes("\n")) return whole;
+    return value.split("\n").map(chinese).join("\n");
+  };
   const walk = (value: unknown): unknown => {
-    if (typeof value === "string") return chinese(value);
+    if (typeof value === "string") return translate(value);
     if (Array.isArray(value)) return value.map(walk);
     if (value && typeof value === "object")
       return Object.fromEntries(

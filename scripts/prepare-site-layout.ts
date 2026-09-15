@@ -17,6 +17,9 @@ try {
       depth: 0,
     })) as Record<string, any>;
     const defaults = SITE_LAYOUT_DEFAULTS[locale] as Record<string, any>;
+    // Bản Trung từng được nạp bằng chữ tiếng Anh khi từ điển thiếu cụm; ô nào
+    // vẫn còn đúng bằng mặc định tiếng Anh thì coi như chưa dịch và nạp lại.
+    const english = SITE_LAYOUT_DEFAULTS.en as Record<string, any>;
     const data: Record<string, any> = {};
     let filled = 0;
     for (const tab of Object.keys(defaults)) {
@@ -26,7 +29,12 @@ try {
         const empty = Array.isArray(existing)
           ? existing.length === 0
           : existing == null || existing === "";
-        if (empty) {
+        const untranslated =
+          locale === "zh" &&
+          typeof existing === "string" &&
+          existing === english[tab]?.[key] &&
+          existing !== value;
+        if (empty || untranslated) {
           data[tab][key] = value;
           filled++;
         }
