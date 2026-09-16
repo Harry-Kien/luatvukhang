@@ -522,6 +522,10 @@ export interface Lawyer {
       )[]
     | null;
   position: string;
+  /**
+   * Quyết định thứ tự trên trang Đội ngũ: luật sư đứng trước, rồi mới tới nhân sự khác. Chức danh là chữ tự do nên không dùng để đoán vai trò.
+   */
+  role: 'lawyer' | 'specialist';
   portrait?: (number | null) | Media;
   qualifications?: string | null;
   languages?: string | null;
@@ -1690,6 +1694,7 @@ export interface LawyersSelect<T extends boolean = true> {
             };
       };
   position?: T;
+  role?: T;
   portrait?: T;
   qualifications?: T;
   languages?: T;

@@ -51,10 +51,17 @@ export async function PeopleDirectory({
         ).includes(fold(keyword)) &&
         (!service || related(r).has(service)),
     )
-    .sort(
-      (a, b) =>
-        a.title.localeCompare(b.title, locale) * (sort === "za" ? -1 : 1),
-    );
+    .sort((a, b) => {
+      // Luật sư luôn đứng trước nhân sự khác, rồi mới xét lựa chọn sắp xếp của
+      // người xem. Trên website công ty luật, để một chuyên viên chen vào giữa
+      // các luật sư đọc như một nhận định sai về vai trò.
+      const rank = (r: ContentRecord) =>
+        (r as { role?: string }).role === "specialist" ? 1 : 0;
+      return (
+        rank(a) - rank(b) ||
+        a.title.localeCompare(b.title, locale) * (sort === "za" ? -1 : 1)
+      );
+    });
   const pages = Math.max(1, Math.ceil(filtered.length / 9));
   const current = Math.min(
     pages,

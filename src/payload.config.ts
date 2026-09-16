@@ -342,6 +342,21 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         ? [
             text("position", "Chức danh", true),
             {
+              name: "role",
+              label: "Vai trò",
+              type: "select",
+              required: true,
+              defaultValue: "lawyer",
+              admin: {
+                description:
+                  "Quyết định thứ tự trên trang Đội ngũ: luật sư đứng trước, rồi mới tới nhân sự khác. Chức danh là chữ tự do nên không dùng để đoán vai trò.",
+              },
+              options: [
+                { label: "Luật sư", value: "lawyer" },
+                { label: "Chuyên viên / nhân sự khác", value: "specialist" },
+              ],
+            } as Field,
+            {
               name: "portrait",
               label: "Ảnh chân dung",
               type: "upload",

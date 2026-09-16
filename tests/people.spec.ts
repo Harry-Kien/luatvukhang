@@ -215,3 +215,40 @@ test("hồ sơ luật sư hiển thị thông tin nghề nghiệp đã xác minh
     ).toContainText(person.qualifications!.trim());
   }
 });
+
+/**
+ * Luật sư đứng trước, chuyên viên đứng sau.
+ *
+ * Xếp thuần theo bảng chữ cái thì một chuyên viên có thể chen vào giữa các luật
+ * sư — trên website công ty luật, thứ tự đó đọc như một nhận định sai về vai
+ * trò. Vai trò lấy từ trường "Vai trò" trong CMS, không đoán từ chữ trong chức
+ * danh: công ty đặt thêm chức danh mới thì cách đoán đó hỏng ngay.
+ */
+test("trang Đội ngũ xếp luật sư trước chuyên viên", async ({
+  page,
+  request,
+}) => {
+  const response = await request.get(
+    "/api/lawyers?where[_status][equals]=published&where[language][equals]=vi&limit=100&depth=0",
+  );
+  const people = ((await response.json()).docs ?? []) as {
+    title: string;
+    role?: string | null;
+  }[];
+  const specialists = people.filter((p) => p.role === "specialist");
+  const lawyers = people.filter((p) => p.role !== "specialist");
+  test.skip(
+    specialists.length === 0 || lawyers.length === 0,
+    "Cần có cả luật sư lẫn chuyên viên đã xuất bản để kiểm thứ tự.",
+  );
+
+  await page.goto("/vi/lawyers");
+  const order = await page.locator(".person-card h3").allInnerTexts();
+  const at = (name: string) => order.findIndex((text) => text.includes(name));
+  const lastLawyer = Math.max(...lawyers.map((p) => at(p.title)));
+  const firstSpecialist = Math.min(...specialists.map((p) => at(p.title)));
+  expect(
+    firstSpecialist,
+    `thứ tự hiện tại: ${order.join(" · ")}`,
+  ).toBeGreaterThan(lastLawyer);
+});

@@ -19,6 +19,12 @@ export type FirmLawyer = {
   /** Danh từ riêng: giữ nguyên ở cả ba ngôn ngữ. */
   name: string;
   position: Localised;
+  /**
+   * Quyết định thứ tự trên trang Đội ngũ: luật sư trước, nhân sự khác sau.
+   * Tách khỏi chức danh vì chức danh là chữ tự do — công ty đặt thêm một chức
+   * danh mới thì cách đoán vai trò từ chữ sẽ hỏng.
+   */
+  role: "lawyer" | "specialist";
   summary: Localised;
   /**
    * Nền tảng nghề nghiệp đã được công ty xác nhận. Hiện ở trang hồ sơ dưới
@@ -40,6 +46,7 @@ export const firmLawyers: FirmLawyer[] = [
   {
     slug: "phan-thuy-trang",
     name: "Phan Thùy Trang",
+    role: "lawyer",
     position: {
       vi: "Giám đốc - Luật sư",
       en: "Director & Lawyer",
@@ -61,6 +68,7 @@ export const firmLawyers: FirmLawyer[] = [
   {
     slug: "tran-phuong-lan-anh",
     name: "Trần Phương Lan Anh",
+    role: "lawyer",
     position: { vi: "Luật sư", en: "Lawyer", zh: "律师" },
     summary: {
       vi: `Luật sư của ${FIRM}, trình độ Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang.`,
@@ -79,6 +87,7 @@ export const firmLawyers: FirmLawyer[] = [
     // nói cho gọn.
     slug: "tran-le-kim-binh",
     name: "Trần Lê Kim Bình",
+    role: "specialist",
     position: { vi: "Chuyên viên", en: "Legal Specialist", zh: "法务专员" },
     summary: {
       vi: `Chuyên viên của ${FIRM}, cử nhân luật.`,

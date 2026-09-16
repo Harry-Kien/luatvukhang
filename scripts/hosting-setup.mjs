@@ -293,11 +293,54 @@ for (const script of CONTENT_SCRIPTS) {
   run("node", ["--import", "tsx", `scripts/${script}`]);
 }
 
+/**
+ * Đếm nội dung còn nằm ở dạng nháp.
+ *
+ * Các script nạp cố ý tạo bản NHÁP vì nội dung phải chờ công ty duyệt. Nhưng
+ * script lại kết thúc bằng "CAI DAT XONG" mà không nói gì — nên người triển
+ * khai tưởng đã xong, mở website thấy trống rỗng và không hiểu tại sao. Chính
+ * điều đó đã xảy ra ngày 16/09/2026. Đếm và in ra hẳn con số cùng lệnh cần chạy.
+ */
+let pending = 0;
+try {
+  const { createClient } = await import("@libsql/client");
+  const client = createClient({ url: process.env.DATABASE_URL });
+  for (const table of [
+    "pages",
+    "services",
+    "industries",
+    "lawyers",
+    "experience",
+    "articles",
+    "careers",
+  ]) {
+    const result = await client.execute(
+      `SELECT COUNT(*) AS n FROM ${table} WHERE _status IS NOT 'published'`,
+    );
+    pending += Number(result.rows[0]?.n ?? 0);
+  }
+} catch {
+  // Đếm được thì tốt, không đếm được cũng không chặn việc cài đặt.
+  pending = -1;
+}
+
+const draftNote =
+  pending === 0
+    ? "Moi noi dung da duoc xuat ban.\n"
+    : pending > 0
+      ? `CHUA XUAT BAN: ${pending} ban ghi dang o dang NHAP nen KHONG hien tren website.\n` +
+        "Cac script nap co y tao ban nhap de cong ty ra soat truoc. Xuat ban bang:\n" +
+        "  node --env-file=.env --import tsx scripts/publish-drafts.ts            # xem truoc\n" +
+        "  node --env-file=.env --import tsx scripts/publish-drafts.ts --confirm  # xuat ban\n" +
+        "Hai trang Quyen rieng tu va Dieu khoan duoc giu lai toi khi cong ty duyet.\n"
+      : "Khong dem duoc so ban nhap; kiem tra bang scripts/publish-drafts.ts\n";
+
 console.log(
   "\n" +
     "=".repeat(70) +
     "\nCAI DAT XONG.\n\n" +
-    "Tiep theo:\n" +
+    draftNote +
+    "\nTiep theo:\n" +
     "  1. Bam Restart trong cPanel > Setup Node.js App.\n" +
     '  2. Mo <ten-mien>/api/health/ready — phai thay {"status":"ready"}.\n' +
     "  3. Doc mat khau quan tri trong .local/admin-access.txt,\n" +

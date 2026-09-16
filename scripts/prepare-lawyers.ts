@@ -93,6 +93,7 @@ for (const lawyer of firmLawyers)
           draft: !live,
           data: {
             position: lawyer.position[language],
+            role: lawyer.role,
             summary: lawyer.summary[language],
             qualifications: lawyer.qualifications[language],
             seo: {
@@ -126,6 +127,7 @@ for (const lawyer of firmLawyers)
         language,
         translationKey: lawyer.slug,
         position: lawyer.position[language],
+        role: lawyer.role,
         summary: lawyer.summary[language],
         qualifications: lawyer.qualifications[language],
         seo: { description: lawyer.summary[language] },
