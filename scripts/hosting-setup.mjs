@@ -294,6 +294,10 @@ for (const script of [
   "prepare-page-content.ts",
   "prepare-editorial.ts",
   "prepare-lawyers.ts",
+  // Sau prepare-editorial.ts và prepare-practice-areas.ts: cần cả bài viết lẫn
+  // lĩnh vực đã có mặt thì mới nối được.
+  "prepare-cross-links.ts",
+  "clean-empty-drafts.ts",
 ]) {
   console.log(`    ${script}`);
   run("node", ["--import", "tsx", `scripts/${script}`]);

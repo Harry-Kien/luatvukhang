@@ -5,8 +5,8 @@
  * mọi dòng trong tệp này phải truy được về thông tin do công ty cung cấp.
  *
  * Nguồn: chủ website xác nhận ngày 16/09/2026 — hai luật sư của công ty, trong
- * đó bà Phan Thùy Trang là người đại diện theo pháp luật, giữ chức danh Giám
- * đốc; bà Trần Phương Lan Anh là luật sư, trình độ Thạc sĩ Luật.
+ * đó bà Phan Thùy Trang là người đại diện theo pháp luật, giữ chức danh
+ * "Giám đốc - Luật sư"; bà Trần Phương Lan Anh là luật sư, trình độ Thạc sĩ Luật.
  *
  * NHỮNG Ô CÒN TRỐNG LÀ CỐ Ý. Số thẻ luật sư, đoàn luật sư, lĩnh vực phụ trách,
  * ngôn ngữ làm việc và ảnh chân dung chưa được cung cấp. Bịa ra một trong số đó
@@ -29,16 +29,16 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "phan-thuy-trang",
     name: "Phan Thùy Trang",
     position: {
-      vi: "Giám đốc",
-      en: "Director",
+      vi: "Giám đốc - Luật sư",
+      en: "Director & Lawyer",
       // 主任 là cách gọi người đứng đầu một văn phòng/công ty luật trong tiếng
       // Trung, sát nghĩa hơn 董事 (thành viên hội đồng quản trị).
-      zh: "主任",
+      zh: "主任、律师",
     },
     summary: {
-      vi: `Luật sư, Giám đốc và người đại diện theo pháp luật của ${FIRM}.`,
-      en: `Lawyer, Director and legal representative of ${FIRM}.`,
-      zh: `${FIRM} 律师、主任、法定代表人。`,
+      vi: `Giám đốc, Luật sư và người đại diện theo pháp luật của ${FIRM}.`,
+      en: `Director, Lawyer and legal representative of ${FIRM}.`,
+      zh: `${FIRM} 主任、律师、法定代表人。`,
     },
   },
   {

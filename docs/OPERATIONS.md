@@ -131,3 +131,19 @@ khi nào đưa bản sao vào phục vụ.
 Vẫn cần đặt sau reverse proxy HTTPS, và chỉ bật `TRUST_PROXY_HEADERS=true` khi
 proxy đó thực sự ghi đè `X-Forwarded-For` — nếu bật khi chưa có proxy tin cậy,
 người gửi tự đặt được header và hạn mức theo địa chỉ mất tác dụng.
+
+## Bản nháp rỗng do tự lưu — 16/09/2026
+
+CMS tự lưu bản nháp sau 700ms kể từ lúc mở màn hình soạn thảo. Mở "Viết bài
+mới" rồi đổi ý thoát ra là để lại một bản ghi không tiêu đề, không đường dẫn.
+Payload không có tùy chọn hoãn việc tạo bản ghi tới khi người dùng nhập gì đó,
+nên phải dọn định kỳ:
+
+```
+node --env-file=.env --import tsx scripts/clean-empty-drafts.ts --list
+node --env-file=.env --import tsx scripts/clean-empty-drafts.ts
+```
+
+Chỉ xóa bản ghi thiếu **cả** tiêu đề lẫn đường dẫn — thiếu một trong hai thì
+giữ, vì đó có thể là bài ai đó đang viết dở. `hosting-setup.mjs` đã gọi sẵn ở
+mỗi lần triển khai. `tests/cms-hygiene.spec.ts` giữ bất biến này.
