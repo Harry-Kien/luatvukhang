@@ -23,9 +23,9 @@ const ROUTES = [
 ];
 
 const structuredData = (html: string) =>
-  [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map(
-    (match) => JSON.parse(match[1]) as Record<string, any>,
-  );
+  [
+    ...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs),
+  ].map((match) => JSON.parse(match[1]) as Record<string, any>);
 
 const attr = (html: string, pattern: RegExp) => html.match(pattern)?.[1];
 
@@ -109,10 +109,9 @@ test("every public page carries canonical, hreflang, description and breadcrumbs
 test("the insights listing advertises its RSS feed", async ({ request }) => {
   for (const locale of LOCALES) {
     const html = await (await request.get(`/${locale}/articles`)).text();
-    expect(
-      html,
-      `liên kết RSS trên /${locale}/articles`,
-    ).toContain(`href="${ORIGIN}/${locale}/feed.xml"`);
+    expect(html, `liên kết RSS trên /${locale}/articles`).toContain(
+      `href="${ORIGIN}/${locale}/feed.xml"`,
+    );
     expect(html).toContain('type="application/rss+xml"');
   }
 });
@@ -137,9 +136,10 @@ test("robots, sitemap, manifest and feed respond correctly", async ({
   const xml = await sitemap.text();
   expect(xml).toContain("<urlset");
   // Lỗi từng gặp: sitemap sinh "/vi/" trong khi canonical là "/vi".
-  expect(xml, "sitemap không được có URL kết thúc bằng dấu gạch chéo").not.toMatch(
-    /<loc>[^<]*\/<\/loc>/,
-  );
+  expect(
+    xml,
+    "sitemap không được có URL kết thúc bằng dấu gạch chéo",
+  ).not.toMatch(/<loc>[^<]*\/<\/loc>/);
 
   const manifest = await request.get("/manifest.webmanifest");
   expect(manifest.ok()).toBeTruthy();
@@ -156,8 +156,14 @@ test("robots, sitemap, manifest and feed respond correctly", async ({
     "/brand/logo-512.png",
     "/brand/logo-maskable-512.png",
   ])
-    expect((await request.get(asset)).ok(), `${asset} phải tải được`).toBeTruthy();
-  const icons = (await manifest.json()).icons as { sizes: string; purpose?: string }[];
+    expect(
+      (await request.get(asset)).ok(),
+      `${asset} phải tải được`,
+    ).toBeTruthy();
+  const icons = (await manifest.json()).icons as {
+    sizes: string;
+    purpose?: string;
+  }[];
   expect(icons.map((i) => i.sizes)).toEqual(
     expect.arrayContaining(["192x192", "512x512"]),
   );
@@ -170,7 +176,9 @@ test("robots, sitemap, manifest and feed respond correctly", async ({
     expect(feed.headers()["content-type"]).toContain("application/rss+xml");
 });
 
-test("published records emit the right schema.org type", async ({ request }) => {
+test("published records emit the right schema.org type", async ({
+  request,
+}) => {
   const credentials = await fs.readFile(".local/admin-access.txt", "utf8");
   const password = credentials.match(/Password: (.+)/)![1].trim();
   const login = await request.post("/api/users/login", {
@@ -198,7 +206,10 @@ test("published records emit the right schema.org type", async ({ request }) => 
         ...extra,
       },
     });
-    expect(response.ok(), `tạo ${collection}: ${await response.text()}`).toBeTruthy();
+    expect(
+      response.ok(),
+      `tạo ${collection}: ${await response.text()}`,
+    ).toBeTruthy();
     const doc = (await response.json()).doc;
     created.push({ collection, id: doc.id });
     return doc.slug as string;
@@ -225,9 +236,9 @@ test("published records emit the right schema.org type", async ({ request }) => 
         "Service",
         (entry) => {
           expect(entry.provider["@id"]).toContain("#organization");
-          expect(entry.hasOfferCatalog.itemListElement[0].itemOffered.name).toBe(
-            "Hạng mục kiểm thử",
-          );
+          expect(
+            entry.hasOfferCatalog.itemListElement[0].itemOffered.name,
+          ).toBe("Hạng mục kiểm thử");
         },
       ],
       [
@@ -321,3 +332,29 @@ test("the not-found page returns 404 and helps the visitor continue", async ({
   await page.locator(".not-found-search button").click();
   await expect(page).toHaveURL(/\/vi\/search\?q=/);
 });
+
+/**
+ * Trang mục (Về chúng tôi, Liên hệ...) phải dùng tiêu đề và mô tả SEO của bản
+ * ghi tương ứng trong CMS.
+ *
+ * Màn hình soạn thảo có sẵn nhóm "Hiển thị trên công cụ tìm kiếm" cho những
+ * trang này. Nếu website không đọc tới, biên tập viên điền vào đó rồi tưởng đã
+ * xong, trong khi Google vẫn thấy tiêu đề ghép tự động — một ô điều khiển không
+ * nối với gì cả còn tệ hơn là không có ô nào.
+ */
+for (const section of ["about", "contact"])
+  test(`trang /${section} dùng tiêu đề SEO đặt trong CMS`, async ({
+    page,
+    request,
+  }) => {
+    const response = await request.get(
+      `/api/pages?where[slug][equals]=${section}&where[language][equals]=vi&limit=1&depth=0`,
+    );
+    const doc = (await response.json()).docs?.[0];
+    test.skip(!doc?.seo?.title, `Bản ghi ${section} chưa đặt tiêu đề SEO.`);
+    await page.goto(`/vi/${section}`);
+    expect(
+      await page.title(),
+      `tiêu đề trang /${section} không lấy từ CMS`,
+    ).toContain(doc.seo.title);
+  });

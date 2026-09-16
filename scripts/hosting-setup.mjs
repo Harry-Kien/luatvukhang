@@ -294,9 +294,13 @@ for (const script of [
   "prepare-page-content.ts",
   "prepare-editorial.ts",
   "prepare-lawyers.ts",
+  "prepare-industry-details.ts",
   // Sau prepare-editorial.ts và prepare-practice-areas.ts: cần cả bài viết lẫn
   // lĩnh vực đã có mặt thì mới nối được.
   "prepare-cross-links.ts",
+  "prepare-categories.ts",
+  // Sau cùng trong nhóm nội dung: điền tiêu đề tìm kiếm cho những gì đã nạp.
+  "prepare-seo-titles.ts",
   "clean-empty-drafts.ts",
 ]) {
   console.log(`    ${script}`);

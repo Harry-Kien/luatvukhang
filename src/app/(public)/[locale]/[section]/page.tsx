@@ -105,7 +105,8 @@ const descriptions: Record<string, [string, string]> = {
  * Trung không có thẻ nào vì khóa bị sót.
  */
 const zhDescriptions: Record<string, string> = {
-  about: "了解 Công ty Luật TNHH Vũ Khang Solutions & Partners 的介绍、团队及沟通方式。",
+  about:
+    "了解 Công ty Luật TNHH Vũ Khang Solutions & Partners 的介绍、团队及沟通方式。",
   services: "了解专业领域、支持范围及咨询申请流程。",
   experience: "浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",
   lawyers: "浏览已核实发布的律师履历、职业背景及专业领域。",
@@ -126,15 +127,29 @@ export async function generateMetadata({ params }: Props) {
   const nav = navigation.find((n) => n[0] === section);
   const name = extra[section];
   const description = descriptions[section];
+  /**
+   * Bản ghi trong mục Trang có cùng đường dẫn với mục này, nếu công ty đã tạo.
+   *
+   * Màn hình soạn thảo của nó có nhóm "Hiển thị trên công cụ tìm kiếm"; không
+   * đọc tới đây thì ô đó không nối với gì cả, và biên tập viên điền vào rồi
+   * tưởng đã xong trong khi Google vẫn thấy tiêu đề ghép tự động.
+   */
+  const page = (await getRecords("pages", locale)).find(
+    (record) => record.slug === section,
+  ) as Record<string, any> | undefined;
   return pageMetadata({
     locale,
-    title: nav
-      ? t(locale, nav[1], nav[2])
-      : name
-        ? t(locale, ...name)
-        : section,
+    title:
+      page?.seo?.title ||
+      (nav ? t(locale, nav[1], nav[2]) : name ? t(locale, ...name) : section),
+    // Tiêu đề do công ty đặt thường đã mang tên công ty; để website nối thêm
+    // lần nữa sẽ thành "… Vũ Khang | Vũ Khang".
+    titleAbsolute: Boolean(
+      page?.seo?.title && /vũ khang/i.test(String(page.seo.title)),
+    ),
     description:
-      (locale === "zh" ? zhDescriptions[section] : undefined) ??
+      page?.seo?.description ||
+      (locale === "zh" ? zhDescriptions[section] : undefined) ||
       (description ? t(locale, ...description) : undefined),
     path: `/${locale}/${section}`,
     noindex: excluded.has(section),
