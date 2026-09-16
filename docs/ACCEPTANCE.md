@@ -725,3 +725,44 @@ không thành vấn đề — lượng ghi rất thấp. Sao lưu đơn giản h
 Vòng kiểm tra cuối trên SQLite: TypeScript sạch, cổng bản dịch qua, build thành
 công, **128/128 kiểm thử đạt**, npm audit 0 lỗ hổng, kiểm tra sức khỏe trả
 `ready`, và biểu mẫu tư vấn lưu được yêu cầu thật (mã YC-C3E79AE885C9).
+
+## Ba ngôn ngữ không còn lẫn vào nhau — 16/09/2026
+
+Trang tiếng Anh hiện menu `Về chúng tôi [en]`, trang tiếng Trung mất hẳn menu
+chính, và khối "ba bước" trên trang chủ hiện tiếng Việt ở cả ba ngôn ngữ.
+
+Nguyên nhân nằm ở cấu trúc, không phải ở bản dịch. Bốn mảng trong global "Giao
+diện website" — menu chính, ba thẻ khám phá, ba bước quy trình, liên kết thêm ở
+chân trang — dùng chung một bộ dòng cho ba ngôn ngữ, chỉ nhãn bên trong mới tách
+ra. Ba hệ quả đo được:
+
+- Lưu menu ở một ngôn ngữ xoá nhãn của hai ngôn ngữ còn lại.
+- Nạp mặc định chỉ chạy cho bản tiếng Việt; bản tiếng Anh và tiếng Trung đọc lại
+  đúng chữ tiếng Việt đó. Trên cơ sở dữ liệu trắng cũng vậy, nên mọi lần cài mới
+  đều ra kết quả sai.
+- Nút dịch ở chế độ giả lập ghi thẳng `Về chúng tôi [en]` vào nhãn tiếng Anh, và
+  `tests/translate.spec.ts` chạy đúng đường đó rồi khôi phục không hết — mỗi lần
+  chạy bộ kiểm thử là dữ liệu menu hỏng thêm một lần.
+
+Đã sửa:
+
+- Bốn mảng chuyển sang `localized: true`: mỗi ngôn ngữ giữ bộ dòng của riêng
+  mình. Migration `20260916_043812_giao_dien_mang_theo_ngon_ngu` xoá các dòng cũ
+  — một dòng dùng chung không tách được thành ba dòng đúng ba ngôn ngữ — rồi
+  `scripts/prepare-site-layout.ts` nạp lại đủ ba bản.
+- `src/lib/site-layout.ts` ghép mảng theo từng dòng, khớp theo đường dẫn. Ô nhãn
+  trống lấy mặc định của đúng ngôn ngữ đang xem; mục chưa có bản dịch thì tạm ẩn
+  thay vì mượn nhãn của mục khác.
+- `scripts/prepare-site-layout.ts` nạp cả nhãn bên trong mảng, nhận ra ô còn
+  nguyên chữ ngôn ngữ nguồn và ô mang đuôi giả lập.
+- Nhà cung cấp dịch giả lập không dùng được khi `NODE_ENV=production`.
+- `src/cms/translation/endpoint.ts` bỏ mã dòng của bản nguồn trước khi ghi sang
+  ngôn ngữ đích.
+- `tests/translate.spec.ts` chụp và khôi phục cả ba ngôn ngữ.
+
+Kiểm chứng: `tests/locale-purity.spec.ts` đối chiếu 17 nhãn giao diện của từng
+ngôn ngữ trên trang chủ và trang chuyên môn, ở cả khung máy tính lẫn điện thoại
+(mở ngăn kéo menu trước khi đọc, nếu không bài kiểm thử "đạt" chỉ vì chữ đang bị
+ẩn), và dựng lại đúng thao tác biên tập viên thêm một mục menu mới. Đã xem bài
+kiểm thử trượt trên mã cũ trước khi sửa. TypeScript qua; 172/174 kiểm thử qua,
+2 bỏ qua, không có bài nào trượt.

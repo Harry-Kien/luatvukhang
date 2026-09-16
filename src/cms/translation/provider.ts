@@ -5,11 +5,21 @@ export class TranslationUnavailable extends Error {}
 export class TranslationTooLarge extends Error {}
 
 export const MAX_CHARS = 60000;
-const LANGUAGE = { en: "English", zh: "Simplified Chinese (简体中文)" } as const;
+const LANGUAGE = {
+  en: "English",
+  zh: "Simplified Chinese (简体中文)",
+} as const;
 
 /** Nhà cung cấp đang dùng: Claude khi có khóa, giả lập khi kiểm thử, null khi chưa cấu hình. */
 export function translationProvider(): "claude" | "mock" | null {
-  if (process.env.TRANSLATION_PROVIDER === "mock") return "mock";
+  // Bản giả lập nối " [en]" vào câu gốc thay vì dịch. Hữu ích khi kiểm thử,
+  // nhưng nếu lọt vào bản chạy thật thì nút "Dịch" ghi chuỗi tiếng Việt kèm
+  // đuôi đó thẳng vào nội dung tiếng Anh của website.
+  if (
+    process.env.TRANSLATION_PROVIDER === "mock" &&
+    process.env.NODE_ENV !== "production"
+  )
+    return "mock";
   if (process.env.ANTHROPIC_API_KEY) return "claude";
   return null;
 }

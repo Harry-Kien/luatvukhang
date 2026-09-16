@@ -1,10 +1,7 @@
 import { cache } from "react";
 import { getCMS } from "./cms";
 import type { Locale } from "./locales";
-import {
-  SITE_LAYOUT_DEFAULTS,
-  type SiteLayoutData,
-} from "@/cms/site-layout";
+import { SITE_LAYOUT_DEFAULTS, type SiteLayoutData } from "@/cms/site-layout";
 
 const filled = (value: unknown) =>
   Array.isArray(value)
@@ -13,12 +10,47 @@ const filled = (value: unknown) =>
       ? value.trim().length > 0
       : value !== null && value !== undefined;
 
+const href = (row: unknown) =>
+  (row as { href?: unknown } | null | undefined)?.href;
+
+/**
+ * Dòng mặc định ứng với một dòng đã lưu: khớp theo đường dẫn, không khớp được
+ * thì lấy theo thứ tự.
+ *
+ * Mảng trong global không dịch theo ngôn ngữ — các dòng dùng chung, chỉ nhãn
+ * bên trong mới có ba bản. Biên tập viên thêm một mục menu ở bản tiếng Việt là
+ * dòng đó xuất hiện ở cả ba ngôn ngữ nhưng chỉ có nhãn tiếng Việt. Ghép từng
+ * dòng với mặc định của đúng ngôn ngữ đang xem để ô nhãn trống được lấp bằng
+ * chữ đúng ngôn ngữ, thay vì cả mảng rơi về bản đã lưu.
+ */
+const rowDefault = (defaults: unknown[], row: unknown, index: number) => {
+  const path = href(row);
+  // Dòng có đường dẫn thì chỉ nhận mặc định cùng đường dẫn. Lấy theo vị trí sẽ
+  // khiến một mục mới chèn vào giữa mượn nhãn của mục đang đứng chỗ đó — menu
+  // tiếng Anh hiện "People" nhưng bấm vào lại ra trang khác. Mục chưa có bản
+  // dịch thì thà tạm ẩn còn hơn dẫn sai.
+  return path
+    ? defaults.find((entry) => href(entry) === path)
+    : defaults[index];
+};
+
+function mergeRows(defaults: unknown[], data: unknown[]): unknown[] {
+  return data.map((row, index) => {
+    const base = rowDefault(defaults, row, index);
+    return base && typeof base === "object" && !Array.isArray(base)
+      ? merge(base, row)
+      : filled(row)
+        ? row
+        : base;
+  });
+}
+
 function merge<T>(defaults: T, data: unknown): T {
-  if (
-    Array.isArray(defaults) ||
-    typeof defaults !== "object" ||
-    defaults === null
-  )
+  if (Array.isArray(defaults))
+    return (
+      Array.isArray(data) && data.length ? mergeRows(defaults, data) : defaults
+    ) as T;
+  if (typeof defaults !== "object" || defaults === null)
     return (filled(data) ? data : defaults) as T;
   const out: Record<string, unknown> = { ...(defaults as object) };
   const source = (data ?? {}) as Record<string, unknown>;
@@ -26,7 +58,7 @@ function merge<T>(defaults: T, data: unknown): T {
     const base = (defaults as Record<string, unknown>)[key];
     const value = source[key];
     out[key] =
-      base && typeof base === "object" && !Array.isArray(base)
+      base && typeof base === "object"
         ? merge(base, value)
         : filled(value)
           ? value

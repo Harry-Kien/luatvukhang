@@ -243,32 +243,59 @@ test("translating a global fills the EN locale of localized fields", async ({
   request,
 }) => {
   const auth = { Authorization: "JWT " + (await adminToken(request)) };
-  const before = await (
-    await request.get("/api/globals/site-layout?locale=en&fallback-locale=none")
-  ).json();
+  const locales = ["vi", "en", "zh"] as const;
+  /**
+   * Chụp cả ba ngôn ngữ, không riêng bản đích.
+   *
+   * Các mảng trong global dùng chung dòng cho ba ngôn ngữ, chỉ nhãn bên trong
+   * mới tách ra. Ghi một ngôn ngữ là nhãn của hai ngôn ngữ kia bị xoá theo, nên
+   * khôi phục mỗi bản tiếng Anh sẽ để lại menu tiếng Trung rỗng và menu tiếng
+   * Anh mang nguyên chuỗi giả lập — đúng thứ bài kiểm thử này vừa tạo ra.
+   */
+  const snapshots: Record<string, any> = {};
+  for (const locale of locales)
+    snapshots[locale] = await (
+      await request.get(
+        `/api/globals/site-layout?locale=${locale}&fallback-locale=none`,
+      )
+    ).json();
+  const before = snapshots.en;
   const run = await request.post("/api/translate", {
     headers: auth,
     data: { kind: "global", slug: "site-layout", targets: ["en"] },
   });
-  test.skip([503, 429].includes(run.status()), "Dịch máy chưa cấu hình hoặc đã hết hạn mức giờ này.");
+  test.skip(
+    [503, 429].includes(run.status()),
+    "Dịch máy chưa cấu hình hoặc đã hết hạn mức giờ này.",
+  );
   expect(run.ok(), await run.text()).toBeTruthy();
   try {
     const after = await (
-      await request.get("/api/globals/site-layout?locale=en&fallback-locale=none")
+      await request.get(
+        "/api/globals/site-layout?locale=en&fallback-locale=none",
+      )
     ).json();
     expect(after.footer.motto).toMatch(/\[en\]$/);
     expect(after.header.menu[0].label).toMatch(/\[en\]$/);
   } finally {
-    const restore = await request.post("/api/globals/site-layout?locale=en", {
-      headers: auth,
-      data: {
-        header: before.header,
-        home: before.home,
-        footer: before.footer,
-        contact: before.contact,
-      },
-    });
-    expect(restore.ok(), await restore.text()).toBeTruthy();
+    // Tiếng Việt sau cùng: bản đó giữ các dòng gốc, ghi nó lại là thứ tự và
+    // đường dẫn của mảng trở về đúng như trước bài kiểm thử.
+    for (const locale of ["en", "zh", "vi"] as const) {
+      const snapshot = snapshots[locale];
+      const restore = await request.post(
+        `/api/globals/site-layout?locale=${locale}`,
+        {
+          headers: auth,
+          data: {
+            header: snapshot.header,
+            home: snapshot.home,
+            footer: snapshot.footer,
+            contact: snapshot.contact,
+          },
+        },
+      );
+      expect(restore.ok(), await restore.text()).toBeTruthy();
+    }
   }
 });
 

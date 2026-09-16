@@ -10,6 +10,14 @@ const localized = (name: string, label: string, textarea = false): Field =>
     type: textarea ? "textarea" : "text",
     localized: true,
   }) as Field;
+/**
+ * Ô chữ không gắn cờ localized — dùng cho các ô nằm trong mảng đã localized.
+ *
+ * Payload không cho lồng hai tầng localized. Đặt cờ ở mảng là mỗi ngôn ngữ có
+ * bộ dòng riêng, nên các ô bên trong không cần và không được gắn cờ lần nữa.
+ */
+const text = (name: string, label: string, textarea = false): Field =>
+  ({ name, label, type: textarea ? "textarea" : "text" }) as Field;
 const hrefValidate = (value: unknown) =>
   !value || /^(\/|https:\/\/)/.test(String(value))
     ? true
@@ -308,9 +316,10 @@ export const SiteLayout: GlobalConfig = {
               name: "menu",
               label: "Menu chính (tối đa 8 mục hiện)",
               type: "array",
+              localized: true,
               maxRows: 12,
               fields: [
-                localized("label", "Nhãn"),
+                text("label", "Nhãn"),
                 {
                   name: "href",
                   label: "Đường dẫn (ví dụ /about)",
@@ -350,9 +359,10 @@ export const SiteLayout: GlobalConfig = {
               name: "discoverCards",
               label: "Ba thẻ khám phá",
               type: "array",
+              localized: true,
               maxRows: 3,
               fields: [
-                localized("title", "Tiêu đề"),
+                text("title", "Tiêu đề"),
                 {
                   name: "href",
                   label: "Đường dẫn",
@@ -378,11 +388,9 @@ export const SiteLayout: GlobalConfig = {
               name: "steps",
               label: "Mục 03 — ba bước",
               type: "array",
+              localized: true,
               maxRows: 3,
-              fields: [
-                localized("title", "Tên bước"),
-                localized("text", "Mô tả", true),
-              ],
+              fields: [text("title", "Tên bước"), text("text", "Mô tả", true)],
             },
           ],
         },
@@ -401,8 +409,9 @@ export const SiteLayout: GlobalConfig = {
               name: "extraLinks",
               label: "Liên kết thêm ở cột 2",
               type: "array",
+              localized: true,
               fields: [
-                localized("label", "Nhãn"),
+                text("label", "Nhãn"),
                 {
                   name: "href",
                   label: "Đường dẫn",

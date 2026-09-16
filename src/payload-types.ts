@@ -67,7 +67,6 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
     pages: Page;
     services: Service;
     industries: Industry;
@@ -81,6 +80,7 @@ export interface Config {
     media: Media;
     'consultation-requests': ConsultationRequest;
     'notification-outbox': NotificationOutbox;
+    users: User;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -89,7 +89,6 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     industries: IndustriesSelect<false> | IndustriesSelect<true>;
@@ -103,6 +102,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'consultation-requests': ConsultationRequestsSelect<false> | ConsultationRequestsSelect<true>;
     'notification-outbox': NotificationOutboxSelect<false> | NotificationOutboxSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -150,33 +150,6 @@ export interface UserAuthOperations {
   };
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name: string;
-  role: 'admin' | 'editor' | 'reviewer' | 'publisher' | 'reception';
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
-}
-/**
  * Mỗi bản ngôn ngữ có quy trình duyệt và xuất bản riêng. Dùng cùng mã liên kết bản dịch và đường dẫn cho hai ngôn ngữ.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -185,9 +158,7 @@ export interface User {
 export interface Page {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -197,10 +168,6 @@ export interface Page {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -272,6 +239,18 @@ export interface Page {
     shade?: number | null;
     caption?: string | null;
   };
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -279,6 +258,33 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name: string;
+  role: 'admin' | 'editor' | 'reviewer' | 'publisher' | 'reception';
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -328,9 +334,7 @@ export interface Media {
 export interface Service {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -340,10 +344,6 @@ export interface Service {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -425,6 +425,18 @@ export interface Service {
   lawyers?: (number | Lawyer)[] | null;
   experience?: (number | Experience)[] | null;
   articles?: (number | Article)[] | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -442,9 +454,7 @@ export interface Service {
 export interface Lawyer {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -454,10 +464,6 @@ export interface Lawyer {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -521,6 +527,18 @@ export interface Lawyer {
   languages?: string | null;
   services?: (number | Service)[] | null;
   office?: (number | null) | Office;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -538,9 +556,7 @@ export interface Lawyer {
 export interface Office {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -550,10 +566,6 @@ export interface Office {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -611,6 +623,18 @@ export interface Office {
           }
       )[]
     | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -628,9 +652,7 @@ export interface Office {
 export interface Experience {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -640,10 +662,6 @@ export interface Experience {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -703,6 +721,18 @@ export interface Experience {
     | null;
   disclosureApproval: string;
   services?: (number | Service)[] | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -720,9 +750,7 @@ export interface Experience {
 export interface Article {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -732,10 +760,6 @@ export interface Article {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -802,6 +826,18 @@ export interface Article {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -819,9 +855,7 @@ export interface Article {
 export interface Category {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -831,10 +865,6 @@ export interface Category {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -892,6 +922,18 @@ export interface Category {
           }
       )[]
     | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -909,9 +951,7 @@ export interface Category {
 export interface Industry {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -921,10 +961,6 @@ export interface Industry {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -997,6 +1033,18 @@ export interface Industry {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -1014,9 +1062,7 @@ export interface Industry {
 export interface Recognition {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -1026,10 +1072,6 @@ export interface Recognition {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -1087,6 +1129,18 @@ export interface Recognition {
           }
       )[]
     | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -1104,9 +1158,7 @@ export interface Recognition {
 export interface Career {
   id: number;
   title: string;
-  slug: string;
   language: 'vi' | 'en' | 'zh';
-  translationKey: string;
   reviewState?: ('working' | 'pending' | 'approved') | null;
   isSample?: boolean | null;
   /**
@@ -1116,10 +1168,6 @@ export interface Career {
   reviewedBy?: (number | null) | User;
   reviewedAt?: string | null;
   summary: string;
-  /**
-   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
-   */
-  keywords?: string | null;
   body?: {
     root: {
       type: string;
@@ -1180,6 +1228,18 @@ export interface Career {
   location?: string | null;
   closingDate?: string | null;
   applicationEmail?: string | null;
+  /**
+   * Tự nhập khi tạo mới; đổi sau khi xuất bản sẽ tự tạo chuyển hướng từ đường dẫn cũ.
+   */
+  slug: string;
+  /**
+   * Để trống thì lấy theo đường dẫn. Các bản ngôn ngữ của cùng một nội dung dùng chung mã này.
+   */
+  translationKey: string;
+  /**
+   * Cách nói thường ngày của khách, ngăn cách bằng dấu phẩy — ví dụ: sa thải, nghỉ việc, sổ đỏ, kiện ra tòa. Chỉ dùng cho ô tìm kiếm trong website, không hiển thị ra ngoài và không gửi cho công cụ tìm kiếm. Khách hiếm khi gõ đúng tên chính thức của lĩnh vực, nên đây là chỗ bắc cầu giữa cách họ hỏi và cách nội dung được viết.
+   */
+  keywords?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -1257,10 +1317,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -1313,6 +1369,10 @@ export interface PayloadLockedDocument {
         value: number | NotificationOutbox;
       } | null)
     | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null);
@@ -1360,44 +1420,17 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1443,6 +1476,9 @@ export interface PagesSelect<T extends boolean = true> {
         shade?: T;
         caption?: T;
       };
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1459,16 +1495,13 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface ServicesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1525,6 +1558,9 @@ export interface ServicesSelect<T extends boolean = true> {
   lawyers?: T;
   experience?: T;
   articles?: T;
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1541,16 +1577,13 @@ export interface ServicesSelect<T extends boolean = true> {
  */
 export interface IndustriesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1598,6 +1631,9 @@ export interface IndustriesSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1614,16 +1650,13 @@ export interface IndustriesSelect<T extends boolean = true> {
  */
 export interface LawyersSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1662,6 +1695,9 @@ export interface LawyersSelect<T extends boolean = true> {
   languages?: T;
   services?: T;
   office?: T;
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1678,16 +1714,13 @@ export interface LawyersSelect<T extends boolean = true> {
  */
 export interface ExperienceSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1722,6 +1755,9 @@ export interface ExperienceSelect<T extends boolean = true> {
       };
   disclosureApproval?: T;
   services?: T;
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1738,16 +1774,13 @@ export interface ExperienceSelect<T extends boolean = true> {
  */
 export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1789,6 +1822,9 @@ export interface ArticlesSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1805,16 +1841,13 @@ export interface ArticlesSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1847,6 +1880,9 @@ export interface CategoriesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1863,16 +1899,13 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface OfficesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1905,6 +1938,9 @@ export interface OfficesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1921,16 +1957,13 @@ export interface OfficesSelect<T extends boolean = true> {
  */
 export interface RecognitionsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -1963,6 +1996,9 @@ export interface RecognitionsSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -1979,16 +2015,13 @@ export interface RecognitionsSelect<T extends boolean = true> {
  */
 export interface CareersSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   language?: T;
-  translationKey?: T;
   reviewState?: T;
   isSample?: T;
   machineTranslated?: T;
   reviewedBy?: T;
   reviewedAt?: T;
   summary?: T;
-  keywords?: T;
   body?: T;
   blocks?:
     | T
@@ -2024,6 +2057,9 @@ export interface CareersSelect<T extends boolean = true> {
   location?: T;
   closingDate?: T;
   applicationEmail?: T;
+  slug?: T;
+  translationKey?: T;
+  keywords?: T;
   seo?:
     | T
     | {
@@ -2108,6 +2144,30 @@ export interface NotificationOutboxSelect<T extends boolean = true> {
   status?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

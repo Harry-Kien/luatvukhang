@@ -87,7 +87,8 @@ function slotsFor(doc: Record<string, any>): Slot[] {
       block.body.trim()
     )
       slots.push({ get: () => block.body, set: (v) => (block.body = v) });
-    if (block.blockType === "text" && block.body) richSlots(block, "body", slots);
+    if (block.blockType === "text" && block.body)
+      richSlots(block, "body", slots);
   }
   if (doc.body) richSlots(doc, "body", slots);
   return slots;
@@ -286,6 +287,9 @@ async function translateGlobal(req: PayloadRequest, body: any) {
     slots.forEach((s, i) => s.set(translated[i]));
     for (const key of ["id", "createdAt", "updatedAt", "globalType"])
       delete data[key];
+    // Mã dòng đi kèm là của bản tiếng Việt; mảng trong global nay có bộ dòng
+    // riêng theo ngôn ngữ nên giữ lại sẽ làm lệnh ghi thất bại.
+    stripRowIds(data);
     await req.payload.updateGlobal({
       slug: slug as never,
       locale: target,
@@ -310,7 +314,8 @@ export const translateEndpoint: Endpoint = {
     if (!translationProvider())
       return json(
         {
-          error: "Chưa cấu hình dịch máy: đặt ANTHROPIC_API_KEY trong tệp .env.",
+          error:
+            "Chưa cấu hình dịch máy: đặt ANTHROPIC_API_KEY trong tệp .env.",
           configured: false,
         },
         503,
