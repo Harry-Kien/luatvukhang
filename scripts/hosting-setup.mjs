@@ -20,6 +20,7 @@
  * từng bước.
  */
 import { execFileSync } from "node:child_process";
+import { CONTENT_SCRIPTS } from "./content-scripts.mjs";
 import {
   existsSync,
   lstatSync,
@@ -286,29 +287,11 @@ say("Tạo tài khoản quản trị (bỏ qua nếu đã có người dùng)");
 run("node", ["--import", "tsx", "scripts/bootstrap.ts"]);
 
 say("Nạp nội dung nền — chạy lại không tạo bản trùng");
-for (const script of [
-  "prepare-pages.ts",
-  "prepare-site-layout.ts",
-  "prepare-practice-areas.ts",
-  "prepare-keywords.ts",
-  "prepare-page-content.ts",
-  "prepare-editorial.ts",
-  "prepare-lawyers.ts",
-  "prepare-industry-details.ts",
-  // Sau prepare-editorial.ts và prepare-practice-areas.ts: cần cả bài viết lẫn
-  // lĩnh vực đã có mặt thì mới nối được.
-  "prepare-cross-links.ts",
-  "prepare-categories.ts",
-  // Sau cùng trong nhóm nội dung: điền tiêu đề tìm kiếm cho những gì đã nạp.
-  "prepare-seo-titles.ts",
-  "clean-empty-drafts.ts",
-]) {
+// Danh sách và thứ tự nằm ở scripts/content-scripts.mjs, dùng chung với CI.
+for (const script of CONTENT_SCRIPTS) {
   console.log(`    ${script}`);
   run("node", ["--import", "tsx", `scripts/${script}`]);
 }
-// prepare-people.ts cố ý không nằm trong danh sách: đó là hồ sơ minh họa, không
-// thuộc về một máy chủ thật. prepare-lawyers.ts ở trên vừa nạp hồ sơ luật sư
-// thật vừa gỡ hồ sơ minh họa còn sót lại từ những lần cài trước.
 
 console.log(
   "\n" +

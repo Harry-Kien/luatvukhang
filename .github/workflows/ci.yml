@@ -60,13 +60,35 @@ jobs:
       - name: Tạo tài khoản quản trị cho kiểm thử
         run: node --import tsx scripts/bootstrap.ts
 
-      - name: Nạp các trang nền
-        # Bước cài đặt ghi trong README. Kiểm thử đối chiếu một bản cài đặt đã
-        # khởi tạo đúng cách, không phải một cơ sở dữ liệu trống.
-        run: node --import tsx scripts/prepare-pages.ts
+      - name: Nạp toàn bộ nội dung nền
+        # Cùng danh sách và cùng thứ tự với hosting-setup.mjs — cả hai đọc
+        # scripts/content-scripts.mjs. Trước đây CI chỉ nạp hai script nó cần,
+        # nên mỗi lần thêm một script nội dung mới là CI đối chiếu một website
+        # nghèo hơn website thật, và bài kiểm thử nội dung đó không có gì để
+        # kiểm. Nạp đủ thì CI mới thật sự đứng thay cho bản chạy thật.
+        run: node scripts/seed-content.mjs
 
-      - name: Nạp giao diện website mặc định
-        run: node --import tsx scripts/prepare-site-layout.ts
+      - name: Xuất bản hồ sơ luật sư cho kiểm thử
+        # Trên hosting, xuất bản hồ sơ một con người là quyết định của công ty
+        # nên cờ này nằm ngoài danh sách nạp tự động. Ở CI thì cần, để bài kiểm
+        # thử trang Đội ngũ có dữ liệu mà đối chiếu thay vì tự bỏ qua.
+        run: node --import tsx scripts/prepare-lawyers.ts --publish
+
+      - name: Xuất bản nội dung để kiểm thử đúng website đã công bố
+        # Các script nạp đều tạo bản NHÁP, vì trên máy chủ thật nội dung phải
+        # chờ luật sư của công ty duyệt. Hệ quả: một bản cài mới không có gì
+        # được xuất bản, và bộ kiểm thử lặng lẽ bỏ qua tám bài — tìm kiếm, menu
+        # chuyên môn, tiêu đề SEO của trang mục — đồng thời bài kiểm tra chế độ
+        # sửa tại chỗ hỏng vì trang Về chúng tôi chưa có bản đã xuất bản nào.
+        # CI phải đối chiếu website như khách nhìn thấy, nên xuất bản ở đây.
+        # Hai trang chính sách vẫn được script giữ lại cho tới khi công ty duyệt.
+        run: node --import tsx scripts/publish-drafts.ts --confirm
+
+      - name: Đặt số điện thoại cho kiểm thử nút gọi và Zalo
+        # Nút gọi và nút Zalo có mặt trên mọi trang và sinh ra từ một trường duy
+        # nhất trong Cài đặt. Không đặt thì bốn bài kiểm thử tự bỏ qua, và một
+        # lỗi làm hỏng đường liên hệ sẽ không ai chặn lại.
+        run: node --import tsx scripts/set-contact.ts --phone "0832270898"
 
       - name: Cài trình duyệt Chromium
         run: npx playwright install --with-deps chromium

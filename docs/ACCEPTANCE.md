@@ -766,3 +766,37 @@ ngôn ngữ trên trang chủ và trang chuyên môn, ở cả khung máy tính 
 ẩn), và dựng lại đúng thao tác biên tập viên thêm một mục menu mới. Đã xem bài
 kiểm thử trượt trên mã cũ trước khi sửa. TypeScript qua; 172/174 kiểm thử qua,
 2 bỏ qua, không có bài nào trượt.
+
+## CI đối chiếu đúng website thật — 16/09/2026
+
+Dựng lại một bản cài **hoàn toàn mới** (cơ sở dữ liệu trắng, migrate, nạp nội
+dung, chạy cả bộ kiểm thử) và phát hiện hai điều mà máy phát triển không bao giờ
+lộ ra:
+
+- **Một bài kiểm thử hỏng.** `admin-bar.spec.ts` kiểm chế độ sửa tại chỗ trên
+  trang Về chúng tôi, nhưng bản cài mới chưa xuất bản trang nào nên không có
+  vùng sửa nào để kiểm.
+- **Tám bài lặng lẽ tự bỏ qua** — tìm kiếm tiếng Trung, chất lượng tìm kiếm,
+  menu chuyên môn, tiêu đề SEO của trang mục — vì mọi bản ghi đều còn là nháp.
+  Bốn bài nữa bỏ qua vì Cài đặt chưa có số điện thoại, tức nút gọi và nút Zalo
+  trên mọi trang không có ai canh.
+
+Nguyên nhân gốc: CI chỉ nạp hai script nội dung, còn hosting nạp mười hai. Hai
+danh sách trôi khỏi nhau mà không có gì báo. Thêm một script nội dung mới thì
+hosting có, CI không — và bài kiểm thử đối chiếu nội dung đó không có gì để kiểm.
+
+Đã sửa:
+
+- `scripts/content-scripts.mjs` giữ **một danh sách duy nhất** cùng thứ tự;
+  `hosting-setup.mjs` và CI đều đọc từ đó, không còn chỗ để trôi.
+- `scripts/seed-content.mjs` + `npm run seed:content` chạy đủ danh sách đó.
+- CI nạp đủ nội dung, xuất bản hồ sơ luật sư, chạy `publish-drafts.ts --confirm`
+  và đặt số điện thoại — để đối chiếu website như khách nhìn thấy. Hai trang
+  chính sách vẫn được giữ lại cho tới khi công ty duyệt.
+- `tests/people.spec.ts` đọc danh sách luật sư đã xuất bản từ API thay vì gắn
+  cứng tên người, nên công ty thêm hoặc đổi luật sư thì bài kiểm thử đi theo.
+
+Kiểm chứng: trên bản cài mới đúng trình tự của CI — **192 qua, 2 bỏ qua, không
+bài nào trượt**. Hai bài còn bỏ qua là menu chuyên môn ở khung điện thoại, vốn
+chỉ có ở bản máy tính. Trước khi sửa, cùng bản cài đó cho 178 qua, 14 bỏ qua,
+2 trượt.

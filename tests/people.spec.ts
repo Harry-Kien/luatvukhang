@@ -154,15 +154,30 @@ test("Đội ngũ không còn hồ sơ minh họa và mỗi người có đủ b
 for (const locale of ["vi", "en", "zh"] as const)
   test(`trang Đội ngũ /${locale} hiển thị hồ sơ đã xuất bản`, async ({
     page,
+    request,
   }) => {
+    // Đọc danh sách từ chính API thay vì gắn cứng tên người. Công ty thêm,
+    // đổi hay gỡ một luật sư là bài kiểm thử đi theo, không phải sửa lại —
+    // và nó vẫn bắt được đúng lỗi cần bắt: có hồ sơ mà trang không hiện.
+    const response = await request.get(
+      `/api/lawyers?where[_status][equals]=published&where[language][equals]=${locale}&limit=100&depth=0`,
+    );
+    const published = ((await response.json()).docs ?? []) as {
+      title: string;
+    }[];
+    test.skip(
+      published.length === 0,
+      `Chưa có hồ sơ luật sư đã xuất bản cho /${locale}.`,
+    );
+
     await page.goto(`/${locale}/lawyers`);
     await expect(
       page.locator(".person-card"),
       `trang Đội ngũ /${locale} không có hồ sơ nào`,
-    ).not.toHaveCount(0);
-    for (const name of ["Phan Thùy Trang", "Trần Phương Lan Anh"])
+    ).toHaveCount(published.length);
+    for (const person of published)
       await expect(
-        page.locator(".person-card", { hasText: name }),
-        `thiếu hồ sơ ${name} ở /${locale}`,
+        page.locator(".person-card", { hasText: person.title }),
+        `thiếu hồ sơ ${person.title} ở /${locale}`,
       ).toHaveCount(1);
   });
