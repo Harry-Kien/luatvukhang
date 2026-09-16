@@ -3,6 +3,7 @@
  *
  *   node --env-file=.env --import tsx scripts/prepare-lawyers.ts
  *   node --env-file=.env --import tsx scripts/prepare-lawyers.ts --refresh
+ *   node --env-file=.env --import tsx scripts/prepare-lawyers.ts --publish
  *
  * Hồ sơ minh họa (scripts/prepare-people.ts) chỉ có ích khi công ty chưa có
  * người thật để đưa lên. Khi đã có, chúng phải rời khỏi CMS chứ không chỉ rời
@@ -17,6 +18,13 @@
  * `--refresh` nạp lại chức danh và tóm tắt từ scripts/content/lawyers.ts cho
  * những bản ghi còn ở dạng nháp chưa duyệt. Dùng khi công ty đính chính thông
  * tin đã cung cấp; bản đã duyệt hoặc đã xuất bản không bị đụng tới.
+ *
+ * `--publish` duyệt và xuất bản các hồ sơ này. Chỉ chạy khi công ty đã quyết
+ * định đưa họ tên lên website. Nội dung công bố đúng bằng những gì công ty đã
+ * xác nhận — họ tên, chức danh, vai trò — còn số thẻ luật sư, đoàn luật sư,
+ * lĩnh vực phụ trách, ngôn ngữ làm việc và ảnh chân dung vẫn để trống cho tới
+ * khi có. Thiếu thông tin thì trang hiển thị ít đi; bịa ra thì thành hồ sơ hành
+ * nghề sai sự thật, nên không bao giờ điền thay.
  */
 import { getPayload } from "payload";
 import config from "../src/payload.config";
@@ -24,6 +32,7 @@ import { locales } from "../src/lib/locales";
 import { firmLawyers } from "./content/lawyers";
 
 const refresh = process.argv.includes("--refresh");
+const publish = process.argv.includes("--publish");
 const cms = await getPayload({ config });
 const admin = (
   await cms.find({
@@ -51,6 +60,7 @@ if (samples.docs.length)
 
 let created = 0;
 let updated = 0;
+let published = 0;
 let skipped = 0;
 for (const lawyer of firmLawyers)
   for (const language of locales) {
@@ -87,6 +97,15 @@ for (const lawyer of firmLawyers)
         });
         updated += 1;
         console.log("da cap nhat", lawyer.slug, language);
+      } else if (publish && found._status !== "published") {
+        await cms.update({
+          collection: "lawyers",
+          id: found.id,
+          user: admin,
+          data: { reviewState: "approved", _status: "published" },
+        });
+        published += 1;
+        console.log("da xuat ban", lawyer.slug, language);
       } else skipped += 1;
       continue;
     }
@@ -112,7 +131,7 @@ for (const lawyer of firmLawyers)
   }
 
 console.log(
-  `\nTao moi: ${created} ban ghi. Cap nhat: ${updated}. Bo qua: ${skipped}.\n` +
+  `\nTao moi: ${created}. Cap nhat: ${updated}. Xuat ban: ${published}. Bo qua: ${skipped}.\n` +
     "Cac ho so dang o dang NHAP. Truoc khi xuat ban, vao /admin > Doi ngu de nhap:\n" +
     "  - So the luat su va doan luat su (o 'Thong tin nghe nghiep da xac minh')\n" +
     "  - Linh vuc chuyen mon phu trach\n" +

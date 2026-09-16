@@ -77,8 +77,15 @@ const LABELS = {
  */
 async function openMobileMenu(page: Page) {
   if (test.info().project.name !== "mobile") return;
-  await page.locator("button.menu-toggle").click();
-  await expect(page.locator("#mobile-menu")).toBeVisible();
+  const toggle = page.locator("button.menu-toggle");
+  await expect(toggle).toBeVisible();
+  // Cú bấm rơi vào khoảng trước khi React gắn sự kiện thì không có gì xảy ra và
+  // ngăn kéo không bao giờ mở. Bấm lại cho tới khi nó thực sự mở.
+  await expect(async () => {
+    if ((await toggle.getAttribute("aria-expanded")) !== "true")
+      await toggle.click();
+    await expect(page.locator("#mobile-menu")).toBeVisible({ timeout: 2000 });
+  }).toPass({ timeout: 20000 });
 }
 
 for (const locale of ["en", "zh"] as const) {

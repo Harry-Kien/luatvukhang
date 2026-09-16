@@ -78,43 +78,83 @@ test("the quick-contact buttons keep an accessible name when their text is hidde
   }
 });
 
-test("illustrative profiles are visible for review but never presented as real", async ({
+test("hồ sơ minh họa bị hồ sơ thật thay thế và không bao giờ được trình bày như luật sư đã công bố", async ({
   page,
   request,
 }) => {
-  await page.goto("/vi/lawyers");
-  const cards = page.locator(".person-card");
-  test.skip(
-    (await cards.count()) === 0,
-    "Chưa nạp hồ sơ minh họa; chạy scripts/prepare-people.ts.",
-  );
-  const published = await request.get(
-    "/api/lawyers?where[_status][equals]=published&limit=1",
-  );
-  const anonymous = await published.json();
+  // Tự dựng hồ sơ minh họa thay vì tìm trong dữ liệu đã nạp. Công ty đã có hồ sơ
+  // luật sư thật nên hồ sơ mẫu không còn nằm sẵn trong CMS; bài kiểm thử dựa vào
+  // dữ liệu nạp sẵn sẽ lặng lẽ bỏ qua, hoặc tệ hơn là chấm một hồ sơ thật.
+  const password = (await fs.readFile(".local/admin-access.txt", "utf8"))
+    .match(/Password: (.+)/)![1]
+    .trim();
+  const login = await request.post("/api/users/login", {
+    data: { email: "admin@local.invalid", password },
+  });
+  const headers = { Authorization: "JWT " + (await login.json()).token };
+  const key = "qa-minh-hoa-" + randomUUID();
+  const created = await request.post("/api/lawyers?draft=true", {
+    headers,
+    data: {
+      title: "QA Luật sư minh họa",
+      slug: key,
+      translationKey: key,
+      language: "vi",
+      position: "Hồ sơ kiểm thử",
+      summary: "Dữ liệu kiểm thử tự động, sẽ được xóa sau khi kiểm tra.",
+      isSample: true,
+      _status: "draft",
+    },
+  });
+  expect(created.ok(), await created.text()).toBeTruthy();
+  const sample = (await created.json()).doc;
+  try {
+    await page.goto("/vi/lawyers");
+    const realProfiles = await (
+      await request.get(
+        "/api/lawyers?where[_status][equals]=published&limit=1&depth=0",
+      )
+    ).json();
 
-  if (anonymous.totalDocs === 0) {
-    // Chỉ có hồ sơ minh họa: người đọc phải được nói rõ điều đó.
-    await expect(page.locator(".sample-badge")).toBeVisible();
-    const notice = await page.locator(".sample-badge").innerText();
-    expect(notice.toLowerCase()).toContain("minh họa");
+    if (realProfiles.totalDocs) {
+      // Đã có hồ sơ thật thì hồ sơ minh họa phải nhường chỗ hoàn toàn: không
+      // được đứng lẫn trong danh sách, và nhãn "minh họa" cũng không còn lý do.
+      await expect(
+        page.locator(".person-card", { hasText: sample.title }),
+        "hồ sơ minh họa vẫn đứng lẫn với hồ sơ thật",
+      ).toHaveCount(0);
+      await expect(page.locator(".sample-badge")).toHaveCount(0);
+    } else {
+      // Chỉ có hồ sơ minh họa: người đọc phải được nói rõ điều đó.
+      await expect(
+        page.locator(".person-card", { hasText: sample.title }),
+      ).toHaveCount(1);
+      await expect(page.locator(".sample-badge")).toBeVisible();
+      expect(
+        (await page.locator(".sample-badge").innerText()).toLowerCase(),
+      ).toContain("minh họa");
+    }
+
+    // Trang chi tiết vẫn mở được để công ty xem trước, nhưng không được mô tả
+    // như một luật sư đã công bố.
+    const detail = await page.goto("/vi/lawyers/" + sample.slug);
+    expect(detail?.status()).toBe(200);
+    const scripts = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    // Tên vẫn xuất hiện trong breadcrumb — điều đó bình thường. Thứ không được
+    // có là một thực thể Person, tức lời khẳng định "đây là một luật sư".
+    expect(
+      scripts.join(" "),
+      "Hồ sơ minh họa không được phát schema.org Person",
+    ).not.toContain('"Person"');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      /noindex/,
+    );
+  } finally {
+    await request.delete("/api/lawyers/" + sample.id, { headers });
   }
-
-  // Trang chi tiết mở được nhưng không được mô tả như một luật sư đã công bố.
-  const href = await cards.first().getAttribute("href");
-  const detail = await page.goto(href!);
-  expect(detail?.status()).toBe(200);
-  const scripts = await page
-    .locator('script[type="application/ld+json"]')
-    .allTextContents();
-  expect(
-    scripts.join(" "),
-    "Hồ sơ minh họa không được phát schema.org Person",
-  ).not.toContain('"Person"');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    "content",
-    /noindex/,
-  );
 });
 
 test("illustrative records cannot be published, even by an administrator", async ({

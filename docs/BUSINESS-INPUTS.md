@@ -126,13 +126,17 @@ Chủ website cung cấp hai luật sư của công ty:
 | Phan Thùy Trang | Giám đốc | Người đại diện theo pháp luật của công ty |
 | Trần Phương Lan Anh | Luật sư | Trình độ Thạc sĩ Luật |
 
-Đã nạp 6 bản ghi (2 người × 3 ngôn ngữ) bằng `scripts/prepare-lawyers.ts`, ở
-trạng thái **nháp, chưa duyệt**. Script này cũng gỡ toàn bộ hồ sơ minh họa khỏi
-CMS — khi đã có người thật thì hồ sơ mẫu không còn lý do tồn tại, và để lại chỉ
-khiến biên tập viên nhầm.
+Đã nạp 6 bản ghi (2 người × 3 ngôn ngữ) bằng `scripts/prepare-lawyers.ts`.
+Script này cũng gỡ toàn bộ hồ sơ minh họa khỏi CMS — khi đã có người thật thì hồ
+sơ mẫu không còn lý do tồn tại, và để lại chỉ khiến biên tập viên nhầm.
 
-**Chưa đủ để xuất bản.** Bốn nhóm thông tin sau chỉ công ty cung cấp được, và
-bịa ra bất kỳ nhóm nào là dựng hồ sơ hành nghề sai sự thật:
+**Đã xuất bản theo yêu cầu của chủ website** (`--publish`): trang Đội ngũ hiển
+thị hai hồ sơ ở cả ba ngôn ngữ và website phát dữ liệu có cấu trúc `Person`.
+Nội dung công bố đúng bằng những gì công ty đã xác nhận — họ tên, chức danh,
+vai trò. Không có khẳng định nào khác.
+
+**Vẫn còn trống, và `release:check` vẫn nhắc.** Bốn nhóm thông tin sau chỉ công
+ty cung cấp được; bịa ra bất kỳ nhóm nào là dựng hồ sơ hành nghề sai sự thật:
 
 - Số thẻ luật sư và đoàn luật sư của từng người.
 - Lĩnh vực chuyên môn mỗi người phụ trách, chọn trong 12 lĩnh vực đã có.
@@ -140,7 +144,12 @@ bịa ra bất kỳ nhóm nào là dựng hồ sơ hành nghề sai sự thật:
 - Ảnh chân dung kèm quyền sử dụng ảnh, và văn bản đồng ý công bố họ tên.
 
 Chức danh tiếng Anh và tiếng Trung do bên làm website dịch, cần công ty xác
-nhận: Giám đốc → *Director* / 主任; Luật sư → *Lawyer* / 律师.
+nhận: Giám đốc - Luật sư → *Director & Lawyer* / 主任、律师; Luật sư → *Lawyer*
+/ 律师.
+
+Hồ sơ chưa có ảnh chân dung thì thẻ trên trang Đội ngũ hiển thị chữ cái đầu của
+tên. Chưa gán lĩnh vực chuyên môn thì bộ lọc theo lĩnh vực không tìm ra hai
+người này — đó là lý do nên bổ sung sớm.
 
 **Tác giả bài viết vẫn để trống.** Website có 9 bài viết chưa có tác giả. Không
 gán tên hai luật sư vào những bài họ chưa thực sự viết hoặc chưa duyệt: đó là

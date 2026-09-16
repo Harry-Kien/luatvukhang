@@ -143,3 +143,26 @@ test("Đội ngũ không còn hồ sơ minh họa và mỗi người có đủ b
       "zh",
     ]);
 });
+
+/**
+ * Trang Đội ngũ phải thật sự giới thiệu được người của công ty.
+ *
+ * Với một công ty luật, đây là trang quyết định lòng tin: khách muốn biết ai sẽ
+ * làm việc với mình trước khi gửi yêu cầu. Trạng thái "đang được cập nhật" chỉ
+ * đúng khi công ty chưa cung cấp hồ sơ nào — còn khi đã có thì nó là lỗi.
+ */
+for (const locale of ["vi", "en", "zh"] as const)
+  test(`trang Đội ngũ /${locale} hiển thị hồ sơ đã xuất bản`, async ({
+    page,
+  }) => {
+    await page.goto(`/${locale}/lawyers`);
+    await expect(
+      page.locator(".person-card"),
+      `trang Đội ngũ /${locale} không có hồ sơ nào`,
+    ).not.toHaveCount(0);
+    for (const name of ["Phan Thùy Trang", "Trần Phương Lan Anh"])
+      await expect(
+        page.locator(".person-card", { hasText: name }),
+        `thiếu hồ sơ ${name} ở /${locale}`,
+      ).toHaveCount(1);
+  });
