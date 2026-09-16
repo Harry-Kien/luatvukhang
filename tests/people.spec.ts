@@ -252,3 +252,36 @@ test("trang Đội ngũ xếp luật sư trước chuyên viên", async ({
     `thứ tự hiện tại: ${order.join(" · ")}`,
   ).toBeGreaterThan(lastLawyer);
 });
+
+/**
+ * Bộ lọc theo lĩnh vực chỉ xuất hiện khi có hồ sơ gán lĩnh vực.
+ *
+ * Chưa hồ sơ nào được gán mà vẫn bày ô chọn thì mọi lựa chọn đều trả về "0 hồ
+ * sơ phù hợp" kèm lời khuyên "thử tên ngắn hơn" — đổ lỗi cho người tìm, trong
+ * khi nguyên nhân nằm ở dữ liệu còn thiếu. Một ô lọc không bao giờ ra kết quả
+ * tệ hơn là không có ô lọc nào.
+ */
+test("bộ lọc lĩnh vực chỉ hiện khi có hồ sơ đã gán lĩnh vực", async ({
+  page,
+  request,
+}) => {
+  const response = await request.get(
+    "/api/lawyers?where[_status][equals]=published&where[language][equals]=vi&limit=100&depth=0",
+  );
+  const anyAssigned = (
+    ((await response.json()).docs ?? []) as { services?: unknown[] | null }[]
+  ).some((doc) => (doc.services ?? []).length > 0);
+
+  await page.goto("/vi/lawyers");
+  const filter = page.locator("#people-service");
+  if (anyAssigned)
+    await expect(
+      filter,
+      "có hồ sơ gán lĩnh vực nhưng thiếu bộ lọc",
+    ).toHaveCount(1);
+  else
+    await expect(
+      filter,
+      "chưa hồ sơ nào gán lĩnh vực mà vẫn bày bộ lọc không ra kết quả",
+    ).toHaveCount(0);
+});

@@ -43,6 +43,16 @@ export async function PeopleDirectory({
         String(typeof s === "object" ? s.id : s),
       ),
     );
+  /**
+   * Chỉ những lĩnh vực thật sự có người phụ trách.
+   *
+   * Bày cả danh sách lĩnh vực trong khi chưa ai được gán thì mọi lựa chọn đều
+   * trả về "0 hồ sơ phù hợp" kèm lời khuyên đổi từ khóa — đổ lỗi cho người tìm
+   * vì một chỗ trống trong dữ liệu. Không ai được gán thì ô lọc biến mất, và nó
+   * tự hiện lại ngay khi công ty gán lĩnh vực cho hồ sơ đầu tiên.
+   */
+  const covered = new Set(people.flatMap((r) => [...related(r)]));
+  const assignedServices = services.filter((s) => covered.has(String(s.id)));
   const filtered = people
     .filter(
       (r) =>
@@ -139,21 +149,27 @@ export async function PeopleDirectory({
                 )}
               />
             </div>
-            <div>
-              <label htmlFor="people-service">
-                {t(locale, "Lĩnh vực chuyên môn", "Practice area")}
-              </label>
-              <select id="people-service" name="service" defaultValue={service}>
-                <option value="">
-                  {t(locale, "Tất cả chuyên môn", "All practice areas")}
-                </option>
-                {services.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.title}
+            {assignedServices.length > 0 && (
+              <div>
+                <label htmlFor="people-service">
+                  {t(locale, "Lĩnh vực chuyên môn", "Practice area")}
+                </label>
+                <select
+                  id="people-service"
+                  name="service"
+                  defaultValue={service}
+                >
+                  <option value="">
+                    {t(locale, "Tất cả chuyên môn", "All practice areas")}
                   </option>
-                ))}
-              </select>
-            </div>
+                  {assignedServices.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div>
               <label htmlFor="people-sort">
                 {t(locale, "Sắp xếp tên", "Sort names")}
