@@ -99,3 +99,47 @@ test("people landing and admin readiness", async ({ page }) => {
     ).violations,
   ).toEqual([]);
 });
+
+/**
+ * Trang Đội ngũ chỉ chứa người thật của công ty.
+ *
+ * Hồ sơ minh họa từng được dùng để công ty xem trước bố cục. Khi đã có hồ sơ
+ * thật thì chúng phải biến mất khỏi CMS, không chỉ khỏi website: một hồ sơ luật
+ * sư bịa nằm trong hệ thống của công ty luật là rủi ro nghề nghiệp, và biên tập
+ * viên rất dễ nhầm nó với người thật.
+ */
+test("Đội ngũ không còn hồ sơ minh họa và mỗi người có đủ ba ngôn ngữ", async ({
+  request,
+}) => {
+  const password = (await fs.readFile(".local/admin-access.txt", "utf8"))
+    .match(/Password: (.+)/)![1]
+    .trim();
+  const login = await request.post("/api/users/login", {
+    data: { email: "admin@local.invalid", password },
+  });
+  const headers = { Authorization: "JWT " + (await login.json()).token };
+  const all = await request.get("/api/lawyers?draft=true&limit=200&depth=0", {
+    headers,
+  });
+  const docs = (await all.json()).docs as Record<string, any>[];
+
+  const samples = docs.filter((doc) => doc.isSample);
+  expect(
+    samples.map((doc) => doc.slug),
+    "còn hồ sơ minh họa trong CMS",
+  ).toEqual([]);
+
+  // Bản ghi do các bài kiểm thử khác tạo ra mang tiền tố qa-; bỏ qua.
+  const real = docs.filter((doc) => !String(doc.slug ?? "").startsWith("qa-"));
+  const byPerson = new Map<string, string[]>();
+  for (const doc of real) {
+    const key = String(doc.translationKey ?? doc.slug);
+    byPerson.set(key, [...(byPerson.get(key) ?? []), doc.language]);
+  }
+  for (const [key, languages] of byPerson)
+    expect(languages.sort(), `hồ sơ ${key} thiếu bản ngôn ngữ`).toEqual([
+      "en",
+      "vi",
+      "zh",
+    ]);
+});

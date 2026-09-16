@@ -293,12 +293,14 @@ for (const script of [
   "prepare-keywords.ts",
   "prepare-page-content.ts",
   "prepare-editorial.ts",
+  "prepare-lawyers.ts",
 ]) {
   console.log(`    ${script}`);
   run("node", ["--import", "tsx", `scripts/${script}`]);
 }
 // prepare-people.ts cố ý không nằm trong danh sách: đó là hồ sơ minh họa, không
-// thuộc về một máy chủ thật.
+// thuộc về một máy chủ thật. prepare-lawyers.ts ở trên vừa nạp hồ sơ luật sư
+// thật vừa gỡ hồ sơ minh họa còn sót lại từ những lần cài trước.
 
 console.log(
   "\n" +

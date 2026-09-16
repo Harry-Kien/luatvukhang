@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import { contactChannels } from "../src/lib/contact";
 
 test("phone numbers become both a call link and a Zalo link", () => {
@@ -127,30 +128,46 @@ test("illustrative records cannot be published, even by an administrator", async
   });
   expect(login.ok()).toBeTruthy();
   const headers = { Authorization: "JWT " + (await login.json()).token };
-  const found = await request.get(
-    "/api/lawyers?where[isSample][equals]=true&draft=true&limit=1",
-    { headers },
-  );
-  const sample = (await found.json()).docs?.[0];
-  test.skip(!sample, "Chưa có hồ sơ minh họa nào để kiểm tra.");
-
-  // Duyệt chuyên môn trước, để chắc chắn thứ chặn lại là cờ minh họa.
-  await request.patch(`/api/lawyers/${sample.id}?draft=true`, {
+  // Tự tạo bản ghi minh họa thay vì tìm trong dữ liệu đã nạp. Khi công ty đã có
+  // hồ sơ luật sư thật, hồ sơ minh họa bị gỡ khỏi CMS — bài kiểm thử dựa vào
+  // dữ liệu nạp sẵn sẽ lặng lẽ tự bỏ qua, và chốt chặn xuất bản mất người canh.
+  const key = "qa-sample-" + randomUUID();
+  const created = await request.post("/api/lawyers?draft=true", {
     headers,
-    data: { reviewState: "approved" },
+    data: {
+      title: "QA hồ sơ minh họa",
+      slug: key,
+      translationKey: key,
+      language: "vi",
+      position: "Hồ sơ kiểm thử",
+      summary: "Dữ liệu kiểm thử tự động, sẽ được xóa sau khi kiểm tra.",
+      isSample: true,
+      _status: "draft",
+    },
   });
-  const attempt = await request.patch(`/api/lawyers/${sample.id}`, {
-    headers,
-    data: { _status: "published" },
-  });
-  expect(
-    attempt.ok(),
-    "Nội dung minh họa không được phép xuất bản",
-  ).toBeFalsy();
+  expect(created.ok(), await created.text()).toBeTruthy();
+  const sample = (await created.json()).doc;
+  try {
+    // Duyệt chuyên môn trước, để chắc chắn thứ chặn lại là cờ minh họa.
+    await request.patch(`/api/lawyers/${sample.id}?draft=true`, {
+      headers,
+      data: { reviewState: "approved" },
+    });
+    const attempt = await request.patch(`/api/lawyers/${sample.id}`, {
+      headers,
+      data: { _status: "published" },
+    });
+    expect(
+      attempt.ok(),
+      "Nội dung minh họa không được phép xuất bản",
+    ).toBeFalsy();
 
-  const stillHidden = await request.get(`/api/lawyers/${sample.id}?depth=0`);
-  expect(
-    stillHidden.status(),
-    "Hồ sơ minh họa vẫn phải ẩn với khách ẩn danh",
-  ).toBe(404);
+    const stillHidden = await request.get(`/api/lawyers/${sample.id}?depth=0`);
+    expect(
+      stillHidden.status(),
+      "Hồ sơ minh họa vẫn phải ẩn với khách ẩn danh",
+    ).toBe(404);
+  } finally {
+    await request.delete(`/api/lawyers/${sample.id}`, { headers });
+  }
 });

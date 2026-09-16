@@ -116,3 +116,33 @@ tạo ra hồ sơ giả trên website của một công ty luật.
 - Không có chân dung giả, số liệu, lời chứng thực, giải thưởng hoặc logo khách hàng.
 - Đã dùng ảnh kiến trúc minh họa có nguồn và giấy phép Unsplash; chưa có ảnh văn phòng/luật sư chính thức.
 - Không triển khai hoặc quảng cáo cổng khách hàng và AI.
+
+## Hồ sơ luật sư thật — 16/09/2026
+
+Chủ website cung cấp hai luật sư của công ty:
+
+| Họ tên | Chức danh | Ghi chú |
+| --- | --- | --- |
+| Phan Thùy Trang | Giám đốc | Người đại diện theo pháp luật của công ty |
+| Trần Phương Lan Anh | Luật sư | Trình độ Thạc sĩ Luật |
+
+Đã nạp 6 bản ghi (2 người × 3 ngôn ngữ) bằng `scripts/prepare-lawyers.ts`, ở
+trạng thái **nháp, chưa duyệt**. Script này cũng gỡ toàn bộ hồ sơ minh họa khỏi
+CMS — khi đã có người thật thì hồ sơ mẫu không còn lý do tồn tại, và để lại chỉ
+khiến biên tập viên nhầm.
+
+**Chưa đủ để xuất bản.** Bốn nhóm thông tin sau chỉ công ty cung cấp được, và
+bịa ra bất kỳ nhóm nào là dựng hồ sơ hành nghề sai sự thật:
+
+- Số thẻ luật sư và đoàn luật sư của từng người.
+- Lĩnh vực chuyên môn mỗi người phụ trách, chọn trong 12 lĩnh vực đã có.
+- Ngôn ngữ làm việc.
+- Ảnh chân dung kèm quyền sử dụng ảnh, và văn bản đồng ý công bố họ tên.
+
+Chức danh tiếng Anh và tiếng Trung do bên làm website dịch, cần công ty xác
+nhận: Giám đốc → *Director* / 主任; Luật sư → *Lawyer* / 律师.
+
+**Tác giả bài viết vẫn để trống.** Website có 9 bài viết chưa có tác giả. Không
+gán tên hai luật sư vào những bài họ chưa thực sự viết hoặc chưa duyệt: đó là
+khẳng định về trách nhiệm chuyên môn. Công ty cần cho biết ai chịu trách nhiệm
+từng bài, hoặc rà soát rồi nhận đứng tên.
