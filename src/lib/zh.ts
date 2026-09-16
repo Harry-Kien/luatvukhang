@@ -46,7 +46,8 @@ const translations: Record<string, string> = {
   "Appointments and work are confirmed following discussion.":
     "预约与工作安排须经沟通后另行确认。",
   "People & perspectives": "团队与观点",
-  "Our people": "律师团队",
+  // Doi ngu co ca chuyen vien khong phai luat su, nen khong dung 律师团队.
+  "Our people": "团队成员",
   "Expertise begins\nwith people.": "专业始于人才。",
   "Explore lawyer profiles and their areas of practice.":
     "了解律师履历及其专业领域。",

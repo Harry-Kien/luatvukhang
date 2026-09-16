@@ -83,7 +83,7 @@ test("people directory filters verified profiles and shows empty results accurat
 test("people landing and admin readiness", async ({ page }) => {
   await page.goto("/vi/lawyers");
   await expect(
-    page.getByRole("heading", { name: "Đội ngũ luật sư", exact: true }),
+    page.getByRole("heading", { name: "Đội ngũ", exact: true }),
   ).toBeVisible();
   await page.screenshot({
     path: `artifacts/people-${test.info().project.name}.jpg`,
@@ -181,3 +181,37 @@ for (const locale of ["vi", "en", "zh"] as const)
         `thiếu hồ sơ ${person.title} ở /${locale}`,
       ).toHaveCount(1);
   });
+
+/**
+ * Thông tin nghề nghiệp đã xác minh phải hiện trên trang hồ sơ.
+ *
+ * Với một công ty luật, đây là phần khách và công cụ tìm kiếm đều dựa vào để
+ * đánh giá: nền tảng nghề nghiệp, học vị, chức vụ đã từng giữ. Nhập vào CMS mà
+ * trang không hiện thì coi như chưa có.
+ */
+test("hồ sơ luật sư hiển thị thông tin nghề nghiệp đã xác minh", async ({
+  page,
+  request,
+}) => {
+  const response = await request.get(
+    "/api/lawyers?where[_status][equals]=published&where[language][equals]=vi&limit=100&depth=0",
+  );
+  const withCredentials = (
+    ((await response.json()).docs ?? []) as {
+      slug: string;
+      qualifications?: string | null;
+    }[]
+  ).filter((doc) => String(doc.qualifications ?? "").trim());
+  test.skip(
+    withCredentials.length === 0,
+    "Chưa hồ sơ nào có thông tin nghề nghiệp đã xác minh.",
+  );
+
+  for (const person of withCredentials) {
+    await page.goto(`/vi/lawyers/${person.slug}`);
+    await expect(
+      page.locator("main"),
+      `trang ${person.slug} không hiện thông tin nghề nghiệp`,
+    ).toContainText(person.qualifications!.trim());
+  }
+});

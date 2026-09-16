@@ -15,9 +15,13 @@
  *
  * Chạy lại nhiều lần không tạo bản trùng và không ghi đè nội dung đã sửa.
  *
- * `--refresh` nạp lại chức danh và tóm tắt từ scripts/content/lawyers.ts cho
- * những bản ghi còn ở dạng nháp chưa duyệt. Dùng khi công ty đính chính thông
- * tin đã cung cấp; bản đã duyệt hoặc đã xuất bản không bị đụng tới.
+ * `--refresh` nạp lại chức danh, tóm tắt và thông tin nghề nghiệp từ
+ * scripts/content/lawyers.ts, kể cả cho bản đã xuất bản — bản đã xuất bản thì
+ * vẫn ở trạng thái xuất bản sau khi ghi. Dùng khi công ty đính chính thông tin
+ * đã cung cấp.
+ *
+ * Cờ này GHI ĐÈ ba ô đó. Nếu ai đó đã sửa tay chúng trong CMS thì phần sửa mất,
+ * nên chỉ chạy khi chính scripts/content/lawyers.ts mới là bản đúng.
  *
  * `--publish` duyệt và xuất bản các hồ sơ này. Chỉ chạy khi công ty đã quyết
  * định đưa họ tên lên website. Nội dung công bố đúng bằng những gì công ty đã
@@ -78,26 +82,29 @@ for (const lawyer of firmLawyers)
     });
     const found = current.docs[0] as Record<string, any> | undefined;
     if (found) {
-      // Chỉ đính chính bản còn là nháp chưa duyệt. Bản đã duyệt hoặc đã xuất
-      // bản là quyết định của công ty, script không ghi đè.
-      const editable =
-        found._status !== "published" && found.reviewState === "working";
-      if (refresh && editable) {
+      const live = found._status === "published";
+      if (refresh) {
+        // Giữ nguyên trạng thái: bản đang chạy vẫn chạy sau khi đính chính,
+        // không âm thầm tụt về nháp và biến mất khỏi website.
         await cms.update({
           collection: "lawyers",
           id: found.id,
           user: admin,
-          draft: true,
+          draft: !live,
           data: {
             position: lawyer.position[language],
             summary: lawyer.summary[language],
-            seo: { description: lawyer.summary[language] },
-            _status: "draft",
+            qualifications: lawyer.qualifications[language],
+            seo: {
+              ...((found.seo ?? {}) as Record<string, unknown>),
+              description: lawyer.summary[language],
+            },
+            _status: live ? "published" : "draft",
           },
         });
         updated += 1;
         console.log("da cap nhat", lawyer.slug, language);
-      } else if (publish && found._status !== "published") {
+      } else if (publish && !live) {
         await cms.update({
           collection: "lawyers",
           id: found.id,
@@ -120,6 +127,7 @@ for (const lawyer of firmLawyers)
         translationKey: lawyer.slug,
         position: lawyer.position[language],
         summary: lawyer.summary[language],
+        qualifications: lawyer.qualifications[language],
         seo: { description: lawyer.summary[language] },
         reviewState: "working",
         _status: "draft",

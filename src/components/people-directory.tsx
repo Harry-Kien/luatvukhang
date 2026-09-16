@@ -67,7 +67,7 @@ export async function PeopleDirectory({
       <PageHeading
         locale={locale}
         path={`/${locale}/lawyers`}
-        title={t(locale, "Đội ngũ luật sư", "Our people")}
+        title={t(locale, "Đội ngũ", "Our people")}
         summary={t(
           locale,
           "Tìm hiểu con người, nền tảng nghề nghiệp và lĩnh vực chuyên môn đứng sau mỗi cuộc trao đổi.",

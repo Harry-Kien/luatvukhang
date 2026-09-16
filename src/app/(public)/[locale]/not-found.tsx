@@ -15,7 +15,7 @@ const text = {
     home: "Về trang chủ",
     sections: [
       ["services", "Chuyên môn"],
-      ["lawyers", "Đội ngũ luật sư"],
+      ["lawyers", "Đội ngũ"],
       ["articles", "Góc nhìn pháp lý"],
       ["guide", "Hướng dẫn khách hàng"],
       ["contact", "Liên hệ"],

@@ -9,7 +9,7 @@ const SECTIONS = [
   ["Lĩnh vực chuyên môn", "services"],
   ["Ngành nghề phục vụ", "industries"],
   ["Bài viết chuyên môn", "articles"],
-  ["Đội ngũ luật sư", "lawyers"],
+  ["Đội ngũ", "lawyers"],
 ] as const;
 
 export async function GET() {

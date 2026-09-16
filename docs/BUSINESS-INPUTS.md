@@ -121,10 +121,20 @@ tạo ra hồ sơ giả trên website của một công ty luật.
 
 Chủ website cung cấp hai luật sư của công ty:
 
-| Họ tên | Chức danh | Ghi chú |
+| Họ tên | Chức danh | Thông tin nghề nghiệp đã xác nhận |
 | --- | --- | --- |
-| Phan Thùy Trang | Giám đốc | Người đại diện theo pháp luật của công ty |
-| Trần Phương Lan Anh | Luật sư | Trình độ Thạc sĩ Luật |
+| Phan Thùy Trang | Giám đốc - Luật sư | Người đại diện theo pháp luật. Nguyên Thẩm phán Tòa án khu vực Tây Ninh |
+| Trần Phương Lan Anh | Luật sư | Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang |
+| Trần Lê Kim Bình | Chuyên viên | Cử nhân Luật. **Không phải luật sư** — hồ sơ không dùng chữ "luật sư" ở bất kỳ ô nào |
+
+Vì đội ngũ có người không phải luật sư, tiêu đề trang đổi từ "Đội ngũ luật sư"
+thành **"Đội ngũ"** (tiếng Trung: 律师团队 → 团队成员). Gọi một chuyên viên là
+luật sư là sai tư cách hành nghề, không phải cách nói cho gọn.
+
+Chức vụ tư pháp đã từng giữ là khẳng định mạnh và kiểm chứng được. Công ty cần
+giữ hồ sơ chứng minh, và xác nhận cách gọi đầy đủ của tòa án — website đang ghi
+"Tòa án khu vực Tây Ninh" và "Tòa án khu vực Nha Trang" theo đúng thông tin đã
+nhận.
 
 Đã nạp 6 bản ghi (2 người × 3 ngôn ngữ) bằng `scripts/prepare-lawyers.ts`.
 Script này cũng gỡ toàn bộ hồ sơ minh họa khỏi CMS — khi đã có người thật thì hồ
@@ -138,7 +148,8 @@ vai trò. Không có khẳng định nào khác.
 **Vẫn còn trống, và `release:check` vẫn nhắc.** Bốn nhóm thông tin sau chỉ công
 ty cung cấp được; bịa ra bất kỳ nhóm nào là dựng hồ sơ hành nghề sai sự thật:
 
-- Số thẻ luật sư và đoàn luật sư của từng người.
+- **Số thẻ luật sư và đoàn luật sư** của hai luật sư. Đây là phần còn thiếu duy
+  nhất trong ô "Thông tin nghề nghiệp"; nền tảng tư pháp đã có.
 - Lĩnh vực chuyên môn mỗi người phụ trách, chọn trong 12 lĩnh vực đã có.
 - Ngôn ngữ làm việc.
 - Ảnh chân dung kèm quyền sử dụng ảnh, và văn bản đồng ý công bố họ tên.

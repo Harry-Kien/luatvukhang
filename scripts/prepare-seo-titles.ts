@@ -3,11 +3,16 @@
  *
  *   node --env-file=.env --import tsx scripts/prepare-seo-titles.ts
  *   node --env-file=.env --import tsx scripts/prepare-seo-titles.ts --list
+ *   node --env-file=.env --import tsx scripts/prepare-seo-titles.ts --refresh
  *
  * Ô trống thì website ghép tiêu đề bản ghi với tên công ty. Đọc được, nhưng bỏ
  * phí chỗ đặt cụm từ khách thật sự gõ khi tìm kiếm.
  *
  * Chỉ điền ô đang trống; tiêu đề công ty đã tự viết không bị ghi đè.
+ *
+ * `--refresh` nạp lại từ scripts/content/seo-titles.ts kể cả khi ô đã có chữ.
+ * Dùng khi chính tệp nội dung mới là bản đúng — ví dụ công ty bổ sung thông tin
+ * làm tiêu đề cũ không còn phản ánh đủ. Cờ này GHI ĐÈ phần đã sửa tay.
  */
 import { getPayload } from "payload";
 import config from "../src/payload.config";
@@ -15,6 +20,7 @@ import { locales } from "../src/lib/locales";
 import { seoTitles } from "./content/seo-titles";
 
 const listOnly = process.argv.includes("--list");
+const refresh = process.argv.includes("--refresh");
 const cms = await getPayload({ config });
 // Bản ghi đang được xuất bản chỉ ghi lại được bằng tài khoản có quyền xuất bản.
 const admin = (
@@ -49,7 +55,12 @@ for (const [key, title] of Object.entries(seoTitles)) {
       missing.push(`${key}/${language}`);
       continue;
     }
-    if (String(found.seo?.title ?? "").trim()) {
+    const current = String(found.seo?.title ?? "").trim();
+    if (current && !refresh) {
+      skipped += 1;
+      continue;
+    }
+    if (current === title[language]) {
       skipped += 1;
       continue;
     }

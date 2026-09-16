@@ -20,10 +20,22 @@ export type FirmLawyer = {
   name: string;
   position: Localised;
   summary: Localised;
+  /**
+   * Nền tảng nghề nghiệp đã được công ty xác nhận. Hiện ở trang hồ sơ dưới
+   * nhãn "Thông tin nghề nghiệp". Chỉ ghi điều công ty đã khẳng định.
+   */
+  qualifications: Localised;
 };
 
 const FIRM = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
 
+/**
+ * Địa danh giữ nguyên ở cả ba ngôn ngữ.
+ *
+ * "Tây Ninh" dịch sang chữ Hán thành 西宁, trùng tên một thành phố Trung Quốc ở
+ * Thanh Hải — người đọc tiếng Trung sẽ hiểu sai nơi công tác. Giữ nguyên dạng
+ * tiếng Việt như cách website vẫn giữ "Vũ Khang".
+ */
 export const firmLawyers: FirmLawyer[] = [
   {
     slug: "phan-thuy-trang",
@@ -36,9 +48,14 @@ export const firmLawyers: FirmLawyer[] = [
       zh: "主任、律师",
     },
     summary: {
-      vi: `Giám đốc, Luật sư và người đại diện theo pháp luật của ${FIRM}.`,
-      en: `Director, Lawyer and legal representative of ${FIRM}.`,
-      zh: `${FIRM} 主任、律师、法定代表人。`,
+      vi: `Giám đốc, Luật sư và người đại diện theo pháp luật của ${FIRM}. Nguyên Thẩm phán Tòa án khu vực Tây Ninh.`,
+      en: `Director, Lawyer and legal representative of ${FIRM}. Former Judge of the Tây Ninh Regional Court.`,
+      zh: `${FIRM} 主任、律师、法定代表人。曾任 Tây Ninh 地区法院法官。`,
+    },
+    qualifications: {
+      vi: "Nguyên Thẩm phán Tòa án khu vực Tây Ninh.",
+      en: "Former Judge, Tây Ninh Regional Court.",
+      zh: "曾任 Tây Ninh 地区法院法官。",
     },
   },
   {
@@ -46,9 +63,32 @@ export const firmLawyers: FirmLawyer[] = [
     name: "Trần Phương Lan Anh",
     position: { vi: "Luật sư", en: "Lawyer", zh: "律师" },
     summary: {
-      vi: `Luật sư của ${FIRM}, trình độ Thạc sĩ Luật.`,
-      en: `Lawyer at ${FIRM}, holding a Master of Laws.`,
-      zh: `${FIRM} 律师，法学硕士。`,
+      vi: `Luật sư của ${FIRM}, trình độ Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang.`,
+      en: `Lawyer at ${FIRM}, holding a Master of Laws. Former Deputy Chief Judge of the Nha Trang Regional Court.`,
+      zh: `${FIRM} 律师，法学硕士。曾任 Nha Trang 地区法院副院长。`,
+    },
+    qualifications: {
+      vi: "Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang.",
+      en: "Master of Laws. Former Deputy Chief Judge, Nha Trang Regional Court.",
+      zh: "法学硕士。曾任 Nha Trang 地区法院副院长。",
+    },
+  },
+  {
+    // Chuyên viên, không phải luật sư. Không dùng chữ "luật sư" ở bất kỳ ô nào
+    // của hồ sơ này: gọi sai tư cách hành nghề là sai sự thật, không phải cách
+    // nói cho gọn.
+    slug: "tran-le-kim-binh",
+    name: "Trần Lê Kim Bình",
+    position: { vi: "Chuyên viên", en: "Legal Specialist", zh: "法务专员" },
+    summary: {
+      vi: `Chuyên viên của ${FIRM}, cử nhân luật.`,
+      en: `Legal specialist at ${FIRM}, holding a Bachelor of Laws.`,
+      zh: `${FIRM} 法务专员，法学学士。`,
+    },
+    qualifications: {
+      vi: "Cử nhân Luật.",
+      en: "Bachelor of Laws.",
+      zh: "法学学士。",
     },
   },
 ];

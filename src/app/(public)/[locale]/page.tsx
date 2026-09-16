@@ -293,7 +293,7 @@ export default async function Home({
         <div className="editorial-grid">
           <Link className="editorial-people" href={"/" + locale + "/lawyers"}>
             <div className="editorial-label">
-              {t(locale, "Đội ngũ luật sư", "Our people")}
+              {t(locale, "Đội ngũ", "Our people")}
               <ArrowUpRight size={26} />
             </div>
             <h2>

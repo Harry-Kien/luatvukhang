@@ -125,14 +125,19 @@ export const seoTitles: Record<string, Localised> = {
   // Tên người giữ nguyên ở cả ba ngôn ngữ, đúng như phần còn lại của website.
   // Đặt một tên tiếng Trung cho người thật là bịa danh tính, không phải dịch.
   "lawyers/phan-thuy-trang": {
-    vi: "Luật sư Phan Thùy Trang — Giám đốc",
-    en: "Phan Thùy Trang — Director and Lawyer",
-    zh: "Phan Thùy Trang 律师 — 主任",
+    vi: "Luật sư Phan Thùy Trang — nguyên Thẩm phán",
+    en: "Phan Thùy Trang — Director, Lawyer, former Judge",
+    zh: "Phan Thùy Trang 律师 — 主任、曾任法官",
   },
   "lawyers/tran-phuong-lan-anh": {
-    vi: "Luật sư Trần Phương Lan Anh",
-    en: "Trần Phương Lan Anh — Lawyer",
-    zh: "Trần Phương Lan Anh 律师",
+    vi: "Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án",
+    en: "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
+    zh: "Trần Phương Lan Anh 律师 — 曾任法院副院长",
+  },
+  "lawyers/tran-le-kim-binh": {
+    vi: "Trần Lê Kim Bình — Chuyên viên pháp lý",
+    en: "Trần Lê Kim Bình — Legal Specialist",
+    zh: "Trần Lê Kim Bình — 法务专员",
   },
 
   "pages/about": {
