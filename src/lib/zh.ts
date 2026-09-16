@@ -297,6 +297,8 @@ const translations: Record<string, string> = {
   "Or choose the area closest to your matter": "或选择与您的问题最接近的领域",
   "Illustrative profiles shown to preview the layout — these are not the firm's people. Edit or replace them with verified profiles in the CMS.":
     "以下为用于预览版面的示例档案，并非本所人员。请在 CMS 中修改，或替换为已核实的律师档案。",
+  "Office map": "办公室地图",
+  "Open map": "打开地图",
 };
 export default translations;
 export const chinese = (english: string) => translations[english] || english;
