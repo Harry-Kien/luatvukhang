@@ -25,6 +25,9 @@ const LINKS: Record<string, string[]> = {
     "cac-buoc-truoc-khi-khoi-kien-doi-tac",
   ],
   "giai-quyet-tranh-chap": ["cac-buoc-truoc-khi-khoi-kien-doi-tac"],
+  "dat-dai-bat-dong-san": ["kiem-tra-phap-ly-truoc-khi-dat-coc-mua-dat"],
+  "lao-dong-nhan-su": ["cham-dut-hop-dong-lao-dong-dung-trinh-tu"],
+  "hon-nhan-gia-dinh": ["thu-tuc-ly-hon-can-chuan-bi-gi"],
 };
 
 const cms = await getPayload({ config });

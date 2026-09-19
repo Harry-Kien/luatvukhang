@@ -122,6 +122,22 @@ export const seoTitles: Record<string, Localised> = {
     zh: "首次会见律师前应如何准备",
   },
 
+  "articles/kiem-tra-phap-ly-truoc-khi-dat-coc-mua-dat": {
+    vi: "Kiểm tra pháp lý trước khi đặt cọc mua đất",
+    en: "Legal checks before paying a deposit on land",
+    zh: "支付购地定金前的法律核查",
+  },
+  "articles/cham-dut-hop-dong-lao-dong-dung-trinh-tu": {
+    vi: "Chấm dứt hợp đồng lao động đúng trình tự",
+    en: "Ending an employment contract correctly",
+    zh: "依法定程序终止劳动合同",
+  },
+  "articles/thu-tuc-ly-hon-can-chuan-bi-gi": {
+    vi: "Thủ tục ly hôn cần chuẩn bị những gì",
+    en: "What to prepare for a divorce in Vietnam",
+    zh: "办理离婚需要准备什么",
+  },
+
   // Tên người giữ nguyên ở cả ba ngôn ngữ, đúng như phần còn lại của website.
   // Đặt một tên tiếng Trung cho người thật là bịa danh tính, không phải dịch.
   "lawyers/phan-thuy-trang": {

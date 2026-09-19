@@ -41,6 +41,37 @@ const categories: {
     },
   },
   {
+    slug: "dat-dai-nha-o",
+    title: { vi: "Đất đai và nhà ở", en: "Land and housing", zh: "土地与住房" },
+    summary: {
+      vi: "Kiểm tra pháp lý trước giao dịch, chuyển nhượng, đặt cọc và thủ tục đăng ký.",
+      en: "Legal checks before a transaction, transfers, deposits and registration procedures.",
+      zh: "交易前的法律核查、转让、定金及登记手续。",
+    },
+  },
+  {
+    slug: "lao-dong",
+    title: { vi: "Lao động", en: "Employment", zh: "劳动" },
+    summary: {
+      vi: "Hợp đồng lao động, chấm dứt hợp đồng, kỷ luật và quyền lợi của người lao động.",
+      en: "Employment contracts, termination, discipline and employee entitlements.",
+      zh: "劳动合同、合同终止、纪律处分与劳动者权益。",
+    },
+  },
+  {
+    slug: "hon-nhan-gia-dinh",
+    title: {
+      vi: "Hôn nhân và gia đình",
+      en: "Marriage and family",
+      zh: "婚姻与家庭",
+    },
+    summary: {
+      vi: "Ly hôn, trông nom con, chia tài sản chung và các thủ tục liên quan.",
+      en: "Divorce, care of children, division of marital property and related procedures.",
+      zh: "离婚、子女照护、共同财产分割及相关手续。",
+    },
+  },
+  {
     slug: "lam-viec-voi-luat-su",
     title: {
       vi: "Làm việc với luật sư",
@@ -60,6 +91,9 @@ const assignments: Record<string, string[]> = {
   "khi-nao-can-luat-su-ra-soat-hop-dong": ["hop-dong"],
   "cac-buoc-truoc-khi-khoi-kien-doi-tac": ["tranh-chap", "hop-dong"],
   "chuan-bi-gi-cho-buoi-gap-luat-su-dau-tien": ["lam-viec-voi-luat-su"],
+  "kiem-tra-phap-ly-truoc-khi-dat-coc-mua-dat": ["dat-dai-nha-o", "hop-dong"],
+  "cham-dut-hop-dong-lao-dong-dung-trinh-tu": ["lao-dong"],
+  "thu-tuc-ly-hon-can-chuan-bi-gi": ["hon-nhan-gia-dinh"],
 };
 
 const cms = await getPayload({ config });

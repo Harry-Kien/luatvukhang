@@ -19,7 +19,8 @@ export type DraftArticle = {
 };
 
 const search = (number: string) =>
-  "https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=" + encodeURIComponent(number);
+  "https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=" +
+  encodeURIComponent(number);
 
 export const draftArticles: DraftArticle[] = [
   {
@@ -80,7 +81,8 @@ export const draftArticles: DraftArticle[] = [
         url: search("91/2015/QH13"),
       },
       {
-        label: "Luật Thương mại 2005 (số 36/2005/QH11): Điều 300 đến 316 về chế tài",
+        label:
+          "Luật Thương mại 2005 (số 36/2005/QH11): Điều 300 đến 316 về chế tài",
         url: search("36/2005/QH11"),
       },
     ],
@@ -156,11 +158,13 @@ export const draftArticles: DraftArticle[] = [
     ],
     sources: [
       {
-        label: "Bộ luật Dân sự 2015 (số 91/2015/QH13): Điều 351 đến 364, Điều 429",
+        label:
+          "Bộ luật Dân sự 2015 (số 91/2015/QH13): Điều 351 đến 364, Điều 429",
         url: search("91/2015/QH13"),
       },
       {
-        label: "Luật Trọng tài thương mại 2010 (số 54/2010/QH12): Điều 5, 6, 61",
+        label:
+          "Luật Trọng tài thương mại 2010 (số 54/2010/QH12): Điều 5, 6, 61",
         url: search("54/2010/QH12"),
       },
       {
@@ -228,7 +232,8 @@ export const draftArticles: DraftArticle[] = [
     ],
     sources: [
       {
-        label: "Luật Luật sư 2006 (số 65/2006/QH11, sửa đổi 2012): Điều 26, 55, 56",
+        label:
+          "Luật Luật sư 2006 (số 65/2006/QH11, sửa đổi 2012): Điều 26, 55, 56",
         url: search("65/2006/QH11"),
       },
     ],
@@ -236,6 +241,215 @@ export const draftArticles: DraftArticle[] = [
       vi: "Chuẩn bị cho buổi gặp luật sư đầu tiên: giấy tờ cần mang, câu hỏi nên hỏi, và quyền được biết về phí theo Luật Luật sư.",
       en: "Preparing for a first meeting with a lawyer in Vietnam: documents to bring, questions to ask, and your right to clear fee terms under the Law on Lawyers.",
       zh: "在越南首次会见律师的准备：应带文件、应问问题，以及依据《律师法》了解收费的权利。",
+    },
+  },
+  {
+    slug: "kiem-tra-phap-ly-truoc-khi-dat-coc-mua-dat",
+    title: {
+      vi: "Kiểm tra pháp lý trước khi đặt cọc mua đất",
+      en: "Legal checks before paying a deposit on land",
+      zh: "支付购地定金前的法律核查",
+    },
+    summary: {
+      vi: "Sau khi đã đặt cọc, phần lớn lựa chọn của bên mua đã bị thu hẹp. Bài viết nêu những gì cần kiểm tra trước, và vì sao thỏa thuận đặt cọc nên được viết kỹ như hợp đồng chính.",
+      en: "Once a deposit is paid, most of the buyer's options have already narrowed. What to check first, and why the deposit agreement deserves as much care as the sale contract itself.",
+      zh: "一旦支付定金，买方的选择余地已大为缩小。本文说明应先核查什么，以及定金协议为何值得与正式合同同样认真对待。",
+    },
+    keywords:
+      "mua đất, đặt cọc, sổ đỏ, kiểm tra pháp lý, mua dat, dat coc, so do, chuyển nhượng quyền sử dụng đất",
+    sections: [
+      {
+        heading: {
+          vi: "Kiểm tra thửa đất trước khi nói tới giá",
+          en: "Check the land before discussing price",
+          zh: "谈价格之前先核查地块",
+        },
+        body: {
+          vi: "Xem giấy chứng nhận quyền sử dụng đất bản gốc, đối chiếu số thửa, số tờ bản đồ và diện tích với thực địa. Tra cứu quy hoạch tại cơ quan quản lý đất đai địa phương để biết thửa đất có nằm trong diện thu hồi hay hành lang bảo vệ công trình không. Kiểm tra tình trạng thế chấp, kê biên hoặc tranh chấp đang có. Ba việc này làm trước khi đặt cọc thì còn rút được; làm sau thì chỉ còn cách thương lượng.",
+          en: "Inspect the original land use right certificate and match the plot number, map sheet and area against what is on the ground. Check the zoning at the local land authority to see whether the plot falls within a planned acquisition or a protection corridor. Check for any mortgage, seizure or ongoing dispute. Do these three before the deposit and you can still walk away; do them after and negotiation is all that is left.",
+          zh: "查看土地使用权证原件，将地块编号、图幅号与面积同现场核对；到当地土地管理机关查询规划，确认地块是否位于征收范围或工程保护走廊内；核查是否存在抵押、查封或正在进行的争议。这三件事在付定金前做还能抽身，付定金后就只剩谈判一途。",
+        },
+      },
+      {
+        heading: {
+          vi: "Kiểm tra bên bán, không chỉ kiểm tra đất",
+          en: "Check the seller, not just the land",
+          zh: "不仅核查土地，也要核查卖方",
+        },
+        body: {
+          vi: "Người ký có phải người đứng tên trên giấy chứng nhận không. Nếu đất là tài sản chung của vợ chồng thì cần cả hai cùng ký hoặc có văn bản ủy quyền hợp lệ. Nếu bên bán là người thừa kế thì hồ sơ khai nhận di sản đã hoàn tất chưa. Nếu ký qua người được ủy quyền thì văn bản ủy quyền còn hiệu lực và có đủ phạm vi cho việc chuyển nhượng không. Sai ở khâu thẩm quyền ký khiến giao dịch có thể bị tuyên vô hiệu dù giá cả đã thống nhất.",
+          en: "Is the person signing the one named on the certificate? If the land is marital property, both spouses must sign or there must be a valid power of attorney. If the seller inherited it, has the estate declaration been completed? If an attorney-in-fact signs, is the authorisation still valid and wide enough to cover a transfer? A defect in signing authority can render the transaction void however well the price was agreed.",
+          zh: "签字人是否为证书上的登记人？若土地属夫妻共同财产，须双方共同签署或持有有效授权书；若卖方为继承人，遗产申报手续是否已完成；若由受托人签署，授权是否仍有效且范围足以涵盖转让。签署权限上的瑕疵，可能使交易被认定无效，无论价格谈得多好。",
+        },
+      },
+      {
+        heading: {
+          vi: "Viết thỏa thuận đặt cọc cho rõ",
+          en: "Write the deposit agreement clearly",
+          zh: "把定金协议写清楚",
+        },
+        body: {
+          vi: "Đặt cọc được Bộ luật Dân sự quy định tại Điều 328: bên đặt cọc từ chối giao kết thì mất cọc, bên nhận cọc từ chối thì phải trả lại cọc và một khoản tương đương. Vì hậu quả nặng như vậy, thỏa thuận nên ghi rõ thời hạn ký hợp đồng công chứng, bên nào chịu thuế và lệ phí, xử lý thế nào nếu hồ sơ không công chứng được vì lý do từ phía bên bán, và điều kiện hoàn cọc khi kết quả kiểm tra quy hoạch không như thông tin đã cung cấp.",
+          en: "Deposits are governed by Article 328 of the Civil Code: a buyer who backs out forfeits the deposit, a seller who backs out returns it plus an equivalent amount. Given those consequences, the agreement should state the deadline for signing the notarised contract, who bears taxes and fees, what happens if notarisation fails for reasons on the seller's side, and when the deposit is refundable if the zoning check contradicts what was represented.",
+          zh: "定金由《民法典》第328条规定：交付定金一方拒绝订立合同的丧失定金，收受定金一方拒绝的应返还定金并支付相当金额。后果如此之重，协议应写明公证合同的签署期限、税费由谁承担、因卖方原因无法公证时如何处理，以及规划核查结果与所述不符时定金可退还的条件。",
+        },
+      },
+    ],
+    sources: [
+      {
+        label: "Bộ luật Dân sự 2015 (số 91/2015/QH13): Điều 328 về đặt cọc",
+        url: search("91/2015/QH13"),
+      },
+      {
+        label:
+          "Luật Đất đai 2024 (số 31/2024/QH15): điều kiện thực hiện quyền chuyển nhượng quyền sử dụng đất",
+        url: search("31/2024/QH15"),
+      },
+      {
+        label:
+          "Luật Công chứng 2014 (số 53/2014/QH13): công chứng hợp đồng chuyển nhượng",
+        url: search("53/2014/QH13"),
+      },
+    ],
+    seoDescription: {
+      vi: "Cần kiểm tra gì trước khi đặt cọc mua đất: giấy chứng nhận, quy hoạch, thế chấp, thẩm quyền ký của bên bán và các điều khoản nên có trong thỏa thuận đặt cọc.",
+      en: "What to check before paying a deposit on land in Vietnam: the certificate, zoning, mortgages, the seller's signing authority, and what the deposit agreement should say.",
+      zh: "在越南支付购地定金前应核查什么：权属证书、规划、抵押、卖方签署权限，以及定金协议应写明的条款。",
+    },
+  },
+  {
+    slug: "cham-dut-hop-dong-lao-dong-dung-trinh-tu",
+    title: {
+      vi: "Chấm dứt hợp đồng lao động đúng trình tự",
+      en: "Ending an employment contract in the right order",
+      zh: "依法定程序终止劳动合同",
+    },
+    summary: {
+      vi: "Phần lớn tranh chấp lao động không phát sinh từ quyết định chấm dứt, mà từ trình tự thực hiện quyết định đó. Bài viết nêu các căn cứ chấm dứt, nghĩa vụ báo trước và những việc phải hoàn tất sau ngày cuối cùng.",
+      en: "Most employment disputes arise not from the decision to end a contract but from how that decision was carried out. The grounds for termination, notice obligations, and what must be completed after the final working day.",
+      zh: "多数劳动争议并非源于终止决定本身，而是源于执行该决定的程序。本文说明终止事由、提前通知义务，以及最后工作日之后必须完成的事项。",
+    },
+    keywords:
+      "chấm dứt hợp đồng lao động, sa thải, nghỉ việc, trợ cấp thôi việc, cham dut hop dong lao dong, sa thai, bao truoc",
+    sections: [
+      {
+        heading: {
+          vi: "Xác định đúng căn cứ chấm dứt",
+          en: "Identify the correct ground",
+          zh: "确定正确的终止事由",
+        },
+        body: {
+          vi: "Bộ luật Lao động 2019 liệt kê các trường hợp chấm dứt hợp đồng tại Điều 34, trong đó có hết hạn hợp đồng, hai bên thỏa thuận, người lao động đơn phương chấm dứt theo Điều 35 và người sử dụng lao động đơn phương chấm dứt theo Điều 36. Mỗi căn cứ có điều kiện và thủ tục riêng, và việc chọn sai căn cứ ngay từ đầu thường là nguyên nhân khiến quyết định bị coi là trái pháp luật về sau — chứ không phải vì lý do chấm dứt không chính đáng.",
+          en: "The 2019 Labour Code lists the grounds for termination in Article 34, including expiry, mutual agreement, unilateral termination by the employee under Article 35 and by the employer under Article 36. Each ground carries its own conditions and procedure, and choosing the wrong one at the outset is a common reason a decision is later held unlawful — not because the underlying reason was unjustified.",
+          zh: "《2019年劳动法典》第34条列举了合同终止的情形，包括期满、双方协商一致、劳动者依第35条单方终止、用人单位依第36条单方终止。每种事由都有各自的条件与程序；起初选错事由，往往正是决定日后被认定违法的原因——而非终止理由本身不正当。",
+        },
+      },
+      {
+        heading: {
+          vi: "Báo trước đúng thời hạn và đúng hình thức",
+          en: "Give notice in the right form and time",
+          zh: "以正确形式和期限提前通知",
+        },
+        body: {
+          vi: "Thời hạn báo trước phụ thuộc vào loại hợp đồng và bên nào chấm dứt; một số trường hợp luật quy định không phải báo trước. Thông báo nên bằng văn bản, ghi rõ căn cứ và ngày chấm dứt, giao trực tiếp có ký nhận hoặc gửi theo cách chứng minh được đã gửi. Thông báo miệng có thể đúng về nội dung nhưng không chứng minh được khi phát sinh tranh chấp, và gánh nặng chứng minh thường thuộc về bên đưa ra quyết định.",
+          en: "The notice period depends on the type of contract and which side is terminating; in some situations the law requires no notice at all. Notice should be in writing, state the ground and the end date, and be delivered against signature or by a method that can be evidenced. Verbal notice may be correct in substance but cannot be proved in a dispute, and the burden of proof usually falls on the party that made the decision.",
+          zh: "提前通知期限取决于合同类型及由哪一方终止；在某些情形下法律规定无需提前通知。通知宜采用书面形式，写明事由与终止日期，并当面签收或以可举证的方式送达。口头通知在内容上可能正确，但发生争议时无法证明，而举证责任通常落在作出决定的一方。",
+        },
+      },
+      {
+        heading: {
+          vi: "Hoàn tất nghĩa vụ sau ngày làm việc cuối cùng",
+          en: "Complete the obligations after the last working day",
+          zh: "完成最后工作日之后的义务",
+        },
+        body: {
+          vi: "Điều 48 Bộ luật Lao động 2019 quy định trách nhiệm của hai bên khi chấm dứt hợp đồng, gồm thời hạn thanh toán các khoản liên quan đến quyền lợi và việc hoàn thành thủ tục xác nhận thời gian đóng bảo hiểm xã hội, trả lại giấy tờ đã giữ. Trợ cấp thôi việc được quy định tại Điều 46 cho những trường hợp đủ điều kiện. Hồ sơ nên lưu đủ: quyết định, thông báo, biên bản bàn giao, chứng từ thanh toán — vì khi tranh chấp xảy ra, đây là những gì được xem xét.",
+          en: "Article 48 of the 2019 Labour Code sets out both parties' responsibilities on termination, including the deadline for settling entitlements, completing social insurance confirmation and returning documents held. Severance allowance is governed by Article 46 for those who qualify. Keep the full file: the decision, the notice, the handover record and the payment vouchers — these are what a dispute will be decided on.",
+          zh: "《2019年劳动法典》第48条规定了合同终止时双方的责任，包括结清相关权益的期限、完成社会保险缴纳时间确认手续、归还所保管的证件。符合条件者的离职津贴由第46条规定。应完整留存档案：决定、通知、交接记录、付款凭证——争议发生时，正是依据这些材料作出判断。",
+        },
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Bộ luật Lao động 2019 (số 45/2019/QH14): Điều 34, 35, 36, 46, 48",
+        url: search("45/2019/QH14"),
+      },
+    ],
+    seoDescription: {
+      vi: "Chấm dứt hợp đồng lao động đúng trình tự: căn cứ theo Điều 34, nghĩa vụ báo trước, trợ cấp thôi việc và các nghĩa vụ phải hoàn tất sau ngày làm việc cuối cùng.",
+      en: "Ending an employment contract in Vietnam correctly: grounds under Article 34, notice obligations, severance allowance and what must be completed after the last working day.",
+      zh: "在越南依程序终止劳动合同：第34条规定的事由、提前通知义务、离职津贴，以及最后工作日之后须完成的事项。",
+    },
+  },
+  {
+    slug: "thu-tuc-ly-hon-can-chuan-bi-gi",
+    title: {
+      vi: "Thủ tục ly hôn cần chuẩn bị những gì",
+      en: "What a divorce procedure requires you to prepare",
+      zh: "办理离婚需要准备什么",
+    },
+    summary: {
+      vi: "Ly hôn thuận tình và ly hôn theo yêu cầu của một bên đi theo hai đường khác nhau. Bài viết nêu giấy tờ cần chuẩn bị, những vấn đề phải thống nhất trước, và vì sao phần con cái và tài sản nên tách riêng.",
+      en: "Divorce by mutual consent and divorce at one party's request follow different paths. The documents to prepare, the matters to settle in advance, and why children and property are best handled separately.",
+      zh: "协议离婚与一方请求离婚走的是两条不同路径。本文说明应准备的文件、需事先达成一致的事项，以及子女与财产为何宜分开处理。",
+    },
+    keywords:
+      "ly hôn, thuận tình ly hôn, đơn phương ly hôn, chia tài sản, quyền nuôi con, ly hon, thuan tinh ly hon",
+    sections: [
+      {
+        heading: {
+          vi: "Hai con đường, hai bộ hồ sơ",
+          en: "Two routes, two sets of papers",
+          zh: "两条路径，两套材料",
+        },
+        body: {
+          vi: "Luật Hôn nhân và gia đình 2014 phân biệt thuận tình ly hôn tại Điều 55 và ly hôn theo yêu cầu của một bên tại Điều 56. Thuận tình là khi hai bên đã thống nhất cả việc chấm dứt hôn nhân, việc trông nom con và chia tài sản; thiếu một trong ba thì vụ việc thường chuyển sang hướng còn lại. Xác định đúng đường đi ngay từ đầu tránh việc nộp hồ sơ rồi phải làm lại theo thủ tục khác.",
+          en: "The 2014 Law on Marriage and Family distinguishes divorce by mutual consent under Article 55 from divorce at one party's request under Article 56. Mutual consent means both sides have agreed on ending the marriage, the care of any children and the division of property; if any of the three is unresolved, the matter usually moves to the other route. Identifying the right route at the start avoids filing and then having to start again under a different procedure.",
+          zh: "《2014年婚姻家庭法》将第55条的协议离婚与第56条的一方请求离婚区分开来。协议离婚是指双方已就结束婚姻、子女照护及财产分割达成一致；三者缺一，案件通常转入另一路径。一开始就确定正确路径，可避免提交材料后又须按另一程序重新办理。",
+        },
+      },
+      {
+        heading: {
+          vi: "Giấy tờ nên chuẩn bị trước",
+          en: "Documents to prepare in advance",
+          zh: "宜事先准备的文件",
+        },
+        body: {
+          vi: "Bản chính giấy chứng nhận kết hôn, giấy tờ tùy thân của hai bên, giấy khai sinh của con, và giấy tờ về tài sản đứng tên một trong hai bên hoặc cả hai. Với tài sản hình thành trong thời kỳ hôn nhân, nên tập hợp chứng từ cho thấy nguồn gốc và thời điểm hình thành, vì đó là điều được xem xét khi chia. Thiếu bản chính giấy chứng nhận kết hôn là vướng mắc thường gặp nhất và có thủ tục riêng để xử lý.",
+          en: "The original marriage certificate, both parties' identity documents, the children's birth certificates, and papers for property held in either or both names. For property acquired during the marriage, gather evidence of its origin and when it was acquired, since that is what is examined on division. A missing original marriage certificate is the most common obstacle and has its own procedure for resolution.",
+          zh: "结婚证原件、双方身份证件、子女出生证明，以及登记在一方或双方名下的财产文件。对婚姻关系存续期间形成的财产，宜收集能显示来源与形成时间的凭证，因为分割时正是审查这些内容。缺少结婚证原件是最常见的障碍，并有专门的处理程序。",
+        },
+      },
+      {
+        heading: {
+          vi: "Tách phần con cái ra khỏi phần tài sản",
+          en: "Keep the children separate from the property",
+          zh: "将子女事项与财产事项分开",
+        },
+        body: {
+          vi: "Điều 81 Luật Hôn nhân và gia đình 2014 đặt việc trông nom, chăm sóc, giáo dục con sau ly hôn theo hướng bảo đảm quyền lợi của con, còn Điều 59 nêu nguyên tắc giải quyết tài sản. Đây là hai vấn đề được cân nhắc theo hai tiêu chí khác nhau. Gộp chúng vào một cuộc thương lượng — nhường tài sản để đổi lấy quyền nuôi con hoặc ngược lại — thường khiến cả hai phần đều khó đạt thỏa thuận và kéo dài vụ việc.",
+          en: "Article 81 of the 2014 Law approaches the care, upbringing and education of children after divorce from the standpoint of the child's interests, while Article 59 sets out the principles for dividing property. These are weighed against different criteria. Merging them into one negotiation — conceding property in exchange for custody or the reverse — usually makes both harder to settle and lengthens the case.",
+          zh: "《2014年婚姻家庭法》第81条从子女利益出发处理离婚后子女的照护、抚养与教育，第59条则规定财产分割原则。二者依不同标准衡量。把它们并入同一场谈判——以财产换取抚养权或反之——通常使两部分都更难达成一致，并拖长案件。",
+        },
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Luật Hôn nhân và gia đình 2014 (số 52/2014/QH13): Điều 51, 55, 56, 59, 81",
+        url: search("52/2014/QH13"),
+      },
+      {
+        label:
+          "Bộ luật Tố tụng dân sự 2015 (số 92/2015/QH13): thẩm quyền và trình tự giải quyết",
+        url: search("92/2015/QH13"),
+      },
+    ],
+    seoDescription: {
+      vi: "Thủ tục ly hôn cần chuẩn bị gì: phân biệt thuận tình và đơn phương, giấy tờ cần có, và vì sao phần con cái nên tách khỏi phần chia tài sản.",
+      en: "What to prepare for a divorce in Vietnam: mutual consent versus one-party request, the documents required, and why custody is best kept separate from property division.",
+      zh: "在越南办理离婚需准备什么：协议离婚与一方请求离婚的区别、所需文件，以及子女事项为何宜与财产分割分开处理。",
     },
   },
 ];

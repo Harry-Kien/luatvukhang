@@ -285,7 +285,28 @@ export default async function Page({ params, searchParams }: Props) {
             .map((r) => ({ ...r, collection: g.collection })),
         )
       : [];
-    results.sort((a, b) => searchScore(b, q) - searchScore(a, q));
+    /**
+     * Xếp theo loại nội dung trước, rồi mới tới điểm khớp.
+     *
+     * Xếp thuần theo điểm thì một bài viết có đúng cụm từ trong tiêu đề luôn
+     * vượt trang chuyên môn tương ứng — đo được: "ly hôn" cho bài 112 điểm so
+     * với 64, "mua đất" cho 104 so với 14. Nhưng người gõ "ly hôn" vào ô tìm
+     * kiếm của một công ty luật đang hỏi "ai giúp được tôi", không phải "cho
+     * tôi đọc gì đó". Trang chuyên môn trả lời câu hỏi đó và có sẵn nút gửi yêu
+     * cầu; bài viết là phần đọc thêm, và đã được nối sẵn ở cuối trang chuyên
+     * môn nên không bị chôn.
+     *
+     * Thứ tự lấy theo `groups`, cùng thứ tự đang dùng để gom nhóm kết quả.
+     */
+    const kindRank = (collection: string) => {
+      const at = groups.findIndex((group) => group.collection === collection);
+      return at < 0 ? groups.length : at;
+    };
+    results.sort(
+      (a, b) =>
+        kindRank(a.collection) - kindRank(b.collection) ||
+        searchScore(b, q) - searchScore(a, q),
+    );
     const kinds: Record<string, [string, string]> = {
       services: ["Chuyên môn", "Expertise"],
       industries: ["Ngành nghề", "Industries"],
