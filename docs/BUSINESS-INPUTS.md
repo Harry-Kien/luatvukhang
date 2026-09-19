@@ -176,16 +176,23 @@ từng bài, hoặc rà soát rồi nhận đứng tên.
 | Điện thoại | 0832270898 | đã xác nhận 13/09/2026 |
 | Email tiếp nhận | luatvukhang@gmail.com | đã xác nhận 19/09/2026 |
 | Địa chỉ văn phòng | 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai | đã xác nhận 19/09/2026 |
+| Tên tiếng Anh | VU KHANG SOLUTIONS & PARTNERS LAW COMPANY LIMITED | đã xác nhận 19/09/2026 |
+
+Tên tiếng Anh giữ nguyên dạng chữ hoa như tên pháp lý đã đăng ký; chỉ bỏ dấu
+chấm cuối câu vì đó là dấu câu, không thuộc tên. Tên này hiện ở chân trang bản
+tiếng Anh và là `name` trong dữ liệu có cấu trúc `Organization` khi xem bản
+tiếng Anh, còn tên tiếng Việt trở thành `alternateName` — hai tên cùng trỏ về
+một pháp nhân, đúng cách khai báo cho công cụ tìm kiếm.
 
 Địa chỉ nằm trong Cài đặt của CMS, hiển thị ở trang Liên hệ cả ba ngôn ngữ và
 sinh ra `PostalAddress` trong dữ liệu có cấu trúc `Organization` — phần nền cho
 tìm kiếm theo khu vực. Địa chỉ bưu chính giữ nguyên tiếng Việt ở mọi ngôn ngữ,
 đúng thông lệ.
 
-**Còn thiếu để `release:check` hết chặn mục "Complete verified company settings":**
-tên tiếng Anh của công ty và thông tin đăng ký hoạt động (số giấy đăng ký hoạt
-động do Sở Tư pháp cấp). Hai ô này nhập trong `/admin > Cài đặt`, hoặc:
+**Còn thiếu đúng một ô để `release:check` hết chặn mục "Complete verified company
+settings":** thông tin đăng ký hoạt động — số Giấy đăng ký hoạt động do Sở Tư
+pháp cấp. Nhập trong `/admin > Cài đặt`, hoặc:
 
 ```
-node --env-file=.env --import tsx scripts/set-contact.ts --englishName "..." --registration "..."
+node --env-file=.env --import tsx scripts/set-contact.ts --registration "..."
 ```
