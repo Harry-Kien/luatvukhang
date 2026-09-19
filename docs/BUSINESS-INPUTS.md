@@ -166,3 +166,26 @@ người này — đó là lý do nên bổ sung sớm.
 gán tên hai luật sư vào những bài họ chưa thực sự viết hoặc chưa duyệt: đó là
 khẳng định về trách nhiệm chuyên môn. Công ty cần cho biết ai chịu trách nhiệm
 từng bài, hoặc rà soát rồi nhận đứng tên.
+
+
+## Thông tin pháp nhân đã nhận — 19/09/2026
+
+| Trường | Giá trị | Nguồn |
+| --- | --- | --- |
+| Tên công ty | Công ty Luật TNHH Vũ Khang Solutions & Partners | đã xác nhận |
+| Điện thoại | 0832270898 | đã xác nhận 13/09/2026 |
+| Email tiếp nhận | luatvukhang@gmail.com | đã xác nhận 19/09/2026 |
+| Địa chỉ văn phòng | 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai | đã xác nhận 19/09/2026 |
+
+Địa chỉ nằm trong Cài đặt của CMS, hiển thị ở trang Liên hệ cả ba ngôn ngữ và
+sinh ra `PostalAddress` trong dữ liệu có cấu trúc `Organization` — phần nền cho
+tìm kiếm theo khu vực. Địa chỉ bưu chính giữ nguyên tiếng Việt ở mọi ngôn ngữ,
+đúng thông lệ.
+
+**Còn thiếu để `release:check` hết chặn mục "Complete verified company settings":**
+tên tiếng Anh của công ty và thông tin đăng ký hoạt động (số giấy đăng ký hoạt
+động do Sở Tư pháp cấp). Hai ô này nhập trong `/admin > Cài đặt`, hoặc:
+
+```
+node --env-file=.env --import tsx scripts/set-contact.ts --englishName "..." --registration "..."
+```
