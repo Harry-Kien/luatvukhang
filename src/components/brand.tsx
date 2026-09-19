@@ -11,14 +11,20 @@ export function Brand({
     <Link
       className={"brand" + (inverted ? " brand-inverted" : "")}
       href={"/" + locale}
-      aria-label={locale === "zh" ? "Vũ Khang — 首页" : locale === "en" ? "Vũ Khang — Home" : "Vũ Khang — Trang chủ"}
+      aria-label={
+        locale === "zh"
+          ? "Vũ Khang — 首页"
+          : locale === "en"
+            ? "Vũ Khang — Home"
+            : "Vũ Khang — Trang chủ"
+      }
     >
       {/* Huy hiệu tròn sinh từ design/logo.jpg; nền ngoài vòng trong suốt nên
           dùng chung cho header nền trắng và footer nền navy. Tên đã có trong
           aria-label của liên kết, ảnh để alt rỗng tránh đọc lặp. */}
       <img
         className="brand-logo"
-        src="/brand/logo-192.png"
+        src="/brand/logo-192.webp"
         alt=""
         width={192}
         height={192}

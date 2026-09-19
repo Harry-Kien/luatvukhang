@@ -13,7 +13,7 @@ export function AdminLogo() {
       }}
     >
       <img
-        src="/brand/logo-192.png"
+        src="/brand/logo-192.webp"
         alt=""
         width={64}
         height={64}
@@ -43,7 +43,7 @@ export function AdminLogo() {
 export function AdminIcon() {
   return (
     <img
-      src="/brand/logo-192.png"
+      src="/brand/logo-192.webp"
       alt="Vũ Khang"
       width={28}
       height={28}

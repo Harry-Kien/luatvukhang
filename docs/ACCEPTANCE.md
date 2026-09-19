@@ -800,3 +800,27 @@ Kiểm chứng: trên bản cài mới đúng trình tự của CI — **192 qua
 bài nào trượt**. Hai bài còn bỏ qua là menu chuyên môn ở khung điện thoại, vốn
 chỉ có ở bản máy tính. Trước khi sửa, cùng bản cài đó cho 178 qua, 14 bỏ qua,
 2 trượt.
+
+## Đo hiệu năng và cắt dung lượng trang chủ — 19/09/2026
+
+Lần đầu đo hiệu năng trên bản production tại chỗ. Kết quả trong ngưỡng tốt ở
+mọi trang: LCP xấu nhất 184ms (ngưỡng 2500ms), CLS xấu nhất 0,083 (ngưỡng 0,1).
+
+Nhưng phép đo lộ ra một chỗ lệch: trang chủ tải 423KB ảnh trên máy tính và
+515KB trên điện thoại, trong khi các trang khác chỉ 16–37KB. Truy ra thủ phạm:
+`logo-512.png` **266KB** được dùng làm huy hiệu trang trí (`alt=""`) ở khối
+"Con người & góc nhìn", tải trên cả hai loại thiết bị.
+
+Đã sinh bản WebP cho chỗ hiển thị: 266KB → **26KB** và 42KB → **8KB**, giảm
+90% mà mắt thường không thấy khác. Bản PNG giữ nguyên vì manifest PWA khai
+`type: "image/png"`, favicon bảng quản trị và trường `logo` trong dữ liệu có
+cấu trúc đều trỏ tới chúng. `scripts/generate-brand-assets.mjs` nay sinh cả hai
+định dạng nên không phải làm tay lần sau.
+
+Kết quả đo lại: trang chủ còn 232KB (máy tính) và 315KB (điện thoại) tính cả
+phông chữ; riêng ảnh còn 132KB và 215KB.
+
+`tests/seo.spec.ts` thêm hạn mức 260KB ảnh cho trang chủ. Một tấm ảnh nặng
+không làm hỏng bố cục nên không bài kiểm thử nào bắt được — nó chỉ âm thầm làm
+trang nặng thêm với mọi khách, mãi mãi. Đã xem bài kiểm thử trượt ở 423KB và
+515KB trước khi sửa.

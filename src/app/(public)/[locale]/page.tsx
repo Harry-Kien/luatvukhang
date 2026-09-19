@@ -103,7 +103,10 @@ export default async function Home({
             </h1>
             <p>{home?.summary || layout.heroSummary}</p>
             <div className="hero-actions">
-              <Link className="button red" href={href(layout.heroPrimary?.href)}>
+              <Link
+                className="button red"
+                href={href(layout.heroPrimary?.href)}
+              >
                 {layout.heroPrimary?.label}
                 <ArrowUpRight size={19} />
               </Link>
@@ -159,7 +162,10 @@ export default async function Home({
               <p className="lead">{layout.aboutLead}</p>
               <div>
                 <p>{layout.aboutText}</p>
-                <Link className="underlined" href={href(layout.aboutLink?.href)}>
+                <Link
+                  className="underlined"
+                  href={href(layout.aboutLink?.href)}
+                >
                   {layout.aboutLink?.label}
                   <ArrowUpRight size={18} />
                 </Link>
@@ -264,7 +270,10 @@ export default async function Home({
             </div>
             <h2>{lines(layout.startTitle)}</h2>
             <p>{layout.startText}</p>
-            <Link className="underlined white" href={href(layout.startCta?.href)}>
+            <Link
+              className="underlined white"
+              href={href(layout.startCta?.href)}
+            >
               {layout.startCta?.label}
               <ArrowUpRight size={18} />
             </Link>
@@ -317,7 +326,7 @@ export default async function Home({
             {/* Huy hiệu công ty làm dấu nền, thay cho chữ VK trang trí trước đây. */}
             <img
               className="editorial-mark"
-              src="/brand/logo-512.png"
+              src="/brand/logo-512.webp"
               alt=""
               width={512}
               height={512}

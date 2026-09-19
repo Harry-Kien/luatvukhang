@@ -27,7 +27,10 @@ async function detectCircle() {
     .greyscale()
     .raw()
     .toBuffer({ resolveWithObject: true });
-  let minX = info.width, minY = info.height, maxX = 0, maxY = 0;
+  let minX = info.width,
+    minY = info.height,
+    maxX = 0,
+    maxY = 0;
   for (let y = 0; y < info.height; y++) {
     for (let x = 0; x < info.width; x++) {
       if (data[y * info.width + x] < 235) {
@@ -156,15 +159,39 @@ const [b16, b32, b48, b160, b192, b380, b400, b512] = await Promise.all(
 // Logo dùng trong header/footer và schema.org.
 await write("public/brand/logo-192.png", b192);
 await write("public/brand/logo-512.png", b512);
+
+/**
+ * Bản WebP cho chỗ HIỂN THỊ trên website.
+ *
+ * PNG phải giữ nguyên vì manifest PWA khai type "image/png", favicon của bảng
+ * quản trị và trường `logo` trong dữ liệu có cấu trúc đều trỏ tới chúng. Nhưng
+ * dùng chính tệp PNG đó làm ảnh trên trang thì quá đắt: huy hiệu trang trí ở
+ * trang chủ nặng 266 KB, tải trên cả máy tính lẫn điện thoại chỉ để làm nền.
+ * Bản WebP cùng kích thước còn 26 KB — giảm 90% mà mắt thường không thấy khác.
+ */
+await write(
+  "public/brand/logo-192.webp",
+  await sharp(b192).webp({ quality: 82 }).toBuffer(),
+);
+await write(
+  "public/brand/logo-512.webp",
+  await sharp(b512).webp({ quality: 82 }).toBuffer(),
+);
 // Biểu tượng "maskable" cho Android: huy hiệu nằm gọn trong vùng an toàn 80%.
-await write("public/brand/logo-maskable-512.png", await onSolid(b400, 512, "#ffffff"));
+await write(
+  "public/brand/logo-maskable-512.png",
+  await onSolid(b400, 512, "#ffffff"),
+);
 
 // Các tệp Next tự gắn vào <head> theo quy ước tên trong src/app.
-await write("src/app/favicon.ico", ico([
-  { size: 16, png: b16 },
-  { size: 32, png: b32 },
-  { size: 48, png: b48 },
-]));
+await write(
+  "src/app/favicon.ico",
+  ico([
+    { size: 16, png: b16 },
+    { size: 32, png: b32 },
+    { size: 48, png: b48 },
+  ]),
+);
 await write("src/app/icon.png", b192);
 await write("src/app/apple-icon.png", await onSolid(b160, 180, "#ffffff"));
 await write("src/app/opengraph-image.png", await ogImage(b380));

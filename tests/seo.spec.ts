@@ -358,3 +358,38 @@ for (const section of ["about", "contact"])
       `tiêu đề trang /${section} không lấy từ CMS`,
     ).toContain(doc.seo.title);
   });
+
+/**
+ * Hạn mức dung lượng ảnh của trang chủ.
+ *
+ * Trang chủ là trang khách đến đầu tiên và thường đến bằng 4G. Một tấm ảnh
+ * trang trí nặng vài trăm KB không làm hỏng bố cục nên không bài kiểm thử nào
+ * bắt được — nó chỉ âm thầm làm trang nặng thêm với mọi khách, mãi mãi.
+ *
+ * Hạn mức đặt theo dung lượng thật đo được, có chừa khoảng trống. Vượt hạn mức
+ * không có nghĩa là sai: nghĩa là phải xem lại có đáng không.
+ */
+test("trang chủ giữ dung lượng ảnh trong hạn mức", async ({ page }) => {
+  const IMAGE_BUDGET_KB = 260;
+  const sizes: [string, number][] = [];
+  page.on("response", async (response) => {
+    if (response.request().resourceType() !== "image") return;
+    const length = Number((await response.allHeaders())["content-length"] || 0);
+    if (length) sizes.push([new URL(response.url()).pathname, length]);
+  });
+  await page.goto("/vi");
+  // Ảnh trang trí thường tải chậm (lazy); cuộn hết trang để đếm đủ.
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(2000);
+
+  const total = Math.round(sizes.reduce((sum, [, n]) => sum + n, 0) / 1024);
+  const detail = sizes
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([url, n]) => `${Math.round(n / 1024)}KB ${url}`)
+    .join("\n  ");
+  expect(
+    total,
+    `Trang chủ tải ${total}KB ảnh, vượt hạn mức ${IMAGE_BUDGET_KB}KB:\n  ${detail}`,
+  ).toBeLessThanOrEqual(IMAGE_BUDGET_KB);
+});
