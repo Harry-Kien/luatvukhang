@@ -19,6 +19,15 @@ const checkOnly = process.argv.includes("--check");
 /** Thư hỏng quá thời hạn này thì ngừng thử lại và chờ người xử lý. */
 const RETRY_WINDOW_HOURS = 24;
 
+if (process.env.EMAIL_NOTIFICATIONS_DISABLED === "true") {
+  // Cong ty da chon khong dung email thong bao. Thoat gon, khong bao loi: lich
+  // chay dinh ky khong nen do moi lan chi vi mot lua chon co y.
+  console.log("Email thong bao dang tat (EMAIL_NOTIFICATIONS_DISABLED=true).");
+  console.log(
+    "Yeu cau tu van van duoc luu; xem trong /admin > Yeu cau tu van.",
+  );
+  process.exit(0);
+}
 if (!process.env.NOTIFICATION_EMAIL || !process.env.SMTP_HOST) {
   // Thoát gọn thay vì ném lỗi: script này chạy theo lịch, một vệt stack trace
   // trong log của bộ định thời không nói cho người vận hành biết phải làm gì.

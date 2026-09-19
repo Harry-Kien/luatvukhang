@@ -88,3 +88,40 @@ test("release validation catches misleading origins and incomplete email configu
     "Configure SMTP_HOST, SMTP_FROM and NOTIFICATION_EMAIL.",
   );
 });
+
+/**
+ * Công ty có quyền không dùng email thông báo — nhưng phải nói rõ ra.
+ *
+ * Cổng phát hành chặn khi thiếu SMTP là đúng: khách gửi yêu cầu mà không ai
+ * được báo là hỏng luồng. Nhưng nếu công ty quyết định không dùng email và
+ * tự kiểm tra trong CMS, cổng sẽ đỏ vĩnh viễn — và một cổng không bao giờ
+ * xanh được thì người vận hành sẽ học cách bỏ qua nó, kể cả những mục khác.
+ *
+ * Nên có một lối khai báo rõ ràng. Quên cấu hình và cố ý không dùng là hai
+ * chuyện khác nhau; chỉ chuyện thứ hai mới được đi tiếp.
+ */
+test("bỏ email thông báo chỉ được chấp nhận khi khai báo rõ ràng", () => {
+  const env = {
+    NEXT_PUBLIC_DEMO_MODE: "false",
+    SITE_LAUNCH_APPROVED: "true",
+    NEXT_PUBLIC_SITE_URL: "https://luatvukhang.com",
+    PAYLOAD_SECRET: "x".repeat(32),
+    DATABASE_URL: "configured",
+  };
+  // Quên cấu hình: vẫn chặn.
+  expect(releaseEnvironmentIssues(env)).toContain(
+    "Configure SMTP_HOST, SMTP_FROM and NOTIFICATION_EMAIL.",
+  );
+  // Khai báo rõ là không dùng: đi tiếp được.
+  expect(
+    releaseEnvironmentIssues({ ...env, EMAIL_NOTIFICATIONS_DISABLED: "true" }),
+  ).toEqual([]);
+  // Giá trị mập mờ không tính là khai báo.
+  for (const value of ["false", "1", "yes", ""])
+    expect(
+      releaseEnvironmentIssues({
+        ...env,
+        EMAIL_NOTIFICATIONS_DISABLED: value,
+      }),
+    ).toContain("Configure SMTP_HOST, SMTP_FROM and NOTIFICATION_EMAIL.");
+});

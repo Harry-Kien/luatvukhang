@@ -29,7 +29,23 @@ export function releaseEnvironmentIssues(
   if ((env.PAYLOAD_SECRET?.length || 0) < 32)
     issues.push("Set a strong PAYLOAD_SECRET.");
   if (!env.DATABASE_URL) issues.push("Configure the production database.");
-  if (!env.SMTP_HOST || !env.SMTP_FROM || !env.NOTIFICATION_EMAIL)
+  /**
+   * Công ty có thể chọn không dùng email thông báo, nhưng phải khai báo rõ.
+   *
+   * Thiếu SMTP mà vẫn mở cửa nghĩa là khách gửi yêu cầu xong không ai được báo.
+   * Đó là lý do mục này chặn phát hành. Nhưng nếu công ty quyết định tự kiểm
+   * tra yêu cầu trong CMS, cổng sẽ đỏ vĩnh viễn — và một cổng không bao giờ
+   * xanh được thì người vận hành học cách bỏ qua nó, kể cả những mục khác.
+   *
+   * Chỉ đúng chuỗi "true" mới tính là khai báo: quên cấu hình và cố ý không
+   * dùng là hai chuyện khác nhau, và một giá trị gõ nhầm không được phép biến
+   * chuyện thứ nhất thành chuyện thứ hai.
+   */
+  const emailDisabled = env.EMAIL_NOTIFICATIONS_DISABLED === "true";
+  if (
+    !emailDisabled &&
+    (!env.SMTP_HOST || !env.SMTP_FROM || !env.NOTIFICATION_EMAIL)
+  )
     issues.push("Configure SMTP_HOST, SMTP_FROM and NOTIFICATION_EMAIL.");
   const port = Number(env.SMTP_PORT || 587);
   if (!Number.isInteger(port) || port < 1 || port > 65535)

@@ -147,3 +147,25 @@ node --env-file=.env --import tsx scripts/clean-empty-drafts.ts
 Chỉ xóa bản ghi thiếu **cả** tiêu đề lẫn đường dẫn — thiếu một trong hai thì
 giữ, vì đó có thể là bài ai đó đang viết dở. `hosting-setup.mjs` đã gọi sẵn ở
 mỗi lần triển khai. `tests/cms-hygiene.spec.ts` giữ bất biến này.
+
+## Không dùng email thông báo — 19/09/2026
+
+Công ty có thể chọn không cấu hình SMTP. Khai báo bằng biến môi trường:
+
+```
+EMAIL_NOTIFICATIONS_DISABLED=true
+```
+
+Khi bật, `release:check` không còn chặn vì thiếu SMTP mà chuyển thành cảnh báo,
+và `scripts/send-notifications.ts` thoát gọn với mã 0 thay vì báo lỗi mỗi lần
+lịch chạy gọi tới.
+
+**Đổi lại, phải có người mở `/admin` xem mục "Yêu cầu tư vấn" hằng ngày.** Yêu
+cầu của khách vẫn được lưu đầy đủ và vẫn trả mã tham chiếu, nhưng không ai được
+báo tự động. Bảng tổng quan của trang quản trị hiện sẵn số yêu cầu đang chờ tiếp
+nhận ngay dòng đầu, nên chỉ cần đăng nhập là thấy.
+
+Chỉ đúng chuỗi `true` mới được tính là khai báo. Quên cấu hình và cố ý không
+dùng là hai chuyện khác nhau, và một giá trị gõ nhầm không được phép biến chuyện
+thứ nhất thành chuyện thứ hai — vì vậy `EMAIL_NOTIFICATIONS_DISABLED=1` hay
+`=yes` vẫn bị chặn như khi bỏ trống.

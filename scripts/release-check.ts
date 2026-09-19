@@ -8,6 +8,12 @@ if (process.env.TRUST_PROXY_HEADERS !== "true")
   warnings.push(
     "Per-client rate limits disabled. Configure a trusted ingress before enabling TRUST_PROXY_HEADERS.",
   );
+if (process.env.EMAIL_NOTIFICATIONS_DISABLED === "true")
+  warnings.push(
+    "Email thong bao da tat theo khai bao. Yeu cau tu van van duoc luu day du, " +
+      "nhung KHONG ai duoc bao tu dong — phai co nguoi mo /admin xem muc " +
+      "'Yeu cau tu van' hang ngay. Bang tong quan hien so yeu cau dang cho.",
+  );
 if (!process.env.ANTHROPIC_API_KEY)
   warnings.push(
     "Machine translation disabled: set ANTHROPIC_API_KEY to enable the translate buttons.",
