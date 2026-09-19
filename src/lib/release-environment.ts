@@ -59,3 +59,56 @@ export function releaseEnvironmentIssues(
     issues.push("Use a valid GA4 measurement ID.");
   return issues;
 }
+
+/** Thông tin pháp nhân trong Cài đặt, ở dạng thuần để kiểm thử được. */
+export type SiteSettingsFields = {
+  companyName?: string | null;
+  englishName?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  email?: string | null;
+  registration?: string | null;
+};
+
+/**
+ * Phân loại thông tin pháp nhân: cái nào chặn phát hành, cái nào chỉ nhắc.
+ *
+ * Năm ô đầu là thứ khách cần để biết công ty tên gì, ở đâu, gọi và gửi thư vào
+ * đâu. Thiếu một trong số đó thì website chưa dùng được, nên chúng chặn.
+ *
+ * Thông tin đăng ký hoạt động là tín hiệu xác minh — đáng có với một công ty
+ * luật và nên bổ sung — nhưng thiếu nó website vẫn hoạt động bình thường. Trước
+ * đây nó cũng chặn, nghĩa là công ty chọn không công bố sẽ thấy cổng phát hành
+ * đỏ vĩnh viễn; mà một cổng không bao giờ xanh được thì người vận hành học cách
+ * bỏ qua nó, kể cả những mục khác đang thực sự cần chú ý. Nên nó chuyển thành
+ * cảnh báo, và vẫn được nêu ra ở mỗi lần kiểm tra.
+ */
+export function releaseSettingsIssues(settings: SiteSettingsFields): {
+  issues: string[];
+  warnings: string[];
+} {
+  const blank = (value: unknown) =>
+    typeof value !== "string" || !value.trim().length;
+  const required: [keyof SiteSettingsFields, string][] = [
+    ["companyName", "tên công ty"],
+    ["englishName", "tên tiếng Anh"],
+    ["phone", "điện thoại"],
+    ["address", "địa chỉ"],
+    ["email", "email tiếp nhận"],
+  ];
+  const missing = required
+    .filter(([field]) => blank(settings[field]))
+    .map(([, label]) => label);
+  return {
+    issues: missing.length
+      ? [`Complete verified company settings: thiếu ${missing.join(", ")}.`]
+      : [],
+    warnings: blank(settings.registration)
+      ? [
+          "Chưa có thông tin đăng ký hoạt động trong Cài đặt. Không chặn phát hành, " +
+            "nhưng với một công ty luật thì đây là tín hiệu xác minh mà khách hàng " +
+            "cẩn thận sẽ tìm.",
+        ]
+      : [],
+  };
+}

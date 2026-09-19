@@ -125,3 +125,46 @@ test("bỏ email thông báo chỉ được chấp nhận khi khai báo rõ ràn
       }),
     ).toContain("Configure SMTP_HOST, SMTP_FROM and NOTIFICATION_EMAIL.");
 });
+
+/**
+ * Thông tin pháp nhân: cái nào chặn phát hành, cái nào chỉ nhắc.
+ *
+ * Khách cần biết công ty tên gì, ở đâu, gọi và gửi thư vào đâu — thiếu một
+ * trong những thứ đó thì website chưa dùng được, nên chúng chặn.
+ *
+ * Thông tin đăng ký hoạt động là tín hiệu xác minh, đáng có với một công ty
+ * luật nhưng không phải thứ khiến website ngừng hoạt động. Để nó chặn thì cổng
+ * phát hành đỏ vĩnh viễn với công ty chọn không công bố — và một cổng không bao
+ * giờ xanh được thì người vận hành học cách bỏ qua nó, kể cả những mục khác.
+ */
+test("thiếu thông tin liên hệ thì chặn, thiếu đăng ký hoạt động thì chỉ nhắc", async () => {
+  const { releaseSettingsIssues } =
+    await import("../src/lib/release-environment");
+  const full = {
+    companyName: "Công ty Luật TNHH Vũ Khang Solutions & Partners",
+    englishName: "VU KHANG SOLUTIONS & PARTNERS LAW COMPANY LIMITED",
+    phone: "0832270898",
+    address: "1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai",
+    email: "luatvukhang@gmail.com",
+    registration: "Giấy ĐKHĐ số 123",
+  };
+  expect(releaseSettingsIssues(full)).toEqual({ issues: [], warnings: [] });
+
+  // Thiếu đăng ký hoạt động: đi tiếp được, nhưng phải nhắc.
+  const noRegistration = releaseSettingsIssues({ ...full, registration: "" });
+  expect(noRegistration.issues).toEqual([]);
+  expect(noRegistration.warnings.length).toBe(1);
+
+  // Thiếu bất kỳ thông tin liên hệ nào: chặn.
+  for (const field of [
+    "companyName",
+    "englishName",
+    "phone",
+    "address",
+    "email",
+  ] as const)
+    expect(
+      releaseSettingsIssues({ ...full, [field]: "" }).issues.length,
+      `thiếu ${field} phải chặn phát hành`,
+    ).toBe(1);
+});

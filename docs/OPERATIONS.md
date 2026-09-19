@@ -169,3 +169,26 @@ Chỉ đúng chuỗi `true` mới được tính là khai báo. Quên cấu hìn
 dùng là hai chuyện khác nhau, và một giá trị gõ nhầm không được phép biến chuyện
 thứ nhất thành chuyện thứ hai — vì vậy `EMAIL_NOTIFICATIONS_DISABLED=1` hay
 `=yes` vẫn bị chặn như khi bỏ trống.
+
+## Thông tin đăng ký hoạt động: nhắc chứ không chặn — 19/09/2026
+
+`release:check` trước đây chặn phát hành khi Cài đặt thiếu bất kỳ ô nào trong
+sáu ô thông tin pháp nhân, gồm cả thông tin đăng ký hoạt động. Công ty quyết
+định không công bố ô đó, nghĩa là cổng phát hành sẽ đỏ vĩnh viễn — và một cổng
+không bao giờ xanh được thì người vận hành học cách bỏ qua nó, kể cả những mục
+khác đang thực sự cần chú ý.
+
+Nay phân làm hai nhóm, ở `src/lib/release-environment.ts`:
+
+| Nhóm | Ô | Xử lý |
+| --- | --- | --- |
+| Khách cần để liên hệ và nhận diện | tên công ty, tên tiếng Anh, điện thoại, địa chỉ, email | **chặn** |
+| Tín hiệu xác minh | thông tin đăng ký hoạt động | **cảnh báo**, nêu ở mỗi lần kiểm tra |
+
+Phần kiểm tra tách thành hàm thuần `releaseSettingsIssues` nên có kiểm thử bằng
+dữ liệu dựng sẵn, không cần cơ sở dữ liệu thật. Trước đó khối này không có bài
+kiểm thử nào canh.
+
+Khuyến nghị vẫn giữ nguyên: với một công ty luật, số Giấy đăng ký hoạt động là
+thứ khách hàng cẩn thận tìm để xác minh. Thêm vào bất cứ lúc nào bằng
+`scripts/set-contact.ts --registration "..."` là cảnh báo tự biến mất.

@@ -1,4 +1,7 @@
-import { releaseEnvironmentIssues } from "../src/lib/release-environment";
+import {
+  releaseEnvironmentIssues,
+  releaseSettingsIssues,
+} from "../src/lib/release-environment";
 import { locales } from "../src/lib/locales";
 import { getPayload, type Where } from "payload";
 import config from "../src/payload.config";
@@ -24,15 +27,11 @@ if (!process.env.DATABASE_URL) {
 }
 const payload = await getPayload({ config });
 const settings = await payload.findGlobal({ slug: "site-settings" });
-if (
-  !settings.companyName ||
-  !settings.englishName ||
-  !settings.phone ||
-  !settings.address ||
-  !settings.email ||
-  !settings.registration
-)
-  issues.push("Complete verified company settings.");
+// Phân loại nằm ở src/lib/release-environment.ts để kiểm thử được bằng dữ liệu
+// dựng sẵn, thay vì phải có một cơ sở dữ liệu thật mới chạy được.
+const settingsCheck = releaseSettingsIssues(settings);
+issues.push(...settingsCheck.issues);
+warnings.push(...settingsCheck.warnings);
 if (!settings.privacyApproved) issues.push("Approve privacy policy.");
 for (const language of locales)
   for (const slug of ["home", "about", "contact", "privacy", "terms"]) {
