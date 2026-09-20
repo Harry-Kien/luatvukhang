@@ -211,3 +211,35 @@ test("illustrative records cannot be published, even by an administrator", async
     await request.delete(`/api/lawyers/${sample.id}`, { headers });
   }
 });
+
+/**
+ * Địa chỉ đã có thì phải mở được bản đồ.
+ *
+ * Địa chỉ in ra dạng chữ buộc khách tự bôi đen, sao chép, mở ứng dụng bản đồ,
+ * dán vào. Trên điện thoại — nơi phần lớn khách đọc trang Liên hệ — đó là bốn
+ * thao tác thừa giữa người cần luật sư và cánh cửa văn phòng. Liên kết bản đồ
+ * suy ra được từ chính địa chỉ, không cần ai nhập thêm gì.
+ */
+for (const locale of ["vi", "en", "zh"] as const)
+  test(`trang Liên hệ /${locale} mở được bản đồ tới địa chỉ văn phòng`, async ({
+    page,
+    request,
+  }) => {
+    const settings = await (
+      await request.get("/api/globals/site-settings?depth=0")
+    ).json();
+    const address = String(settings?.address ?? "").trim();
+    test.skip(!address, "Cài đặt chưa có địa chỉ văn phòng.");
+
+    await page.goto(`/${locale}/contact`);
+    const link = page.locator('main a[href*="google.com/maps"]');
+    await expect(
+      link,
+      `trang Liên hệ /${locale} không có liên kết bản đồ`,
+    ).toHaveCount(1);
+    const href = await link.getAttribute("href");
+    expect(
+      decodeURIComponent(href!),
+      "liên kết bản đồ phải trỏ đúng địa chỉ trong Cài đặt",
+    ).toContain(address);
+  });

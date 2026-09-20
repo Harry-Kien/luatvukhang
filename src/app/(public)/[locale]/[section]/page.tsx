@@ -471,6 +471,23 @@ export default async function Page({ params, searchParams }: Props) {
   if (["about", "contact", "privacy", "terms"].includes(section)) {
     const settings = await getSiteSettings();
     const contact = (await getSiteLayout(locale)).contact;
+    /**
+     * Liên kết bản đồ suy ra từ địa chỉ khi công ty chưa nhập link riêng.
+     *
+     * Địa chỉ in ra dạng chữ buộc khách tự bôi đen, sao chép, mở ứng dụng bản
+     * đồ, dán vào — bốn thao tác thừa, và phần lớn khách đọc trang Liên hệ trên
+     * điện thoại. Dạng URL này là cú pháp Google công bố chính thức, không cần
+     * khóa API và không phụ thuộc vào việc ai đó nhớ đi lấy link.
+     *
+     * Link công ty tự nhập vẫn được ưu tiên: họ có thể muốn trỏ tới đúng điểm
+     * đã ghim thay vì kết quả tìm kiếm theo địa chỉ.
+     */
+    const mapHref =
+      contact.mapUrl ||
+      (settings?.address
+        ? "https://www.google.com/maps/search/?api=1&query=" +
+          encodeURIComponent(settings.address)
+        : null);
     const records = await getRecords("pages", locale);
     const record =
       query.preview === "true"
@@ -534,9 +551,9 @@ export default async function Page({ params, searchParams }: Props) {
                     style={{ width: "100%", height: 320, border: 0 }}
                   />
                 )}
-                {contact.mapUrl && (
+                {mapHref && (
                   <p>
-                    <a href={contact.mapUrl} rel="noreferrer" target="_blank">
+                    <a href={mapHref} rel="noreferrer" target="_blank">
                       {t(locale, "Mở bản đồ", "Open map")}
                     </a>
                   </p>
