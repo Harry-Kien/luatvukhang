@@ -192,3 +192,31 @@ kiểm thử nào canh.
 Khuyến nghị vẫn giữ nguyên: với một công ty luật, số Giấy đăng ký hoạt động là
 thứ khách hàng cẩn thận tìm để xác minh. Thêm vào bất cứ lúc nào bằng
 `scripts/set-contact.ts --registration "..."` là cảnh báo tự biến mất.
+
+## Theo dõi yêu cầu tư vấn — 20/09/2026
+
+Mục Yêu cầu tư vấn trước đây chỉ có bốn trạng thái và một ô ghi chú. Đủ để lưu,
+chưa đủ để ba người cùng chạy trên đó — nhất là khi công ty đã chọn không dùng
+email thông báo, nên không ai được báo tự động.
+
+Bổ sung ba ô:
+
+| Ô | Vì sao |
+| --- | --- |
+| **Người phụ trách** | Không có email thông báo thì đây là thứ duy nhất cho biết việc thuộc về ai. Ba người cùng nhìn một danh sách mà không ai đứng tên là công thức để yêu cầu rơi. |
+| **Cần liên hệ lại trước** | Bảng tổng quan đếm những yêu cầu đã quá hạn mà chưa đóng, và hiện ngay dòng đầu. |
+| **Kết quả** | Bắt buộc khi đóng. "Đã đóng" mà không có lý do thì sau một năm công ty không biết mình mất khách vì báo giá, vì ngoài phạm vi, hay vì không ai gọi lại. |
+
+Năm giá trị kết quả: đã nhận việc, khách không tiếp tục, ngoài phạm vi hành
+nghề, không liên hệ được, trùng với yêu cầu khác.
+
+Bảng tổng quan nay hiện cả hai con số ngay dòng đầu — *"N yêu cầu mới đang chờ
+tiếp nhận, M yêu cầu đã quá hạn liên hệ lại"* — kèm lối tắt sang danh sách đã
+sắp theo hạn.
+
+`tests/intake.spec.ts` giữ cả ba: giao việc được, không đóng được khi chưa nêu
+kết quả, và bảng tổng quan đếm đúng cái quá hạn.
+
+**Đây vẫn chưa phải CRM.** Chưa có nhật ký liên hệ theo dòng thời gian, chưa có
+báo cáo tỷ lệ chuyển đổi, chưa có nhắc việc tự động. Đủ để một công ty ba người
+vận hành không bỏ sót; không đủ để thay một phần mềm CRM khi quy mô lớn hơn.

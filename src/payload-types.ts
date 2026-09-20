@@ -1268,6 +1268,18 @@ export interface ConsultationRequest {
   message: string;
   consentAt: string;
   status?: ('received' | 'contacting' | 'confirmed' | 'closed') | null;
+  /**
+   * Ai đang theo yêu cầu này. Không có email thông báo thì đây là thứ duy nhất cho biết việc thuộc về ai.
+   */
+  assignedTo?: (number | null) | User;
+  /**
+   * Bảng tổng quan đếm những yêu cầu đã quá hạn này mà chưa đóng.
+   */
+  followUpAt?: string | null;
+  /**
+   * Bắt buộc khi đóng yêu cầu.
+   */
+  outcome?: ('engaged' | 'declined' | 'out-of-scope' | 'unreachable' | 'duplicate') | null;
   preferredDate?: string | null;
   confirmedAt?: string | null;
   internalNotes?: string | null;
@@ -2134,6 +2146,9 @@ export interface ConsultationRequestsSelect<T extends boolean = true> {
   message?: T;
   consentAt?: T;
   status?: T;
+  assignedTo?: T;
+  followUpAt?: T;
+  outcome?: T;
   preferredDate?: T;
   confirmedAt?: T;
   internalNotes?: T;

@@ -10,6 +10,26 @@ export async function AdminDashboard({ payload, user }: ServerComponentProps) {
         overrideAccess: false,
       })
     : null;
+  /**
+   * Yêu cầu đã quá hạn liên hệ lại mà chưa đóng.
+   *
+   * Công ty không dùng email thông báo, nên màn hình này là nơi đầu tiên người
+   * tiếp nhận nhìn thấy mỗi ngày. Một ô hạn liên hệ không có chỗ nào hiện cái
+   * đã trễ thì chỉ là một ngày tháng nằm trong hồ sơ.
+   */
+  const overdue = allowed
+    ? await payload.count({
+        collection: "consultation-requests",
+        where: {
+          and: [
+            { followUpAt: { less_than: new Date().toISOString() } },
+            { status: { not_equals: "closed" } },
+          ],
+        },
+        user,
+        overrideAccess: false,
+      })
+    : null;
   const shortcuts: [string, string][] = [
     ["/admin/collections/articles/create", "Viết bài mới"],
     [
@@ -23,6 +43,10 @@ export async function AdminDashboard({ payload, user }: ServerComponentProps) {
           [
             "/admin/collections/consultation-requests",
             `Yêu cầu tư vấn mới (${count?.totalDocs ?? 0})`,
+          ],
+          [
+            "/admin/collections/consultation-requests?sort=followUpAt",
+            `Quá hạn theo dõi (${overdue?.totalDocs ?? 0})`,
           ],
         ] as [string, string][])
       : []),
@@ -40,7 +64,10 @@ export async function AdminDashboard({ payload, user }: ServerComponentProps) {
         <h1 style={{ fontSize: 28 }}>Tổng quan công việc</h1>
         <p>
           {count
-            ? `${count.totalDocs} yêu cầu mới đang chờ tiếp nhận.`
+            ? `${count.totalDocs} yêu cầu mới đang chờ tiếp nhận` +
+              (overdue?.totalDocs
+                ? `, ${overdue.totalDocs} yêu cầu đã quá hạn liên hệ lại.`
+                : ".")
             : "Chọn nội dung bên dưới để bắt đầu biên tập."}
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -82,8 +109,8 @@ export async function AdminDashboard({ payload, user }: ServerComponentProps) {
         </p>
         <p style={{ fontSize: 14, marginTop: 12 }}>
           Thay ảnh banner: Chỉnh sửa website → trang có đường dẫn home → Banner.
-          Chữ ở trang chủ, menu, chân trang: mục Giao diện website. Mỗi ngôn
-          ngữ có trang home riêng.
+          Chữ ở trang chủ, menu, chân trang: mục Giao diện website. Mỗi ngôn ngữ
+          có trang home riêng.
         </p>
         <p style={{ fontSize: 14, marginTop: 12 }}>
           Nội dung đi qua 3 bước: Lưu nháp → Duyệt chuyên môn → Xuất bản. Mỗi

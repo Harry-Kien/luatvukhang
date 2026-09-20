@@ -508,7 +508,14 @@ const Requests: CollectionConfig = {
   admin: {
     useAsTitle: "reference",
     group: "Tiếp nhận",
-    defaultColumns: ["reference", "name", "status", "createdAt"],
+    defaultColumns: [
+      "reference",
+      "name",
+      "status",
+      "assignedTo",
+      "followUpAt",
+      "createdAt",
+    ],
   },
   access: {
     read: reception,
@@ -552,6 +559,43 @@ const Requests: CollectionConfig = {
         { label: "Đã đóng", value: "closed" },
       ],
     },
+    {
+      name: "assignedTo",
+      label: "Người phụ trách",
+      type: "relationship",
+      relationTo: "users",
+      admin: {
+        position: "sidebar",
+        description:
+          "Ai đang theo yêu cầu này. Không có email thông báo thì đây là thứ duy nhất cho biết việc thuộc về ai.",
+      },
+    },
+    {
+      name: "followUpAt",
+      label: "Cần liên hệ lại trước",
+      type: "date",
+      admin: {
+        position: "sidebar",
+        description:
+          "Bảng tổng quan đếm những yêu cầu đã quá hạn này mà chưa đóng.",
+      },
+    },
+    {
+      name: "outcome",
+      label: "Kết quả",
+      type: "select",
+      admin: {
+        position: "sidebar",
+        description: "Bắt buộc khi đóng yêu cầu.",
+      },
+      options: [
+        { label: "Đã nhận việc", value: "engaged" },
+        { label: "Khách không tiếp tục", value: "declined" },
+        { label: "Ngoài phạm vi hành nghề", value: "out-of-scope" },
+        { label: "Không liên hệ được", value: "unreachable" },
+        { label: "Trùng với yêu cầu khác", value: "duplicate" },
+      ],
+    },
     { name: "preferredDate", label: "Ngày mong muốn", type: "date" },
     {
       name: "confirmedAt",
@@ -562,9 +606,13 @@ const Requests: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
-      ({ data }) => {
+      ({ data, originalDoc }) => {
         if (data.status === "confirmed" && !data.confirmedAt)
           throw new Error("Nhập thời gian đã xác nhận với khách hàng.");
+        // Đóng mà không nêu kết quả thì sau một năm công ty không biết mình mất
+        // khách vì báo giá, vì ngoài phạm vi, hay vì không ai gọi lại.
+        if (data.status === "closed" && !(data.outcome ?? originalDoc?.outcome))
+          throw new Error("Chọn kết quả trước khi đóng yêu cầu.");
         return data;
       },
     ],

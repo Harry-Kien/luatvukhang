@@ -3,6 +3,7 @@ import * as migration_20260914_103930_giao_dien_website from './20260914_103930_
 import * as migration_20260914_105733_co_ban_dich_may from './20260914_105733_co_ban_dich_may';
 import * as migration_20260916_043812_giao_dien_mang_theo_ngon_ngu from './20260916_043812_giao_dien_mang_theo_ngon_ngu';
 import * as migration_20260916_120420_them_vai_tro_doi_ngu from './20260916_120420_them_vai_tro_doi_ngu';
+import * as migration_20260920_145122_them_theo_doi_yeu_cau from './20260920_145122_them_theo_doi_yeu_cau';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20260916_120420_them_vai_tro_doi_ngu.up,
     down: migration_20260916_120420_them_vai_tro_doi_ngu.down,
-    name: '20260916_120420_them_vai_tro_doi_ngu'
+    name: '20260916_120420_them_vai_tro_doi_ngu',
+  },
+  {
+    up: migration_20260920_145122_them_theo_doi_yeu_cau.up,
+    down: migration_20260920_145122_them_theo_doi_yeu_cau.down,
+    name: '20260920_145122_them_theo_doi_yeu_cau'
   },
 ];
