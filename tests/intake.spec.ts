@@ -1,6 +1,7 @@
 import { test, expect, type APIRequestContext } from "@playwright/test";
 import fs from "node:fs/promises";
 import { randomUUID } from "node:crypto";
+import { createClient } from "@libsql/client";
 
 async function adminToken(request: APIRequestContext) {
   const password = (await fs.readFile(".local/admin-access.txt", "utf8"))
@@ -156,4 +157,46 @@ test("bảng tổng quan đếm yêu cầu đã quá hạn theo dõi", async ({
   } finally {
     await request.delete(`/api/consultation-requests/${id}`, { headers });
   }
+});
+
+/**
+ * Một lượt sao lưu đang chạy không được làm rơi yêu cầu của khách.
+ *
+ * deploy/backup.sh chạy `VACUUM INTO` theo cron trên máy chủ thật, và đó là
+ * một lượt ĐỌC dài trên cả tệp cơ sở dữ liệu. SQLite ở chế độ nhật ký mặc
+ * định (delete) cho một lượt đọc đang mở chặn mọi lượt ghi, còn adapter để
+ * `busy_timeout` bằng 0 nên lượt ghi hỏng ngay thay vì chờ. Hệ quả: đúng vào
+ * lúc sao lưu đêm, khách gửi biểu mẫu tư vấn nhận 503 "Chưa lưu được yêu
+ * cầu" — công ty mất một khách hàng tiềm năng mà không có gì báo lại.
+ */
+test("yêu cầu tư vấn vẫn lưu được khi có lượt đọc dài trên cơ sở dữ liệu", async ({
+  request,
+}) => {
+  const headers = { Authorization: "JWT " + (await adminToken(request)) };
+  const client = createClient({
+    url: process.env.DATABASE_URL || "file:./.local/law.db",
+  });
+  // Giao dịch đọc chỉ thật sự giữ khóa sau câu lệnh đầu tiên: BEGIN của
+  // SQLite là deferred.
+  const reader = await client.transaction("read");
+  await reader.execute("SELECT count(*) AS c FROM payload_migrations");
+
+  let reference: string;
+  try {
+    reference = await submit(request);
+  } finally {
+    await reader.close();
+    client.close();
+  }
+
+  const found = await (
+    await request.get(
+      `/api/consultation-requests?where[reference][equals]=${reference}&depth=0`,
+      { headers },
+    )
+  ).json();
+  expect(found.docs.length, "yêu cầu không được lưu lại").toBe(1);
+  await request.delete(`/api/consultation-requests/${found.docs[0].id}`, {
+    headers,
+  });
 });

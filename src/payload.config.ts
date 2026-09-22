@@ -805,6 +805,24 @@ export default buildConfig({
      * cầu gửi lên đều thất bại với lỗi 503.
      */
     transactionOptions: {},
+    /**
+     * Chế độ nhật ký WAL, thay cho mặc định `delete`.
+     *
+     * Ở chế độ mặc định, một lượt ĐỌC đang mở chặn mọi lượt ghi trên cả tệp.
+     * Máy chủ thật chạy deploy/backup.sh theo cron, mà `VACUUM INTO` chính là
+     * một lượt đọc dài: đúng vào lúc sao lưu, khách gửi biểu mẫu tư vấn nhận
+     * 503 và công ty mất một yêu cầu mà không có gì báo lại. WAL cho người đọc
+     * và người ghi chạy cùng lúc, nên lượt sao lưu không còn chặn ai.
+     */
+    wal: true,
+    /**
+     * Mặc định của adapter là 0: gặp khóa là hỏng ngay, không chờ một nhịp nào.
+     * WAL đã bỏ tranh chấp đọc–ghi, nhưng hai lượt GHI vẫn phải xếp hàng —
+     * đếm hạn mức rồi lưu yêu cầu là hai lượt ghi liền nhau. Năm giây là quá
+     * đủ cho một lượt ghi trên tệp vài megabyte, và vẫn ngắn hơn nhiều so với
+     * thời gian khách chờ trước khi bỏ biểu mẫu.
+     */
+    busyTimeout: 5000,
   }),
   sharp,
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },

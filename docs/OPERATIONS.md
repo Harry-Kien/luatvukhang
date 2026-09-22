@@ -14,6 +14,8 @@ DATABASE_URL phải là `file:` + đường dẫn tuyệt đối, trỏ ra ngoà
 - Quyền tệp thay cho quyền DB: đặt `chmod 700` thư mục chứa và để đúng một người dùng hệ thống ghi được.
 - Ghi vào SQLite là tuần tự. Không chạy nhiều tiến trình ứng dụng trên cùng một tệp; muốn tăng tải thì tăng CPU cho một tiến trình, không tăng số replica.
 - `push` tắt hẳn trong payload.config.ts. SQLite không có schema tách biệt nên cơ chế đồng bộ lược đồ của Payload xóa cả bảng ngoài CMS.
+- Chế độ nhật ký là WAL, bật trong payload.config.ts (`wal: true`). Mặc định của SQLite là `delete`, ở đó một lượt ĐỌC đang mở chặn mọi lượt ghi: lúc cron chạy deploy/backup.sh, khách gửi biểu mẫu tư vấn sẽ nhận 503. Khi dựng máy chủ mới, xem log khởi động có dòng `[db-sqlite] Enabling WAL mode` và kiểm tra `PRAGMA journal_mode` trả về `wal`.
+- `busyTimeout` 5 giây ở payload.config.ts, và cùng con số cho kết nối vận hành ở src/lib/operations-db.ts. Đây là thiết lập của từng kết nối, không nằm trong tệp: thêm một kết nối mới thì phải đặt lại.
 - Sao lưu bằng `VACUUM INTO`, không bao giờ bằng `cp`: chế độ WAL giữ dữ liệu mới ở tệp -wal, chép thẳng sẽ ra bản rách.
 - Không bật schema push trong production. Chạy `npm run payload -- migrate` sau khi có bản sao lưu.
 - Migration ban đầu nằm ở src/migrations. Sau migration, chạy scripts/init-rate-limit.sql.

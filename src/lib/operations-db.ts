@@ -10,7 +10,10 @@ import { dirname } from "node:path";
  * không có khái niệm nhóm kết nối như PostgreSQL; mở nhiều kết nối chỉ làm tăng
  * tranh chấp khóa ghi mà không nhanh hơn.
  */
-const scope = globalThis as typeof globalThis & { operationsDb?: Client };
+const scope = globalThis as typeof globalThis & {
+  operationsDb?: Client;
+  operationsDbReady?: Promise<void>;
+};
 
 /**
  * Tạo client ở lần dùng đầu tiên, không phải lúc nạp module.
@@ -25,7 +28,20 @@ function db(): Client {
   // Thư mục phải có trước: SQLite không tự tạo đường dẫn.
   if (url.startsWith("file:"))
     mkdirSync(dirname(url.replace(/^file:/, "")), { recursive: true });
-  return (scope.operationsDb = createClient({ url }));
+  const client = createClient({ url });
+  /**
+   * `busy_timeout` là thiết lập của TỪNG kết nối, không nằm trong tệp như chế
+   * độ nhật ký: đặt ở adapter của Payload không che được kết nối này. Mặc định
+   * là 0 — gặp khóa ghi là hỏng ngay, và bộ đếm hạn mức ghi ngay trước khi CMS
+   * lưu yêu cầu tư vấn, nên hai lượt ghi ấy va nhau là chuyện bình thường.
+   *
+   * Không `await` được ở đây vì `db()` phải trả về client ngay; giữ lời hứa
+   * lại để `query()` chờ trước câu lệnh đầu tiên.
+   */
+  scope.operationsDbReady = client
+    .execute("PRAGMA busy_timeout = 5000")
+    .then(() => undefined);
+  return (scope.operationsDb = client);
 }
 
 /**
@@ -52,12 +68,21 @@ const shape = (result: { rows: unknown[]; rowsAffected: number }): Rows => ({
   rowsAffected: result.rowsAffected,
 });
 
+/** Lấy client và chờ `busy_timeout` có hiệu lực trước câu lệnh đầu tiên. */
+async function ready(): Promise<Client> {
+  const client = db();
+  // Đặt được thì tốt, không đặt được cũng không chặn việc chính: mất
+  // `busy_timeout` chỉ làm mất phần chờ, còn truy vấn vẫn chạy như trước.
+  await scope.operationsDbReady?.catch(() => undefined);
+  return client;
+}
+
 export async function query(
   sql: string,
   args: (string | number)[] = [],
 ): Promise<Rows> {
   try {
-    return shape(await db().execute({ sql, args }));
+    return shape(await (await ready()).execute({ sql, args }));
   } catch (error) {
     // Thử lại đúng một lần, và chỉ khi lỗi là thiếu bảng. Mọi lỗi khác ném lên
     // nguyên vẹn để không che mất sự cố thật.
@@ -70,5 +95,5 @@ export async function query(
 
 /** Dùng khi cần chắc bảng có mặt mà chưa truy vấn gì, ví dụ kiểm tra sức khỏe. */
 export async function ensureOperationsTable() {
-  await db().execute(CREATE_TABLE);
+  await (await ready()).execute(CREATE_TABLE);
 }
