@@ -98,6 +98,16 @@ export function Header({
                   "&locale=" +
                   language
                 }
+                /**
+                 * Không tải trước. Đích của liên kết này không phải một trang
+                 * mà là một chuyển hướng, và để dựng được chuyển hướng đó máy
+                 * chủ phải đọc bản ghi ở cả hai ngôn ngữ để tìm bản dịch tương
+                 * ứng. Tải trước nghĩa là MỖI lượt xem trang đều kéo thêm hai
+                 * lượt chuyển hướng và bốn lượt truy vấn CMS, cho một nút mà
+                 * gần như không khách nào bấm — website tiếng Việt phục vụ
+                 * khách Việt là chính.
+                 */
+                prefetch={false}
                 hrefLang={languageInfo[language].tag}
                 lang={languageInfo[language].tag}
                 title={languageInfo[language].label}
