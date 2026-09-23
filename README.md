@@ -22,6 +22,8 @@ Node.js 24 đã được dùng để kiểm thử. Cài phụ thuộc bằng `np
 3. `node --env-file=.env --import tsx scripts/bootstrap.ts` tạo tài khoản quản trị cục bộ khi chưa có người dùng. Không ghi đè người dùng hiện có.
 4. `npm run dev -- --hostname 127.0.0.1`.
 5. `npm run typecheck`, `npm test`, `npm run build`.
+6. `npm run check:all-pages` mở từng trang công khai — kể cả trang chi tiết — ở
+   hai bề ngang và báo trang nào lỗi. Cần máy chủ đang chạy.
 
 Mỗi lần đẩy lên `main` và mỗi pull request đều chạy lại đúng chuỗi này trên CI,
 từ một cơ sở dữ liệu trống: migration, kiểm tra kiểu, dựng bản

@@ -17,6 +17,7 @@
     "check:translations": "node --import tsx scripts/check-translations.ts",
     "prepare:resources": "node --env-file=.env --import tsx scripts/prepare-resource-pages.ts",
     "check:content": "node scripts/check-page-content.mjs",
+    "check:all-pages": "node scripts/check-all-pages.mjs",
     "seed:content": "node --env-file=.env scripts/seed-content.mjs",
     "bundle:hosting": "node scripts/make-hosting-bundle.mjs"
   },

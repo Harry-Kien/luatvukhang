@@ -104,6 +104,14 @@ Chưa kết nối dịch vụ giám sát bên ngoài hoặc tạo lịch gửi e
   Kiểm tra cấu hình không chứng minh SMTP đã gửi được hoặc backup phục hồi được.
 - `npm run check:content` quét 42 lượt trang. Có thể đặt CONTENT_CHECK_URL khi
   kiểm thử cổng khác; không dùng bộ kiểm thử ghi dữ liệu trên production.
+- `npm run check:all-pages` đi theo mọi liên kết nội bộ từ ba trang gốc ngôn
+  ngữ, nên nó mở cả trang chi tiết — lĩnh vực, bài viết, hồ sơ luật sư, ngành —
+  là chỗ check:content không chạm tới. Hiện là 246 lượt (123 đường dẫn × hai bề
+  ngang 390px và 1440px), đối chiếu mã trạng thái, đúng một h1, tràn ngang, lỗi
+  console, ảnh hỏng, tài nguyên 4xx/5xx và thẻ mô tả. Thêm `-- --a11y` để chạy
+  axe WCAG 2.1 AA trên từng trang; chậm hơn nhiều nên để chạy tay, không đưa vào
+  CI. Thêm một lĩnh vực hay bài viết mới thì script tự quét luôn, không phải sửa
+  danh sách. Đặt CHECK_URL khi máy chủ ở cổng khác.
 
 ## Triển khai bằng Docker
 
