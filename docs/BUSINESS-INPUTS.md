@@ -196,3 +196,35 @@ pháp cấp. Nhập trong `/admin > Cài đặt`, hoặc:
 ```
 node --env-file=.env --import tsx scripts/set-contact.ts --registration "..."
 ```
+
+Từ 25/09/2026, `scripts/apply-company-settings.ts` nằm trong chuỗi nạp nội dung:
+mỗi lần cập nhật hosting, ô còn trống trong Cài đặt được điền từ
+`scripts/content/company.ts`. Trước đó các giá trị trên chỉ nằm trong cơ sở dữ
+liệu của máy đã chạy `set-contact.ts`, nên trang Liên hệ của website thật chỉ
+hiện số điện thoại.
+
+## Chính sách quyền riêng tư và Điều khoản — bản hoàn chỉnh chờ duyệt, 25/09/2026
+
+Văn bản đã viết hoàn chỉnh ở ba ngôn ngữ (`src/lib/policy-drafts.ts`,
+`src/lib/zh-content.ts`), theo Luật Bảo vệ dữ liệu cá nhân số 91/2025/QH15 (hiệu
+lực 01/01/2026; Nghị định 356/2025/NĐ-CP thay Nghị định 13/2023/NĐ-CP). Mọi
+khẳng định về hệ thống đã đối chiếu với mã nguồn: trường biểu mẫu, IP chỉ lưu
+dạng mã hóa để đếm hạn mức, email thông báo không chứa dữ liệu khách, khách truy
+cập không nhận cookie, máy chủ Tenten đặt tại Việt Nam.
+
+`scripts/refresh-policy-drafts.ts` thay bản khung cũ trên máy chủ, chỉ khi trang
+chưa xuất bản và còn nguyên văn bản khung. Kết quả vẫn là NHÁP.
+
+Luật sư của công ty cần xem ba điểm trước khi xuất bản:
+
+1. **Thời hạn lưu 24 tháng** kể từ khi đóng yêu cầu (với yêu cầu không dẫn tới
+   hợp đồng) là đề xuất. Công ty phải thực sự xóa theo thời hạn đã công bố.
+2. **Gmail**: trả lời khách qua luatvukhang@gmail.com nghĩa là dữ liệu có thể
+   được lưu ngoài Việt Nam. Xem nghĩa vụ về chuyển dữ liệu xuyên biên giới
+   (Điều 20 Luật 91/2025/QH15), hoặc chuyển sang hộp thư lưu trong nước.
+3. **Nhà cung cấp máy chủ** ghi là Tenten (GMO-Z.com Runsystem) theo địa chỉ IP
+   103.18.6.91 của website; xác nhận đúng tài khoản hosting của công ty.
+
+Xuất bản: `/admin` → Trang → Quyền riêng tư / Điều khoản (mỗi ngôn ngữ) → Xuất
+bản; rồi `/admin` → Cài đặt → đánh dấu "Chính sách quyền riêng tư đã được rà
+soát".

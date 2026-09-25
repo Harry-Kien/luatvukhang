@@ -15,6 +15,7 @@ import config from "../src/payload.config";
 import { locales, type Locale } from "../src/lib/locales";
 import { policyDrafts } from "../src/lib/policy-drafts";
 import { zhPolicies } from "../src/lib/zh-content";
+import { POLICY_SUMMARIES, SUMMARIES } from "./content/page-summaries";
 
 type Section = readonly [string, string];
 
@@ -35,12 +36,6 @@ const TITLES: Record<PageSlug, Record<Locale, string>> = {
   contact: { vi: "Liên hệ", en: "Contact", zh: "联系我们" },
   privacy: { vi: "Quyền riêng tư", en: "Privacy", zh: "隐私政策" },
   terms: { vi: "Điều khoản sử dụng", en: "Terms of use", zh: "使用条款" },
-};
-
-const SUMMARIES: Record<Locale, string> = {
-  vi: "Nội dung dự thảo của Công ty Luật TNHH Vũ Khang Solutions & Partners — cần rà soát trước khi xuất bản.",
-  en: "Draft content for Công ty Luật TNHH Vũ Khang Solutions & Partners — review before publication.",
-  zh: "Công ty Luật TNHH Vũ Khang Solutions & Partners 的内容草案 — 发布前须经审核。",
 };
 
 /** Dự thảo chính sách tiếng Trung nằm ở tệp riêng, không nằm trong policyDrafts. */
@@ -86,7 +81,10 @@ for (const language of locales)
         slug,
         language,
         translationKey: slug,
-        summary: SUMMARIES[language],
+        summary:
+          slug === "privacy" || slug === "terms"
+            ? POLICY_SUMMARIES[slug][language]
+            : SUMMARIES[language],
         reviewState: "working",
         _status: "draft",
         blocks: policySections(slug, language).map(([heading, body]) => ({
