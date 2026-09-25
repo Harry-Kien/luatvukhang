@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { canonicalRedirect } from "../src/lib/canonical-host";
 import { officeDate, validAppointmentDate } from "../src/lib/appointment-date";
 import {
   readLimitedBody,
@@ -167,4 +168,39 @@ test("thiếu thông tin liên hệ thì chặn, thiếu đăng ký hoạt độ
       releaseSettingsIssues({ ...full, [field]: "" }).issues.length,
       `thiếu ${field} phải chặn phát hành`,
     ).toBe(1);
+});
+
+test("www chuyển về đúng địa chỉ website, tên máy khác đi qua nguyên vẹn", () => {
+  const site = "https://luatvukhang.com";
+  const go = (host: string | null) =>
+    canonicalRedirect(site, { host, path: "/vi/contact?x=1" });
+
+  expect(go("www.luatvukhang.com")).toBe(
+    "https://luatvukhang.com/vi/contact?x=1",
+  );
+  expect(go("WWW.luatvukhang.com:443")).toBe(
+    "https://luatvukhang.com/vi/contact?x=1",
+  );
+
+  // Tên miền chính không bị chuyển — kể cả khi Next tự gắn
+  // x-forwarded-proto: http sau LiteSpeed, nên không có vòng chuyển hướng.
+  for (const host of [
+    "luatvukhang.com",
+    "localhost:3000",
+    "127.0.0.1:3000",
+    "10.0.0.5",
+    "evil.example",
+    null,
+  ])
+    expect(go(host), String(host)).toBeNull();
+  expect(
+    canonicalRedirect(undefined, { host: "www.x.com", path: "/" }),
+  ).toBeNull();
+});
+
+test("khách chưa đăng nhập đọc danh sách tài khoản bị từ chối, không làm sập API", async ({
+  request,
+}) => {
+  const response = await request.get("/api/users?limit=1");
+  expect(response.status()).toBe(403);
 });

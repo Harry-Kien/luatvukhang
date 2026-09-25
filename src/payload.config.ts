@@ -449,10 +449,20 @@ const Users: CollectionConfig = {
   access: {
     unlock: isAdmin,
     create: isAdmin,
+    // Khách chưa đăng nhập: trả false (403), không phải { equals: undefined }
+    // — truy vấn với giá trị undefined làm Payload ném lỗi 500.
     read: ({ req }) =>
-      roleOf(req.user) === "admin" ? true : { id: { equals: req.user?.id } },
+      roleOf(req.user) === "admin"
+        ? true
+        : req.user
+          ? { id: { equals: req.user.id } }
+          : false,
     update: ({ req }) =>
-      roleOf(req.user) === "admin" ? true : { id: { equals: req.user?.id } },
+      roleOf(req.user) === "admin"
+        ? true
+        : req.user
+          ? { id: { equals: req.user.id } }
+          : false,
     delete: isAdmin,
   },
   fields: [
