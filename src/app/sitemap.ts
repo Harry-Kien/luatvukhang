@@ -3,6 +3,7 @@ import { launched, navigationFrom } from "@/lib/content";
 import { getSiteLayout } from "@/lib/site-layout";
 import { detailCollections, languageInfo, locales } from "@/lib/locales";
 import { getRecords } from "@/lib/cms";
+import { emptySections } from "@/lib/empty-sections";
 import { siteUrl } from "@/lib/seo";
 
 
@@ -26,19 +27,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]),
   ];
 
-  for (const path of STATIC_PATHS)
-    for (const locale of locales)
+  // Trang mục còn trống chỉ có dòng "Chưa có nội dung": khai báo cho Google là
+  // mời nó lập chỉ mục một trang mỏng. Xét theo từng ngôn ngữ.
+  const empty = Object.fromEntries(
+    await Promise.all(
+      locales.map(async (l) => [l, await emptySections(l)] as const),
+    ),
+  );
+  for (const path of STATIC_PATHS) {
+    const present = locales.filter((l) => !empty[l].has(path));
+    for (const locale of present)
       result.push({
         url: url(locale, path),
         alternates: {
           languages: {
             ...Object.fromEntries(
-              locales.map((l) => [languageInfo[l].tag, url(l, path)]),
+              present.map((l) => [languageInfo[l].tag, url(l, path)]),
             ),
-            "x-default": url("vi", path),
+            "x-default": url(present.includes("vi") ? "vi" : present[0], path),
           },
         },
       });
+  }
 
   for (const collection of detailCollections) {
     // Đọc một lần cho mọi ngôn ngữ rồi mới ghép, thay vì đọc lại theo từng

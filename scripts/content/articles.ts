@@ -87,7 +87,7 @@ export const draftArticles: DraftArticle[] = [
       },
     ],
     seoDescription: {
-      vi: "Năm dấu hiệu doanh nghiệp nên để luật sư rà soát hợp đồng trước khi ký, việc rà soát gồm những gì và cần chuẩn bị gì. Công ty Luật TNHH Vũ Khang Solutions & Partners.",
+      vi: "Năm dấu hiệu doanh nghiệp nên để luật sư rà soát hợp đồng trước khi ký, việc rà soát gồm những gì và cần chuẩn bị gì. Luật Vũ Khang.",
       en: "Five signs a business should have a lawyer review a contract before signing, what a review covers and how to prepare. Vũ Khang Solutions & Partners.",
       zh: "企业签署前应请律师审查合同的五个信号、审查内容及准备事项。武康 Solutions & Partners 律师事务所。",
     },
@@ -174,7 +174,7 @@ export const draftArticles: DraftArticle[] = [
     ],
     seoDescription: {
       vi: "Đối tác vi phạm hợp đồng nên làm gì trước khi khởi kiện: lưu chứng cứ, thông báo vi phạm, thương lượng, chọn tòa án hay trọng tài, thời hiệu ba năm.",
-      en: "What to do before suing a partner for breach of contract in Vietnam: preserve evidence, notice, negotiation, court versus arbitration, the three-year limitation period.",
+      en: "Before suing a partner for breach of contract in Vietnam: preserve evidence, give notice, negotiate, choose court or arbitration, mind the three-year limit.",
       zh: "在越南遇到合作方违约、起诉前应做什么：保全证据、违约通知、协商、法院与仲裁的选择、三年诉讼时效。",
     },
   },
@@ -313,7 +313,7 @@ export const draftArticles: DraftArticle[] = [
     ],
     seoDescription: {
       vi: "Cần kiểm tra gì trước khi đặt cọc mua đất: giấy chứng nhận, quy hoạch, thế chấp, thẩm quyền ký của bên bán và các điều khoản nên có trong thỏa thuận đặt cọc.",
-      en: "What to check before paying a deposit on land in Vietnam: the certificate, zoning, mortgages, the seller's signing authority, and what the deposit agreement should say.",
+      en: "Before paying a deposit on land in Vietnam: check the certificate, zoning, mortgages and the seller's authority to sign, and what the agreement should say.",
       zh: "在越南支付购地定金前应核查什么：权属证书、规划、抵押、卖方签署权限，以及定金协议应写明的条款。",
     },
   },
@@ -378,7 +378,7 @@ export const draftArticles: DraftArticle[] = [
     ],
     seoDescription: {
       vi: "Chấm dứt hợp đồng lao động đúng trình tự: căn cứ theo Điều 34, nghĩa vụ báo trước, trợ cấp thôi việc và các nghĩa vụ phải hoàn tất sau ngày làm việc cuối cùng.",
-      en: "Ending an employment contract in Vietnam correctly: grounds under Article 34, notice obligations, severance allowance and what must be completed after the last working day.",
+      en: "Ending an employment contract in Vietnam correctly: grounds under Article 34, notice periods, severance allowance and what to complete after the last day.",
       zh: "在越南依程序终止劳动合同：第34条规定的事由、提前通知义务、离职津贴，以及最后工作日之后须完成的事项。",
     },
   },
@@ -448,7 +448,7 @@ export const draftArticles: DraftArticle[] = [
     ],
     seoDescription: {
       vi: "Thủ tục ly hôn cần chuẩn bị gì: phân biệt thuận tình và đơn phương, giấy tờ cần có, và vì sao phần con cái nên tách khỏi phần chia tài sản.",
-      en: "What to prepare for a divorce in Vietnam: mutual consent versus one-party request, the documents required, and why custody is best kept separate from property division.",
+      en: "Preparing for a divorce in Vietnam: mutual consent or one-party request, the documents required, and why custody is best kept apart from property division.",
       zh: "在越南办理离婚需准备什么：协议离婚与一方请求离婚的区别、所需文件，以及子女事项为何宜与财产分割分开处理。",
     },
   },

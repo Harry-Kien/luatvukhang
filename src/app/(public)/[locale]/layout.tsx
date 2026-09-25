@@ -23,6 +23,7 @@ import { Editable } from "@/components/editable";
 import { getEditor } from "@/lib/editor";
 import { getSiteLayout } from "@/lib/site-layout";
 import { navigationFrom } from "@/lib/content";
+import { emptySections, withoutEmpty } from "@/lib/empty-sections";
 import {
   organizationJsonLd,
   siteName,
@@ -94,7 +95,12 @@ export default async function Layout({
   });
   const editor = await getEditor();
   const layout = await getSiteLayout(locale);
-  const nav = navigationFrom(layout);
+  const empty = await emptySections(locale);
+  const nav = withoutEmpty(navigationFrom(layout), empty);
+  const footer = {
+    ...layout.footer,
+    extraLinks: withoutEmpty(layout.footer.extraLinks ?? [], empty),
+  };
   return (
     <html
       lang={locale === "zh" ? "zh-Hans" : locale}
@@ -137,7 +143,7 @@ export default async function Layout({
             locale={locale}
             companyName={companyName || undefined}
             phone={settings?.phone}
-            layout={layout.footer}
+            layout={footer}
             contact={layout.contact}
             nav={nav}
           />

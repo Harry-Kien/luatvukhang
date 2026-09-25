@@ -79,6 +79,33 @@ test("the expertise menu matches the practice areas listing page", async ({
   else expect([...inMenu].sort()).toEqual([...unique].sort());
 });
 
+test("menu and footer never link to a section that has nothing to show", async ({
+  page,
+}) => {
+  // Liên kết tới mục trống chỉ dẫn khách tới dòng "Chưa có nội dung" — với một
+  // công ty luật, đó là dấu hiệu website làm dở. Mục có bản ghi đầu tiên thì
+  // liên kết tự hiện lại; ở đây chỉ kiểm chiều mục trống.
+  for (const section of [
+    "industries",
+    "lawyers",
+    "experience",
+    "articles",
+    "careers",
+  ]) {
+    await page.goto(`/vi/${section}`);
+    const records = await page
+      .locator(`main a[href^="/vi/${section}/"]`)
+      .count();
+    if (records) continue;
+    const linked = await page
+      .locator(`header a[href="/vi/${section}"], footer a[href="/vi/${section}"]`)
+      .count();
+    expect(linked, `Menu hoặc chân trang còn dẫn tới mục trống ${section}`).toBe(
+      0,
+    );
+  }
+});
+
 test("the homepage numbers its practice areas without a stray zero", async ({
   page,
 }) => {

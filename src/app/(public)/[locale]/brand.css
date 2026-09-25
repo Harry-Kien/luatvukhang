@@ -2018,6 +2018,18 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
     display: none;
   }
 }
+/* Đang gõ trên điện thoại: bàn phím ảo đẩy ô nhập xuống sát đáy màn hình, đúng
+   chỗ cụm nút đứng, nên nút che nhãn và chính ô đang gõ. Ẩn trong lúc đó; rời
+   ô nhập là nút hiện lại. visibility để nút ẩn không nhận chạm hay Tab. */
+@media (max-width: 700px) {
+  .contact-dock {
+    transition: opacity 0.15s ease, visibility 0.15s;
+  }
+  body:has(:is(input, textarea, select):focus) .contact-dock {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 /* Thanh tiện ích ở 320px không đủ chỗ cho cả liên hệ, tìm kiếm và ba ngôn ngữ;
    dưới ngưỡng này người dùng đã có nút nổi và mục liên hệ trong menu. */
 @media (max-width: 700px) {

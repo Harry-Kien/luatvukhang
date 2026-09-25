@@ -12,6 +12,7 @@
  *   - prepare-categories cần bài viết đã có mặt.
  *   - apply-company-catalog đi sau prepare-practice-areas và
  *     prepare-page-content: nó sửa chính những bản ghi hai script đó nạp.
+ *   - shorten-seo-descriptions đi sau prepare-editorial, vì cùng lý do.
  *   - prepare-seo-titles đi sau cùng trong nhóm nội dung, vì nó điền tiêu đề
  *     cho chính những bản ghi vừa nạp.
  *   - clean-empty-drafts đi cuối, dọn bản nháp rỗng mà tính năng tự lưu của CMS
@@ -33,6 +34,7 @@ export const CONTENT_SCRIPTS = [
   "prepare-page-content.ts",
   "apply-company-catalog.ts",
   "prepare-editorial.ts",
+  "shorten-seo-descriptions.ts",
   "prepare-lawyers.ts",
   "prepare-industry-details.ts",
   "prepare-cross-links.ts",

@@ -1,4 +1,9 @@
-import { test, expect, type Page } from "@playwright/test";
+import {
+  test,
+  expect,
+  type APIRequestContext,
+  type Page,
+} from "@playwright/test";
 import fs from "node:fs/promises";
 
 /**
@@ -69,6 +74,38 @@ const LABELS = {
   ],
 } as const;
 
+/** Nhãn dẫn tới mục có thể còn trống: menu và chân trang ẩn chúng khi trống. */
+const SECTION_OF: Record<string, string> = {
+  "Đội ngũ": "lawyers",
+  People: "lawyers",
+  律师团队: "lawyers",
+  "Kinh nghiệm": "experience",
+  Experience: "experience",
+  项目经验: "experience",
+  "Góc nhìn": "articles",
+  Insights: "articles",
+  法律视角: "articles",
+  "Ngành nghề": "industries",
+  Industries: "industries",
+  行业: "industries",
+  "Cơ hội nghề nghiệp": "careers",
+  Careers: "careers",
+  招聘: "careers",
+};
+
+/** Nhãn của ngôn ngữ này mà website được phép ẩn vì mục chưa có bản ghi nào. */
+async function hiddenLabels(request: APIRequestContext, locale: string) {
+  const hidden = new Set<string>();
+  for (const [label, section] of Object.entries(SECTION_OF)) {
+    const response = await request.get(
+      `/api/${section}?where[language][equals]=${locale}` +
+        `&where[_status][equals]=published&limit=1&depth=0`,
+    );
+    if ((await response.json()).totalDocs === 0) hidden.add(label);
+  }
+  return hidden;
+}
+
 /**
  * Ở khung điện thoại menu chính nằm trong ngăn kéo; đóng thì `innerText` không
  * thấy nhãn nào cả. Mở ra trước khi đọc, nếu không bài kiểm thử sẽ "đạt" chỉ vì
@@ -91,11 +128,13 @@ async function openMobileMenu(page: Page) {
 for (const locale of ["en", "zh"] as const) {
   test(`trang /${locale} dùng đúng nhãn giao diện của ngôn ngữ mình`, async ({
     page,
+    request,
   }) => {
+    const hidden = await hiddenLabels(request, locale);
     await page.goto("/" + locale);
     await openMobileMenu(page);
     const text = await page.locator("body").innerText();
-    for (const label of LABELS[locale])
+    for (const label of LABELS[locale].filter((l) => !hidden.has(l)))
       expect(text, `thiếu nhãn "${label}" trên /${locale}`).toContain(label);
   });
 
@@ -167,7 +206,10 @@ test("mục menu mới thêm ở bản tiếng Việt không rò sang bản khá
       expect(header, `nhãn tiếng Việt rò sang /${locale}`).not.toContain(
         "QA Hướng dẫn",
       );
-      for (const label of LABELS[locale].slice(0, 6))
+      const hidden = await hiddenLabels(request, locale);
+      for (const label of LABELS[locale]
+        .slice(0, 6)
+        .filter((l) => !hidden.has(l)))
         expect(header, `menu /${locale} mất mục "${label}"`).toContain(label);
       await expect(
         page.locator(`header a[href="/${locale}/guide"]`),

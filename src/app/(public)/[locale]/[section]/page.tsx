@@ -19,6 +19,7 @@ import { PreviewRefresh } from "@/components/preview-refresh";
 import { Editable } from "@/components/editable";
 import { getSiteLayout } from "@/lib/site-layout";
 import { getRecords } from "@/lib/cms";
+import { emptySections } from "@/lib/empty-sections";
 import { t, demo, samples, fold, type Locale, navigation } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 const extra: Record<string, [string, string]> = {
@@ -58,8 +59,8 @@ const descriptions: Record<string, [string, string]> = {
     "Learn about Vũ Khang: how the firm approaches legal matters, its scope of practice and the principles behind client work.",
   ],
   services: [
-    "Các lĩnh vực chuyên môn của Vũ Khang: đầu tư và doanh nghiệp, hợp đồng thương mại, giải quyết tranh chấp, sở hữu trí tuệ và công nghệ.",
-    "Areas of practice at Vũ Khang: investment and corporate, commercial contracts, dispute resolution, intellectual property and technology.",
+    "Chuyên môn của Vũ Khang: doanh nghiệp và thương mại, tranh chấp dân sự, lao động, đất đai và nhà ở, hôn nhân gia đình, hình sự và luật sư riêng.",
+    "Practice areas at Vũ Khang: corporate and commercial, civil disputes, employment, land and housing, family, criminal defence and retained counsel.",
   ],
   lawyers: [
     "Hồ sơ luật sư của Vũ Khang: chức danh, lĩnh vực chuyên môn và ngôn ngữ làm việc. Tìm luật sư phù hợp với vấn đề của bạn.",
@@ -152,7 +153,12 @@ export async function generateMetadata({ params }: Props) {
       (locale === "zh" ? zhDescriptions[section] : undefined) ||
       (description ? t(locale, ...description) : undefined),
     path: `/${locale}/${section}`,
-    noindex: excluded.has(section),
+    // Mục còn trống và chính sách chưa duyệt chỉ hiện một dòng chờ nội dung —
+    // không đáng để Google lập chỉ mục.
+    noindex:
+      excluded.has(section) ||
+      (await emptySections(locale)).has(section) ||
+      ((section === "privacy" || section === "terms") && !page),
     feed: section === "articles" ? `/${locale}/feed.xml` : undefined,
   });
 }

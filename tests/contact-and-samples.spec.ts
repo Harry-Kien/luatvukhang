@@ -78,6 +78,25 @@ test("the quick-contact buttons keep an accessible name when their text is hidde
   }
 });
 
+test("the quick-contact buttons step aside while a visitor types on a phone", async ({
+  page,
+  request,
+}) => {
+  const settings = await (
+    await request.get("/api/globals/site-settings")
+  ).json();
+  test.skip(!settings.phone, "Chưa nhập số điện thoại trong Cài đặt.");
+  // Bàn phím ảo đẩy ô đang gõ xuống sát đáy màn hình, đúng chỗ cụm nút đứng.
+  await page.setViewportSize({ width: 390, height: 700 });
+  await page.goto("/vi/consultation");
+  const dock = page.locator(".contact-dock");
+  await expect(dock).toBeVisible();
+  await page.locator("form input:not([type=hidden])").first().focus();
+  await expect(dock).toBeHidden();
+  await page.locator("form input:not([type=hidden])").first().blur();
+  await expect(dock).toBeVisible();
+});
+
 test("hồ sơ minh họa bị hồ sơ thật thay thế và không bao giờ được trình bày như luật sư đã công bố", async ({
   page,
   request,
