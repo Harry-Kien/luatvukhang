@@ -83,7 +83,15 @@ export default async function Layout({
       : [];
   const companyName =
     locale === "en" ? settings?.englishName : settings?.companyName;
-  const organization = organizationJsonLd(settings, locale);
+  // Chỉ bản ghi đã xuất bản — không dùng serviceLinks, vốn rơi về nội dung
+  // minh họa ở chế độ demo.
+  const organization = organizationJsonLd(settings, locale, {
+    services: records.map((r) => ({ slug: r.slug, title: r.title })),
+    lawyers: (await getRecords("lawyers", locale)).map((r) => ({
+      slug: r.slug,
+      title: r.title,
+    })),
+  });
   const editor = await getEditor();
   const layout = await getSiteLayout(locale);
   const nav = navigationFrom(layout);

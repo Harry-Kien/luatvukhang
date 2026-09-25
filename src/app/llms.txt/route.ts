@@ -47,8 +47,10 @@ export async function GET() {
       `theo từng lĩnh vực, quy trình làm việc và cách gửi yêu cầu tư vấn.`,
     note:
       `Nội dung có ba ngôn ngữ: tiếng Việt tại /vi, tiếng Anh tại /en, tiếng ` +
-      `Trung tại /zh — cùng đường dẫn, chỉ khác tiền tố. Thông tin trên website ` +
-      `mang tính tham khảo chung, không phải ý kiến pháp lý cho một vụ việc cụ thể.`,
+      `Trung tại /zh — cùng đường dẫn, chỉ khác tiền tố. Toàn văn phạm vi dịch ` +
+      `vụ, quy trình và câu hỏi thường gặp: ${siteUrl}/llms-full.txt. Thông tin ` +
+      `trên website mang tính tham khảo chung, không phải ý kiến pháp lý cho một ` +
+      `vụ việc cụ thể.`,
     sections,
   });
 

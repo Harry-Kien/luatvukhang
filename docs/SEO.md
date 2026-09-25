@@ -41,7 +41,7 @@ tiếng Việt khi có.
 
 | Schema | Nơi phát | Nguồn dữ liệu |
 | --- | --- | --- |
-| `LegalService` + `Organization` | mọi trang công khai | Cài đặt trong CMS |
+| `LegalService` + `Organization` | mọi trang công khai | Cài đặt trong CMS, kèm danh mục dịch vụ (`hasOfferCatalog`, `knowsAbout`), đầu mối liên hệ (`contactPoint`) và luật sư (`employee`) lấy từ bản ghi đã xuất bản |
 | `WebSite` + `SearchAction` | mọi trang công khai | Cài đặt + route tìm kiếm |
 | `BreadcrumbList` | mọi trang có `PageHeading` | đường dẫn trang |
 | `Article` | `/[locale]/articles/[slug]` | bài viết, tác giả, nguồn tham khảo |
@@ -55,6 +55,28 @@ thể đóng thẻ script (`src/components/json-ld.tsx`).
 
 Kiểm chứng: dán URL vào [Rich Results Test](https://search.google.com/test/rich-results)
 hoặc [Schema Markup Validator](https://validator.schema.org/).
+
+## Dành cho công cụ AI (GEO/AEO) — 25/09/2026
+
+| Đường dẫn | Nội dung |
+| --- | --- |
+| `/llms.txt` | mục lục: tên công ty, các nhóm nội dung, đường dẫn gốc từng mục |
+| `/llms-full.txt` | toàn văn: liên hệ, trang Về chúng tôi, từng lĩnh vực (tóm tắt, đối tượng, phạm vi, quy trình, hỏi đáp) và đội ngũ |
+
+Cả hai chỉ mở sau khi duyệt ra mắt, cùng công tắc với robots.txt. Chỉ gồm nội
+dung đã xuất bản — không có giá, không có thông tin nội bộ.
+
+Hồ sơ tổ chức trong JSON-LD liệt kê tám nhóm dịch vụ và nối tới hồ sơ luật sư
+bằng cùng `@id` với `Person` trên trang hồ sơ, để công cụ tìm kiếm và công cụ
+AI ghép thành một thực thể "công ty — dịch vụ — luật sư". Trang dịch vụ khai
+thêm `areaServed` và `audience`; câu hỏi thường gặp phát thành `FAQPage`.
+
+robots.txt sau khi ra mắt cho phép mọi trình thu thập, kể cả bot của công cụ AI
+(GPTBot, ClaudeBot, PerplexityBot, Google-Extended…). Muốn chặn bot nào để
+không dùng nội dung vào huấn luyện thì thêm quy tắc riêng trong
+`src/app/robots.ts` — đó là quyết định của công ty.
+
+Kiểm thử: `tests/geo.spec.ts`.
 
 ## Bộ nhận diện
 

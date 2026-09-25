@@ -162,11 +162,27 @@ type Settings = {
   address?: string | null;
 } | null;
 
+/** Bản ghi đã xuất bản dùng để mô tả tổ chức: chỉ cần tên và đường dẫn. */
+type Linked = { title: string; slug: string };
+
 /**
  * Hồ sơ tổ chức. Mọi trường đều lấy từ Cài đặt trong CMS; trường chưa nhập
  * bị loại bỏ thay vì điền giá trị mẫu.
+ *
+ * `services` và `lawyers` là bản ghi ĐÃ XUẤT BẢN của đúng ngôn ngữ trang. Từ
+ * đó sinh ra danh mục dịch vụ (hasOfferCatalog), chủ đề chuyên môn (knowsAbout)
+ * và liên kết tới hồ sơ luật sư (employee) — những gì công cụ tìm kiếm và công
+ * cụ AI dùng để hiểu "công ty này làm gì, ai làm", thay vì chỉ có tên và số
+ * điện thoại. Nội dung minh họa không bao giờ được truyền vào đây.
  */
-export function organizationJsonLd(settings: Settings, locale: Locale) {
+export function organizationJsonLd(
+  settings: Settings,
+  locale: Locale,
+  {
+    services = [],
+    lawyers = [],
+  }: { services?: Linked[]; lawyers?: Linked[] } = {},
+) {
   const name =
     (locale === "en" ? settings?.englishName : settings?.companyName) ||
     settings?.companyName ||
@@ -201,6 +217,48 @@ export function organizationJsonLd(settings: Settings, locale: Locale) {
       name: languageInfo[l].label,
       alternateName: languageInfo[l].tag,
     })),
+    contactPoint:
+      settings?.phone || settings?.email
+        ? {
+            "@type": "ContactPoint",
+            contactType: "customer service",
+            telephone: settings?.phone || undefined,
+            email: settings?.email || undefined,
+            areaServed: "VN",
+            availableLanguage: locales.map((l) => languageInfo[l].tag),
+          }
+        : undefined,
+    knowsAbout: services.length
+      ? services.map((service) => service.title)
+      : undefined,
+    hasOfferCatalog: services.length
+      ? {
+          "@type": "OfferCatalog",
+          name:
+            locale === "vi"
+              ? "Lĩnh vực dịch vụ"
+              : locale === "zh"
+                ? "服务领域"
+                : "Practice areas",
+          itemListElement: services.map((service) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              "@id":
+                absolute(`/${locale}/services/${service.slug}`) + "#service",
+              name: service.title,
+              url: absolute(`/${locale}/services/${service.slug}`),
+            },
+          })),
+        }
+      : undefined,
+    // Cùng @id với personJsonLd trên trang hồ sơ, để hai nơi nối thành một thực thể.
+    employee: lawyers.length
+      ? lawyers.map((lawyer) => ({
+          "@id": absolute(`/${locale}/lawyers/${lawyer.slug}`) + "#person",
+          name: lawyer.title,
+        }))
+      : undefined,
   });
 }
 
@@ -323,6 +381,11 @@ export function serviceJsonLd(record: SeoRecord, locale: Locale, path: string) {
     description: record.summary || undefined,
     serviceType: record.title,
     provider: { "@id": ORGANIZATION_ID },
+    areaServed: { "@type": "Country", name: "Vietnam" },
+    audience:
+      typeof record.audience === "string" && record.audience.trim()
+        ? { "@type": "Audience", audienceType: record.audience }
+        : undefined,
     url: absolute(path),
     inLanguage: languageInfo[locale].tag,
     hasOfferCatalog: record.scope?.length

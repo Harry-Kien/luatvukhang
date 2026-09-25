@@ -67,4 +67,11 @@ test("/llms.txt mở sau khi duyệt ra mắt, trước đó trả 404", async (
     expect(response.headers()["content-type"]).toContain("text/plain");
     expect(await response.text()).toContain("# ");
   }
+  // Bản toàn văn theo đúng cùng công tắc ra mắt với bản tóm tắt.
+  const full = await request.get("/llms-full.txt");
+  expect(full.status()).toBe(response.status());
+  if (full.status() === 200) {
+    expect(full.headers()["content-type"]).toContain("text/plain");
+    expect(await full.text()).toContain("## Lĩnh vực dịch vụ");
+  }
 });
