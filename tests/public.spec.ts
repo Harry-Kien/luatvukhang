@@ -5,7 +5,10 @@ test("homepage, fonts, language and accessibility", async ({ page }, info) => {
   await page.evaluate(async () => {
     await document.fonts.ready;
     // Request glyphs in the specimen that may not appear in the page itself.
-    const faces = await document.fonts.load('500 32px "Noto Serif Variable"', "Nguyễn Trương Đỗ Quyền Nghĩa Thủy Hưởng");
+    const faces = await document.fonts.load(
+      '500 32px "Noto Serif Variable"',
+      "Nguyễn Trương Đỗ Quyền Nghĩa Thủy Hưởng",
+    );
     if (!faces.length) throw new Error("Vietnamese font faces are missing");
   });
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
@@ -40,16 +43,20 @@ test("homepage, fonts, language and accessibility", async ({ page }, info) => {
 test("Vietnamese search without accents and service context", async ({
   page,
 }) => {
-  await page.goto("/vi/search?q=dau%20tu");
+  await page.goto("/vi/search?q=thuong%20mai");
   await expect(
-    page.getByRole("heading", { name: "Đầu tư & doanh nghiệp" }),
+    page.getByRole("heading", { name: "Doanh nghiệp & thương mại" }),
   ).toBeVisible();
-  await page.getByRole("heading", { name: "Đầu tư & doanh nghiệp" }).click();
+  await page
+    .getByRole("heading", { name: "Doanh nghiệp & thương mại" })
+    .click();
   await page
     .locator("aside")
     .getByRole("link", { name: /Gửi yêu cầu tư vấn/ })
     .click();
-  await expect(page.locator("#service")).toHaveValue("Đầu tư & doanh nghiệp");
+  await expect(page.locator("#service")).toHaveValue(
+    "Doanh nghiệp & thương mại",
+  );
 });
 test("form validation and failed submission preserve entries", async ({
   page,

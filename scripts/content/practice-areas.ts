@@ -1,5 +1,9 @@
 /**
- * Nội dung dự thảo cho bốn lĩnh vực chuyên môn, ba ngôn ngữ.
+ * Nội dung dự thảo cho tám nhóm dịch vụ, ba ngôn ngữ.
+ *
+ * Tám nhóm và danh sách dịch vụ trong ô "Phạm vi hỗ trợ" lấy theo danh mục sản
+ * phẩm của công ty (Danh mục sản phẩm kinh doanh, 24/09/2026). Chỉ lấy tên dịch
+ * vụ — bảng giá trong danh mục là khung giá nội bộ, không đưa lên website.
  *
  * Đây là mô tả phạm vi hỗ trợ và quy trình làm việc — không khẳng định kết quả,
  * không nêu tên khách hàng, không dẫn số liệu. Câu hỏi thường gặp cố ý giữ ở
@@ -26,14 +30,14 @@ export const practiceAreas: PracticeArea[] = [
   {
     slug: "dau-tu-doanh-nghiep",
     title: {
-      vi: "Đầu tư & doanh nghiệp",
-      en: "Investment & corporate",
-      zh: "投资与企业",
+      vi: "Doanh nghiệp & thương mại",
+      en: "Corporate & commercial",
+      zh: "企业与商事",
     },
     summary: {
-      vi: "Từ quyết định đầu tư ban đầu đến hoạt động thường ngày của doanh nghiệp: cơ cấu phù hợp, thủ tục đúng trình tự và quản trị nội bộ vận hành được.",
-      en: "From the initial investment decision to everyday operations: an appropriate structure, procedures in the right order, and internal governance that actually works.",
-      zh: "从最初的投资决策到企业日常经营：合适的架构、依序完成的手续，以及真正可运行的内部治理。",
+      vi: "Từ lúc thành lập đến những hợp đồng hằng ngày và cả khi chấm dứt hoạt động: thủ tục đúng trình tự, hợp đồng rõ quyền và nghĩa vụ, và cách xử lý khi đối tác hay thành viên không giữ cam kết.",
+      en: "From incorporation through everyday contracts to winding up: procedures in the right order, contracts that make rights and obligations clear, and a way forward when a counterparty or co-owner does not keep their commitments.",
+      zh: "从设立、日常合同到终止经营：依序完成的手续、权利义务清晰的合同，以及当合作方或股东未履行承诺时的应对之道。",
     },
     audience: {
       vi: "Nhà đầu tư đang cân nhắc vào thị trường Việt Nam, doanh nghiệp chuẩn bị thành lập hoặc tái cơ cấu, và bộ phận pháp chế cần rà soát lại nền tảng quản trị hiện có.",
@@ -42,34 +46,44 @@ export const practiceAreas: PracticeArea[] = [
     },
     scope: [
       {
-        vi: "Lựa chọn hình thức đầu tư và cơ cấu sở hữu",
-        en: "Choice of investment form and ownership structure",
-        zh: "投资形式与股权架构的选择",
+        vi: "Thành lập doanh nghiệp",
+        en: "Incorporating a company",
+        zh: "设立企业",
       },
       {
-        vi: "Thủ tục đăng ký đầu tư và đăng ký doanh nghiệp",
-        en: "Investment registration and enterprise registration procedures",
-        zh: "投资登记与企业登记手续",
+        vi: "Thay đổi nội dung đăng ký doanh nghiệp",
+        en: "Amending company registration details",
+        zh: "变更企业登记事项",
       },
       {
-        vi: "Điều lệ, thỏa thuận cổ đông và phân định thẩm quyền nội bộ",
-        en: "Charter, shareholders' agreement and allocation of internal authority",
-        zh: "章程、股东协议与内部权限划分",
+        vi: "Soạn hợp đồng thương mại",
+        en: "Drafting commercial contracts",
+        zh: "起草商事合同",
       },
       {
-        vi: "Rà soát pháp lý trước giao dịch mua bán, sáp nhập hoặc chuyển nhượng vốn",
-        en: "Legal due diligence ahead of an acquisition, merger or capital transfer",
-        zh: "并购或股权转让交易前的法律尽职调查",
+        vi: "Rà soát hợp đồng trước khi ký",
+        en: "Reviewing contracts before signing",
+        zh: "签约前审查合同",
       },
       {
-        vi: "Điều kiện kinh doanh theo ngành nghề và nghĩa vụ tuân thủ định kỳ",
-        en: "Sector-specific business conditions and recurring compliance obligations",
-        zh: "行业经营条件与定期合规义务",
+        vi: "Thu hồi công nợ doanh nghiệp",
+        en: "Recovering business debts",
+        zh: "追收企业欠款",
       },
       {
-        vi: "Thay đổi cơ cấu, tăng giảm vốn, tạm ngừng và chấm dứt hoạt động",
-        en: "Structural changes, capital increases and reductions, suspension and dissolution",
-        zh: "架构变更、增减资本、暂停与终止经营",
+        vi: "Giải quyết tranh chấp thương mại",
+        en: "Resolving commercial disputes",
+        zh: "解决商事纠纷",
+      },
+      {
+        vi: "Tranh chấp giữa thành viên, cổ đông",
+        en: "Disputes between members and shareholders",
+        zh: "股东、成员之间的纠纷",
+      },
+      {
+        vi: "Giải thể doanh nghiệp",
+        en: "Dissolving a company",
+        zh: "解散企业",
       },
     ],
     process: [
@@ -161,17 +175,17 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Hỗ trợ pháp lý về đầu tư và doanh nghiệp tại Việt Nam: cơ cấu sở hữu, thủ tục đăng ký, điều lệ và thỏa thuận cổ đông, rà soát trước giao dịch, tuân thủ định kỳ.",
-      en: "Investment and corporate law in Vietnam: ownership structure, registration, charters and shareholders' agreements, due diligence and compliance.",
-      zh: "越南投资与企业法律支持：股权架构、登记手续、章程与股东协议、交易前尽职调查及定期合规。",
+      vi: "Luật sư doanh nghiệp và thương mại: thành lập, thay đổi đăng ký, soạn và rà soát hợp đồng, thu hồi công nợ, tranh chấp thương mại và cổ đông, giải thể.",
+      en: "Corporate and commercial lawyers in Vietnam: incorporation, registration changes, contract drafting and review, debt recovery, commercial and shareholder disputes, dissolution.",
+      zh: "越南企业与商事律师：设立企业、变更登记、起草与审查合同、追收欠款、商事与股东纠纷、解散。",
     },
   },
   {
     slug: "giai-quyet-tranh-chap",
     title: {
-      vi: "Giải quyết tranh chấp",
-      en: "Dispute resolution",
-      zh: "争议解决",
+      vi: "Dân sự & tranh chấp",
+      en: "Civil matters & disputes",
+      zh: "民事与纠纷",
     },
     summary: {
       vi: "Nhìn rõ vị thế của mình trước khi chọn cách đi: đánh giá chứng cứ, cân nhắc thương lượng hay tố tụng, và chuẩn bị hồ sơ cho phương án đã chọn.",
@@ -185,34 +199,44 @@ export const practiceAreas: PracticeArea[] = [
     },
     scope: [
       {
-        vi: "Đánh giá hồ sơ, chứng cứ và vị thế pháp lý",
-        en: "Assessment of the file, the evidence and your legal position",
-        zh: "对材料、证据与法律地位的评估",
+        vi: "Tư vấn vụ việc dân sự",
+        en: "Advice on civil matters",
+        zh: "民事事务咨询",
       },
       {
-        vi: "Rà soát thời hiệu và điều khoản giải quyết tranh chấp trong hợp đồng",
-        en: "Review of limitation periods and the dispute clause in the contract",
-        zh: "审查时效及合同中的争议解决条款",
+        vi: "Tranh chấp hợp đồng",
+        en: "Contract disputes",
+        zh: "合同纠纷",
       },
       {
-        vi: "Thư yêu cầu, thương lượng và hòa giải",
-        en: "Demand letters, negotiation and mediation",
-        zh: "催告函、协商与调解",
+        vi: "Đòi nợ và tranh chấp vay mượn",
+        en: "Debt claims and loan disputes",
+        zh: "追讨欠款与借贷纠纷",
       },
       {
-        vi: "Chuẩn bị hồ sơ khởi kiện hoặc hồ sơ trọng tài",
-        en: "Preparation of court filings or arbitration submissions",
-        zh: "起诉材料或仲裁申请的准备",
+        vi: "Tranh chấp tài sản",
+        en: "Property disputes",
+        zh: "财产纠纷",
       },
       {
-        vi: "Đại diện và tham gia tố tụng theo phạm vi được ủy quyền",
-        en: "Representation and participation in proceedings within the scope of the mandate",
-        zh: "在授权范围内代理并参与诉讼程序",
+        vi: "Tranh chấp thừa kế",
+        en: "Inheritance disputes",
+        zh: "继承纠纷",
       },
       {
-        vi: "Vấn đề thi hành sau khi có phán quyết",
-        en: "Enforcement issues once a decision has been made",
-        zh: "裁决作出后的执行问题",
+        vi: "Yêu cầu bồi thường thiệt hại",
+        en: "Claims for compensation",
+        zh: "损害赔偿请求",
+      },
+      {
+        vi: "Đại diện thương lượng, hòa giải",
+        en: "Representation in negotiation and mediation",
+        zh: "代理协商与调解",
+      },
+      {
+        vi: "Thi hành án dân sự",
+        en: "Enforcement of civil judgments",
+        zh: "民事判决执行",
       },
     ],
     process: [
@@ -292,279 +316,17 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Hỗ trợ giải quyết tranh chấp: đánh giá chứng cứ và vị thế pháp lý, rà soát thời hiệu, thương lượng và hòa giải, chuẩn bị hồ sơ khởi kiện hoặc trọng tài.",
-      en: "Dispute resolution: assessing evidence and your legal position, limitation review, negotiation and mediation, court and arbitration filings.",
-      zh: "争议解决支持：证据与法律地位评估、时效审查、协商与调解、起诉或仲裁材料准备。",
-    },
-  },
-  {
-    slug: "hop-dong-thuong-mai",
-    title: {
-      vi: "Hợp đồng & thương mại",
-      en: "Contracts & commerce",
-      zh: "合同与商事",
-    },
-    summary: {
-      vi: "Làm rõ quyền, nghĩa vụ và rủi ro trước khi đặt bút ký — và xử lý được khi hợp đồng đi chệch khỏi dự kiến.",
-      en: "Clarify rights, obligations and risk before signing — and be able to act when a contract departs from what was planned.",
-      zh: "在签署前厘清权利、义务与风险——并在合同偏离预期时仍能应对。",
-    },
-    audience: {
-      vi: "Doanh nghiệp ký kết thường xuyên và cần bộ mẫu dùng lại được, bên chuẩn bị đàm phán một giao dịch quan trọng, và bên đang gặp vướng mắc khi thực hiện hợp đồng đã ký.",
-      en: "Businesses that contract regularly and need a reusable set of templates, parties preparing to negotiate a significant transaction, and those meeting difficulties in performing a contract already signed.",
-      zh: "经常签约并需要可复用范本的企业、准备就重要交易展开谈判的一方，以及在履行既有合同时遇到困难的一方。",
-    },
-    scope: [
-      {
-        vi: "Soạn thảo và rà soát hợp đồng theo từng giao dịch",
-        en: "Drafting and review of contracts for a specific transaction",
-        zh: "针对具体交易起草与审查合同",
-      },
-      {
-        vi: "Xây dựng bộ hợp đồng mẫu dùng lại cho hoạt động thường xuyên",
-        en: "Building a reusable set of templates for recurring business",
-        zh: "为常规业务建立可复用的合同范本",
-      },
-      {
-        vi: "Hỗ trợ đàm phán và ghi nhận kết quả thống nhất",
-        en: "Negotiation support and recording what has been agreed",
-        zh: "谈判支持及对已达成事项的记录",
-      },
-      {
-        vi: "Điều khoản bảo đảm, phạt vi phạm và giới hạn trách nhiệm",
-        en: "Security, penalty and limitation-of-liability provisions",
-        zh: "担保、违约金与责任限制条款",
-      },
-      {
-        vi: "Điều khoản giải quyết tranh chấp và luật áp dụng",
-        en: "Dispute resolution clauses and governing law",
-        zh: "争议解决条款与适用法律",
-      },
-      {
-        vi: "Xử lý vướng mắc khi thực hiện, sửa đổi và chấm dứt hợp đồng",
-        en: "Handling performance issues, amendment and termination",
-        zh: "履行障碍处理、变更与合同终止",
-      },
-    ],
-    process: [
-      {
-        heading: {
-          vi: "Hiểu giao dịch trước khi đọc bản thảo",
-          en: "Understand the deal before reading the draft",
-          zh: "在阅读草案前先理解交易",
-        },
-        description: {
-          vi: "Một điều khoản chỉ đánh giá được khi biết nó phục vụ điều gì. Chúng tôi bắt đầu bằng dòng tiền, nghĩa vụ giao nhận và điều bạn lo ngại nhất nếu mọi việc không như dự kiến.",
-          en: "A clause can only be judged once you know what it is for. We start with the money flow, the delivery obligations and what worries you most if things do not go to plan.",
-          zh: "只有知道条款的用途才能对其作出判断。我们从资金流向、交付义务，以及一旦不顺利您最担心的事项入手。",
-        },
-      },
-      {
-        heading: {
-          vi: "Chỉ rõ rủi ro và đề xuất thay thế",
-          en: "Name the risks and propose alternatives",
-          zh: "指出风险并提出替代方案",
-        },
-        description: {
-          vi: "Bản rà soát nêu rõ điều khoản nào bất lợi, bất lợi ở mức nào, và phương án thay thế có thể đưa ra đàm phán — kèm nhận định điều gì nhiều khả năng bên kia chấp nhận.",
-          en: "The review states which clauses are unfavourable, how unfavourable they are, and what alternative can be put on the table — with a view on what the other side is likely to accept.",
-          zh: "审查意见将明确指出哪些条款不利、不利到何种程度，以及可提交谈判的替代方案，并附上对方接受可能性的判断。",
-        },
-      },
-      {
-        heading: {
-          vi: "Ghi nhận đúng điều đã thống nhất",
-          en: "Record exactly what was agreed",
-          zh: "准确记录已达成的内容",
-        },
-        description: {
-          vi: "Phần lớn tranh chấp hợp đồng bắt nguồn từ chỗ hai bên hiểu khác nhau về cùng một câu chữ. Bản cuối được rà lại để câu chữ khớp với điều hai bên thực sự thống nhất.",
-          en: "Most contract disputes start where the two sides read the same words differently. The final version is checked so the wording matches what was actually agreed.",
-          zh: "多数合同争议源于双方对同一措辞理解不同。最终文本会再次核对，确保措辞与双方实际共识一致。",
-        },
-      },
-    ],
-    faq: [
-      {
-        question: {
-          vi: "Dùng hợp đồng mẫu tải trên mạng có được không?",
-          en: "Can I use a template found online?",
-          zh: "可以使用网上下载的合同范本吗？",
-        },
-        answer: {
-          vi: "Được, nhưng nên hiểu giới hạn của nó. Mẫu có sẵn thường viết cho một loại giao dịch khác, đôi khi theo pháp luật của nước khác, và thường thiếu đúng những điều khoản quan trọng nhất với trường hợp của bạn. Rà soát một bản mẫu thường nhanh và ít tốn kém hơn nhiều so với xử lý hậu quả về sau.",
-          en: "You can, provided you understand its limits. A ready-made template is usually written for a different kind of transaction, sometimes under another country's law, and often omits precisely the provisions that matter most in your case. Having a template reviewed is usually far quicker and cheaper than dealing with the consequences later.",
-          zh: "可以，但应了解其局限。现成范本通常针对另一类交易撰写，有时依据他国法律，且往往恰恰缺少对您最重要的条款。请人审查范本，通常远比事后处理后果更快也更省。",
-        },
-      },
-      {
-        question: {
-          vi: "Hợp đồng đã ký rồi có sửa được không?",
-          en: "Can a contract already signed be changed?",
-          zh: "已签署的合同还能修改吗？",
-        },
-        answer: {
-          vi: "Có, nếu các bên cùng thống nhất bằng phụ lục hoặc văn bản sửa đổi theo đúng hình thức mà hợp đồng và pháp luật yêu cầu. Điều cần lưu ý là cách sửa: một phụ lục soạn vội có thể tạo ra mâu thuẫn với điều khoản gốc thay vì giải quyết được vấn đề.",
-          en: "Yes, where the parties agree through an appendix or amendment made in the form the contract and the law require. What matters is how it is done: a hastily drafted appendix can contradict the original clauses instead of resolving the issue.",
-          zh: "可以，只要各方通过附件或变更文件达成一致，并符合合同与法律要求的形式。关键在于修改方式：仓促起草的附件可能与原条款产生矛盾，而非解决问题。",
-        },
-      },
-      {
-        question: {
-          vi: "Rà soát một hợp đồng mất bao lâu?",
-          en: "How long does reviewing a contract take?",
-          zh: "审查一份合同需要多久？",
-        },
-        answer: {
-          vi: "Phụ thuộc vào độ dài, mức độ phức tạp và việc bạn cần bản rà soát ở mức nào — nêu rủi ro chính, hay soạn lại toàn bộ. Sau khi xem bản thảo, chúng tôi báo lại mốc thời gian và phạm vi cụ thể trước khi bắt đầu.",
-          en: "It depends on length, complexity and the depth you need — flagging the main risks, or redrafting throughout. After seeing the draft we confirm a timeline and a defined scope before starting.",
-          zh: "取决于篇幅、复杂程度以及您需要的深度——是指出主要风险，还是全面重拟。我们在查看草案后会先确认时间安排与具体范围，再开始工作。",
-        },
-      },
-    ],
-    seoDescription: {
-      vi: "Soạn thảo và rà soát hợp đồng thương mại: quyền và nghĩa vụ, điều khoản bảo đảm, giới hạn trách nhiệm, hỗ trợ đàm phán và xử lý vướng mắc.",
-      en: "Commercial contracts: drafting and review, rights and obligations, security and liability clauses, negotiation support and performance issues.",
-      zh: "商事合同起草与审查：权利义务划分、担保与责任限制条款、谈判支持及履行障碍处理。",
-    },
-  },
-  {
-    slug: "so-huu-tri-tue",
-    title: {
-      vi: "Sở hữu trí tuệ & công nghệ",
-      en: "Intellectual property & technology",
-      zh: "知识产权与科技",
-    },
-    summary: {
-      vi: "Xác lập quyền đối với tài sản trí tuệ, giữ được quyền đó khi hợp tác với bên ngoài, và đặt nền pháp lý cho hoạt động số.",
-      en: "Establish rights over intellectual assets, keep them when working with outside parties, and put a legal footing under digital operations.",
-      zh: "确立知识产权、在与外部合作时保住这些权利，并为数字化运营奠定法律基础。",
-    },
-    audience: {
-      vi: "Doanh nghiệp có thương hiệu cần bảo hộ, bên đặt hàng hoặc nhận gia công sản phẩm công nghệ, và tổ chức xử lý dữ liệu cá nhân trong hoạt động thường ngày.",
-      en: "Businesses with a brand to protect, parties commissioning or delivering technology work, and organisations that process personal data as part of daily operations.",
-      zh: "需要保护品牌的企业、委托或承接技术开发的一方，以及在日常运营中处理个人数据的机构。",
-    },
-    scope: [
-      {
-        vi: "Rà soát danh mục tài sản trí tuệ hiện có và khoảng trống bảo hộ",
-        en: "Review of the existing intellectual asset portfolio and gaps in protection",
-        zh: "梳理现有知识产权资产及保护空缺",
-      },
-      {
-        vi: "Đăng ký nhãn hiệu và các đối tượng sở hữu công nghiệp khác",
-        en: "Trademark registration and other industrial property filings",
-        zh: "商标注册及其他工业产权申请",
-      },
-      {
-        vi: "Quyền tác giả với phần mềm, nội dung và tài liệu thiết kế",
-        en: "Copyright in software, content and design materials",
-        zh: "软件、内容与设计资料的著作权",
-      },
-      {
-        vi: "Hợp đồng phát triển, chuyển giao và cấp phép sử dụng",
-        en: "Development, transfer and licensing agreements",
-        zh: "开发、转让与许可使用合同",
-      },
-      {
-        vi: "Thỏa thuận bảo mật và điều khoản về quyền với kết quả công việc",
-        en: "Confidentiality agreements and clauses on ownership of work product",
-        zh: "保密协议及关于工作成果权属的条款",
-      },
-      {
-        vi: "Đánh giá hoạt động xử lý dữ liệu cá nhân và tài liệu tuân thủ kèm theo",
-        en: "Assessment of personal data processing and the accompanying compliance records",
-        zh: "个人数据处理活动评估及相应合规文件",
-      },
-    ],
-    process: [
-      {
-        heading: {
-          vi: "Xác định tài sản và ai đang nắm quyền",
-          en: "Identify the assets and who currently holds the rights",
-          zh: "确认资产及权利现由谁持有",
-        },
-        description: {
-          vi: "Nhiều doanh nghiệp phát hiện muộn rằng quyền với phần mềm hoặc bộ nhận diện của mình vẫn thuộc về đơn vị gia công, vì hợp đồng ban đầu không nói tới. Bước đầu là dựng lại bức tranh quyền thực tế.",
-          en: "Many businesses discover late that the rights in their software or brand assets still sit with a contractor, because the original agreement was silent. The first step is to establish who actually holds what.",
-          zh: "不少企业很晚才发现，其软件或品牌资产的权利仍归外包方所有，只因当初合同未作约定。第一步是厘清权利的实际归属。",
-        },
-      },
-      {
-        heading: {
-          vi: "Chọn hình thức bảo hộ tương xứng",
-          en: "Choose protection proportionate to the asset",
-          zh: "选择与资产相称的保护方式",
-        },
-        description: {
-          vi: "Không phải tài sản nào cũng cần đăng ký, và không phải hình thức nào cũng phù hợp. Việc lựa chọn dựa trên giá trị thương mại, khả năng bị sao chép và chi phí duy trì.",
-          en: "Not every asset needs registration, and not every form of protection fits. The choice rests on commercial value, how easily it can be copied and the cost of maintenance.",
-          zh: "并非每项资产都需要注册，也并非每种保护形式都合适。选择取决于商业价值、被复制的难易程度与维持成本。",
-        },
-      },
-      {
-        heading: {
-          vi: "Đưa quyền vào hợp đồng với bên thứ ba",
-          en: "Write the rights into third-party contracts",
-          zh: "将权利写入与第三方的合同",
-        },
-        description: {
-          vi: "Bảo hộ chỉ có ý nghĩa nếu hợp đồng với nhân sự, đơn vị gia công và đối tác phản ánh đúng ai được làm gì với tài sản đó. Đây thường là phần bị bỏ sót.",
-          en: "Protection only means something if contracts with staff, contractors and partners reflect who may do what with the asset. This is the part most often left out.",
-          zh: "只有当与员工、外包方及合作伙伴的合同准确反映谁可以对该资产做什么时，保护才有意义。这恰恰是最常被遗漏的部分。",
-        },
-      },
-    ],
-    faq: [
-      {
-        question: {
-          vi: "Chưa đăng ký nhãn hiệu thì có quyền gì không?",
-          en: "Do I have any rights if the trademark is not registered?",
-          zh: "未注册商标是否仍享有权利？",
-        },
-        answer: {
-          vi: "Có một số cơ chế bảo vệ nhất định, nhưng phạm vi hẹp hơn nhiều và việc chứng minh khó hơn đáng kể so với khi đã đăng ký. Nếu thương hiệu đang được sử dụng thực tế trong kinh doanh, việc đăng ký sớm thường là lựa chọn ít tốn kém hơn về lâu dài.",
-          en: "Some protection exists, but its scope is much narrower and proving it is considerably harder than where the mark is registered. If the brand is already in commercial use, registering early is usually the less expensive course in the long run.",
-          zh: "存在一定的保护机制，但范围窄得多，举证也远比已注册的情形困难。若品牌已在实际经营中使用，尽早注册通常在长期看更为经济。",
-        },
-      },
-      {
-        question: {
-          vi: "Thuê ngoài viết phần mềm thì ai giữ quyền?",
-          en: "Who owns software written by an outside developer?",
-          zh: "外包开发的软件权利归谁？",
-        },
-        answer: {
-          vi: "Điều này phụ thuộc vào thỏa thuận giữa hai bên. Nếu hợp đồng không quy định rõ việc chuyển giao quyền, bên đặt hàng có thể chỉ có quyền sử dụng chứ không phải quyền sở hữu — và điều đó trở thành vấn đề đúng lúc doanh nghiệp cần bán, gọi vốn hoặc đổi nhà cung cấp.",
-          en: "It depends on what the parties agreed. Where the contract does not clearly provide for transfer, the commissioning party may hold only a right to use rather than ownership — which becomes a problem at exactly the moment the business wants to sell, raise capital or change supplier.",
-          zh: "这取决于双方的约定。若合同未明确约定权利转让，委托方可能仅享有使用权而非所有权——而这恰恰会在企业出售、融资或更换供应商时成为问题。",
-        },
-      },
-      {
-        question: {
-          vi: "Doanh nghiệp nhỏ có phải quan tâm đến quy định về dữ liệu cá nhân không?",
-          en: "Do small businesses need to care about personal data rules?",
-          zh: "小企业需要关注个人数据规定吗？",
-        },
-        answer: {
-          vi: "Nghĩa vụ về dữ liệu cá nhân gắn với việc bạn xử lý dữ liệu gì và như thế nào, không gắn với quy mô doanh nghiệp. Một website thu thập thông tin liên hệ của khách đã phát sinh nghĩa vụ. Mức độ tài liệu cần có thì tương xứng với thực tế hoạt động.",
-          en: "Obligations follow from what data you process and how, not from the size of the business. A website that collects visitors' contact details already triggers them. The volume of documentation required, however, is proportionate to what you actually do.",
-          zh: "个人数据义务取决于您处理何种数据以及如何处理，而非企业规模。收集访客联系方式的网站即已产生相关义务。至于所需文件的多寡，则与实际业务规模相称。",
-        },
-      },
-    ],
-    seoDescription: {
-      vi: "Sở hữu trí tuệ và công nghệ: rà soát tài sản trí tuệ, đăng ký nhãn hiệu, quyền tác giả phần mềm, hợp đồng cấp phép và xử lý dữ liệu cá nhân.",
-      en: "Intellectual property and technology: asset review, trademark registration, software copyright, licensing agreements and personal data checks.",
-      zh: "知识产权与科技：知识产权资产梳理、商标注册、软件著作权、开发与许可合同、个人数据处理评估。",
+      vi: "Luật sư dân sự và tranh chấp: tranh chấp hợp đồng, đòi nợ, tài sản, thừa kế, bồi thường thiệt hại, thương lượng và hòa giải, thi hành án dân sự.",
+      en: "Civil and dispute lawyers in Vietnam: contract disputes, debt claims, property, inheritance, compensation, negotiation and mediation, enforcement of judgments.",
+      zh: "越南民事与纠纷律师：合同纠纷、追讨欠款、财产、继承、损害赔偿、协商与调解、民事判决执行。",
     },
   },
   {
     slug: "lao-dong-nhan-su",
     title: {
-      vi: "Lao động & nhân sự",
-      en: "Employment & labour",
-      zh: "劳动与人事",
+      vi: "Lao động & quản trị nội bộ",
+      en: "Employment & internal governance",
+      zh: "劳动与内部治理",
     },
     summary: {
       vi: "Quan hệ lao động được giữ vững bằng giấy tờ: hợp đồng, nội quy, quy chế và trình tự xử lý. Chúng tôi hỗ trợ dựng bộ tài liệu đó và xử lý các tình huống nhân sự theo đúng thứ tự bắt buộc.",
@@ -578,34 +340,29 @@ export const practiceAreas: PracticeArea[] = [
     },
     scope: [
       {
-        vi: "Hợp đồng lao động, phụ lục và các thỏa thuận đi kèm",
-        en: "Employment contracts, addenda and accompanying agreements",
-        zh: "劳动合同、附件及相关配套协议",
+        vi: "Soạn hợp đồng lao động",
+        en: "Drafting employment contracts",
+        zh: "起草劳动合同",
       },
       {
-        vi: "Nội quy lao động, thỏa ước lao động tập thể và quy chế nội bộ",
-        en: "Internal labour rules, collective agreements and company policies",
-        zh: "劳动规章制度、集体劳动协议与内部管理规定",
+        vi: "Xây dựng nội quy lao động",
+        en: "Preparing workplace rules",
+        zh: "制定劳动规章",
       },
       {
-        vi: "Thủ tục đăng ký, thông báo và hồ sơ nhân sự bắt buộc",
-        en: "Registrations, notifications and the personnel records required by law",
-        zh: "登记备案、通知手续与法定人事档案",
+        vi: "Bộ quy chế quản trị nội bộ cho doanh nghiệp vừa và nhỏ",
+        en: "Internal governance regulations for small and medium-sized businesses",
+        zh: "为中小企业制定内部管理制度",
       },
       {
-        vi: "Kỷ luật lao động, trách nhiệm vật chất và trình tự xử lý",
-        en: "Disciplinary action, liability for damage and the procedure to follow",
-        zh: "劳动纪律处理、财产赔偿责任及处理程序",
+        vi: "Xử lý kỷ luật và chấm dứt hợp đồng lao động đúng trình tự",
+        en: "Handling discipline and termination of employment in the correct order",
+        zh: "依法定程序处理纪律处分与解除劳动合同",
       },
       {
-        vi: "Chấm dứt hợp đồng, tái cơ cấu nhân sự và nghĩa vụ kèm theo",
-        en: "Termination, workforce restructuring and the obligations that follow",
-        zh: "合同终止、人员重组及随之产生的义务",
-      },
-      {
-        vi: "Lao động nước ngoài: giấy phép lao động và giấy tờ cư trú",
-        en: "Foreign employees: work permits and residence documents",
-        zh: "外籍员工：工作许可与居留证件",
+        vi: "Tranh chấp lao động, cho người lao động hoặc doanh nghiệp",
+        en: "Employment disputes, for employees or employers",
+        zh: "劳动争议（代表劳动者或企业）",
       },
     ],
     process: [
@@ -709,17 +466,17 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Hỗ trợ pháp lý lao động và nhân sự: hợp đồng, nội quy, kỷ luật, chấm dứt hợp đồng, lao động nước ngoài và tranh chấp lao động tại Việt Nam.",
-      en: "Employment and labour law in Vietnam: contracts, internal rules, discipline, termination, work permits and labour disputes.",
-      zh: "越南劳动与人事法律支持：劳动合同、内部规章、纪律处理、合同终止、外籍员工手续与劳动争议。",
+      vi: "Luật sư lao động và quản trị nội bộ: hợp đồng lao động, nội quy, quy chế quản trị, kỷ luật và chấm dứt hợp đồng, tranh chấp lao động.",
+      en: "Employment and governance lawyers in Vietnam: employment contracts, workplace rules, internal regulations, discipline and termination, employment disputes.",
+      zh: "越南劳动与内部治理律师：劳动合同、劳动规章、内部管理制度、纪律处分与解除合同、劳动争议。",
     },
   },
   {
     slug: "dat-dai-bat-dong-san",
     title: {
-      vi: "Đất đai & bất động sản",
-      en: "Land & real estate",
-      zh: "土地与房地产",
+      vi: "Đất đai & nhà ở",
+      en: "Land & housing",
+      zh: "土地与住房",
     },
     summary: {
       vi: "Một giao dịch bất động sản an toàn bắt đầu từ hồ sơ chứ không từ hợp đồng: tình trạng pháp lý của thửa đất, tư cách của các bên, rồi mới đến điều khoản và thủ tục đăng ký.",
@@ -733,34 +490,44 @@ export const practiceAreas: PracticeArea[] = [
     },
     scope: [
       {
-        vi: "Kiểm tra tình trạng pháp lý thửa đất và tài sản gắn liền với đất",
-        en: "Checking the legal status of the land and the assets attached to it",
-        zh: "核查地块及地上附着资产的法律状态",
+        vi: "Tư vấn tranh chấp đất đai",
+        en: "Advice on land disputes",
+        zh: "土地纠纷咨询",
       },
       {
-        vi: "Hợp đồng chuyển nhượng, mua bán, tặng cho và cho thuê",
-        en: "Transfer, sale, gift and lease agreements",
-        zh: "转让、买卖、赠与及租赁合同",
+        vi: "Tranh chấp quyền sử dụng đất",
+        en: "Disputes over land use rights",
+        zh: "土地使用权纠纷",
       },
       {
-        vi: "Công chứng, đăng ký biến động và cấp giấy chứng nhận",
-        en: "Notarisation, registration of changes and issue of certificates",
-        zh: "公证、变更登记与证书办理",
+        vi: "Tranh chấp ranh giới, lối đi",
+        en: "Boundary and right-of-way disputes",
+        zh: "地界与通行纠纷",
       },
       {
-        vi: "Thế chấp, đăng ký giao dịch bảo đảm và xử lý tài sản bảo đảm",
-        en: "Mortgages, registration of security interests and enforcement over collateral",
-        zh: "抵押、担保登记与担保物处置",
+        vi: "Tranh chấp hợp đồng chuyển nhượng bất động sản",
+        en: "Disputes over real estate transfer contracts",
+        zh: "不动产转让合同纠纷",
       },
       {
-        vi: "Giao đất, thuê đất, chuyển mục đích sử dụng và nghĩa vụ tài chính",
-        en: "Land allocation, land lease, change of use purpose and financial obligations",
-        zh: "土地划拨、租赁、用途变更及相关财政义务",
+        vi: "Tranh chấp thừa kế nhà đất",
+        en: "Inheritance disputes over land and houses",
+        zh: "房地产继承纠纷",
       },
       {
-        vi: "Thu hồi đất, bồi thường, tái định cư và tranh chấp về đất",
-        en: "Land recovery, compensation, resettlement and land disputes",
-        zh: "土地收回、补偿、安置与土地争议",
+        vi: "Sang tên, chuyển nhượng, tặng cho",
+        en: "Title transfer, sale and gift of property",
+        zh: "过户、转让与赠与",
+      },
+      {
+        vi: "Hồ sơ cấp, đính chính Giấy chứng nhận",
+        en: "Applications to issue or correct a land use right certificate",
+        zh: "申请颁发或更正土地使用权证",
+      },
+      {
+        vi: "Khiếu nại về thu hồi đất, bồi thường",
+        en: "Complaints about land recovery and compensation",
+        zh: "就土地征收与补偿提出申诉",
       },
     ],
     process: [
@@ -864,177 +631,22 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Hỗ trợ pháp lý đất đai và bất động sản: kiểm tra hồ sơ thửa đất, hợp đồng chuyển nhượng, công chứng, đăng ký biến động, thế chấp và tranh chấp đất.",
-      en: "Land and real estate law in Vietnam: title checks, transfer agreements, notarisation, registration, mortgages and land disputes.",
-      zh: "越南土地与房地产法律支持：地块材料核查、转让合同、公证、变更登记、抵押及土地争议。",
-    },
-  },
-  {
-    slug: "thue-tai-chinh",
-    title: {
-      vi: "Thuế & tài chính doanh nghiệp",
-      en: "Tax & corporate finance",
-      zh: "税务与企业财务",
-    },
-    summary: {
-      vi: "Nghĩa vụ thuế và dòng vốn của doanh nghiệp nhìn từ góc độ pháp lý: hiểu đúng nghĩa vụ đang áp dụng, ghi nhận giao dịch cho chuẩn và giữ được hồ sơ đủ để giải trình khi cần.",
-      en: "The tax and funding side of a business seen from the legal angle: understanding which obligations apply, documenting transactions properly, and keeping records solid enough to explain later.",
-      zh: "从法律角度审视企业的税务义务与资金安排：厘清适用义务、规范记录交易，并保留日后足以说明情况的凭证。",
-    },
-    audience: {
-      vi: "Doanh nghiệp muốn rà soát lại nghĩa vụ thuế đang áp dụng cho mình, bên chuẩn bị một giao dịch có tác động về thuế, và tổ chức đang phải giải trình hồ sơ với cơ quan thuế.",
-      en: "Businesses reviewing the tax obligations that apply to them, parties preparing a transaction with tax consequences, and organisations that need to explain their records to the tax authorities.",
-      zh: "希望重新梳理自身税务义务的企业、正在筹划涉税交易的一方，以及需要向税务机关说明资料的机构。",
-    },
-    scope: [
-      {
-        vi: "Rà soát nghĩa vụ thuế phát sinh theo hoạt động và mô hình kinh doanh",
-        en: "Review of the tax obligations arising from your activities and business model",
-        zh: "根据业务活动与经营模式梳理应承担的税务义务",
-      },
-      {
-        vi: "Đánh giá tác động về thuế của một giao dịch trước khi ký kết",
-        en: "Assessment of the tax impact of a transaction before it is signed",
-        zh: "交易签署前的税务影响评估",
-      },
-      {
-        vi: "Hồ sơ, chứng từ và cơ sở giải trình cho các khoản mục trọng yếu",
-        en: "Records, supporting documents and the basis for explaining material items",
-        zh: "重要项目的资料、凭证与说明依据",
-      },
-      {
-        vi: "Vấn đề thuế trong góp vốn, chuyển nhượng vốn và phân chia lợi nhuận",
-        en: "Tax questions in capital contribution, transfer of capital and profit distribution",
-        zh: "出资、股权转让与利润分配中的税务问题",
-      },
-      {
-        vi: "Giao dịch có yếu tố nước ngoài và nghĩa vụ khấu trừ liên quan",
-        en: "Cross-border transactions and the withholding obligations attached to them",
-        zh: "涉外交易及相关代扣代缴义务",
-      },
-      {
-        vi: "Làm việc với cơ quan thuế khi kiểm tra, thanh tra hoặc khi có kết luận cần phản hồi",
-        en: "Dealing with the tax authorities during an inspection or audit, or where a finding calls for a response",
-        zh: "税务检查、稽查以及需要回应结论时与税务机关的沟通",
-      },
-    ],
-    process: [
-      {
-        heading: {
-          vi: "Xác định phạm vi nghĩa vụ đang áp dụng",
-          en: "Establish which obligations actually apply",
-          zh: "确定实际适用的义务范围",
-        },
-        description: {
-          vi: "Nghĩa vụ thuế của một doanh nghiệp phụ thuộc vào ngành nghề, hình thức pháp lý, nguồn vốn và cách các giao dịch được ghi nhận. Bước đầu là dựng lại bức tranh đó theo quy định hiện hành, thay vì suy đoán từ thực tiễn của một doanh nghiệp khác.",
-          en: "What a business owes depends on its sector, legal form, source of capital and the way its transactions are recorded. The first step is to set that picture out under the rules in force, rather than reasoning from another company's situation.",
-          zh: "企业的税务义务取决于行业、法律形式、资金来源以及交易的记录方式。第一步是依照现行规定还原这一全貌，而非套用其他企业的做法。",
-        },
-      },
-      {
-        heading: {
-          vi: "Rà soát hồ sơ và chứng từ hiện có",
-          en: "Review the records already in place",
-          zh: "审查现有资料与凭证",
-        },
-        description: {
-          vi: "Chúng tôi xem hợp đồng, chứng từ và cách ghi nhận các khoản mục trọng yếu để biết điều gì đã có cơ sở giải trình và điều gì còn thiếu. Kết quả rà soát nêu rõ khoảng trống, mức độ ưu tiên xử lý và những điểm cần trao đổi thêm với bộ phận kế toán.",
-          en: "We look at the contracts, the supporting documents and the way material items are recorded, to see what can already be explained and what cannot. The review sets out the gaps, how urgent each one is, and the points to take up with your accounting team.",
-          zh: "我们查阅合同、凭证以及重要项目的记录方式，以确定哪些已具备说明依据、哪些尚有欠缺。审查结果将列明缺口、处理的优先次序，以及需与会计部门进一步沟通的事项。",
-        },
-      },
-      {
-        heading: {
-          vi: "Xử lý trước khi giao dịch được thực hiện",
-          en: "Settle the position before the transaction closes",
-          zh: "在交易实施前作出处理",
-        },
-        description: {
-          vi: "Với giao dịch sắp thực hiện, cách ghi nhận và bộ hồ sơ đi kèm được chuẩn bị từ trước, vì phần lớn vướng mắc về thuế bắt nguồn từ cách một giao dịch được lập chứng từ chứ không phải từ bản thân giao dịch. Bạn nhận được các lựa chọn kèm rủi ro tương ứng của từng lựa chọn và tự quyết định.",
-          en: "For a transaction still ahead, the way it will be documented is settled in advance, because most tax difficulties arise from how a deal is papered rather than from the deal itself. You receive the available options with the risk attached to each, and you make the decision.",
-          zh: "对于尚未实施的交易，记录方式与配套资料会事先确定，因为多数税务问题源于交易的凭证处理方式，而非交易本身。我们提供各项选择及其相应风险，由您自行决定。",
-        },
-      },
-      {
-        heading: {
-          vi: "Chuẩn bị giải trình và làm việc với cơ quan thuế",
-          en: "Prepare explanations and deal with the authorities",
-          zh: "准备说明并与税务机关沟通",
-        },
-        description: {
-          vi: "Khi có yêu cầu giải trình hoặc có đợt kiểm tra, nội dung trả lời được chuẩn bị bằng văn bản, bám vào hồ sơ và quy định hiện hành. Phạm vi đại diện, ai làm việc trực tiếp và ai ký văn bản đều được thống nhất với bạn trước khi thực hiện.",
-          en: "Where an explanation is requested or an inspection begins, the response is prepared in writing, based on the records and the rules in force. The scope of representation, who attends and who signs are agreed with you before anything is submitted.",
-          zh: "在需要作出说明或接受检查时，答复内容将以书面形式准备，依据现有资料与现行规定。代理范围、由谁出面以及由谁签署文件，均事先与您确认。",
-        },
-      },
-    ],
-    faq: [
-      {
-        question: {
-          vi: "Công ty đã có kế toán thì cần luật sư ở khâu nào?",
-          en: "We already have accountants — where does a lawyer fit in?",
-          zh: "公司已有会计，还需要律师做什么？",
-        },
-        answer: {
-          vi: "Hai vai trò khác nhau và bổ sung cho nhau. Kế toán ghi nhận và kê khai theo nghiệp vụ phát sinh; luật sư xem xét cơ sở pháp lý của giao dịch, cách hợp đồng được soạn và mức độ vững của hồ sơ khi phải giải trình. Chúng tôi làm việc trực tiếp với bộ phận kế toán của bạn để tránh trùng lặp, và nói rõ phần nào thuộc phạm vi của chúng tôi, phần nào không.",
-          en: "The two roles differ and complement each other. Accountants record and file what has occurred; a lawyer looks at the legal basis of a transaction, how the contract was drafted, and how well the file would stand up if it had to be explained. We work directly with your accounting team to avoid duplication, and are clear about what falls within our scope and what does not.",
-          zh: "两者角色不同且相互补充。会计就已发生的业务进行记录与申报；律师则审视交易的法律依据、合同的起草方式，以及资料在需要说明时是否站得住脚。我们会与贵司会计部门直接配合以避免重复，并明确哪些属于我们的工作范围、哪些不属于。",
-        },
-      },
-      {
-        question: {
-          vi: "Cần chuẩn bị tài liệu gì cho buổi làm việc đầu tiên?",
-          en: "What should we bring to the first meeting?",
-          zh: "第一次会面需要准备哪些材料？",
-        },
-        answer: {
-          vi: "Giấy tờ pháp lý của doanh nghiệp, mô tả ngắn về hoạt động thực tế và các hợp đồng liên quan tới khoản mục bạn đang băn khoăn. Nếu đã có thông báo, biên bản hoặc yêu cầu giải trình từ cơ quan thuế, hãy mang theo bản đầy đủ kèm ngày nhận. Tài liệu càng sát thực tế thì đánh giá càng ít phải dựa trên giả định.",
-          en: "The company's corporate documents, a short description of what the business actually does, and the contracts connected to the item you are concerned about. If a notice, a minute or a request for explanation has already been received, bring it in full together with the date of receipt. The closer the documents are to the real position, the less the assessment has to rest on assumptions.",
-          zh: "企业的法律证照、对实际经营情况的简要说明，以及与您关注事项相关的合同。若已收到税务机关的通知、笔录或说明要求，请携带完整件并注明收到日期。资料越贴近实际，评估就越不必依赖假设。",
-        },
-      },
-      {
-        question: {
-          vi: "Luật sư có thể cho biết chúng tôi phải nộp bao nhiêu không?",
-          en: "Can you tell us how much we will have to pay?",
-          zh: "律师能否告知我们应缴多少税？",
-        },
-        answer: {
-          vi: "Một con số cụ thể chỉ có ý nghĩa khi dựa trên hồ sơ thực tế và quy định áp dụng tại thời điểm phát sinh, nên chúng tôi không ước lượng trước khi xem tài liệu. Quy định về thuế cũng thay đổi theo thời gian, vì vậy mọi ý kiến đều gắn với một thời điểm và với phạm vi hồ sơ đã xem. Phần tính toán thuộc về bộ phận kế toán; phần chúng tôi chịu trách nhiệm là cơ sở pháp lý của cách xử lý.",
-          en: "A specific figure is meaningful only when it rests on the actual documents and the rules applicable at the time, so we do not estimate before reviewing the file. Tax rules also change over time, so any view we give is tied to a date and to the documents we have seen. The arithmetic sits with your accountants; what we take responsibility for is the legal basis of the treatment.",
-          zh: "具体数字只有建立在实际资料以及当时适用规定的基础上才有意义，因此我们不会在查阅材料前给出估算。税务规定也会随时间变化，故我们的任何意见都与特定时点及所审阅的资料范围相关联。计算本身属于会计部门的工作；我们负责的是处理方式的法律依据。",
-        },
-      },
-      {
-        question: {
-          vi: "Chúng tôi có được biết trước chi phí không?",
-          en: "Will we know the cost in advance?",
-          zh: "费用能否事先知晓？",
-        },
-        answer: {
-          vi: "Phạm vi công việc, phí và người phụ trách được xác định bằng văn bản trước khi bắt đầu. Với công việc rà soát, phạm vi thường được chia theo giai đoạn để bạn quyết định có tiếp tục sau mỗi giai đoạn hay không. Nếu phát sinh nội dung nằm ngoài phạm vi đã thống nhất, chúng tôi trao đổi lại với bạn trước khi thực hiện.",
-          en: "The scope of work, the fee and the responsible lawyer are set out in writing before work begins. For review work the scope is usually divided into stages, so you can decide after each stage whether to continue. If something arises outside the agreed scope, we discuss it with you before carrying it out.",
-          zh: "工作范围、费用与负责律师将在开始前以书面形式确定。审查类工作通常分阶段进行，您可在每一阶段结束后决定是否继续。若出现约定范围之外的事项，我们会先与您沟通再行处理。",
-        },
-      },
-    ],
-    seoDescription: {
-      vi: "Hỗ trợ pháp lý về thuế và tài chính doanh nghiệp: rà soát nghĩa vụ, tác động thuế của giao dịch, hồ sơ giải trình và làm việc với cơ quan thuế.",
-      en: "Tax and corporate finance in Vietnam: reviewing obligations, tax impact of transactions, supporting records and dealings with the tax authorities.",
-      zh: "越南税务与企业财务法律支持：义务梳理、交易税务影响、说明资料准备及税务机关沟通。",
+      vi: "Luật sư đất đai và nhà ở: tranh chấp quyền sử dụng đất, ranh giới, chuyển nhượng, thừa kế nhà đất, sang tên, cấp và đính chính sổ, khiếu nại thu hồi đất.",
+      en: "Land and housing lawyers in Vietnam: land use right disputes, boundaries, transfers, inherited property, title transfer, certificates, land recovery complaints.",
+      zh: "越南土地与住房律师：土地使用权纠纷、地界、转让、房地产继承、过户、颁证与更正、征地申诉。",
     },
   },
   {
     slug: "hon-nhan-gia-dinh",
     title: {
-      vi: "Hôn nhân, gia đình & thừa kế",
-      en: "Family & inheritance",
-      zh: "婚姻家庭与继承",
+      vi: "Hôn nhân & gia đình",
+      en: "Marriage & family",
+      zh: "婚姻家庭",
     },
     summary: {
-      vi: "Hỗ trợ pháp lý cho các việc trong gia đình: tài sản của vợ chồng, chấm dứt hôn nhân, sắp xếp liên quan tới con và việc chuyển giao tài sản giữa các thế hệ.",
-      en: "Legal support for matters within a family: marital property, the ending of a marriage, arrangements concerning children, and the passing of property between generations.",
-      zh: "为家庭事务提供法律支持：夫妻财产、婚姻的终止、与子女相关的安排，以及代际间的财产移转。",
+      vi: "Hỗ trợ pháp lý cho những việc khó nói trong gia đình: chấm dứt hôn nhân, sắp xếp cho con, cấp dưỡng và phân chia tài sản của vợ chồng.",
+      en: "Legal support for the hardest conversations within a family: ending a marriage, arrangements for children, maintenance, and dividing marital property.",
+      zh: "为家庭中最难开口的事务提供法律支持：终止婚姻、子女安排、抚养费以及夫妻财产分割。",
     },
     audience: {
       vi: "Người đang cân nhắc thỏa thuận tài sản trước hoặc trong thời kỳ hôn nhân, người chuẩn bị hoặc đang trong quá trình ly hôn, và gia đình cần sắp xếp việc thừa kế hoặc thực hiện thủ tục sau khi có người thân qua đời.",
@@ -1043,34 +655,34 @@ export const practiceAreas: PracticeArea[] = [
     },
     scope: [
       {
-        vi: "Thỏa thuận về tài sản trước và trong thời kỳ hôn nhân",
-        en: "Property agreements before and during a marriage",
-        zh: "婚前及婚姻存续期间的财产协议",
+        vi: "Ly hôn thuận tình",
+        en: "Divorce by mutual consent",
+        zh: "协议离婚",
       },
       {
-        vi: "Xác định và phân chia tài sản chung, tài sản riêng",
-        en: "Identifying and dividing joint and separate property",
-        zh: "共同财产与个人财产的认定及分割",
+        vi: "Ly hôn theo yêu cầu của một bên",
+        en: "Divorce at the request of one spouse",
+        zh: "一方起诉离婚",
       },
       {
-        vi: "Thủ tục ly hôn thuận tình và ly hôn theo yêu cầu của một bên",
-        en: "Divorce by agreement and divorce at the request of one party",
-        zh: "协议离婚与一方请求离婚的程序",
+        vi: "Ly hôn có yếu tố nước ngoài",
+        en: "Divorce involving a foreign element",
+        zh: "涉外离婚",
       },
       {
-        vi: "Nuôi con, cấp dưỡng và quyền thăm nom sau khi ly hôn",
-        en: "Care of children, maintenance and contact arrangements after a divorce",
-        zh: "离婚后的子女抚养、抚养费与探视安排",
+        vi: "Tranh chấp quyền nuôi con",
+        en: "Disputes over custody of children",
+        zh: "子女抚养权纠纷",
       },
       {
-        vi: "Lập di chúc và sắp xếp việc chuyển giao tài sản khi còn sống",
-        en: "Making a will and arranging transfers of property during your lifetime",
-        zh: "订立遗嘱及生前的财产移转安排",
+        vi: "Tranh chấp cấp dưỡng",
+        en: "Maintenance disputes",
+        zh: "抚养费纠纷",
       },
       {
-        vi: "Khai nhận di sản, thỏa thuận phân chia và tranh chấp về thừa kế",
-        en: "Estate declaration, agreements on distribution and inheritance disputes",
-        zh: "遗产申报、分割协议与继承争议",
+        vi: "Tranh chấp tài sản khi ly hôn",
+        en: "Property disputes on divorce",
+        zh: "离婚财产纠纷",
       },
     ],
     process: [
@@ -1174,9 +786,9 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     seoDescription: {
-      vi: "Hỗ trợ pháp lý về hôn nhân, gia đình và thừa kế: thỏa thuận tài sản, ly hôn, sắp xếp về con cái, lập di chúc và thủ tục khai nhận di sản.",
-      en: "Family and inheritance law in Vietnam: property agreements, divorce, arrangements for children, wills and estate procedures.",
-      zh: "越南婚姻家庭与继承法律支持：夫妻财产协议、离婚程序、子女抚养安排、遗嘱订立与遗产申报手续。",
+      vi: "Luật sư hôn nhân và gia đình: ly hôn thuận tình, ly hôn đơn phương, ly hôn có yếu tố nước ngoài, quyền nuôi con, cấp dưỡng, chia tài sản khi ly hôn.",
+      en: "Marriage and family lawyers in Vietnam: consensual and contested divorce, divorce with a foreign element, child custody, maintenance, property on divorce.",
+      zh: "越南婚姻家庭律师：协议离婚、诉讼离婚、涉外离婚、子女抚养权、抚养费、离婚财产分割。",
     },
   },
   {
@@ -1198,34 +810,44 @@ export const practiceAreas: PracticeArea[] = [
     },
     scope: [
       {
-        vi: "Bảo vệ quyền của người bị tố giác, bị can, bị cáo trong suốt quá trình tố tụng",
-        en: "Protecting the rights of a person under report, accused or charged throughout the proceedings",
-        zh: "在诉讼全程维护被举报人、犯罪嫌疑人、被告人的权利",
+        vi: "Tư vấn ban đầu vụ việc hình sự",
+        en: "Initial advice on a criminal matter",
+        zh: "刑事案件初步咨询",
       },
       {
-        vi: "Tham gia từ giai đoạn xác minh tin báo, tố giác và giai đoạn điều tra",
-        en: "Involvement from the verification of reports and from the investigation stage",
-        zh: "自举报核查阶段与侦查阶段起即介入",
+        vi: "Luật sư tham gia từ giai đoạn tạm giữ",
+        en: "A lawyer present from the time of temporary detention",
+        zh: "自临时羁押阶段起律师介入",
       },
       {
-        vi: "Có mặt khi lấy lời khai, hỏi cung theo quy định hiện hành",
-        en: "Attendance when statements are taken and during questioning, as current rules provide",
-        zh: "依现行规定在询问与讯问时到场",
+        vi: "Bào chữa trong giai đoạn điều tra",
+        en: "Defence during the investigation stage",
+        zh: "侦查阶段辩护",
       },
       {
-        vi: "Nghiên cứu hồ sơ, sao chụp tài liệu và chuẩn bị luận cứ bào chữa",
-        en: "Studying the case file, copying documents and preparing the defence submissions",
-        zh: "研究案卷、复制材料并准备辩护意见",
+        vi: "Bào chữa trong giai đoạn truy tố",
+        en: "Defence during the prosecution stage",
+        zh: "审查起诉阶段辩护",
       },
       {
-        vi: "Bào chữa tại phiên tòa sơ thẩm và phúc thẩm",
-        en: "Defence at first-instance and appellate hearings",
-        zh: "在一审与二审庭审中进行辩护",
+        vi: "Bào chữa tại phiên tòa sơ thẩm",
+        en: "Defence at first-instance trial",
+        zh: "一审辩护",
       },
       {
-        vi: "Bảo vệ quyền lợi cho người bị hại và đương sự khác trong vụ án hình sự",
-        en: "Representing injured parties and other participants within criminal proceedings",
-        zh: "在刑事案件中维护被害人及其他当事人的权益",
+        vi: "Bào chữa tại phiên tòa phúc thẩm",
+        en: "Defence on appeal",
+        zh: "二审辩护",
+      },
+      {
+        vi: "Bảo vệ quyền lợi người bị hại",
+        en: "Protecting the interests of victims",
+        zh: "维护被害人权益",
+      },
+      {
+        vi: "Soạn đơn tố giác, kiến nghị, khiếu nại",
+        en: "Drafting crime reports, petitions and complaints",
+        zh: "起草举报信、建议书与申诉书",
       },
     ],
     process: [
@@ -1335,468 +957,281 @@ export const practiceAreas: PracticeArea[] = [
     },
   },
   {
-    slug: "hanh-chinh-giay-phep",
+    slug: "san-pham-phap-ly-tieu-chuan",
     title: {
-      vi: "Hành chính & giấy phép",
-      en: "Administrative & licensing",
-      zh: "行政与许可",
+      vi: "Sản phẩm pháp lý tiêu chuẩn",
+      en: "Standard legal products",
+      zh: "标准化法律产品",
     },
     summary: {
-      vi: "Làm việc với cơ quan nhà nước theo đúng trình tự: xác định thủ tục áp dụng, chuẩn bị hồ sơ xin phép, và xử lý khi một quyết định hành chính ảnh hưởng tới hoạt động của bạn.",
-      en: "Dealing with the authorities in the right order: identifying the procedure that applies, preparing licence applications, and responding when an administrative decision affects your operations.",
-      zh: "依正确程序与行政机关打交道：确定适用手续、准备许可申请材料，并在行政决定影响您的经营时作出应对。",
+      vi: "Những việc pháp lý có khuôn khổ rõ ràng, được làm theo phạm vi xác định trước: soạn một lá đơn đúng hình thức, bộ mẫu đơn và mẫu hợp đồng dùng lại được, hoặc để luật sư xem qua hồ sơ trước khi bạn quyết định bước tiếp theo.",
+      en: "Legal work with a clear shape, done to a scope fixed in advance: a correctly formed application, reusable sets of forms and contract templates, or a lawyer's look at your documents before you decide what to do next.",
+      zh: "范围清晰、事先确定的法律工作：一份格式正确的申请书、可重复使用的文书与合同范本，或在您决定下一步之前请律师先看一看材料。",
     },
     audience: {
-      vi: "Doanh nghiệp cần giấy phép để bắt đầu hoặc mở rộng hoạt động, đơn vị đang trong quá trình thanh tra, kiểm tra, và tổ chức hay cá nhân muốn xem xét lại một quyết định hành chính đã ban hành.",
-      en: "Businesses that need a licence to start or expand, organisations going through an inspection, and organisations or individuals considering a review of a decision already issued.",
-      zh: "需要许可以启动或扩大经营的企业、正在接受检查稽查的单位，以及希望对已作出的行政决定申请复核的组织与个人。",
+      vi: "Cá nhân và doanh nghiệp nhỏ cần một văn bản đúng hình thức cho một việc cụ thể, người bán hàng trên sàn thương mại điện tử, và những ai muốn biết hồ sơ của mình đang ở đâu trước khi thuê dịch vụ đầy đủ.",
+      en: "Individuals and small businesses who need a properly formed document for a specific purpose, sellers on e-commerce platforms, and anyone who wants to know where their papers stand before engaging a full service.",
+      zh: "需要为具体事项准备格式正确文书的个人与小企业、电商平台卖家，以及希望在委托完整服务前先了解自身材料状况的人。",
     },
     scope: [
       {
-        vi: "Xác định thủ tục hành chính và điều kiện áp dụng cho từng hoạt động",
-        en: "Identifying the administrative procedure and the conditions that apply to a given activity",
-        zh: "确定各项经营活动适用的行政手续与条件",
+        vi: "Soạn đơn pháp lý theo yêu cầu",
+        en: "Drafting legal applications on request",
+        zh: "按需起草法律文书",
       },
       {
-        vi: "Chuẩn bị hồ sơ xin cấp, sửa đổi, gia hạn và cấp lại giấy phép",
-        en: "Preparing applications for the issue, amendment, renewal and re-issue of licences",
-        zh: "准备许可的申领、变更、延期与补发材料",
+        vi: "Bộ mẫu đơn pháp lý thông dụng",
+        en: "Sets of common legal application forms",
+        zh: "常用法律文书范本",
       },
       {
-        vi: "Điều kiện kinh doanh theo ngành nghề và các giấy phép chuyên ngành",
-        en: "Sector-specific business conditions and specialised permits",
-        zh: "行业经营条件与专项许可",
+        vi: "Bộ mẫu hợp đồng cho cá nhân và doanh nghiệp",
+        en: "Contract templates for individuals and businesses",
+        zh: "个人与企业合同范本",
       },
       {
-        vi: "Thủ tục về lao động nước ngoài và giấy tờ cư trú kèm theo",
-        en: "Procedures for foreign employees and the accompanying residence documents",
-        zh: "外籍人员用工手续及相关居留证件",
+        vi: "Kiểm tra hồ sơ pháp lý trực tuyến",
+        en: "Online review of legal documents",
+        zh: "在线法律材料审查",
       },
       {
-        vi: "Hỗ trợ trong quá trình thanh tra, kiểm tra và giải trình với cơ quan quản lý",
-        en: "Support during inspections and in explaining matters to the authorities",
-        zh: "检查、稽查过程中的支持及向主管机关的说明",
-      },
-      {
-        vi: "Khiếu nại quyết định hành chính và khởi kiện vụ án hành chính theo quy định hiện hành",
-        en: "Administrative complaints and administrative court claims under current rules",
-        zh: "依现行规定提出行政复议申请及提起行政诉讼",
+        vi: "Mẫu đơn dùng trên sàn thương mại điện tử",
+        en: "Forms for use on e-commerce platforms",
+        zh: "电商平台适用文书范本",
       },
     ],
     process: [
       {
         heading: {
-          vi: "Xác định đúng thủ tục và cơ quan có thẩm quyền",
-          en: "Identify the right procedure and the competent authority",
-          zh: "确定正确的手续与主管机关",
+          vi: "Cho biết việc bạn cần",
+          en: "Tell us what you need",
+          zh: "说明您的需求",
         },
         description: {
-          vi: "Cùng một hoạt động có thể thuộc thẩm quyền của những cơ quan khác nhau, tùy ngành nghề và địa bàn. Bước đầu tiên là xác định thủ tục áp dụng, cơ quan tiếp nhận và các điều kiện phải đáp ứng trước khi nộp hồ sơ.",
-          en: "The same activity can fall to different authorities depending on the sector and the location. The first step is to establish which procedure applies, which body receives the file, and what conditions must be met before it is submitted.",
-          zh: "同一项经营活动可能因行业与地域不同而归属不同机关管辖。第一步是确定适用手续、受理机关，以及提交材料前必须满足的条件。",
+          vi: "Một vài dòng mô tả là đủ: văn bản dùng để làm gì, gửi cho ai, và mốc thời gian nếu có. Từ đó chúng tôi xác định đây là việc làm được theo khuôn khổ tiêu chuẩn hay cần một dịch vụ đầy đủ hơn.",
+          en: "A few lines are enough: what the document is for, who it goes to, and any deadline. From that we can tell whether the job fits a standard format or needs a fuller service.",
+          zh: "几句话即可：文书用途、提交对象，以及是否有时间节点。据此我们判断该事项适合标准化处理，还是需要更完整的服务。",
         },
       },
       {
         heading: {
-          vi: "Đối chiếu hiện trạng với điều kiện phải đáp ứng",
-          en: "Compare where you stand against the conditions",
-          zh: "将现状与应满足的条件逐项比对",
+          vi: "Thống nhất phạm vi trước khi làm",
+          en: "Agree the scope before work starts",
+          zh: "开始前确认范围",
         },
         description: {
-          vi: "Chúng tôi rà soát những gì bạn đang có — cơ sở vật chất, nhân sự, tài liệu nội bộ — và chỉ ra phần còn thiếu so với điều kiện của thủ tục. Việc bổ sung được sắp xếp theo thứ tự hợp lý, để hồ sơ nộp một lần cho đủ thay vì bị trả lại nhiều lần.",
-          en: "We review what you already have — premises, personnel, internal records — and identify what is missing against the conditions of the procedure. The gaps are then addressed in a sensible order, so the file can be submitted complete rather than returned repeatedly.",
-          zh: "我们会梳理您现有的条件——场所、人员、内部文件——并指出与手续要求之间的差距。补充事项按合理顺序安排，使材料能够一次报齐，而非反复被退回。",
+          vi: "Bạn được báo rõ sẽ nhận được gì, khi nào bàn giao và phí bao nhiêu trước khi công việc bắt đầu. Không có khoản phát sinh ngoài phạm vi đã thống nhất.",
+          en: "Before anything starts you are told exactly what you will receive, when it will be delivered and what it costs. Nothing is added outside the agreed scope.",
+          zh: "开始前会明确告知您将获得什么、何时交付及费用多少。不会在约定范围之外另行增加。",
         },
       },
       {
         heading: {
-          vi: "Chuẩn bị hồ sơ và theo dõi quá trình xử lý",
-          en: "Prepare the file and follow the processing",
-          zh: "准备材料并跟踪办理进程",
+          vi: "Soạn hoặc kiểm tra",
+          en: "Draft or review",
+          zh: "起草或审查",
         },
         description: {
-          vi: "Hồ sơ được soạn theo yêu cầu của cơ quan tiếp nhận, kèm phần giải trình cho những nội dung dễ phát sinh câu hỏi. Trong thời gian xử lý, chúng tôi theo dõi tiến độ và chuẩn bị nội dung phản hồi khi có yêu cầu bổ sung.",
-          en: "The file is prepared to the requirements of the receiving authority, with written explanations for the points most likely to attract questions. While it is being processed, we follow progress and prepare responses to any request for further documents.",
-          zh: "材料按受理机关的要求编制，并对容易引起询问之处附具说明。在办理期间，我们会跟踪进度，并在收到补充要求时准备回复内容。",
+          vi: "Văn bản được soạn theo đúng tình huống của bạn, hoặc hồ sơ được đối chiếu để chỉ ra điểm còn thiếu và điểm có rủi ro. Tài liệu được trao đổi qua kênh riêng, không qua biểu mẫu trên website.",
+          en: "The document is drafted for your actual situation, or your papers are checked to point out what is missing and what carries risk. Documents are exchanged through a private channel, not the website form.",
+          zh: "根据您的具体情况起草文书，或核对材料并指出缺漏与风险之处。材料通过专门渠道传递，而非网站表单。",
         },
       },
       {
         heading: {
-          vi: "Xem xét phương án khi kết quả không như mong muốn",
-          en: "Weigh the options if the result is not what you hoped",
-          zh: "在结果不如预期时权衡方案",
+          vi: "Bàn giao và giải thích cách dùng",
+          en: "Hand over and explain how to use it",
+          zh: "交付并说明使用方法",
         },
         description: {
-          vi: "Nếu hồ sơ bị từ chối hoặc một quyết định hành chính gây bất lợi, bạn được giải thích các cơ chế xem xét lại theo quy định hiện hành và thời hạn tương ứng của từng cơ chế. Chúng tôi trình bày ưu và nhược điểm của mỗi hướng, kể cả khi kết luận là nên hoàn thiện và nộp lại hồ sơ thay vì theo đuổi khiếu nại. Không có cam kết nào về kết quả.",
-          en: "If an application is refused or a decision goes against you, we explain the review mechanisms available under current rules and the time limits attaching to each. We set out the advantages and drawbacks of each route, including where the conclusion is that completing and re-submitting the file serves you better than pursuing a challenge. No outcome is promised.",
-          zh: "若申请被拒或行政决定不利，我们会说明现行规定下可用的复核途径及各自对应的期限。我们会陈述每种途径的利弊，包括结论是完善后重新报送优于提起争议的情形。我们不对结果作出任何承诺。",
+          vi: "Bạn nhận văn bản kèm hướng dẫn điền, nộp hoặc gửi. Nếu trong lúc làm phát hiện vấn đề vượt quá một văn bản tiêu chuẩn, chúng tôi nói rõ để bạn cân nhắc.",
+          en: "You receive the document with guidance on completing, filing or sending it. If the work reveals an issue beyond what a standard document can handle, we tell you so you can decide.",
+          zh: "您将收到文书及填写、提交或寄送的说明。若过程中发现超出标准文书所能处理的问题，我们会如实告知供您考虑。",
         },
       },
     ],
     faq: [
       {
         question: {
-          vi: "Làm sao biết hoạt động của tôi có cần giấy phép hay không?",
-          en: "How do I know whether my activity needs a licence?",
-          zh: "如何判断我的业务是否需要许可？",
+          vi: "Dùng mẫu có thay được việc gặp luật sư không?",
+          en: "Can a template replace seeing a lawyer?",
+          zh: "使用范本能否代替咨询律师？",
         },
         answer: {
-          vi: "Điều này phụ thuộc vào nội dung hoạt động thực tế chứ không chỉ vào ngành nghề đã đăng ký, và còn thay đổi theo quy mô cùng địa bàn. Chúng tôi bắt đầu từ mô tả chi tiết những gì bạn dự định làm, sau đó đối chiếu với các thủ tục đang có hiệu lực. Kết quả bạn nhận được là danh sách thủ tục áp dụng, cơ quan có thẩm quyền và điều kiện đi kèm. Nếu hoạt động không thuộc diện phải xin phép, chúng tôi nói rõ điều đó.",
-          en: "It depends on what you actually do rather than only on the lines of business registered, and it also varies with scale and location. We start from a detailed description of what you plan to do, then check it against the procedures currently in force. What you receive is a list of the procedures that apply, the competent authorities and the conditions attached. If no licence is required, we say so plainly.",
-          zh: "这取决于实际经营内容，而不仅是已登记的经营范围，并且随规模与地域而不同。我们从您拟开展业务的详细描述入手，再与现行有效的手续要求逐项比对。您将得到一份清单：适用手续、主管机关及相应条件。若该业务无需申请许可，我们也会明确告知。",
+          vi: "Với những tình huống phổ biến và rõ ràng thì mẫu là đủ. Khi đã có tranh chấp, số tiền lớn hoặc có điểm bất thường trong hồ sơ, một mẫu chung không thay được việc luật sư xem xét tình huống cụ thể của bạn.",
+          en: "For common, straightforward situations a template is enough. Where there is already a dispute, a large sum at stake or something unusual in the papers, a general template cannot replace a lawyer looking at your particular situation.",
+          zh: "对于常见且清晰的情形，范本即已足够。若已发生争议、涉及金额较大或材料中有异常之处，通用范本无法替代律师针对您具体情况的审视。",
         },
       },
       {
         question: {
-          vi: "Hồ sơ bị trả lại nhiều lần thì nên xử lý thế nào?",
-          en: "What should I do if the file keeps being returned?",
-          zh: "材料被多次退回该如何处理？",
+          vi: "Kiểm tra hồ sơ trực tuyến gồm những gì?",
+          en: "What does an online document review involve?",
+          zh: "在线材料审查包括哪些内容？",
         },
         answer: {
-          vi: "Trước hết nên tập hợp đầy đủ các văn bản yêu cầu bổ sung đã nhận, vì chúng cho thấy vướng mắc thực sự nằm ở đâu. Có trường hợp mỗi lần bổ sung lại phát sinh yêu cầu mới, khi đó rà soát lại toàn bộ hồ sơ từ đầu thường hiệu quả hơn là sửa từng phần. Chúng tôi đối chiếu yêu cầu của cơ quan với hồ sơ hiện có và xác định phần nào còn thiếu trên thực tế. Với những nội dung dễ hiểu khác nhau, phần giải trình bằng văn bản được chuẩn bị kèm theo.",
-          en: "Start by gathering every written request for additional documents you have received, because together they show where the real obstacle lies. Sometimes each round of additions produces a fresh request; where that happens, reviewing the whole file from the beginning is usually more effective than patching parts of it. We compare the authority's requirements against the file as it stands and establish what is genuinely missing. Where a point is open to different readings, a written explanation is prepared alongside it.",
-          zh: "首先应收齐已收到的所有补充材料通知，因为它们能显示症结究竟在何处。有时每补充一次就会产生新的要求，此时从头整体复核材料，通常比逐处修补更有效。我们会将机关的要求与现有材料比对，确定实际缺少的部分。对于容易产生不同理解的内容，会一并准备书面说明。",
+          vi: "Luật sư xem các tài liệu bạn gửi qua kênh riêng, chỉ ra điểm còn thiếu, điểm có rủi ro và bước nên làm tiếp theo. Đây là nhận xét trên những gì bạn cung cấp, chưa phải ý kiến pháp lý chính thức về toàn bộ vụ việc.",
+          en: "A lawyer reads the documents you send through a private channel and points out what is missing, what carries risk and what to do next. It is a comment on what you have provided, not a formal legal opinion on the whole matter.",
+          zh: "律师阅读您通过专门渠道发送的材料，指出缺漏、风险及建议的下一步。这是针对您所提供材料的意见，并非对整个事项的正式法律意见。",
         },
       },
       {
         question: {
-          vi: "Khiếu nại và khởi kiện vụ án hành chính khác nhau ra sao?",
-          en: "What is the difference between a complaint and an administrative court claim?",
-          zh: "行政复议与行政诉讼有何区别？",
+          vi: "Phí được tính thế nào?",
+          en: "How are fees worked out?",
+          zh: "费用如何计算？",
         },
         answer: {
-          vi: "Khiếu nại là đề nghị chính cơ quan đã ban hành hoặc cơ quan cấp trên xem xét lại quyết định, còn khởi kiện vụ án hành chính là đưa vụ việc ra tòa án. Mỗi hướng có trình tự, hồ sơ và thời hạn riêng theo quy định hiện hành, và việc chọn hướng nào phụ thuộc vào loại quyết định cùng tài liệu bạn đang có. Chúng tôi giải thích trình tự của cả hai và những gì cần chuẩn bị cho từng hướng trước khi bạn quyết định. Vì thời hạn là yếu tố dễ bỏ lỡ, nên kiểm tra ngay khi nhận được quyết định.",
-          en: "A complaint asks the issuing body, or the body above it, to reconsider the decision; an administrative claim brings the matter before a court. Each route has its own steps, documents and time limits under current rules, and the choice depends on the type of decision and the documents you hold. We explain how both work and what each requires before you decide. Because time limits are easy to miss, it is worth checking them as soon as a decision reaches you.",
-          zh: "行政复议是请求作出决定的机关或其上级机关重新审查该决定，行政诉讼则是将案件提交法院。两条途径在现行规定下各有其程序、材料与期限，选择哪一条取决于决定的类型及您掌握的文件。我们会在您作出决定前说明两者的流程及各自所需准备。由于期限极易错过，收到决定后宜立即核对。",
-        },
-      },
-      {
-        question: {
-          vi: "Khi có đoàn thanh tra, kiểm tra thì cần chuẩn bị những gì?",
-          en: "What should we prepare when an inspection is announced?",
-          zh: "面对检查组时需要准备什么？",
-        },
-        answer: {
-          vi: "Nên bắt đầu từ văn bản: quyết định hoặc thông báo về nội dung, phạm vi và thời gian làm việc, vì đó là căn cứ để chuẩn bị đúng tài liệu. Cử một đầu mối phụ trách cung cấp hồ sơ và lưu giữ đầy đủ biên bản làm việc giúp nội dung trao đổi được ghi nhận chính xác. Chúng tôi hỗ trợ rà soát tài liệu trước, chuẩn bị phần giải trình bằng văn bản và theo dõi các mốc tiếp theo sau khi buổi làm việc kết thúc. Nếu phát sinh kết luận bất lợi, các cơ chế xem xét lại được giải thích ở bước sau đó.",
-          en: "Begin with the paperwork: the decision or notice setting out the subject, the scope and the timing, since that is the basis for preparing the right documents. Appointing one person to hand over records and to keep the working minutes complete helps ensure that what was said is accurately recorded. We help review the documents beforehand, prepare written explanations and track what follows once the session ends. If the conclusions are unfavourable, the review mechanisms are explained at that later stage.",
-          zh: "宜从文书入手：载明检查内容、范围与时间的决定或通知，这是准备正确材料的依据。指定一名对接人负责提供档案并完整保存工作记录，有助于准确留存沟通内容。我们会协助事先梳理材料、准备书面说明，并在工作结束后跟踪后续节点。若形成不利结论，复核途径将在其后的阶段另行说明。",
+          vi: "Mỗi sản phẩm có phạm vi xác định, nên phí được báo trước khi làm. Nếu yêu cầu của bạn vượt ra ngoài phạm vi đó, chúng tôi trao đổi lại trước khi tiếp tục.",
+          en: "Each product has a defined scope, so the fee is quoted before work begins. If your request goes beyond that scope, we discuss it with you before going further.",
+          zh: "每项产品都有明确范围，因此会在开始前报价。若您的需求超出该范围，我们会先与您沟通再继续。",
         },
       },
     ],
     seoDescription: {
-      vi: "Thủ tục hành chính và giấy phép: xác định thủ tục áp dụng, chuẩn bị hồ sơ xin cấp và gia hạn, hỗ trợ khi thanh tra, khiếu nại và khởi kiện hành chính.",
-      en: "Administrative and licensing work in Vietnam: identifying the right procedure, licence applications and renewals, inspection support and challenges.",
-      zh: "行政手续与许可：确定适用程序、准备申领与延期材料、检查应对支持，以及复议与行政诉讼。",
+      vi: "Sản phẩm pháp lý tiêu chuẩn: soạn đơn theo yêu cầu, bộ mẫu đơn và mẫu hợp đồng, kiểm tra hồ sơ pháp lý trực tuyến, mẫu đơn cho sàn thương mại điện tử.",
+      en: "Standard legal products in Vietnam: applications drafted on request, form and contract template sets, online document review, e-commerce platform forms.",
+      zh: "标准化法律产品：按需起草文书、文书与合同范本、在线材料审查、电商平台文书范本。",
     },
   },
   {
-    slug: "ngan-hang-tin-dung",
+    slug: "luat-su-rieng-tu-van-dinh-ky",
     title: {
-      vi: "Ngân hàng & tín dụng",
-      en: "Banking & credit",
-      zh: "银行与信贷",
+      vi: "Luật sư riêng & tư vấn định kỳ",
+      en: "Retained counsel",
+      zh: "常年法律顾问",
     },
     summary: {
-      vi: "Hồ sơ vay và văn kiện bảo đảm thường được ký dưới áp lực thời gian giải ngân. Công việc của chúng tôi là làm rõ nghĩa vụ bạn nhận về trước khi chữ ký được đặt xuống.",
-      en: "Loan documents and security instruments are often signed under drawdown pressure. Our role is to make the obligations you are taking on clear before the signature goes down.",
-      zh: "贷款文件与担保文书往往在放款时间压力下签署。我们的工作是在落笔之前，让您清楚将要承担的义务。",
+      vi: "Một luật sư theo sát công việc của gia đình hoặc doanh nghiệp theo hợp đồng định kỳ, để câu hỏi pháp lý được trả lời khi vừa xuất hiện, trước khi nó trở thành tranh chấp.",
+      en: "A lawyer who follows the affairs of a family or a business under a standing engagement, so legal questions are answered as they arise, before they turn into disputes.",
+      zh: "由律师依据常年委托持续跟进家庭或企业事务，让法律问题在出现之初即获解答，而不是等到演变成纠纷。",
     },
     audience: {
-      vi: "Doanh nghiệp đang thu xếp hoặc cơ cấu lại khoản vay, bên bảo đảm và bên thứ ba dùng tài sản để bảo đảm nghĩa vụ. Bên cạnh đó là tổ chức tín dụng và công ty tài chính cần rà soát bộ hợp đồng mẫu cùng quy trình nội bộ.",
-      en: "Businesses arranging or restructuring borrowings, guarantors, and third parties putting up assets as security. Also credit institutions and finance companies reviewing their standard documentation and internal procedures.",
-      zh: "正在安排或重组借款的企业、保证人，以及以自身资产为他人义务提供担保的第三方；此外还有需要审查标准合同文本与内部流程的信贷机构和财务公司。",
+      vi: "Gia đình có nhu cầu pháp lý thường xuyên, doanh nghiệp vừa và nhỏ chưa có bộ phận pháp chế riêng, và chủ doanh nghiệp cần một người cố vấn cho cả quyết định kinh doanh lẫn việc riêng.",
+      en: "Families with recurring legal needs, small and medium-sized businesses without their own legal department, and business owners who want an adviser for both business decisions and personal affairs.",
+      zh: "有经常性法律需求的家庭、尚未设立法务部门的中小企业，以及希望在经营决策与个人事务上都有顾问的企业主。",
     },
     scope: [
       {
-        vi: "Rà soát và đàm phán hợp đồng tín dụng, hợp đồng vay và văn kiện giải ngân",
-        en: "Review and negotiation of credit facilities, loan agreements and drawdown documents",
-        zh: "授信合同、借款合同及放款文件的审查与谈判",
+        vi: "Luật sư gia đình",
+        en: "Family lawyer",
+        zh: "家庭律师",
       },
       {
-        vi: "Biện pháp bảo đảm: thế chấp, cầm cố, bảo lãnh, ký quỹ và bảo đảm bằng quyền tài sản",
-        en: "Security arrangements: mortgage, pledge, guarantee, deposit and security over property rights",
-        zh: "担保方式：抵押、质押、保证、保证金及以财产权利设定的担保",
+        vi: "Luật sư riêng cho doanh nghiệp, gói Basic",
+        en: "Retained lawyer for businesses, Basic package",
+        zh: "企业常年律师（基础套餐）",
       },
       {
-        vi: "Đăng ký biện pháp bảo đảm và trình tự xử lý tài sản bảo đảm",
-        en: "Registration of security interests and the procedure for enforcing collateral",
-        zh: "担保措施登记与担保财产的处置程序",
+        vi: "Luật sư riêng cho doanh nghiệp, gói Pro",
+        en: "Retained lawyer for businesses, Pro package",
+        zh: "企业常年律师（专业套餐）",
       },
       {
-        vi: "Khoản vay có yếu tố nước ngoài và thủ tục quản lý ngoại hối liên quan",
-        en: "Cross-border borrowings and the related foreign exchange formalities",
-        zh: "涉外借款及相关外汇管理手续",
+        vi: "Luật sư riêng cho doanh nghiệp, gói Premium",
+        en: "Retained lawyer for businesses, Premium package",
+        zh: "企业常年律师（高级套餐）",
       },
       {
-        vi: "Bộ hợp đồng mẫu, điều kiện giao dịch chung và quy trình nội bộ của tổ chức tín dụng",
-        en: "Standard form documents, general terms of business and internal procedures of credit institutions",
-        zh: "信贷机构的标准合同文本、通用交易条件与内部流程",
-      },
-      {
-        vi: "Cơ cấu lại khoản nợ, chuyển nhượng khoản vay và phương án thu hồi nợ",
-        en: "Debt restructuring, loan transfers and debt recovery options",
-        zh: "债务重组、贷款转让与债权回收方案",
+        vi: "Cố vấn pháp lý cho chủ doanh nghiệp",
+        en: "Legal adviser to business owners",
+        zh: "企业主法律顾问",
       },
     ],
     process: [
       {
         heading: {
-          vi: "Dựng lại cấu trúc khoản vay",
-          en: "Map the financing structure",
-          zh: "梳理融资结构",
+          vi: "Trao đổi về nhu cầu thực tế",
+          en: "Talk through what you actually need",
+          zh: "沟通实际需求",
         },
         description: {
-          vi: "Trước khi đọc từng điều khoản, cần thấy rõ toàn cảnh: ai là bên vay, ai bảo đảm bằng tài sản nào, dòng tiền đi qua những đâu. Nhiều rủi ro chỉ lộ ra khi đặt các văn kiện cạnh nhau chứ không đọc riêng lẻ.",
-          en: "Before going through individual clauses, the whole picture has to be visible: who borrows, who secures what with which assets, and how the money moves. Many risks only surface when the documents are read side by side rather than one at a time.",
-          zh: "在逐条阅读之前，需要先看清全貌：谁是借款人、谁以何种资产提供担保、资金流向何处。许多风险只有在把各份文件并置阅读时才会显现。",
+          vi: "Loại việc thường phát sinh, tần suất và người sẽ làm việc với luật sư là những điều quyết định gói nào phù hợp. Buổi trao đổi đầu tiên dành để làm rõ những điều đó.",
+          en: "The kind of matters that come up, how often, and who will be dealing with the lawyer decide which package fits. The first conversation is for working those out.",
+          zh: "常见事务类型、发生频率以及由谁与律师对接，决定了哪种套餐合适。首次沟通即用于厘清这些问题。",
         },
       },
       {
         heading: {
-          vi: "Rà soát nghĩa vụ và cam kết ràng buộc",
-          en: "Review the obligations and undertakings",
-          zh: "审查义务与承诺条款",
+          vi: "Thống nhất phạm vi bằng văn bản",
+          en: "Agree the scope in writing",
+          zh: "以书面形式确定范围",
         },
         description: {
-          vi: "Trọng tâm là những điều khoản có thể ràng buộc bạn về sau: cam kết duy trì, hạn chế giao dịch, điều kiện tiên quyết, sự kiện vi phạm và hệ quả kèm theo. Chúng tôi chỉ ra điều khoản nào bạn có thể thực hiện được trên thực tế và điều khoản nào cần đàm phán lại.",
-          en: "The focus is on the terms that bind you afterwards: continuing covenants, restrictions on dealings, conditions precedent, events of default and what follows from them. We identify which terms you can realistically comply with and which are worth renegotiating.",
-          zh: "重点在于日后对您形成约束的条款：持续性承诺、交易限制、先决条件、违约事件及其后果。我们会指出哪些条款在实际中可以履行，哪些值得重新谈判。",
+          vi: "Hợp đồng ghi rõ những việc nằm trong gói, thời hạn phản hồi, người phụ trách và những việc sẽ được báo phí riêng. Không có gì được mặc định ngoài những điều đã ghi.",
+          en: "The engagement sets out what the package covers, response times, the responsible lawyer and which matters are quoted separately. Nothing is assumed beyond what is written.",
+          zh: "委托合同写明套餐涵盖的事项、回复时限、负责律师以及哪些事项另行报价。书面约定之外不作任何默认。",
         },
       },
       {
         heading: {
-          vi: "Hoàn thiện văn kiện bảo đảm và thủ tục đăng ký",
-          en: "Complete the security documents and registrations",
-          zh: "完善担保文件与登记手续",
+          vi: "Làm việc theo kỳ",
+          en: "Work through the term",
+          zh: "按期开展工作",
         },
         description: {
-          vi: "Văn kiện bảo đảm được soạn hoặc chỉnh sửa để mô tả đúng tài sản và đúng nghĩa vụ được bảo đảm. Các thủ tục công chứng, chứng thực và đăng ký theo quy định hiện hành được sắp xếp theo đúng trình tự, kèm danh mục giấy tờ cần chuẩn bị.",
-          en: "Security documents are drafted or amended so that they describe the asset and the secured obligation accurately. Notarisation, certification and registration steps required under prevailing regulations are sequenced properly, with a list of the documents to gather.",
-          zh: "担保文件的起草或修改，须准确描述担保财产与所担保的义务。现行规定要求的公证、认证与登记环节按正确顺序安排，并附需准备的材料清单。",
+          vi: "Bạn liên hệ luật sư khi có việc, thay vì phải tìm người mới cho từng câu hỏi. Luật sư nắm bối cảnh của bạn nên câu trả lời sát thực tế hơn.",
+          en: "You contact your lawyer when something comes up, instead of finding someone new for each question. Because the lawyer knows your background, the answers fit your situation better.",
+          zh: "有事时直接联系您的律师，而不必为每个问题另找他人。律师了解您的背景，因而答复更贴近实际。",
         },
       },
       {
         heading: {
-          vi: "Bàn giao danh mục nghĩa vụ sau giải ngân",
-          en: "Hand over the post-drawdown obligations",
-          zh: "交接放款后的义务清单",
+          vi: "Rà soát lại cuối kỳ",
+          en: "Review at the end of the term",
+          zh: "期末回顾",
         },
         description: {
-          vi: "Sau khi hoàn tất, bạn nhận bản tổng hợp các nghĩa vụ phải theo dõi trong suốt thời hạn vay: báo cáo định kỳ, giới hạn phải duy trì, thời điểm gia hạn hoặc cập nhật đăng ký. Mục tiêu là bộ phận nội bộ tiếp quản được mà không phải đọc lại toàn bộ hợp đồng.",
-          en: "Once the work is done you receive a consolidated list of what has to be monitored over the life of the facility: periodic reporting, limits to be maintained, and when registrations need renewing or updating. The aim is that your own team can take over without rereading every agreement.",
-          zh: "工作完成后，您将收到贷款存续期内需持续跟踪的义务汇总：定期报告、须维持的各项限额、以及登记需要续期或更新的时点。目的是让内部团队无需重读全部合同即可接手。",
+          vi: "Cuối mỗi kỳ, hai bên nhìn lại những việc đã phát sinh để điều chỉnh phạm vi cho kỳ tiếp theo nếu cần.",
+          en: "At the end of each term, both sides look back at what came up and adjust the scope for the next term if needed.",
+          zh: "每期结束时，双方回顾期间发生的事务，并视需要调整下一期的范围。",
         },
       },
     ],
     faq: [
       {
         question: {
-          vi: "Cần chuẩn bị gì trước khi rà soát hồ sơ vay?",
-          en: "What should I prepare before a loan review?",
-          zh: "在审查贷款文件前需要准备什么？",
+          vi: "Khác gì so với thuê luật sư theo từng vụ việc?",
+          en: "How is this different from hiring a lawyer case by case?",
+          zh: "与按案件聘请律师有何不同？",
         },
         answer: {
-          vi: "Bản dự thảo hoặc bản chào của tổ chức tín dụng, kèm các phụ lục và biểu mẫu đi kèm. Nếu có tài sản dự kiến dùng để bảo đảm, hãy chuẩn bị giấy tờ chứng minh quyền sở hữu hoặc quyền sử dụng và thông tin về các nghĩa vụ đang tồn tại trên tài sản đó. Ngoài ra, bản mô tả ngắn về mục đích sử dụng vốn và nguồn trả nợ dự kiến sẽ giúp việc rà soát bám sát tình huống thật.",
-          en: "The draft or term sheet from the lender, together with the schedules and forms attached to it. If an asset is intended as security, gather the documents evidencing ownership or use rights and details of any existing encumbrances on it. A short note on what the funds are for and how repayment is expected to be sourced also keeps the review grounded in the real position.",
-          zh: "信贷机构提供的草案或条款清单，连同随附的附件与表格。如已确定用于担保的财产，请准备权属或使用权证明文件，以及该财产上现存负担的情况。此外，关于资金用途与预计还款来源的简要说明，有助于审查贴近实际情况。",
+          vi: "Thuê theo vụ việc phù hợp khi vấn đề đã rõ và có điểm kết thúc. Luật sư riêng phù hợp khi câu hỏi phát sinh thường xuyên và điều quan trọng là có người nắm bối cảnh để trả lời sớm, trước khi chuyện nhỏ thành tranh chấp.",
+          en: "Case-by-case engagement suits a matter that is already defined and has an end point. A retained lawyer suits situations where questions come up regularly and what matters is having someone who knows the background and can answer early, before a small issue becomes a dispute.",
+          zh: "按案件委托适合问题已明确且有终点的情形。常年律师适合问题经常出现、且关键在于有了解背景的人能及早答复，以免小事演变为纠纷的情形。",
         },
       },
       {
         question: {
-          vi: "Công ty có làm việc với ngân hàng thay tôi được không?",
-          en: "Can the firm deal with the bank on my behalf?",
-          zh: "贵所可以代表我与银行沟通吗？",
+          vi: "Các gói Basic, Pro và Premium khác nhau thế nào?",
+          en: "How do the Basic, Pro and Premium packages differ?",
+          zh: "基础、专业与高级套餐有何区别？",
         },
         answer: {
-          vi: "Trong phạm vi được ủy quyền, chúng tôi trao đổi với bên cho vay về nội dung văn kiện và các điểm pháp lý cần làm rõ. Cần nói rõ giới hạn: quyết định cấp tín dụng, hạn mức và lãi suất thuộc thẩm quyền của tổ chức tín dụng, dựa trên chính sách và đánh giá rủi ro của họ. Chúng tôi không tác động và không cam kết tác động đến quyết định đó, cũng không nhận làm nhanh bất kỳ khâu phê duyệt nào.",
-          en: "Within the scope of the mandate we engage with the lender on the wording of the documents and the legal points that need clarifying. The limit should be stated plainly: the credit decision, the limit and the pricing rest with the credit institution, based on its own policy and risk assessment. We do not influence that decision, do not undertake to influence it, and do not offer to accelerate any approval step.",
-          zh: "在授权范围内，我们会就文件措辞与需要澄清的法律问题与贷款方沟通。界限需要明确说明：授信决定、额度与定价属于信贷机构的职权，依据其自身政策与风险评估作出。我们不会也不承诺影响该决定，更不承接加快任何审批环节的事项。",
-        },
-      },
-      {
-        question: {
-          vi: "Bảo lãnh cho công ty khác vay có khác gì tự mình vay?",
-          en: "How is guaranteeing another company's loan different from borrowing?",
-          zh: "为其他公司的借款提供担保与自行借款有何不同？",
-        },
-        answer: {
-          vi: "Đây là câu hỏi cần xem văn kiện cụ thể mới trả lời được, vì phạm vi nghĩa vụ phụ thuộc hoàn toàn vào cách soạn thảo. Khi rà soát, chúng tôi tập trung vào những điểm thường quyết định mức độ rủi ro: nghĩa vụ được bảo đảm gồm những khoản nào, thời hạn ra sao, bên nhận bảo đảm được yêu cầu bạn thực hiện trong trường hợp nào. Kết quả bạn nhận là bản giải thích các cơ chế đó bằng ngôn ngữ thông thường, không phải kết luận chung cho mọi trường hợp.",
-          en: "This can only be answered against the actual documents, because the extent of the obligation depends entirely on how they are drafted. On review we concentrate on the points that usually drive the exposure: which obligations are covered, for how long, and in what circumstances the beneficiary can call on you. What you receive is an explanation of those mechanics in plain language, not a conclusion that holds for every case.",
-          zh: "这一问题须结合具体文件才能回答，因为义务范围完全取决于文本的拟定方式。审查时我们着重于通常决定风险敞口的要点：所担保的义务包括哪些、期限多长、受益方在何种情形下可向您主张。您将得到的是对这些机制的通俗解释，而非适用于所有情形的通用结论。",
-        },
-      },
-      {
-        question: {
-          vi: "Khoản vay đã quá hạn thì công việc bắt đầu từ đâu?",
-          en: "Where does the work start once a loan is already overdue?",
-          zh: "贷款已逾期时，工作从何处入手？",
-        },
-        answer: {
-          vi: "Bắt đầu bằng việc đọc lại bộ văn kiện và dựng dòng thời gian: các thông báo đã nhận, các khoản đã thanh toán, những trao đổi đã diễn ra với bên cho vay. Sau đó mới xác định các phương án còn mở, có thể là thương lượng cơ cấu lại, có thể là chuẩn bị cho khả năng xử lý tài sản bảo đảm. Chúng tôi trình bày ưu và nhược điểm của từng hướng, kể cả khi kết luận là nên chủ động làm việc với bên cho vay sớm. Không có cam kết nào về kết quả.",
-          en: "It starts with rereading the documents and building a timeline: the notices received, the payments made, the exchanges already had with the lender. Only then are the remaining options identified, whether that is negotiating a restructuring or preparing for possible enforcement against the collateral. We set out the advantages and drawbacks of each direction, including where the conclusion is to approach the lender early. No outcome is promised.",
-          zh: "首先是重新阅读全部文件并梳理时间线：已收到的通知、已支付的款项、与贷款方之间已有的往来。在此基础上再确定仍然可行的方案，可能是协商重组，也可能是为担保财产处置作准备。我们会说明每种方向的利弊，包括结论为宜尽早主动与贷款方沟通的情形。不对结果作出承诺。",
+          vi: "Các gói khác nhau về khối lượng công việc và mức độ tham gia của luật sư trong kỳ. Phạm vi cụ thể của từng gói được trao đổi và ghi trong hợp đồng, dựa trên nhu cầu thực tế của doanh nghiệp.",
+          en: "The packages differ in the volume of work and how closely the lawyer is involved during the term. The exact scope of each is discussed and written into the engagement, based on what the business actually needs.",
+          zh: "各套餐在工作量与律师参与程度上有所不同。每个套餐的具体范围会根据企业实际需求商定，并写入委托合同。",
         },
       },
     ],
     seoDescription: {
-      vi: "Hỗ trợ pháp lý về ngân hàng và tín dụng: hợp đồng vay, biện pháp bảo đảm, đăng ký và xử lý tài sản bảo đảm, vay nước ngoài, cơ cấu lại nợ.",
-      en: "Banking and credit law in Vietnam: loan documents, security arrangements, registration and enforcement of collateral, and debt restructuring.",
-      zh: "越南银行与信贷法律支持：借款合同、担保方式、担保登记与处置、涉外借款、合规及债务重组。",
-    },
-  },
-  {
-    slug: "xay-dung-ha-tang",
-    title: {
-      vi: "Xây dựng & hạ tầng",
-      en: "Construction & infrastructure",
-      zh: "建设与基础设施",
-    },
-    summary: {
-      vi: "Rủi ro của một dự án xây dựng thường nằm ở những chỗ ít được đọc kỹ: phạm vi công việc, cơ chế xử lý phát sinh và điều kiện thanh toán. Chúng tôi làm rõ các cơ chế đó trước khi công trường bắt đầu.",
-      en: "The risk in a construction project usually sits in the parts least closely read: the scope of works, the mechanism for handling variations, and the payment conditions. We make those mechanics clear before work starts on site.",
-      zh: "建设项目的风险往往藏在最少被细读的地方：工作范围、变更处理机制与付款条件。我们在开工之前把这些机制讲清楚。",
-    },
-    audience: {
-      vi: "Chủ đầu tư, tổng thầu và nhà thầu phụ, đơn vị tư vấn thiết kế và giám sát. Cùng với đó là nhà đầu tư dự án hạ tầng cần rà soát hồ sơ pháp lý và bộ hợp đồng của dự án trước khi cam kết.",
-      en: "Project owners, main contractors and subcontractors, design and supervision consultants. Also investors in infrastructure projects who need the project's legal file and contract suite reviewed before committing.",
-      zh: "项目业主、总承包商与分包商、设计与监理单位；以及需要在作出承诺前审查项目法律文件与合同体系的基础设施项目投资方。",
-    },
-    scope: [
-      {
-        vi: "Hợp đồng thi công xây dựng, hợp đồng EPC và hợp đồng tư vấn",
-        en: "Construction contracts, EPC contracts and consultancy appointments",
-        zh: "施工合同、EPC 合同与咨询服务合同",
-      },
-      {
-        vi: "Rà soát pháp lý dự án: quyền sử dụng đất, quy hoạch và các giấy phép liên quan",
-        en: "Project legal review: land use rights, planning status and the relevant permits",
-        zh: "项目法律审查：土地使用权、规划状况及相关许可",
-      },
-      {
-        vi: "Cơ chế phát sinh khối lượng, gia hạn tiến độ và điều chỉnh giá hợp đồng",
-        en: "Mechanisms for variations, extensions of time and adjustment of the contract price",
-        zh: "工程量变更、工期顺延与合同价格调整机制",
-      },
-      {
-        vi: "Bảo lãnh tạm ứng, bảo lãnh thực hiện hợp đồng và nghĩa vụ bảo hành công trình",
-        en: "Advance payment and performance bonds, and defects liability obligations",
-        zh: "预付款保函、履约保函与工程保修义务",
-      },
-      {
-        vi: "Hồ sơ nghiệm thu, thanh toán theo giai đoạn và quyết toán hợp đồng",
-        en: "Acceptance records, interim payment applications and final account settlement",
-        zh: "验收资料、分期付款与合同结算",
-      },
-      {
-        vi: "Khiếu nại, yêu cầu bồi thường và tranh chấp phát sinh trong quá trình thực hiện",
-        en: "Claims, compensation demands and disputes arising during performance",
-        zh: "履约过程中的索赔、赔偿请求与争议",
-      },
-    ],
-    process: [
-      {
-        heading: {
-          vi: "Dựng lại bức tranh pháp lý của dự án",
-          en: "Establish the project's legal picture",
-          zh: "还原项目的法律全貌",
-        },
-        description: {
-          vi: "Trước hợp đồng là nền pháp lý của dự án: đất đai, quy hoạch, các chấp thuận và giấy phép theo quy định hiện hành. Bước này xác định những gì đã có, những gì còn thiếu và điều đó ảnh hưởng thế nào đến tiến độ dự kiến.",
-          en: "Before the contract comes the project's legal foundation: land, planning, and the approvals and permits required under prevailing regulations. This step establishes what is in place, what is missing, and how that bears on the intended programme.",
-          zh: "合同之前是项目的法律基础：土地、规划，以及现行规定要求的各项批准与许可。这一步确认哪些已经具备、哪些尚缺，以及由此对预定进度的影响。",
-        },
-      },
-      {
-        heading: {
-          vi: "Rà soát hợp đồng theo dòng thời gian thi công",
-          en: "Review the contract along the construction timeline",
-          zh: "沿施工时间线审查合同",
-        },
-        description: {
-          vi: "Bộ hợp đồng được đọc theo trình tự công việc thực tế sẽ diễn ra, từ khởi công đến bàn giao và bảo hành. Cách đọc này cho thấy rõ hơn điểm nào chưa quy định, điểm nào mâu thuẫn giữa hợp đồng chính và các phụ lục kỹ thuật.",
-          en: "The contract suite is read in the order the work will actually unfold, from commencement through handover to the defects period. Read this way, gaps and inconsistencies between the main contract and the technical annexes become far easier to see.",
-          zh: "合同体系按工作实际展开的顺序阅读，从开工到交付再到保修期。以这种方式阅读，主合同与技术附件之间的空白与矛盾更容易显现。",
-        },
-      },
-      {
-        heading: {
-          vi: "Thiết lập cơ chế ghi nhận và lưu hồ sơ",
-          en: "Set up the recording and record-keeping routine",
-          zh: "建立记录与资料留存机制",
-        },
-        description: {
-          vi: "Phần lớn tranh chấp xây dựng được quyết định bởi hồ sơ hiện trường chứ không bởi lập luận sau này. Chúng tôi thống nhất với bạn loại văn bản cần lập, thời điểm lập và cách lưu giữ, để mỗi phát sinh đều có dấu vết theo đúng cơ chế của hợp đồng.",
-          en: "Most construction disputes turn on the site record rather than on arguments made afterwards. We agree with you which documents to issue, when to issue them and how to keep them, so that every variation leaves a trail that follows the contract's own mechanism.",
-          zh: "多数建设争议取决于现场资料，而非事后的论辩。我们与您约定需要出具哪些文件、何时出具、如何保存，使每一项变更都按合同自身机制留下记录。",
-        },
-      },
-      {
-        heading: {
-          vi: "Đồng hành khi phát sinh khiếu nại",
-          en: "Support when a claim arises",
-          zh: "索赔发生时的支持",
-        },
-        description: {
-          vi: "Khi có khiếu nại về khối lượng, tiến độ hoặc thanh toán, công việc bắt đầu bằng việc đối chiếu hồ sơ với các bước mà hợp đồng yêu cầu. Bạn nhận đánh giá về vị thế của mình và các hướng xử lý, kèm phạm vi công việc và phí được xác định bằng văn bản trước khi bắt đầu.",
-          en: "When a claim arises over quantities, programme or payment, the work begins by testing the records against the steps the contract requires. You receive an assessment of your position and the available directions, with the scope of work and the fee set out in writing before work starts.",
-          zh: "当就工程量、工期或付款产生索赔时，工作从对照合同要求的步骤核查资料开始。您将获得对自身处境与可行方向的评估，工作范围与费用在开始前以书面形式确定。",
-        },
-      },
-    ],
-    faq: [
-      {
-        question: {
-          vi: "Nên đưa luật sư vào ở giai đoạn nào của dự án?",
-          en: "At what stage should a lawyer be brought in?",
-          zh: "应在项目的哪个阶段引入律师？",
-        },
-        answer: {
-          vi: "Thời điểm hữu ích nhất là trước khi ký hợp đồng, khi các cơ chế xử lý phát sinh và điều kiện thanh toán còn có thể đàm phán. Sau khi công trường đã khởi động, phạm vi công việc chuyển sang hướng khác: đọc lại hợp đồng đang có, kiểm tra hồ sơ hiện trường và xác định các bước còn kịp thực hiện. Cả hai giai đoạn đều làm được, chỉ khác nhau ở mức độ lựa chọn còn lại.",
-          en: "The most useful point is before signature, while the variation mechanism and payment conditions can still be negotiated. Once the site is running, the work shifts: rereading the contract as it stands, checking the site record and identifying the steps that can still be taken in time. Both stages are workable; what differs is how many options remain.",
-          zh: "最有价值的时点是在签约之前，此时变更机制与付款条件尚可谈判。工地启动之后，工作重心随之转变：重读既有合同、核查现场资料、确定仍来得及采取的步骤。两个阶段都可以介入，区别在于剩余选择的多寡。",
-        },
-      },
-      {
-        question: {
-          vi: "Công ty có đánh giá về kỹ thuật hay khối lượng không?",
-          en: "Does the firm assess technical or quantity questions?",
-          zh: "贵所是否评估技术或工程量问题？",
-        },
-        answer: {
-          vi: "Không. Đánh giá kỹ thuật, đo bóc khối lượng và định giá xây dựng thuộc chuyên môn của đơn vị tư vấn và đơn vị thẩm định, không thuộc phạm vi dịch vụ pháp lý. Vai trò của chúng tôi là làm việc trên kết quả do các đơn vị đó lập: kiểm tra xem hồ sơ có được lập đúng trình tự hợp đồng yêu cầu hay không và trình bày vấn đề theo đúng cơ chế đã thỏa thuận. Khi cần, chúng tôi phối hợp với đơn vị chuyên môn mà bạn chỉ định.",
-          en: "No. Technical assessment, quantity take-off and construction valuation belong to consultants and appraisers, not to legal services. Our role is to work from what those specialists produce: to check whether the records were prepared through the steps the contract requires, and to present the issue through the agreed mechanism. Where needed, we coordinate with the specialist you appoint.",
-          zh: "不评估。技术评定、工程量计算与造价评估属于咨询单位与评估机构的专业范围，不属于法律服务。我们的作用是在这些专业成果的基础上工作：核查资料是否按合同要求的步骤形成，并按约定机制提出问题。必要时，我们与您指定的专业单位配合。",
-        },
-      },
-      {
-        question: {
-          vi: "Trong quá trình thi công cần giữ những hồ sơ nào?",
-          en: "Which records should be kept during construction?",
-          zh: "施工期间需要保存哪些资料？",
-        },
-        answer: {
-          vi: "Danh mục cụ thể phụ thuộc vào từng hợp đồng, vì chính hợp đồng quy định loại văn bản nào có giá trị và phải lập theo cách nào. Nhìn chung, những gì ghi lại diễn biến theo thời gian đều đáng giữ: nhật ký công trường, biên bản hiện trường, văn bản trao đổi giữa các bên, chỉ dẫn thay đổi và hồ sơ nghiệm thu từng giai đoạn. Khi bắt đầu công việc, chúng tôi lập danh mục riêng cho dự án của bạn dựa trên hợp đồng đang áp dụng.",
-          en: "The exact list depends on the contract, since the contract itself sets out which documents carry weight and how they must be issued. Broadly, anything that records events as they happen is worth keeping: site diaries, site minutes, correspondence between the parties, change instructions and stage acceptance records. At the outset of an engagement we prepare a list specific to your project, based on the contract actually in use.",
-          zh: "具体清单取决于各份合同，因为合同本身规定了哪些文件具有效力、须以何种方式形成。总体而言，凡按时间记录事件经过的资料都值得保存：施工日志、现场记录、各方往来函件、变更指令与各阶段验收资料。工作开始时，我们会依据实际适用的合同，为您的项目编制专门清单。",
-        },
-      },
-      {
-        question: {
-          vi: "Hai bên bất đồng về giá trị quyết toán thì xử lý thế nào?",
-          en: "What happens when the parties disagree on the final account?",
-          zh: "双方对结算金额存在分歧时如何处理？",
-        },
-        answer: {
-          vi: "Bước đầu là tách phần đã thống nhất khỏi phần còn tranh chấp, rồi đối chiếu từng khoản chênh lệch với hồ sơ và với cơ chế mà hợp đồng quy định. Nhiều bất đồng thu hẹp đáng kể sau bước này, vì nguyên nhân thường nằm ở cách lập hồ sơ chứ không ở bản thân con số. Phần còn lại được cân nhắc giữa thương lượng, hòa giải và các phương thức giải quyết tranh chấp mà hợp đồng đã chọn. Chúng tôi trình bày chi phí và thời gian dự kiến của từng hướng, không cam kết về kết quả.",
-          en: "The first step is to separate what is agreed from what is in dispute, then test each difference against the records and against the mechanism the contract lays down. Many disagreements narrow considerably after this, because the cause often lies in how the records were made rather than in the figures themselves. What remains is weighed between negotiation, mediation and the dispute route the contract has chosen. We set out the likely cost and timeline of each direction, without promising an outcome.",
-          zh: "第一步是把已达成一致的部分与仍有争议的部分区分开，再逐项将差额与资料及合同规定的机制相对照。经过这一步，许多分歧会明显收窄，因为原因往往在于资料的形成方式而非数字本身。剩余部分则在协商、调解与合同已选定的争议解决方式之间权衡。我们会说明每种方向的预计费用与时间，但不对结果作出承诺。",
-        },
-      },
-    ],
-    seoDescription: {
-      vi: "Hỗ trợ pháp lý về xây dựng và hạ tầng: hợp đồng thi công và EPC, giấy phép dự án, phát sinh khối lượng, nghiệm thu, quyết toán và khiếu nại.",
-      en: "Construction and infrastructure law in Vietnam: works and EPC contracts, project permits, variations, acceptance, final accounts and claims.",
-      zh: "建设与基础设施法律支持：施工与 EPC 合同、项目许可、工程量变更、验收结算与索赔。",
+      vi: "Luật sư riêng và tư vấn pháp lý định kỳ: luật sư gia đình, luật sư riêng cho doanh nghiệp các gói Basic, Pro, Premium, cố vấn pháp lý cho chủ doanh nghiệp.",
+      en: "Retained counsel in Vietnam: family lawyer, retained lawyer for businesses on Basic, Pro and Premium packages, legal adviser to business owners.",
+      zh: "常年法律顾问：家庭律师、企业常年律师（基础、专业、高级套餐）、企业主法律顾问。",
     },
   },
 ];
+
+/**
+ * Lĩnh vực đã ngừng vì không có trong danh mục của công ty, kèm nhóm gần nhất
+ * để chuyển hướng đường dẫn cũ. scripts/apply-company-catalog.ts gỡ chúng khỏi
+ * website; scripts/publish-drafts.ts bỏ qua chúng để không vô tình đăng lại.
+ */
+export const retiredPracticeAreas: Record<string, string> = {
+  "hop-dong-thuong-mai": "dau-tu-doanh-nghiep",
+  "so-huu-tri-tue": "dau-tu-doanh-nghiep",
+  "thue-tai-chinh": "dau-tu-doanh-nghiep",
+  "hanh-chinh-giay-phep": "dat-dai-bat-dong-san",
+  "ngan-hang-tin-dung": "giai-quyet-tranh-chap",
+  "xay-dung-ha-tang": "dat-dai-bat-dong-san",
+};

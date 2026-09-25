@@ -53,7 +53,7 @@ test("Vũ Khang navigation, mobile menu and image loading", async ({
     await trigger.click();
     await page
       .locator("#expertise-menu")
-      .getByRole("link", { name: /Đầu tư/ })
+      .getByRole("link", { name: /Doanh nghiệp & thương mại/ })
       .click();
     await expect(page).toHaveURL(/dau-tu-doanh-nghiep$/);
   }

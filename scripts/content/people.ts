@@ -53,7 +53,7 @@ export const samplePeople: SamplePerson[] = [
       en: "Vietnamese, English",
       zh: "越南语、英语",
     },
-    serviceSlugs: ["dau-tu-doanh-nghiep", "hop-dong-thuong-mai"],
+    serviceSlugs: ["dau-tu-doanh-nghiep"],
     sections: [
       {
         heading: {
@@ -99,7 +99,7 @@ export const samplePeople: SamplePerson[] = [
       en: "Vietnamese, English",
       zh: "越南语、英语",
     },
-    serviceSlugs: ["dau-tu-doanh-nghiep", "thue-tai-chinh"],
+    serviceSlugs: ["dau-tu-doanh-nghiep"],
     sections: [
       {
         heading: {
@@ -129,7 +129,7 @@ export const samplePeople: SamplePerson[] = [
       zh: "负责争议案件的评估、谈判方案的准备，以及向主管机关提交解决所需的文件。",
     },
     languages: { vi: "Tiếng Việt", en: "Vietnamese", zh: "越南语" },
-    serviceSlugs: ["giai-quyet-tranh-chap", "hop-dong-thuong-mai"],
+    serviceSlugs: ["giai-quyet-tranh-chap", "dau-tu-doanh-nghiep"],
     sections: [
       {
         heading: {
@@ -163,7 +163,7 @@ export const samplePeople: SamplePerson[] = [
       en: "Vietnamese, English",
       zh: "越南语、英语",
     },
-    serviceSlugs: ["so-huu-tri-tue", "hop-dong-thuong-mai"],
+    serviceSlugs: ["dau-tu-doanh-nghiep"],
     sections: [
       {
         heading: {

@@ -70,6 +70,22 @@ export const pageContent: PageContent[] = [
           zh: "保密义务是职业准则，即使双方最终未展开合作亦然。但就网站表单而言，请勿发送机密文件或详细案卷——请留待其后的直接沟通渠道。",
         },
       },
+      // Năm giá trị cốt lõi theo tài liệu của công ty (Diễn giải 5 giá trị cốt
+      // lõi). "Tỷ lệ thắng cao" trong bản nội bộ được viết thành "theo đuổi kết
+      // quả": quy tắc đạo đức nghề luật sư không cho quảng cáo bằng cam kết
+      // hay tỷ lệ kết quả vụ việc.
+      {
+        heading: {
+          vi: "Năm giá trị chúng tôi giữ",
+          en: "Five values we hold to",
+          zh: "我们坚守的五项价值",
+        },
+        body: {
+          vi: "Trách nhiệm — Đã nhận việc thì chịu trách nhiệm với kết quả công việc: không né tránh, không đổ lỗi, tập trung tìm giải pháp.\nTrung thực — Thông tin đúng sự thật, minh bạch trong công việc và chi phí; không hứa điều không thể thực hiện.\n4T — Tận tâm với quyền lợi hợp pháp của khách hàng, tốc chiến trong tiếp nhận và xử lý, tối ưu chi phí mà không giảm chất lượng chuyên môn, theo đuổi kết quả tốt nhất có thể.\nTự kỷ luật — Tuân thủ pháp luật, đạo đức nghề nghiệp và đúng cam kết về thời gian, tiến độ.\nTận nhân lực — Dùng hết trí lực, sức lực, nguồn lực và tâm lực để theo công việc đến cùng.",
+          en: "Responsibility — Once we take on a matter, we answer for the work: no evasion, no blame, a focus on solutions.\nIntegrity — Truthful information and transparency in our work and our fees; no promises we cannot keep.\nThe four Ts — Total dedication to the client's lawful interests, a timely response in taking on and handling matters, tight control of cost without lowering professional quality, and the pursuit of the best achievable outcome.\nSelf-discipline — Compliance with the law and professional ethics, and keeping our commitments on time.\nFull effort — Bringing all our knowledge, energy, resources and resolve to see the work through.",
+          zh: "责任——接受委托即对工作成果负责：不回避、不推诿，专注于寻找解决方案。\n诚信——提供真实信息，工作与费用公开透明；不作无法兑现的承诺。\n4T——全心维护客户的合法权益，受理与处理迅速果断，在不降低专业质量的前提下优化费用，追求可实现的最佳结果。\n自律——遵守法律与职业道德，恪守时间与进度承诺。\n尽全力——以全部的智力、体力、资源与决心，将工作坚持到底。",
+        },
+      },
     ],
   },
   {
@@ -141,4 +157,3 @@ export const pageContent: PageContent[] = [
     ],
   },
 ];
-

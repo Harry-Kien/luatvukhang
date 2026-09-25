@@ -10,6 +10,8 @@
  * Thứ tự có ràng buộc thật, không xếp tuỳ ý:
  *   - prepare-cross-links cần cả bài viết lẫn lĩnh vực đã có mặt.
  *   - prepare-categories cần bài viết đã có mặt.
+ *   - apply-company-catalog đi sau prepare-practice-areas và
+ *     prepare-page-content: nó sửa chính những bản ghi hai script đó nạp.
  *   - prepare-seo-titles đi sau cùng trong nhóm nội dung, vì nó điền tiêu đề
  *     cho chính những bản ghi vừa nạp.
  *   - clean-empty-drafts đi cuối, dọn bản nháp rỗng mà tính năng tự lưu của CMS
@@ -29,6 +31,7 @@ export const CONTENT_SCRIPTS = [
   "prepare-practice-areas.ts",
   "prepare-keywords.ts",
   "prepare-page-content.ts",
+  "apply-company-catalog.ts",
   "prepare-editorial.ts",
   "prepare-lawyers.ts",
   "prepare-industry-details.ts",

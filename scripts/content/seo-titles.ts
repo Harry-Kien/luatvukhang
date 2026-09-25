@@ -15,64 +15,44 @@ export type Localised = { vi: string; en: string; zh: string };
 /** Khóa là "bộ sưu tập/đường dẫn". */
 export const seoTitles: Record<string, Localised> = {
   "services/dau-tu-doanh-nghiep": {
-    vi: "Luật sư tư vấn đầu tư và doanh nghiệp",
-    en: "Investment and corporate lawyers in Vietnam",
-    zh: "投资与企业法律顾问",
+    vi: "Luật sư doanh nghiệp và thương mại",
+    en: "Corporate and commercial lawyers in Vietnam",
+    zh: "企业与商事法律顾问",
   },
   "services/giai-quyet-tranh-chap": {
-    vi: "Luật sư giải quyết tranh chấp và tố tụng",
-    en: "Dispute resolution and litigation lawyers",
-    zh: "争议解决与诉讼律师",
-  },
-  "services/hop-dong-thuong-mai": {
-    vi: "Luật sư hợp đồng và thương mại",
-    en: "Contract and commercial lawyers in Vietnam",
-    zh: "合同与商事法律顾问",
-  },
-  "services/so-huu-tri-tue": {
-    vi: "Luật sư sở hữu trí tuệ và công nghệ",
-    en: "Intellectual property and technology lawyers",
-    zh: "知识产权与科技法律顾问",
+    vi: "Luật sư dân sự và giải quyết tranh chấp",
+    en: "Civil and dispute resolution lawyers",
+    zh: "民事与纠纷解决律师",
   },
   "services/lao-dong-nhan-su": {
-    vi: "Luật sư lao động và nhân sự doanh nghiệp",
-    en: "Employment and HR lawyers in Vietnam",
-    zh: "劳动与人力资源法律顾问",
+    vi: "Luật sư lao động và quản trị nội bộ",
+    en: "Employment and governance lawyers in Vietnam",
+    zh: "劳动与内部治理法律顾问",
   },
   "services/dat-dai-bat-dong-san": {
-    vi: "Luật sư đất đai và bất động sản",
-    en: "Land and real estate lawyers in Vietnam",
-    zh: "土地与房地产法律顾问",
-  },
-  "services/thue-tai-chinh": {
-    vi: "Luật sư thuế và tài chính doanh nghiệp",
-    en: "Tax and corporate finance lawyers",
-    zh: "税务与企业财务法律顾问",
+    vi: "Luật sư đất đai và nhà ở",
+    en: "Land and housing lawyers in Vietnam",
+    zh: "土地与住房法律顾问",
   },
   "services/hon-nhan-gia-dinh": {
-    vi: "Luật sư hôn nhân, gia đình và thừa kế",
-    en: "Family, matrimonial and inheritance lawyers",
-    zh: "婚姻家庭与继承法律顾问",
+    vi: "Luật sư hôn nhân và gia đình",
+    en: "Marriage and family lawyers in Vietnam",
+    zh: "婚姻家庭律师",
   },
   "services/hinh-su": {
     vi: "Luật sư bào chữa vụ án hình sự",
     en: "Criminal defence lawyers in Vietnam",
     zh: "刑事辩护律师",
   },
-  "services/hanh-chinh-giay-phep": {
-    vi: "Luật sư thủ tục hành chính và giấy phép",
-    en: "Administrative procedure and licensing lawyers",
-    zh: "行政手续与许可法律顾问",
+  "services/san-pham-phap-ly-tieu-chuan": {
+    vi: "Soạn đơn, mẫu hợp đồng và kiểm tra hồ sơ",
+    en: "Legal forms, contract templates and document checks",
+    zh: "文书起草、合同范本与材料审查",
   },
-  "services/ngan-hang-tin-dung": {
-    vi: "Luật sư ngân hàng và tín dụng",
-    en: "Banking and credit lawyers in Vietnam",
-    zh: "银行与信贷法律顾问",
-  },
-  "services/xay-dung-ha-tang": {
-    vi: "Luật sư xây dựng và hạ tầng",
-    en: "Construction and infrastructure lawyers",
-    zh: "建筑与基础设施法律顾问",
+  "services/luat-su-rieng-tu-van-dinh-ky": {
+    vi: "Luật sư riêng cho gia đình và doanh nghiệp",
+    en: "Retained lawyers for families and businesses",
+    zh: "家庭与企业常年律师",
   },
 
   "industries/san-xuat-va-xuat-khau": {

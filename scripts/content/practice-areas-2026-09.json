@@ -1,0 +1,380 @@
+{
+  "services": {
+    "dau-tu-doanh-nghiep": {
+      "title": {
+        "vi": "Đầu tư & doanh nghiệp",
+        "en": "Investment & corporate",
+        "zh": "投资与企业"
+      },
+      "summary": {
+        "vi": "Từ quyết định đầu tư ban đầu đến hoạt động thường ngày của doanh nghiệp: cơ cấu phù hợp, thủ tục đúng trình tự và quản trị nội bộ vận hành được.",
+        "en": "From the initial investment decision to everyday operations: an appropriate structure, procedures in the right order, and internal governance that actually works.",
+        "zh": "从最初的投资决策到企业日常经营：合适的架构、依序完成的手续，以及真正可运行的内部治理。"
+      },
+      "seoDescription": {
+        "vi": "Hỗ trợ pháp lý về đầu tư và doanh nghiệp tại Việt Nam: cơ cấu sở hữu, thủ tục đăng ký, điều lệ và thỏa thuận cổ đông, rà soát trước giao dịch, tuân thủ định kỳ.",
+        "en": "Investment and corporate law in Vietnam: ownership structure, registration, charters and shareholders' agreements, due diligence and compliance.",
+        "zh": "越南投资与企业法律支持：股权架构、登记手续、章程与股东协议、交易前尽职调查及定期合规。"
+      },
+      "scope": [
+        {
+          "vi": "Lựa chọn hình thức đầu tư và cơ cấu sở hữu",
+          "en": "Choice of investment form and ownership structure",
+          "zh": "投资形式与股权架构的选择"
+        },
+        {
+          "vi": "Thủ tục đăng ký đầu tư và đăng ký doanh nghiệp",
+          "en": "Investment registration and enterprise registration procedures",
+          "zh": "投资登记与企业登记手续"
+        },
+        {
+          "vi": "Điều lệ, thỏa thuận cổ đông và phân định thẩm quyền nội bộ",
+          "en": "Charter, shareholders' agreement and allocation of internal authority",
+          "zh": "章程、股东协议与内部权限划分"
+        },
+        {
+          "vi": "Rà soát pháp lý trước giao dịch mua bán, sáp nhập hoặc chuyển nhượng vốn",
+          "en": "Legal due diligence ahead of an acquisition, merger or capital transfer",
+          "zh": "并购或股权转让交易前的法律尽职调查"
+        },
+        {
+          "vi": "Điều kiện kinh doanh theo ngành nghề và nghĩa vụ tuân thủ định kỳ",
+          "en": "Sector-specific business conditions and recurring compliance obligations",
+          "zh": "行业经营条件与定期合规义务"
+        },
+        {
+          "vi": "Thay đổi cơ cấu, tăng giảm vốn, tạm ngừng và chấm dứt hoạt động",
+          "en": "Structural changes, capital increases and reductions, suspension and dissolution",
+          "zh": "架构变更、增减资本、暂停与终止经营"
+        }
+      ],
+      "keywords": {
+        "vi": "thành lập công ty, mở công ty, đăng ký kinh doanh, giấy phép đầu tư, vốn điều lệ, góp vốn, cổ đông, chuyển nhượng vốn, mua bán doanh nghiệp, sáp nhập, chi nhánh, văn phòng đại diện, giải thể, tạm ngừng kinh doanh",
+        "en": "set up a company, company registration, business licence, investment certificate, charter capital, shareholders, share transfer, buy a business, merger, acquisition, branch office, representative office, dissolution",
+        "zh": "设立公司, 开公司, 工商登记, 投资许可, 注册资本, 出资, 股东, 股权转让, 收购公司, 合并, 分公司, 代表处, 解散"
+      },
+      "seoTitle": {
+        "vi": "Luật sư tư vấn đầu tư và doanh nghiệp",
+        "en": "Investment and corporate lawyers in Vietnam",
+        "zh": "投资与企业法律顾问"
+      }
+    },
+    "giai-quyet-tranh-chap": {
+      "title": {
+        "vi": "Giải quyết tranh chấp",
+        "en": "Dispute resolution",
+        "zh": "争议解决"
+      },
+      "summary": {
+        "vi": "Nhìn rõ vị thế của mình trước khi chọn cách đi: đánh giá chứng cứ, cân nhắc thương lượng hay tố tụng, và chuẩn bị hồ sơ cho phương án đã chọn.",
+        "en": "See your position clearly before choosing a route: assess the evidence, weigh negotiation against proceedings, and prepare the file for whichever path you take.",
+        "zh": "在选择路径前先看清自身处境：评估证据、权衡协商与诉讼，并为既定方案准备材料。"
+      },
+      "seoDescription": {
+        "vi": "Hỗ trợ giải quyết tranh chấp: đánh giá chứng cứ và vị thế pháp lý, rà soát thời hiệu, thương lượng và hòa giải, chuẩn bị hồ sơ khởi kiện hoặc trọng tài.",
+        "en": "Dispute resolution: assessing evidence and your legal position, limitation review, negotiation and mediation, court and arbitration filings.",
+        "zh": "争议解决支持：证据与法律地位评估、时效审查、协商与调解、起诉或仲裁材料准备。"
+      },
+      "scope": [
+        {
+          "vi": "Đánh giá hồ sơ, chứng cứ và vị thế pháp lý",
+          "en": "Assessment of the file, the evidence and your legal position",
+          "zh": "对材料、证据与法律地位的评估"
+        },
+        {
+          "vi": "Rà soát thời hiệu và điều khoản giải quyết tranh chấp trong hợp đồng",
+          "en": "Review of limitation periods and the dispute clause in the contract",
+          "zh": "审查时效及合同中的争议解决条款"
+        },
+        {
+          "vi": "Thư yêu cầu, thương lượng và hòa giải",
+          "en": "Demand letters, negotiation and mediation",
+          "zh": "催告函、协商与调解"
+        },
+        {
+          "vi": "Chuẩn bị hồ sơ khởi kiện hoặc hồ sơ trọng tài",
+          "en": "Preparation of court filings or arbitration submissions",
+          "zh": "起诉材料或仲裁申请的准备"
+        },
+        {
+          "vi": "Đại diện và tham gia tố tụng theo phạm vi được ủy quyền",
+          "en": "Representation and participation in proceedings within the scope of the mandate",
+          "zh": "在授权范围内代理并参与诉讼程序"
+        },
+        {
+          "vi": "Vấn đề thi hành sau khi có phán quyết",
+          "en": "Enforcement issues once a decision has been made",
+          "zh": "裁决作出后的执行问题"
+        }
+      ],
+      "keywords": {
+        "vi": "kiện, khởi kiện, kiện ra tòa, đơn khởi kiện, đòi nợ, tranh chấp, hòa giải, thương lượng, trọng tài, thi hành án, án phí, thắng kiện",
+        "en": "sue, file a lawsuit, take to court, statement of claim, debt recovery, dispute, mediation, negotiation, arbitration, enforcement of judgment, court fees",
+        "zh": "起诉, 打官司, 上法院, 起诉状, 追讨欠款, 纠纷, 调解, 协商, 仲裁, 强制执行, 诉讼费"
+      },
+      "seoTitle": {
+        "vi": "Luật sư giải quyết tranh chấp và tố tụng",
+        "en": "Dispute resolution and litigation lawyers",
+        "zh": "争议解决与诉讼律师"
+      }
+    },
+    "lao-dong-nhan-su": {
+      "title": {
+        "vi": "Lao động & nhân sự",
+        "en": "Employment & labour",
+        "zh": "劳动与人事"
+      },
+      "summary": {
+        "vi": "Quan hệ lao động được giữ vững bằng giấy tờ: hợp đồng, nội quy, quy chế và trình tự xử lý. Chúng tôi hỗ trợ dựng bộ tài liệu đó và xử lý các tình huống nhân sự theo đúng thứ tự bắt buộc.",
+        "en": "An employment relationship stands on its paperwork: contracts, internal rules, policies and the order in which steps are taken. We help build that documentation and work through personnel matters in the sequence the law requires.",
+        "zh": "劳动关系依靠文件维系：劳动合同、内部规章、各项制度以及处理程序的先后顺序。我们协助搭建这套文件，并按法定顺序处理各类人事事项。"
+      },
+      "seoDescription": {
+        "vi": "Hỗ trợ pháp lý lao động và nhân sự: hợp đồng, nội quy, kỷ luật, chấm dứt hợp đồng, lao động nước ngoài và tranh chấp lao động tại Việt Nam.",
+        "en": "Employment and labour law in Vietnam: contracts, internal rules, discipline, termination, work permits and labour disputes.",
+        "zh": "越南劳动与人事法律支持：劳动合同、内部规章、纪律处理、合同终止、外籍员工手续与劳动争议。"
+      },
+      "scope": [
+        {
+          "vi": "Hợp đồng lao động, phụ lục và các thỏa thuận đi kèm",
+          "en": "Employment contracts, addenda and accompanying agreements",
+          "zh": "劳动合同、附件及相关配套协议"
+        },
+        {
+          "vi": "Nội quy lao động, thỏa ước lao động tập thể và quy chế nội bộ",
+          "en": "Internal labour rules, collective agreements and company policies",
+          "zh": "劳动规章制度、集体劳动协议与内部管理规定"
+        },
+        {
+          "vi": "Thủ tục đăng ký, thông báo và hồ sơ nhân sự bắt buộc",
+          "en": "Registrations, notifications and the personnel records required by law",
+          "zh": "登记备案、通知手续与法定人事档案"
+        },
+        {
+          "vi": "Kỷ luật lao động, trách nhiệm vật chất và trình tự xử lý",
+          "en": "Disciplinary action, liability for damage and the procedure to follow",
+          "zh": "劳动纪律处理、财产赔偿责任及处理程序"
+        },
+        {
+          "vi": "Chấm dứt hợp đồng, tái cơ cấu nhân sự và nghĩa vụ kèm theo",
+          "en": "Termination, workforce restructuring and the obligations that follow",
+          "zh": "合同终止、人员重组及随之产生的义务"
+        },
+        {
+          "vi": "Lao động nước ngoài: giấy phép lao động và giấy tờ cư trú",
+          "en": "Foreign employees: work permits and residence documents",
+          "zh": "外籍员工：工作许可与居留证件"
+        }
+      ],
+      "keywords": {
+        "vi": "sa thải, đuổi việc, cho thôi việc, nghỉ việc, đơn phương chấm dứt, hợp đồng lao động, thử việc, trợ cấp thôi việc, bảo hiểm xã hội, kỷ luật lao động, nội quy lao động, tranh chấp lao động, tiền lương, làm thêm giờ, thai sản",
+        "en": "dismissal, fired, terminate an employee, resignation, unilateral termination, employment contract, probation, severance pay, social insurance, disciplinary action, internal labour rules, labour dispute, wages, overtime, maternity leave",
+        "zh": "解雇, 辞退, 开除, 辞职, 单方解除, 劳动合同, 试用期, 离职补偿, 社会保险, 劳动纪律, 劳动规章, 劳动争议, 工资, 加班, 产假"
+      },
+      "seoTitle": {
+        "vi": "Luật sư lao động và nhân sự doanh nghiệp",
+        "en": "Employment and HR lawyers in Vietnam",
+        "zh": "劳动与人力资源法律顾问"
+      }
+    },
+    "dat-dai-bat-dong-san": {
+      "title": {
+        "vi": "Đất đai & bất động sản",
+        "en": "Land & real estate",
+        "zh": "土地与房地产"
+      },
+      "summary": {
+        "vi": "Một giao dịch bất động sản an toàn bắt đầu từ hồ sơ chứ không từ hợp đồng: tình trạng pháp lý của thửa đất, tư cách của các bên, rồi mới đến điều khoản và thủ tục đăng ký.",
+        "en": "A sound property transaction begins with the file, not the contract: the legal status of the land, the standing of each party, and only then the terms and the registration steps.",
+        "zh": "一笔稳妥的房地产交易始于材料而非合同：先看土地的法律状态与各方主体资格，再谈条款与登记手续。"
+      },
+      "seoDescription": {
+        "vi": "Hỗ trợ pháp lý đất đai và bất động sản: kiểm tra hồ sơ thửa đất, hợp đồng chuyển nhượng, công chứng, đăng ký biến động, thế chấp và tranh chấp đất.",
+        "en": "Land and real estate law in Vietnam: title checks, transfer agreements, notarisation, registration, mortgages and land disputes.",
+        "zh": "越南土地与房地产法律支持：地块材料核查、转让合同、公证、变更登记、抵押及土地争议。"
+      },
+      "scope": [
+        {
+          "vi": "Kiểm tra tình trạng pháp lý thửa đất và tài sản gắn liền với đất",
+          "en": "Checking the legal status of the land and the assets attached to it",
+          "zh": "核查地块及地上附着资产的法律状态"
+        },
+        {
+          "vi": "Hợp đồng chuyển nhượng, mua bán, tặng cho và cho thuê",
+          "en": "Transfer, sale, gift and lease agreements",
+          "zh": "转让、买卖、赠与及租赁合同"
+        },
+        {
+          "vi": "Công chứng, đăng ký biến động và cấp giấy chứng nhận",
+          "en": "Notarisation, registration of changes and issue of certificates",
+          "zh": "公证、变更登记与证书办理"
+        },
+        {
+          "vi": "Thế chấp, đăng ký giao dịch bảo đảm và xử lý tài sản bảo đảm",
+          "en": "Mortgages, registration of security interests and enforcement over collateral",
+          "zh": "抵押、担保登记与担保物处置"
+        },
+        {
+          "vi": "Giao đất, thuê đất, chuyển mục đích sử dụng và nghĩa vụ tài chính",
+          "en": "Land allocation, land lease, change of use purpose and financial obligations",
+          "zh": "土地划拨、租赁、用途变更及相关财政义务"
+        },
+        {
+          "vi": "Thu hồi đất, bồi thường, tái định cư và tranh chấp về đất",
+          "en": "Land recovery, compensation, resettlement and land disputes",
+          "zh": "土地收回、补偿、安置与土地争议"
+        }
+      ],
+      "keywords": {
+        "vi": "sổ đỏ, sổ hồng, giấy chứng nhận quyền sử dụng đất, mua bán nhà, mua bán đất, sang tên, tách thửa, chuyển mục đích sử dụng đất, tranh chấp đất đai, giải phóng mặt bằng, đền bù, thuê nhà, thuê đất, hợp đồng đặt cọc nhà đất",
+        "en": "land use right certificate, land title, buy a house, buy land, transfer of title, land subdivision, change of land use, land dispute, site clearance, compensation, lease a property, lease land, property deposit agreement",
+        "zh": "土地使用权证, 房产证, 买房, 买地, 过户, 分割地块, 变更土地用途, 土地纠纷, 征地拆迁, 补偿, 租房, 租地, 购房定金合同"
+      },
+      "seoTitle": {
+        "vi": "Luật sư đất đai và bất động sản",
+        "en": "Land and real estate lawyers in Vietnam",
+        "zh": "土地与房地产法律顾问"
+      }
+    },
+    "hon-nhan-gia-dinh": {
+      "title": {
+        "vi": "Hôn nhân, gia đình & thừa kế",
+        "en": "Family & inheritance",
+        "zh": "婚姻家庭与继承"
+      },
+      "summary": {
+        "vi": "Hỗ trợ pháp lý cho các việc trong gia đình: tài sản của vợ chồng, chấm dứt hôn nhân, sắp xếp liên quan tới con và việc chuyển giao tài sản giữa các thế hệ.",
+        "en": "Legal support for matters within a family: marital property, the ending of a marriage, arrangements concerning children, and the passing of property between generations.",
+        "zh": "为家庭事务提供法律支持：夫妻财产、婚姻的终止、与子女相关的安排，以及代际间的财产移转。"
+      },
+      "seoDescription": {
+        "vi": "Hỗ trợ pháp lý về hôn nhân, gia đình và thừa kế: thỏa thuận tài sản, ly hôn, sắp xếp về con cái, lập di chúc và thủ tục khai nhận di sản.",
+        "en": "Family and inheritance law in Vietnam: property agreements, divorce, arrangements for children, wills and estate procedures.",
+        "zh": "越南婚姻家庭与继承法律支持：夫妻财产协议、离婚程序、子女抚养安排、遗嘱订立与遗产申报手续。"
+      },
+      "scope": [
+        {
+          "vi": "Thỏa thuận về tài sản trước và trong thời kỳ hôn nhân",
+          "en": "Property agreements before and during a marriage",
+          "zh": "婚前及婚姻存续期间的财产协议"
+        },
+        {
+          "vi": "Xác định và phân chia tài sản chung, tài sản riêng",
+          "en": "Identifying and dividing joint and separate property",
+          "zh": "共同财产与个人财产的认定及分割"
+        },
+        {
+          "vi": "Thủ tục ly hôn thuận tình và ly hôn theo yêu cầu của một bên",
+          "en": "Divorce by agreement and divorce at the request of one party",
+          "zh": "协议离婚与一方请求离婚的程序"
+        },
+        {
+          "vi": "Nuôi con, cấp dưỡng và quyền thăm nom sau khi ly hôn",
+          "en": "Care of children, maintenance and contact arrangements after a divorce",
+          "zh": "离婚后的子女抚养、抚养费与探视安排"
+        },
+        {
+          "vi": "Lập di chúc và sắp xếp việc chuyển giao tài sản khi còn sống",
+          "en": "Making a will and arranging transfers of property during your lifetime",
+          "zh": "订立遗嘱及生前的财产移转安排"
+        },
+        {
+          "vi": "Khai nhận di sản, thỏa thuận phân chia và tranh chấp về thừa kế",
+          "en": "Estate declaration, agreements on distribution and inheritance disputes",
+          "zh": "遗产申报、分割协议与继承争议"
+        }
+      ],
+      "keywords": {
+        "vi": "ly hôn, ly dị, đơn ly hôn, ly hôn đơn phương, chia tài sản, tài sản chung, quyền nuôi con, giành quyền nuôi con, cấp dưỡng, thừa kế, chia thừa kế, di chúc, tranh chấp thừa kế, kết hôn với người nước ngoài, nhận con nuôi",
+        "en": "divorce, file for divorce, unilateral divorce, division of assets, marital property, child custody, child support, inheritance, division of an estate, will, inheritance dispute, marriage to a foreigner, adoption",
+        "zh": "离婚, 起诉离婚, 单方离婚, 财产分割, 夫妻共同财产, 子女抚养权, 抚养费, 继承, 遗产分割, 遗嘱, 继承纠纷, 涉外婚姻, 收养"
+      },
+      "seoTitle": {
+        "vi": "Luật sư hôn nhân, gia đình và thừa kế",
+        "en": "Family, matrimonial and inheritance lawyers",
+        "zh": "婚姻家庭与继承法律顾问"
+      }
+    },
+    "hinh-su": {
+      "title": {
+        "vi": "Hình sự",
+        "en": "Criminal defence",
+        "zh": "刑事辩护"
+      },
+      "summary": {
+        "vi": "Hỗ trợ pháp lý cho người bị tố giác, bị can, bị cáo và người bị hại trong quá trình tố tụng hình sự: làm rõ quyền của bạn ở từng giai đoạn và chuẩn bị cho những bước sắp diễn ra.",
+        "en": "Legal support for people under report, accused or charged, and for injured parties, through criminal proceedings: making your rights clear at each stage and preparing for what comes next.",
+        "zh": "为被举报人、犯罪嫌疑人、被告人及被害人在刑事诉讼过程中提供法律支持：厘清您在各阶段的权利，并为接下来的程序做好准备。"
+      },
+      "seoDescription": {
+        "vi": "Bào chữa và bảo vệ quyền lợi trong vụ án hình sự: tham gia từ giai đoạn đầu, nghiên cứu hồ sơ, chuẩn bị cho từng bước tố tụng, bảo mật thông tin.",
+        "en": "Criminal defence in Vietnam: early involvement, case file review, preparation for each stage of proceedings, and strict confidentiality.",
+        "zh": "刑事案件辩护与权益维护：自初期阶段介入、研究案卷、为各诉讼阶段做好准备，并严格保密。"
+      },
+      "scope": [
+        {
+          "vi": "Bảo vệ quyền của người bị tố giác, bị can, bị cáo trong suốt quá trình tố tụng",
+          "en": "Protecting the rights of a person under report, accused or charged throughout the proceedings",
+          "zh": "在诉讼全程维护被举报人、犯罪嫌疑人、被告人的权利"
+        },
+        {
+          "vi": "Tham gia từ giai đoạn xác minh tin báo, tố giác và giai đoạn điều tra",
+          "en": "Involvement from the verification of reports and from the investigation stage",
+          "zh": "自举报核查阶段与侦查阶段起即介入"
+        },
+        {
+          "vi": "Có mặt khi lấy lời khai, hỏi cung theo quy định hiện hành",
+          "en": "Attendance when statements are taken and during questioning, as current rules provide",
+          "zh": "依现行规定在询问与讯问时到场"
+        },
+        {
+          "vi": "Nghiên cứu hồ sơ, sao chụp tài liệu và chuẩn bị luận cứ bào chữa",
+          "en": "Studying the case file, copying documents and preparing the defence submissions",
+          "zh": "研究案卷、复制材料并准备辩护意见"
+        },
+        {
+          "vi": "Bào chữa tại phiên tòa sơ thẩm và phúc thẩm",
+          "en": "Defence at first-instance and appellate hearings",
+          "zh": "在一审与二审庭审中进行辩护"
+        },
+        {
+          "vi": "Bảo vệ quyền lợi cho người bị hại và đương sự khác trong vụ án hình sự",
+          "en": "Representing injured parties and other participants within criminal proceedings",
+          "zh": "在刑事案件中维护被害人及其他当事人的权益"
+        }
+      ],
+      "keywords": {
+        "vi": "bị khởi tố, bị bắt, bị tạm giam, bị triệu tập, bào chữa, luật sư bào chữa, bị can, bị cáo, bị hại, tố giác tội phạm, điều tra, xét xử, kháng cáo, án treo, bảo lãnh tại ngoại",
+        "en": "charged with a crime, arrested, in custody, summoned, criminal defence, defence lawyer, accused, defendant, victim, report a crime, investigation, trial, appeal, suspended sentence, bail",
+        "zh": "被起诉, 被逮捕, 被羁押, 被传唤, 刑事辩护, 辩护律师, 犯罪嫌疑人, 被告人, 被害人, 报案, 侦查, 审判, 上诉, 缓刑, 取保候审"
+      },
+      "seoTitle": {
+        "vi": "Luật sư bào chữa vụ án hình sự",
+        "en": "Criminal defence lawyers in Vietnam",
+        "zh": "刑事辩护律师"
+      }
+    }
+  },
+  "aboutHeadings": [
+    {
+      "vi": "Bắt đầu từ vấn đề, không từ điều khoản",
+      "en": "Start with the problem, not the provision",
+      "zh": "从问题出发，而非从条文出发"
+    },
+    {
+      "vi": "Nói rõ điều chưa chắc chắn",
+      "en": "Say plainly what is uncertain",
+      "zh": "明确说明不确定之处"
+    },
+    {
+      "vi": "Phạm vi công việc được xác định trước",
+      "en": "Scope is agreed before work begins",
+      "zh": "工作范围事先确定"
+    },
+    {
+      "vi": "Thông tin bạn chia sẻ được giữ kín",
+      "en": "What you share stays confidential",
+      "zh": "您所提供的信息予以保密"
+    }
+  ]
+}

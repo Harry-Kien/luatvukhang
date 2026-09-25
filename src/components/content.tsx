@@ -53,7 +53,10 @@ export function ContentBody({ record }: { record: any }) {
             {b.heading && <h2 id={`section-${i}`}>{b.heading}</h2>}
             {b.blockType === "text" && b.body && <RichText data={b.body} />}
             {b.blockType === "callout" && (
-              <div className="status">{b.body}</div>
+              // Giữ xuống dòng người biên tập gõ trong ô văn bản thuần.
+              <div className="status" style={{ whiteSpace: "pre-line" }}>
+                {b.body}
+              </div>
             )}
             {b.blockType === "image" &&
               typeof b.image === "object" &&

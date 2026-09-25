@@ -12,7 +12,7 @@
  *
  * Chỉ thêm, không gỡ: liên kết do công ty tự chọn trong CMS được giữ nguyên.
  * Bài "Chuẩn bị gì cho buổi gặp luật sư đầu tiên" cố ý không gắn vào lĩnh vực
- * nào — đó là hướng dẫn chung, gắn vào cả 12 lĩnh vực chỉ làm loãng.
+ * nào — đó là hướng dẫn chung, gắn vào mọi lĩnh vực chỉ làm loãng.
  */
 import { getPayload } from "payload";
 import config from "../src/payload.config";
@@ -20,7 +20,7 @@ import { locales } from "../src/lib/locales";
 
 /** slug lĩnh vực -> các slug bài viết liên quan. */
 const LINKS: Record<string, string[]> = {
-  "hop-dong-thuong-mai": [
+  "dau-tu-doanh-nghiep": [
     "khi-nao-can-luat-su-ra-soat-hop-dong",
     "cac-buoc-truoc-khi-khoi-kien-doi-tac",
   ],

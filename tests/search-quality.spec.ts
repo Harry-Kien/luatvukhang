@@ -5,9 +5,9 @@ import { test, expect } from "@playwright/test";
  * lý. Bộ này khóa lại điều đó: mỗi truy vấn phải đưa đúng lĩnh vực lên vị trí
  * đầu tiên.
  *
- * Trước khi có trường "Từ khóa khách hàng thường gõ", 7 trong 20 truy vấn dưới
- * đây trả về sai lĩnh vực hoặc không có kết quả nào — "sa thải" không xuất hiện
- * một lần nào trong bài về Lao động & nhân sự.
+ * Trước khi có trường "Từ khóa khách hàng thường gõ", 7 trong 20 truy vấn đầu
+ * tiên của bộ này trả về sai lĩnh vực hoặc không có kết quả nào — "sa thải"
+ * không xuất hiện một lần nào trong bài về Lao động & nhân sự.
  */
 const PROBES: [string, string][] = [
   ["ly hôn", "hon-nhan-gia-dinh"],
@@ -18,19 +18,17 @@ const PROBES: [string, string][] = [
   ["sổ đỏ", "dat-dai-bat-dong-san"],
   ["mua bán nhà đất", "dat-dai-bat-dong-san"],
   ["thành lập công ty", "dau-tu-doanh-nghiep"],
-  ["đăng ký nhãn hiệu", "so-huu-tri-tue"],
-  ["bản quyền phần mềm", "so-huu-tri-tue"],
-  ["quyết toán thuế", "thue-tai-chinh"],
   ["bị khởi tố", "hinh-su"],
   ["bào chữa", "hinh-su"],
-  ["giấy phép kinh doanh", "hanh-chinh-giay-phep"],
-  ["vay ngân hàng", "ngan-hang-tin-dung"],
-  ["nhà thầu xây dựng", "xay-dung-ha-tang"],
+  ["vay tiền", "giai-quyet-tranh-chap"],
   ["kiện ra tòa", "giai-quyet-tranh-chap"],
-  ["soạn hợp đồng", "hop-dong-thuong-mai"],
+  ["soạn hợp đồng", "dau-tu-doanh-nghiep"],
+  ["mẫu đơn", "san-pham-phap-ly-tieu-chuan"],
+  ["kiểm tra hồ sơ", "san-pham-phap-ly-tieu-chuan"],
+  ["luật sư riêng", "luat-su-rieng-tu-van-dinh-ky"],
   // Bàn phím không dấu là cách gõ phổ biến; phải ra cùng kết quả.
   ["li hon", "hon-nhan-gia-dinh"],
-  ["dang ky nhan hieu", "so-huu-tri-tue"],
+  ["thanh lap cong ty", "dau-tu-doanh-nghiep"],
 ];
 
 const DETAIL_LINK =

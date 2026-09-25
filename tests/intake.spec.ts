@@ -22,7 +22,7 @@ async function submit(request: APIRequestContext) {
       name: "QA Tiep Nhan",
       email: `qa-intake-${randomUUID()}@local.invalid`,
       phone: "0832270898",
-      service: "Hợp đồng & thương mại",
+      service: "Doanh nghiệp & thương mại",
       message: "Yeu cau kiem thu quy trinh tiep nhan tu dau den cuoi.",
       consent: true,
       language: "vi",
