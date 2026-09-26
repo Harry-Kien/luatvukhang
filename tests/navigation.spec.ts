@@ -79,6 +79,38 @@ test("the expertise menu matches the practice areas listing page", async ({
   else expect([...inMenu].sort()).toEqual([...unique].sort());
 });
 
+test("practice areas follow the firm's catalogue order everywhere", async ({
+  page,
+}) => {
+  // Trước đây danh sách xếp theo lần sửa gần nhất: lưu một lĩnh vực là nó nhảy
+  // lên đầu menu. Thứ tự phải là thứ tự danh mục công ty đã đưa.
+  const { SERVICE_ORDER } = await import("../src/lib/service-order");
+  const order = SERVICE_ORDER as readonly string[];
+  const slugsOn = async (selector: string) =>
+    (
+      await page
+        .locator(selector)
+        .evaluateAll((links) => links.map((a) => a.getAttribute("href") || ""))
+    )
+      .map((href) => href.split("/services/")[1]?.split(/[?#]/)[0])
+      .filter((slug): slug is string => !!slug && order.includes(slug));
+
+  await page.goto("/vi");
+  const home = await slugsOn(".practice-list a.practice-item");
+  await page.goto("/vi/services");
+  const listing = await slugsOn(`main a[href^="/vi/services/"]`);
+  for (const [where, slugs] of [
+    ["trang chủ", home],
+    ["trang Chuyên môn", [...new Set(listing)]],
+  ] as const) {
+    test.skip(slugs.length < 2, "Chưa đủ lĩnh vực đã xuất bản để so thứ tự.");
+    const ranks = slugs.map((slug) => order.indexOf(slug));
+    expect(ranks, `Thứ tự lĩnh vực trên ${where}`).toEqual(
+      [...ranks].sort((a, b) => a - b),
+    );
+  }
+});
+
 test("menu and footer never link to a section that has nothing to show", async ({
   page,
 }) => {

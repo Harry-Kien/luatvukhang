@@ -2,6 +2,7 @@ import { cache } from "react";
 import type { CollectionSlug } from "payload";
 import type { Locale } from "./content";
 import { demo } from "./content";
+import { inServiceOrder } from "./service-order";
 export type ContentRecord = {
   id: string | number;
   title: string;
@@ -49,7 +50,9 @@ export const getRecords = cache(async function getRecords(
       sort: "-updatedAt",
       draft: false,
     });
-    return result.docs as unknown as ContentRecord[];
+    const docs = result.docs as unknown as ContentRecord[];
+    // Dịch vụ theo thứ tự danh mục của công ty, không theo lần sửa gần nhất.
+    return collection === "services" ? inServiceOrder(docs) : docs;
   } catch (error) {
     if (demo) return [];
     throw error;
