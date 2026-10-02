@@ -262,6 +262,8 @@ export function Footer({
   locale,
   companyName,
   phone,
+  address,
+  email,
   layout,
   contact,
   nav,
@@ -269,6 +271,8 @@ export function Footer({
   locale: Locale;
   companyName?: string;
   phone?: string | null;
+  address?: string | null;
+  email?: string | null;
   layout: SiteLayoutData["footer"];
   contact: SiteLayoutData["contact"];
   nav: NavItem[];
@@ -310,6 +314,25 @@ export function Footer({
             {companyName || "Công ty Luật TNHH Vũ Khang Solutions & Partners"}
           </p>
           <span className="footer-motto">{layout.motto}</span>
+          {(address || email) && (
+            // Địa chỉ và email ở mọi trang: khách tìm văn phòng hay muốn gửi thư
+            // không phải biết trước rằng chúng nằm ở trang Liên hệ.
+            <address className="footer-address">
+              {address && (
+                <a
+                  href={
+                    "https://www.google.com/maps/search/?api=1&query=" +
+                    encodeURIComponent(address)
+                  }
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {address}
+                </a>
+              )}
+              {email && <a href={"mailto:" + email}>{email}</a>}
+            </address>
+          )}
           <ContactChannels locale={locale} phone={phone} variant="stack" />
           {social.length > 0 && (
             <ul className="footer-social">

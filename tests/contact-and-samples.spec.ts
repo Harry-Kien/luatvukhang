@@ -78,6 +78,26 @@ test("the quick-contact buttons keep an accessible name when their text is hidde
   }
 });
 
+test("every page footer shows the office address and email from Settings", async ({
+  page,
+  request,
+}) => {
+  const settings = await (
+    await request.get("/api/globals/site-settings")
+  ).json();
+  test.skip(!settings.address, "Chưa nhập địa chỉ trong Cài đặt.");
+  for (const path of ["/vi", "/en/services", "/zh/lawyers"]) {
+    await page.goto(path);
+    const footer = page.locator("footer .footer-address");
+    await expect(footer, path).toContainText(settings.address);
+    if (settings.email)
+      await expect(
+        footer.locator(`a[href="mailto:${settings.email}"]`),
+        path,
+      ).toHaveCount(1);
+  }
+});
+
 test("the quick-contact buttons step aside while a visitor types on a phone", async ({
   page,
   request,

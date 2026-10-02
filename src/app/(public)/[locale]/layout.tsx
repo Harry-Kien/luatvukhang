@@ -143,6 +143,8 @@ export default async function Layout({
             locale={locale}
             companyName={companyName || undefined}
             phone={settings?.phone}
+            address={settings?.address}
+            email={settings?.email}
             layout={footer}
             contact={layout.contact}
             nav={nav}
