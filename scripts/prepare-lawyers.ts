@@ -15,6 +15,9 @@
  *
  * Chạy lại nhiều lần không tạo bản trùng và không ghi đè nội dung đã sửa.
  *
+ * Ảnh chân dung khai trong scripts/content/lawyers.ts (ô `portrait`) được tải
+ * lên thư viện ảnh và gắn vào hồ sơ chưa có ảnh, kể cả hồ sơ đã xuất bản.
+ *
  * `--refresh` nạp lại chức danh, tóm tắt và thông tin nghề nghiệp từ
  * scripts/content/lawyers.ts, kể cả cho bản đã xuất bản — bản đã xuất bản thì
  * vẫn ở trạng thái xuất bản sau khi ghi. Dùng khi công ty đính chính thông tin
@@ -30,6 +33,8 @@
  * khi có. Thiếu thông tin thì trang hiển thị ít đi; bịa ra thì thành hồ sơ hành
  * nghề sai sự thật, nên không bao giờ điền thay.
  */
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
@@ -140,8 +145,63 @@ for (const lawyer of firmLawyers)
     console.log("da tao", lawyer.slug, language);
   }
 
+// Ảnh chân dung công ty đã cung cấp. Chỉ gắn vào hồ sơ CHƯA có ảnh: ảnh công
+// ty tự chọn trong CMS không bị thay. Tệp được tải lên thư viện ảnh một lần rồi
+// dùng chung cho cả ba ngôn ngữ. Hồ sơ đã xuất bản vẫn ở trạng thái xuất bản.
+let portraits = 0;
+for (const lawyer of firmLawyers) {
+  if (!lawyer.portrait) continue;
+  const records = (
+    await cms.find({
+      collection: "lawyers",
+      where: { slug: { equals: lawyer.slug } },
+      draft: true,
+      pagination: false,
+      depth: 0,
+    })
+  ).docs as Record<string, any>[];
+  const missing = records.filter((record) => !record.portrait);
+  if (!missing.length) continue;
+  const existing = (
+    await cms.find({
+      collection: "media",
+      where: { filename: { equals: lawyer.portrait.file } },
+      limit: 1,
+      depth: 0,
+    })
+  ).docs[0];
+  const media =
+    existing ??
+    (await cms.create({
+      collection: "media",
+      user: admin,
+      filePath: path.resolve(
+        path.dirname(fileURLToPath(import.meta.url)),
+        "content/portraits",
+        lawyer.portrait.file,
+      ),
+      data: {
+        alt: lawyer.portrait.alt,
+        credit: lawyer.portrait.credit,
+        rights: lawyer.portrait.rights,
+      },
+    }));
+  for (const record of missing) {
+    const live = record._status === "published";
+    await cms.update({
+      collection: "lawyers",
+      id: record.id,
+      user: admin,
+      draft: !live,
+      data: { portrait: media.id, ...(live ? { _status: "published" } : {}) },
+    });
+    portraits += 1;
+    console.log("da gan anh chan dung", lawyer.slug, record.language);
+  }
+}
+
 console.log(
-  `\nTao moi: ${created}. Cap nhat: ${updated}. Xuat ban: ${published}. Bo qua: ${skipped}.\n` +
+  `\nTao moi: ${created}. Cap nhat: ${updated}. Xuat ban: ${published}. Gan anh: ${portraits}. Bo qua: ${skipped}.\n` +
     "Cac ho so dang o dang NHAP. Truoc khi xuat ban, vao /admin > Doi ngu de nhap:\n" +
     "  - So the luat su va doan luat su (o 'Thong tin nghe nghiep da xac minh')\n" +
     "  - Linh vuc chuyen mon phu trach\n" +

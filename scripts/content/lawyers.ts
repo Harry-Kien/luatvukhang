@@ -31,6 +31,13 @@ export type FirmLawyer = {
    * nhãn "Thông tin nghề nghiệp". Chỉ ghi điều công ty đã khẳng định.
    */
   qualifications: Localised;
+  /**
+   * Ảnh chân dung do công ty cung cấp, đặt trong scripts/content/portraits/.
+   * Cắt sẵn tỉ lệ 4:5 — đúng khung ảnh ở trang Đội ngũ và trang hồ sơ, để
+   * object-fit không tự cắt mất đỉnh đầu. `rights` ghi nguồn gốc quyền dùng ảnh
+   * vào ô bắt buộc của thư viện ảnh.
+   */
+  portrait?: { file: string; alt: string; credit: string; rights: string };
 };
 
 const FIRM = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
@@ -79,6 +86,15 @@ export const firmLawyers: FirmLawyer[] = [
       vi: "Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang.",
       en: "Master of Laws. Former Deputy Chief Judge, Nha Trang Regional Court.",
       zh: "法学硕士。曾任 Nha Trang 地区法院副院长。",
+    },
+    // Nguồn: chủ website gửi ngày 03/10/2026 (Chan_dung_luat_su_Lan_Anh_10x15cm.pdf,
+    // bản làm mịn). Đã bỏ hai dải lề trắng và cắt về 4:5.
+    portrait: {
+      file: "tran-phuong-lan-anh.jpg",
+      alt: "Chân dung Luật sư Trần Phương Lan Anh",
+      credit: FIRM,
+      rights:
+        "Chủ website cung cấp ngày 03/10/2026 để đăng trên hồ sơ luật sư tại website công ty.",
     },
   },
   {
