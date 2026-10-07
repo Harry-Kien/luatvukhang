@@ -135,6 +135,11 @@ export const seoTitles: Record<string, Localised> = {
     en: "Trần Lê Kim Bình — Legal Specialist",
     zh: "Trần Lê Kim Bình — 法务专员",
   },
+  "lawyers/tran-thi-anh-nhu": {
+    vi: "Trần Thị Anh Như — Chuyên viên pháp lý",
+    en: "Trần Thị Anh Như — Legal Specialist",
+    zh: "Trần Thị Anh Như — 法务专员",
+  },
 
   "pages/about": {
     vi: "Về công ty luật Vũ Khang Solutions & Partners",

@@ -1,0 +1,53 @@
+{
+  "phan-thuy-trang": {
+    "position": {
+      "vi": "Giám đốc - Luật sư",
+      "en": "Director & Lawyer",
+      "zh": "主任、律师"
+    },
+    "summary": {
+      "vi": "Giám đốc, Luật sư và người đại diện theo pháp luật của Công ty Luật TNHH Vũ Khang Solutions & Partners. Nguyên Thẩm phán Tòa án khu vực Tây Ninh.",
+      "en": "Director, Lawyer and legal representative of Công ty Luật TNHH Vũ Khang Solutions & Partners. Former Judge of the Tây Ninh Regional Court.",
+      "zh": "Công ty Luật TNHH Vũ Khang Solutions & Partners 主任、律师、法定代表人。曾任 Tây Ninh 地区法院法官。"
+    },
+    "qualifications": {
+      "vi": "Nguyên Thẩm phán Tòa án khu vực Tây Ninh.",
+      "en": "Former Judge, Tây Ninh Regional Court.",
+      "zh": "曾任 Tây Ninh 地区法院法官。"
+    }
+  },
+  "tran-phuong-lan-anh": {
+    "position": {
+      "vi": "Luật sư",
+      "en": "Lawyer",
+      "zh": "律师"
+    },
+    "summary": {
+      "vi": "Luật sư của Công ty Luật TNHH Vũ Khang Solutions & Partners, trình độ Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang.",
+      "en": "Lawyer at Công ty Luật TNHH Vũ Khang Solutions & Partners, holding a Master of Laws. Former Deputy Chief Judge of the Nha Trang Regional Court.",
+      "zh": "Công ty Luật TNHH Vũ Khang Solutions & Partners 律师，法学硕士。曾任 Nha Trang 地区法院副院长。"
+    },
+    "qualifications": {
+      "vi": "Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang.",
+      "en": "Master of Laws. Former Deputy Chief Judge, Nha Trang Regional Court.",
+      "zh": "法学硕士。曾任 Nha Trang 地区法院副院长。"
+    }
+  },
+  "tran-le-kim-binh": {
+    "position": {
+      "vi": "Chuyên viên",
+      "en": "Legal Specialist",
+      "zh": "法务专员"
+    },
+    "summary": {
+      "vi": "Chuyên viên của Công ty Luật TNHH Vũ Khang Solutions & Partners, cử nhân luật.",
+      "en": "Legal specialist at Công ty Luật TNHH Vũ Khang Solutions & Partners, holding a Bachelor of Laws.",
+      "zh": "Công ty Luật TNHH Vũ Khang Solutions & Partners 法务专员，法学学士。"
+    },
+    "qualifications": {
+      "vi": "Cử nhân Luật.",
+      "en": "Bachelor of Laws.",
+      "zh": "法学学士。"
+    }
+  }
+}

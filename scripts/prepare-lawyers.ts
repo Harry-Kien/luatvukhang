@@ -9,11 +9,15 @@
  * người thật để đưa lên. Khi đã có, chúng phải rời khỏi CMS chứ không chỉ rời
  * khỏi website: biên tập viên rất dễ nhầm một hồ sơ mẫu với người thật.
  *
- * Bản ghi tạo ra ở dạng NHÁP và chưa duyệt. Thiếu số thẻ luật sư, đoàn luật sư,
- * lĩnh vực phụ trách, ngôn ngữ làm việc và ảnh chân dung — những thứ chỉ công ty
- * cung cấp được. Vào /admin > Đội ngũ để nhập, rồi mới duyệt và xuất bản.
+ * Bản ghi tạo ra ở dạng NHÁP và chưa duyệt, trừ hồ sơ khai `publishOnCreate`
+ * (công ty đã quyết định đưa người đó lên website) — tạo thẳng ở trạng thái
+ * xuất bản.
  *
- * Chạy lại nhiều lần không tạo bản trùng và không ghi đè nội dung đã sửa.
+ * Chạy lại nhiều lần không tạo bản trùng và không ghi đè nội dung đã sửa. Khi
+ * công ty đính chính thông tin trong scripts/content/lawyers.ts, ô nào trên CMS
+ * còn nguyên giá trị nạp lần trước (content/lawyers-2026-09.json) được cập nhật
+ * theo; ô đã sửa tay thì giữ. Lĩnh vực phụ trách (`services`) được gắn vào hồ
+ * sơ chưa có lĩnh vực nào.
  *
  * Ảnh chân dung khai trong scripts/content/lawyers.ts (ô `portrait`) được tải
  * lên thư viện ảnh và gắn vào hồ sơ chưa có ảnh, kể cả hồ sơ đã xuất bản.
@@ -33,12 +37,13 @@
  * khi có. Thiếu thông tin thì trang hiển thị ít đi; bịa ra thì thành hồ sơ hành
  * nghề sai sự thật, nên không bao giờ điền thay.
  */
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
-import { firmLawyers } from "./content/lawyers";
+import { firmLawyers, type Localised } from "./content/lawyers";
 
 const refresh = process.argv.includes("--refresh");
 const publish = process.argv.includes("--publish");
@@ -67,12 +72,48 @@ for (const doc of samples.docs)
 if (samples.docs.length)
   console.log(`da go ${samples.docs.length} ho so minh hoa.`);
 
+/**
+ * Giá trị đã nạp ở lần trước (bản 25/09/2026). Ô nào trên CMS còn đúng bằng giá
+ * trị này nghĩa là chưa ai sửa tay, nên được đính chính theo lawyers.ts mà
+ * không cần cờ --refresh. Ô công ty đã tự sửa thì giữ nguyên.
+ */
+const previous: Record<
+  string,
+  Record<"position" | "summary" | "qualifications", Localised>
+> = JSON.parse(
+  readFileSync(
+    new URL("./content/lawyers-2026-09.json", import.meta.url),
+    "utf8",
+  ),
+);
+
+/** id lĩnh vực cùng ngôn ngữ, giữ đúng thứ tự công ty nêu. */
+async function serviceIds(slugs: string[] | undefined, language: string) {
+  if (!slugs?.length) return [];
+  const found = await cms.find({
+    collection: "services",
+    where: {
+      and: [{ slug: { in: slugs } }, { language: { equals: language } }],
+    },
+    draft: true,
+    pagination: false,
+    depth: 0,
+  });
+  return slugs
+    .map((slug) => found.docs.find((doc) => doc.slug === slug)?.id)
+    .filter((id): id is number => id !== undefined);
+}
+
+const same = (a: unknown, b: unknown) =>
+  String(a ?? "").trim() === String(b ?? "").trim();
+
 let created = 0;
 let updated = 0;
 let published = 0;
 let skipped = 0;
 for (const lawyer of firmLawyers)
   for (const language of locales) {
+    const seoDescription = (lawyer.seoDescription ?? lawyer.summary)[language];
     const current = await cms.find({
       collection: "lawyers",
       where: {
@@ -87,45 +128,65 @@ for (const lawyer of firmLawyers)
     });
     const found = current.docs[0] as Record<string, any> | undefined;
     if (found) {
-      const live = found._status === "published";
-      if (refresh) {
-        // Giữ nguyên trạng thái: bản đang chạy vẫn chạy sau khi đính chính,
-        // không âm thầm tụt về nháp và biến mất khỏi website.
-        await cms.update({
-          collection: "lawyers",
-          id: found.id,
-          user: admin,
-          draft: !live,
-          data: {
-            position: lawyer.position[language],
-            role: lawyer.role,
-            summary: lawyer.summary[language],
-            qualifications: lawyer.qualifications[language],
-            seo: {
-              ...((found.seo ?? {}) as Record<string, unknown>),
-              description: lawyer.summary[language],
-            },
-            _status: live ? "published" : "draft",
-          },
-        });
-        updated += 1;
-        console.log("da cap nhat", lawyer.slug, language);
-      } else if (publish && !live) {
+      let live = found._status === "published";
+      if (publish && !live) {
         await cms.update({
           collection: "lawyers",
           id: found.id,
           user: admin,
           data: { reviewState: "approved", _status: "published" },
         });
+        live = true;
         published += 1;
         console.log("da xuat ban", lawyer.slug, language);
-      } else skipped += 1;
+      }
+      const data: Record<string, unknown> = {};
+      const before = previous[lawyer.slug];
+      for (const key of ["position", "summary", "qualifications"] as const) {
+        const next = lawyer[key][language];
+        if (same(found[key], next)) continue;
+        if (refresh || (before && same(found[key], before[key][language])))
+          data[key] = next;
+      }
+      if (
+        !same(found.seo?.description, seoDescription) &&
+        (refresh ||
+          (before && same(found.seo?.description, before.summary[language])))
+      )
+        data.seo = { ...(found.seo ?? {}), description: seoDescription };
+      if (refresh && found.role !== lawyer.role) data.role = lawyer.role;
+      // Lĩnh vực chỉ gắn khi hồ sơ chưa có: lĩnh vực công ty tự chọn được giữ.
+      if (!found.services?.length) {
+        const ids = await serviceIds(lawyer.services, language);
+        if (ids.length) data.services = ids;
+      }
+      if (!Object.keys(data).length) {
+        skipped += 1;
+        continue;
+      }
+      // Giữ nguyên trạng thái: bản đang chạy vẫn chạy sau khi đính chính,
+      // không âm thầm tụt về nháp và biến mất khỏi website.
+      await cms.update({
+        collection: "lawyers",
+        id: found.id,
+        user: admin,
+        draft: !live,
+        data: { ...data, ...(live ? { _status: "published" } : {}) },
+      });
+      updated += 1;
+      console.log(
+        "da cap nhat",
+        lawyer.slug,
+        language,
+        Object.keys(data).join(", "),
+      );
       continue;
     }
+    const live = publish || lawyer.publishOnCreate === true;
     await cms.create({
       collection: "lawyers",
       user: admin,
-      draft: true,
+      draft: !live,
       data: {
         title: lawyer.name,
         slug: lawyer.slug,
@@ -135,14 +196,15 @@ for (const lawyer of firmLawyers)
         role: lawyer.role,
         summary: lawyer.summary[language],
         qualifications: lawyer.qualifications[language],
-        seo: { description: lawyer.summary[language] },
-        reviewState: "working",
-        _status: "draft",
+        services: await serviceIds(lawyer.services, language),
+        seo: { description: seoDescription },
+        reviewState: live ? "approved" : "working",
+        _status: live ? "published" : "draft",
         isSample: false,
       },
     });
     created += 1;
-    console.log("da tao", lawyer.slug, language);
+    console.log(live ? "da tao va xuat ban" : "da tao", lawyer.slug, language);
   }
 
 // Ảnh chân dung công ty đã cung cấp. Chỉ gắn vào hồ sơ CHƯA có ảnh: ảnh công
