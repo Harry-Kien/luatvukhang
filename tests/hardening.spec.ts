@@ -204,3 +204,32 @@ test("khách chưa đăng nhập đọc danh sách tài khoản bị từ chối
   const response = await request.get("/api/users?limit=1");
   expect(response.status()).toBe(403);
 });
+
+test("thư viện cơ sở dữ liệu bị giới hạn số luồng trước khi được nạp", async () => {
+  const { readFileSync } = await import("node:fs");
+  await import("../src/lib/thread-limits");
+  // Không giới hạn thì Tokio mở mỗi nhân CPU một luồng, và trên hosting dùng
+  // chung chừng đó luồng ăn hết hạn mức tiến trình (cagefs_enter: Unable to fork).
+  const workers = Number(process.env.TOKIO_WORKER_THREADS);
+  expect(workers).toBeGreaterThanOrEqual(1);
+  expect(workers).toBeLessThanOrEqual(4);
+
+  // Giới hạn chỉ có tác dụng khi được nạp TRƯỚC @libsql/client: phải là dòng
+  // import đầu tiên của hai nơi mở cơ sở dữ liệu.
+  const firstImport = (file: string) =>
+    readFileSync(file, "utf8")
+      .split(/\r?\n/)
+      .find((line) => line.startsWith("import "));
+  expect(firstImport("src/payload.config.ts")).toBe(
+    'import "./lib/thread-limits";',
+  );
+  expect(firstImport("src/lib/operations-db.ts")).toBe(
+    'import "./thread-limits";',
+  );
+  // Tệp khởi động trên hosting và script cài đặt đặt cùng giới hạn cho tiến
+  // trình của chúng, trước khi Next hay script con được nạp.
+  for (const file of ["server.cjs", "scripts/hosting-setup.mjs"])
+    expect(readFileSync(file, "utf8"), file).toContain(
+      'process.env.TOKIO_WORKER_THREADS ??= "2";',
+    );
+});

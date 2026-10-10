@@ -37,6 +37,11 @@ try {
   // Không có tệp .env là bình thường khi biến môi trường khai ở nơi khác.
 }
 
+// Thư viện cơ sở dữ liệu mặc định mở mỗi nhân CPU một luồng; trên máy chủ dùng
+// chung nhiều nhân, chừng đó luồng ăn hết hạn mức tiến trình của tài khoản và
+// cPanel báo "cagefs_enter: Unable to fork". Xem src/lib/thread-limits.ts.
+process.env.TOKIO_WORKER_THREADS ??= "2";
+
 const port = Number.parseInt(process.env.PORT || "3000", 10);
 const hostname = process.env.HOSTNAME || "0.0.0.0";
 const dev = process.env.NODE_ENV !== "production";

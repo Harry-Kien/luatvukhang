@@ -460,6 +460,36 @@ kho mã, nên nội dung và cấu hình của công ty không bị ghi đè.
 Dùng **Git™ Version Control** của cPanel thì bấm **Update from Remote** thay cho
 `git pull`, rồi chạy script như trên.
 
+## Lỗi "cagefs_enter: Unable to fork" trong cPanel
+
+Triệu chứng: trang **Setup Node.js App** báo *The received data is wrong… cagefs_enter:
+Unable to fork*, còn **Terminal** báo *The user has reached resource limits
+(PMEM, number of processes…)* và thoát với mã 255. Website thì vẫn chạy.
+
+Nguyên nhân: tài khoản đã chạm hạn mức số tiến trình (nPROC) của gói hosting.
+CloudLinux tính **mỗi luồng** của ứng dụng là một tiến trình, mà cả hai trang
+trên đều phải mở một tiến trình mới trong tài khoản.
+
+Trước bản 10/10/2026, thư viện cơ sở dữ liệu mở mỗi nhân CPU một luồng — trên
+máy chủ dùng chung nhiều nhân, riêng website đã giữ hàng chục luồng. Từ bản đó,
+`src/lib/thread-limits.ts` giữ con số này ở 2 (đo trên máy 20 nhân: 37 luồng
+xuống 19), nên bình thường lỗi này không còn xuất hiện khi website đang chạy.
+
+Nếu vẫn gặp — thường là khi hosting còn chạy bản cũ, hoặc có lệnh treo từ lần
+cập nhật trước:
+
+1. Đóng mọi tab đang mở website, `/admin` và Terminal. Chờ khoảng 10 phút
+   không ai truy cập: hosting tự tắt ứng dụng khi vắng khách và trả lại tiến
+   trình.
+2. Mở thẳng **Setup Node.js App**, bấm **Stop App** ngay khi trang tải được,
+   rồi mới mở Terminal.
+3. Vẫn lỗi thì có tiến trình treo, không tự tắt. Nhờ hỗ trợ của nhà cung cấp
+   dừng toàn bộ tiến trình của tài khoản và hỏi luôn hạn mức nPROC của gói.
+
+Không xóa rồi tạo lại ứng dụng trong Setup Node.js App — làm vậy mất toàn bộ
+biến môi trường. Không bấm Reconnect/Restart liên tục: mỗi lần thử lại cần thêm
+một tiến trình.
+
 ## Những giới hạn phải biết trước
 
 Hosting dùng chung không cho bằng VPS, và đây là những chỗ sẽ vướng:

@@ -1,3 +1,5 @@
+// Phải đứng đầu: giới hạn luồng của thư viện cơ sở dữ liệu trước khi nó được nạp.
+import "./thread-limits";
 import { createClient, type Client } from "@libsql/client";
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";

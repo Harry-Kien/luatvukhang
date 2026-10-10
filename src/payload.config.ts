@@ -1,3 +1,5 @@
+// Phải đứng đầu: giới hạn luồng của thư viện cơ sở dữ liệu trước khi nó được nạp.
+import "./lib/thread-limits";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildConfig, type CollectionConfig, type Field } from "payload";

@@ -31,6 +31,11 @@ import {
 } from "node:fs";
 import path, { join } from "node:path";
 
+// Mỗi script con mở cơ sở dữ liệu riêng; không giới hạn thì mỗi tiến trình giữ
+// số luồng bằng số nhân CPU và hosting báo "Unable to fork" giữa chừng. Các
+// tiến trình con thừa hưởng giá trị này. Xem src/lib/thread-limits.ts.
+process.env.TOKIO_WORKER_THREADS ??= "2";
+
 try {
   process.loadEnvFile();
 } catch {
