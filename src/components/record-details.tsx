@@ -31,7 +31,7 @@ export async function RecordDetails({
           className="lawyer-portrait"
           media={r.portrait}
           fallbackAlt={r.title}
-          sizes="(max-width: 700px) 100vw, 460px"
+          sizes="(max-width: 700px) 100vw, 400px"
           priority
         />
       )}

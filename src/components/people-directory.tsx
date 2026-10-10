@@ -211,7 +211,7 @@ export async function PeopleDirectory({
                     <CmsImage
                       media={r.portrait}
                       fallbackAlt={r.title}
-                      sizes="(max-width: 700px) 50vw, 300px"
+                      sizes="(max-width: 600px) 100vw, (max-width: 1180px) 50vw, 330px"
                     />
                   ) : (
                     <span className="person-initials" aria-hidden="true">

@@ -207,9 +207,11 @@ for (const lawyer of firmLawyers)
     console.log(live ? "da tao va xuat ban" : "da tao", lawyer.slug, language);
   }
 
-// Ảnh chân dung công ty đã cung cấp. Chỉ gắn vào hồ sơ CHƯA có ảnh: ảnh công
-// ty tự chọn trong CMS không bị thay. Tệp được tải lên thư viện ảnh một lần rồi
-// dùng chung cho cả ba ngôn ngữ. Hồ sơ đã xuất bản vẫn ở trạng thái xuất bản.
+// Ảnh chân dung công ty đã cung cấp. Gắn vào hồ sơ CHƯA có ảnh, và thay ảnh
+// cho hồ sơ đang dùng một bản cũ của chính ảnh đó (portrait.replaces) — ảnh
+// công ty tự chọn trong CMS không bị thay. Tệp được tải lên thư viện ảnh một
+// lần rồi dùng chung cho cả ba ngôn ngữ. Hồ sơ đã xuất bản vẫn ở trạng thái
+// xuất bản.
 let portraits = 0;
 for (const lawyer of firmLawyers) {
   if (!lawyer.portrait) continue;
@@ -222,43 +224,72 @@ for (const lawyer of firmLawyers) {
       depth: 0,
     })
   ).docs as Record<string, any>[];
-  const missing = records.filter((record) => !record.portrait);
-  if (!missing.length) continue;
-  const existing = (
-    await cms.find({
-      collection: "media",
-      where: { filename: { equals: lawyer.portrait.file } },
-      limit: 1,
-      depth: 0,
-    })
-  ).docs[0];
-  const media =
-    existing ??
-    (await cms.create({
-      collection: "media",
-      user: admin,
-      filePath: path.resolve(
-        path.dirname(fileURLToPath(import.meta.url)),
-        "content/portraits",
-        lawyer.portrait.file,
-      ),
-      data: {
-        alt: lawyer.portrait.alt,
-        credit: lawyer.portrait.credit,
-        rights: lawyer.portrait.rights,
-      },
-    }));
-  for (const record of missing) {
-    const live = record._status === "published";
-    await cms.update({
+  const outdated = lawyer.portrait.replaces?.length
+    ? (
+        await cms.find({
+          collection: "media",
+          where: { filename: { in: lawyer.portrait.replaces } },
+          pagination: false,
+          depth: 0,
+        })
+      ).docs
+    : [];
+  const outdatedIds = new Set(outdated.map((doc) => String(doc.id)));
+  const pending = records.filter(
+    (record) => !record.portrait || outdatedIds.has(String(record.portrait)),
+  );
+  if (pending.length) {
+    const existing = (
+      await cms.find({
+        collection: "media",
+        where: { filename: { equals: lawyer.portrait.file } },
+        limit: 1,
+        depth: 0,
+      })
+    ).docs[0];
+    const media =
+      existing ??
+      (await cms.create({
+        collection: "media",
+        user: admin,
+        filePath: path.resolve(
+          path.dirname(fileURLToPath(import.meta.url)),
+          "content/portraits",
+          lawyer.portrait.file,
+        ),
+        data: {
+          alt: lawyer.portrait.alt,
+          credit: lawyer.portrait.credit,
+          rights: lawyer.portrait.rights,
+        },
+      }));
+    for (const record of pending) {
+      const live = record._status === "published";
+      await cms.update({
+        collection: "lawyers",
+        id: record.id,
+        user: admin,
+        draft: !live,
+        data: { portrait: media.id, ...(live ? { _status: "published" } : {}) },
+      });
+      portraits += 1;
+      console.log(
+        record.portrait ? "da thay anh chan dung" : "da gan anh chan dung",
+        lawyer.slug,
+        record.language,
+      );
+    }
+  }
+  // Dọn bản ảnh cũ khi không còn hồ sơ nào dùng, để thư viện ảnh không giữ hai
+  // bản của cùng một người và biên tập viên không chọn nhầm bản cũ.
+  for (const old of outdated) {
+    const stillUsed = await cms.count({
       collection: "lawyers",
-      id: record.id,
-      user: admin,
-      draft: !live,
-      data: { portrait: media.id, ...(live ? { _status: "published" } : {}) },
+      where: { portrait: { equals: old.id } },
     });
-    portraits += 1;
-    console.log("da gan anh chan dung", lawyer.slug, record.language);
+    if (stillUsed.totalDocs) continue;
+    await cms.delete({ collection: "media", id: old.id, user: admin });
+    console.log("da xoa anh cu", old.filename);
   }
 }
 

@@ -55,11 +55,21 @@ export type FirmLawyer = {
   publishOnCreate?: boolean;
   /**
    * Ảnh chân dung do công ty cung cấp, đặt trong scripts/content/portraits/.
-   * Cắt sẵn tỉ lệ 4:5 — đúng khung ảnh ở trang Đội ngũ và trang hồ sơ, để
+   * Cắt sẵn tỉ lệ 5:7 — đúng khung ảnh ở trang Đội ngũ và trang hồ sơ, để
    * object-fit không tự cắt mất đỉnh đầu. `rights` ghi nguồn gốc quyền dùng ảnh
    * vào ô bắt buộc của thư viện ảnh.
    */
-  portrait?: { file: string; alt: string; credit: string; rights: string };
+  portrait?: {
+    file: string;
+    alt: string;
+    credit: string;
+    rights: string;
+    /**
+     * Tên tệp của các bản ảnh trước đây. Hồ sơ đang dùng một trong các tệp này
+     * được đổi sang `file`; hồ sơ dùng ảnh khác (công ty tự chọn) thì giữ.
+     */
+    replaces?: string[];
+  };
 };
 
 const FIRM = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
@@ -105,7 +115,8 @@ export const firmLawyers: FirmLawyer[] = [
     // bảo vệ); kinh doanh thương mại (doanh nghiệp, đầu tư).
     services: ["giai-quyet-tranh-chap", "hinh-su", "dau-tu-doanh-nghiep"],
     portrait: {
-      file: "phan-thuy-trang.jpg",
+      file: "phan-thuy-trang-5x7.jpg",
+      replaces: ["phan-thuy-trang.jpg"],
       alt: "Chân dung Luật sư Phan Thùy Trang",
       credit: FIRM,
       rights: PROVIDED_0710,
@@ -132,9 +143,10 @@ export const firmLawyers: FirmLawyer[] = [
       zh: "Trần Phương Lan Anh 律师——法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
     },
     // Nguồn: chủ website gửi ngày 03/10/2026 (Chan_dung_luat_su_Lan_Anh_10x15cm.pdf,
-    // bản làm mịn). Đã bỏ hai dải lề trắng và cắt về 4:5.
+    // bản làm mịn). Đã bỏ hai dải lề trắng và cắt về 5:7, dừng ngay trên huy hiệu ở cà vạt.
     portrait: {
-      file: "tran-phuong-lan-anh.jpg",
+      file: "tran-phuong-lan-anh-5x7.jpg",
+      replaces: ["tran-phuong-lan-anh.jpg"],
       alt: "Chân dung Luật sư Trần Phương Lan Anh",
       credit: FIRM,
       rights:
@@ -166,7 +178,8 @@ export const firmLawyers: FirmLawyer[] = [
     },
     services: ["giai-quyet-tranh-chap", "hon-nhan-gia-dinh"],
     portrait: {
-      file: "tran-le-kim-binh.jpg",
+      file: "tran-le-kim-binh-5x7.jpg",
+      replaces: ["tran-le-kim-binh.jpg"],
       alt: "Chân dung chuyên viên Trần Lê Kim Bình",
       credit: FIRM,
       rights: PROVIDED_0710,
@@ -195,7 +208,8 @@ export const firmLawyers: FirmLawyer[] = [
     },
     publishOnCreate: true,
     portrait: {
-      file: "tran-thi-anh-nhu.jpg",
+      file: "tran-thi-anh-nhu-5x7.jpg",
+      replaces: ["tran-thi-anh-nhu.jpg"],
       alt: "Chân dung chuyên viên pháp lý Trần Thị Anh Như",
       credit: FIRM,
       rights: PROVIDED_0710,
