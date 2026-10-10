@@ -55,7 +55,7 @@ export type FirmLawyer = {
   publishOnCreate?: boolean;
   /**
    * Ảnh chân dung do công ty cung cấp, đặt trong scripts/content/portraits/.
-   * Cắt sẵn tỉ lệ 5:7 — đúng khung ảnh ở trang Đội ngũ và trang hồ sơ, để
+   * Cắt sẵn tỉ lệ 4:5 — đúng khung ảnh ở trang Đội ngũ và trang hồ sơ, để
    * object-fit không tự cắt mất đỉnh đầu. `rights` ghi nguồn gốc quyền dùng ảnh
    * vào ô bắt buộc của thư viện ảnh.
    */
@@ -73,8 +73,14 @@ export type FirmLawyer = {
 };
 
 const FIRM = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
-const PROVIDED_0710 =
-  "Chủ website cung cấp ngày 07/10/2026 để đăng trên hồ sơ tại website công ty.";
+/**
+ * Bộ ảnh bán thân chủ website gửi ngày 10/10/2026, thay cho ảnh thẻ chụp cận
+ * trước đó. Cả bốn tấm cắt theo một chuẩn — khung 4:5, đỉnh đầu cách mép trên
+ * 9%, đầu chiếm 35,5% chiều cao, mép dưới dừng ngang eo phía trên bàn tay,
+ * phông trắng đều — để mắt và cằm của bốn người thẳng hàng trên trang Đội ngũ.
+ */
+const PROVIDED_1010 =
+  "Chủ website cung cấp ngày 10/10/2026 để đăng trên hồ sơ tại website công ty.";
 
 /**
  * Địa danh giữ nguyên ở cả ba ngôn ngữ.
@@ -115,11 +121,11 @@ export const firmLawyers: FirmLawyer[] = [
     // bảo vệ); kinh doanh thương mại (doanh nghiệp, đầu tư).
     services: ["giai-quyet-tranh-chap", "hinh-su", "dau-tu-doanh-nghiep"],
     portrait: {
-      file: "phan-thuy-trang-5x7.jpg",
-      replaces: ["phan-thuy-trang.jpg"],
+      file: "phan-thuy-trang-2026-10.jpg",
+      replaces: ["phan-thuy-trang.jpg", "phan-thuy-trang-5x7.jpg"],
       alt: "Chân dung Luật sư Phan Thùy Trang",
       credit: FIRM,
-      rights: PROVIDED_0710,
+      rights: PROVIDED_1010,
     },
   },
   {
@@ -142,15 +148,12 @@ export const firmLawyers: FirmLawyer[] = [
       en: "Trần Phương Lan Anh — lawyer, Master of Laws, former Deputy Chief Judge of Cam Lâm District People's Court, Khánh Hòa; 22 years in the courts.",
       zh: "Trần Phương Lan Anh 律师——法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
     },
-    // Nguồn: chủ website gửi ngày 03/10/2026 (Chan_dung_luat_su_Lan_Anh_10x15cm.pdf,
-    // bản làm mịn). Đã bỏ hai dải lề trắng và cắt về 5:7, dừng ngay trên huy hiệu ở cà vạt.
     portrait: {
-      file: "tran-phuong-lan-anh-5x7.jpg",
-      replaces: ["tran-phuong-lan-anh.jpg"],
+      file: "tran-phuong-lan-anh-2026-10.jpg",
+      replaces: ["tran-phuong-lan-anh.jpg", "tran-phuong-lan-anh-5x7.jpg"],
       alt: "Chân dung Luật sư Trần Phương Lan Anh",
       credit: FIRM,
-      rights:
-        "Chủ website cung cấp ngày 03/10/2026 để đăng trên hồ sơ luật sư tại website công ty.",
+      rights: PROVIDED_1010,
     },
   },
   {
@@ -178,11 +181,11 @@ export const firmLawyers: FirmLawyer[] = [
     },
     services: ["giai-quyet-tranh-chap", "hon-nhan-gia-dinh"],
     portrait: {
-      file: "tran-le-kim-binh-5x7.jpg",
-      replaces: ["tran-le-kim-binh.jpg"],
+      file: "tran-le-kim-binh-2026-10.jpg",
+      replaces: ["tran-le-kim-binh.jpg", "tran-le-kim-binh-5x7.jpg"],
       alt: "Chân dung chuyên viên Trần Lê Kim Bình",
       credit: FIRM,
-      rights: PROVIDED_0710,
+      rights: PROVIDED_1010,
     },
   },
   {
@@ -208,11 +211,11 @@ export const firmLawyers: FirmLawyer[] = [
     },
     publishOnCreate: true,
     portrait: {
-      file: "tran-thi-anh-nhu-5x7.jpg",
-      replaces: ["tran-thi-anh-nhu.jpg"],
+      file: "tran-thi-anh-nhu-2026-10.jpg",
+      replaces: ["tran-thi-anh-nhu.jpg", "tran-thi-anh-nhu-5x7.jpg"],
       alt: "Chân dung chuyên viên pháp lý Trần Thị Anh Như",
       credit: FIRM,
-      rights: PROVIDED_0710,
+      rights: PROVIDED_1010,
     },
   },
 ];

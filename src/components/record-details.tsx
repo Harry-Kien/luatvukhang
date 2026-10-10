@@ -27,13 +27,17 @@ export async function RecordDetails({
   return (
     <>
       {r.portrait?.url && (
-        <CmsImage
-          className="lawyer-portrait"
-          media={r.portrait}
-          fallbackAlt={r.title}
-          sizes="(max-width: 700px) 100vw, 400px"
-          priority
-        />
+        // Khung nền riêng: ảnh phông trắng đặt thẳng lên trang trắng thì phần
+        // thân bị cắt lơ lửng; có khung thì ảnh thành một ô gọn như ở trang Đội ngũ.
+        <div className="lawyer-portrait-frame">
+          <CmsImage
+            className="lawyer-portrait"
+            media={r.portrait}
+            fallbackAlt={r.title}
+            sizes="(max-width: 700px) 100vw, 400px"
+            priority
+          />
+        </div>
       )}
       {author && (
         <p className="meta">
