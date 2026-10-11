@@ -36,7 +36,9 @@ export async function PeopleDirectory({
   const showingSamples = sampleProfiles.length > 0;
   const keyword = (query.q || "").slice(0, 150),
     service = query.service || "";
-  const sort = query.sort === "za" ? "za" : "az";
+  // Mặc định giữ thứ tự công ty nêu (people-order.ts); người xem có thể chọn
+  // xếp theo tên.
+  const sort = query.sort === "za" ? "za" : query.sort === "az" ? "az" : "";
   const related = (r: ContentRecord) =>
     new Set(
       (r.services || []).map((s: any) =>
@@ -62,9 +64,10 @@ export async function PeopleDirectory({
         (!service || related(r).has(service)),
     )
     .sort((a, b) => {
-      // Luật sư luôn đứng trước nhân sự khác, rồi mới xét lựa chọn sắp xếp của
-      // người xem. Trên website công ty luật, để một chuyên viên chen vào giữa
-      // các luật sư đọc như một nhận định sai về vai trò.
+      if (!sort) return 0;
+      // Khi xếp theo tên, luật sư vẫn đứng trước nhân sự khác. Trên website
+      // công ty luật, để một chuyên viên chen vào giữa các luật sư đọc như một
+      // nhận định sai về vai trò.
       const rank = (r: ContentRecord) =>
         (r as { role?: string }).role === "specialist" ? 1 : 0;
       return (
@@ -175,6 +178,9 @@ export async function PeopleDirectory({
                 {t(locale, "Sắp xếp tên", "Sort names")}
               </label>
               <select id="people-sort" name="sort" defaultValue={sort}>
+                <option value="">
+                  {t(locale, "Thứ tự mặc định", "Default order")}
+                </option>
                 <option value="az">A → Z</option>
                 <option value="za">Z → A</option>
               </select>

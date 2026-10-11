@@ -200,6 +200,7 @@ const translations: Record<string, string> = {
   "Practice area": "专业领域",
   "All practice areas": "全部专业领域",
   "Sort names": "姓名排序",
+  "Default order": "默认顺序",
   "Find people": "查找律师",
   "matching profiles": "份匹配履历",
   "No matching profiles": "未找到匹配履历",

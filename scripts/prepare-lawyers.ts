@@ -154,7 +154,11 @@ for (const lawyer of firmLawyers)
           (before && same(found.seo?.description, before.summary[language])))
       )
         data.seo = { ...(found.seo ?? {}), description: seoDescription };
-      if (refresh && found.role !== lawyer.role) data.role = lawyer.role;
+      // Vai trò không phải nội dung biên tập mà là tư cách hành nghề do công ty
+      // xác nhận, nên luôn theo lawyers.ts. Hồ sơ tạo trước khi có ô này mang
+      // giá trị mặc định "luật sư" — một chuyên viên vì thế bị xếp lẫn vào giữa
+      // các luật sư.
+      if (found.role !== lawyer.role) data.role = lawyer.role;
       // Lĩnh vực chỉ gắn khi hồ sơ chưa có: lĩnh vực công ty tự chọn được giữ.
       if (!found.services?.length) {
         const ids = await serviceIds(lawyer.services, language);

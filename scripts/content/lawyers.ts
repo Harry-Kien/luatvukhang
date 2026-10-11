@@ -121,11 +121,16 @@ export const firmLawyers: FirmLawyer[] = [
     // bảo vệ); kinh doanh thương mại (doanh nghiệp, đầu tư).
     services: ["giai-quyet-tranh-chap", "hinh-su", "dau-tu-doanh-nghiep"],
     portrait: {
-      file: "phan-thuy-trang-2026-10.jpg",
-      replaces: ["phan-thuy-trang.jpg", "phan-thuy-trang-5x7.jpg"],
+      file: "phan-thuy-trang-2026-10-11.jpg",
+      replaces: [
+        "phan-thuy-trang.jpg",
+        "phan-thuy-trang-5x7.jpg",
+        "phan-thuy-trang-2026-10.jpg",
+      ],
       alt: "Chân dung Luật sư Phan Thùy Trang",
       credit: FIRM,
-      rights: PROVIDED_1010,
+      rights:
+        "Chủ website cung cấp ngày 11/10/2026 để đăng trên hồ sơ tại website công ty.",
     },
   },
   {
