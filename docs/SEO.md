@@ -108,7 +108,7 @@ Hai biến môi trường, để trống thì không nạp mã nào:
 
 | Biến | Tác dụng |
 | --- | --- |
-| `NEXT_PUBLIC_ANALYTICS_ID` | Bật Google Analytics 4. Chỉ chạy khi đã duyệt ra mắt, nên bản phát triển không làm sai lệch số liệu. Bật biến này thì CSP tự mở đúng miền của Google, xem `next.config.mjs`. |
+| `NEXT_PUBLIC_ANALYTICS_ID` | Bật Google Analytics 4. Chỉ chạy khi đã duyệt ra mắt, nên bản phát triển không làm sai lệch số liệu. Bật biến này thì CSP tự mở đúng miền của Google, xem `next.config.mjs`. Biến được nhúng lúc dựng: với hosting cPanel, đặt ở GitHub → Settings → Secrets and variables → Actions → Variables, rồi chạy lại workflow *Gói bản dựng cho hosting*. |
 | `SITE_VERIFICATION_GOOGLE` | Thẻ xác minh quyền sở hữu cho Search Console. |
 | `SITE_VERIFICATION_BING` | Thẻ xác minh cho Bing Webmaster Tools. |
 

@@ -42,6 +42,12 @@ jobs:
       NEXT_PUBLIC_SITE_URL: https://luatvukhang.com
       NEXT_PUBLIC_DEMO_MODE: ${{ inputs.demo_mode && 'true' || 'false' }}
       SITE_LAUNCH_APPROVED: ${{ inputs.launch_approved && 'true' || 'false' }}
+      # Mã đo lường Google Analytics 4 (dạng G-XXXXXXX). Đặt một lần trong GitHub:
+      # Settings → Secrets and variables → Actions → tab Variables → biến
+      # NEXT_PUBLIC_ANALYTICS_ID. Để trống thì website không nạp mã đo lường nào;
+      # có mã thì chính sách bảo mật nội dung (CSP) tự mở đúng miền của Google.
+      # Mã chỉ chạy sau khi bật launch_approved.
+      NEXT_PUBLIC_ANALYTICS_ID: ${{ vars.NEXT_PUBLIC_ANALYTICS_ID }}
       DATABASE_URL: file:./.local/law.db
 
     steps:
@@ -131,6 +137,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL=\`${NEXT_PUBLIC_SITE_URL}\`
           NEXT_PUBLIC_DEMO_MODE=\`${NEXT_PUBLIC_DEMO_MODE}\`
           SITE_LAUNCH_APPROVED=\`${SITE_LAUNCH_APPROVED}\`
+          NEXT_PUBLIC_ANALYTICS_ID=\`${NEXT_PUBLIC_ANALYTICS_ID:-chưa đặt}\`
 
           Tải về trên hosting:
 
