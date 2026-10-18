@@ -22,6 +22,7 @@ import { getRecords } from "@/lib/cms";
 import { emptySections } from "@/lib/empty-sections";
 import { t, demo, samples, fold, type Locale, navigation } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
+import { LawyerHighlights } from "@/components/lawyer-highlights";
 const extra: Record<string, [string, string]> = {
   guide: ["Hướng dẫn khách hàng", "Client guide"],
   consultation: ["Yêu cầu tư vấn", "Request a consultation"],
@@ -105,19 +106,63 @@ const descriptions: Record<string, [string, string]> = {
  * chung thay vì bỏ trống thẻ mô tả — trước đây trang Kinh nghiệm bản tiếng
  * Trung không có thẻ nào vì khóa bị sót.
  */
+/**
+ * Tiêu đề tìm kiếm của trang danh sách khi công ty chưa đặt riêng trong CMS.
+ * Tên mục ("Đội ngũ", "Góc nhìn") quá ngắn và không chứa điều người ta gõ vào
+ * Google. Website tự nối " | Vũ Khang" phía sau, nên giữ dưới khoảng 50 ký tự.
+ */
+const seoTitleDefaults: Record<string, Record<Locale, string>> = {
+  services: {
+    vi: "Luật sư hình sự, đất đai, hôn nhân, doanh nghiệp",
+    en: "Criminal, land, family and corporate lawyers",
+    zh: "刑事、土地、婚姻家庭与企业律师",
+  },
+  lawyers: {
+    vi: "Đội ngũ luật sư và chuyên viên pháp lý",
+    en: "Our lawyers and legal specialists",
+    zh: "律师与法务团队",
+  },
+  articles: {
+    vi: "Góc nhìn pháp lý và hướng dẫn thực tế",
+    en: "Legal insights and practical guides",
+    zh: "法律观点与实务指南",
+  },
+  guide: {
+    vi: "Hướng dẫn gửi yêu cầu tư vấn pháp lý",
+    en: "Client guide to requesting legal advice",
+    zh: "客户指南：如何提交法律咨询",
+  },
+  privacy: {
+    vi: "Chính sách quyền riêng tư và dữ liệu cá nhân",
+    en: "Privacy and personal data policy",
+    zh: "隐私与个人数据政策",
+  },
+  terms: {
+    vi: "Điều khoản sử dụng website",
+    en: "Website terms of use and legal notices",
+    zh: "网站使用条款与法律声明",
+  },
+};
 const zhDescriptions: Record<string, string> = {
   about:
     "了解 Công ty Luật TNHH Vũ Khang Solutions & Partners 的介绍、团队及沟通方式。",
-  services: "了解专业领域、支持范围及咨询申请流程。",
+  services:
+    "了解 Vũ Khang 的八个业务领域：刑事、婚姻家庭、土地住房、民事纠纷、企业商事、劳动、标准化法律产品与常年法律顾问。",
   experience: "浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",
-  lawyers: "浏览已核实发布的律师履历、职业背景及专业领域。",
-  articles: "按主题浏览法律文章，查阅来源并了解更新信息。",
-  contact: "查看联系信息并向 Vũ Khang 提交咨询需求。",
+  lawyers:
+    "认识 Vũ Khang 的律师与法务团队：曾任法官的律师、执业经历、学历及负责的业务领域。",
+  articles:
+    "按主题阅读 Vũ Khang 律师团队撰写的法律文章：合同、诉讼、土地、劳动与婚姻家庭的实务指南。",
+  contact:
+    "Vũ Khang 律师事务所联系方式：位于同奈的办公室地址、电话、电子邮箱及在线咨询申请。",
   consultation:
     "简要说明您的问题。提交申请不代表预约已确认或建立律师与客户关系。",
-  guide: "了解咨询前的准备事项、申请流程及常见问题。",
-  privacy: "了解网站数据处理说明。草案正式发布前须经公司审核。",
-  terms: "阅读网站使用条款。草案正式发布前须经公司审核。",
+  guide:
+    "咨询前需要准备什么、如何提交申请、提交后会发生什么——Vũ Khang 客户指南与常见问题。",
+  privacy:
+    "了解 Vũ Khang 网站如何收集、使用和保护您的个人数据，以及您依法享有的权利。草案正式发布前须经公司审核。",
+  terms:
+    "阅读 Vũ Khang 网站使用条款：网站内容的性质、使用限制与法律声明。草案正式发布前须经公司审核。",
   industries: "按行业了解相关法律问题与已发布内容。",
   careers: "查看已发布的招聘职位、工作地点及申请方式。",
   search: "搜索专业领域、律师和法律文章。",
@@ -142,6 +187,7 @@ export async function generateMetadata({ params }: Props) {
     locale,
     title:
       page?.seo?.title ||
+      seoTitleDefaults[section]?.[locale] ||
       (nav ? t(locale, nav[1], nav[2]) : name ? t(locale, ...name) : section),
     // Tiêu đề do công ty đặt thường đã mang tên công ty; để website nối thêm
     // lần nữa sẽ thành "… Vũ Khang | Vũ Khang".
@@ -173,6 +219,9 @@ export default async function Page({ params, searchParams }: Props) {
   }
   const title = nav ? t(locale, nav[1], nav[2]) : t(locale, ...names);
   const pagePath = `/${locale}/${section}`;
+  // Mục đã gỡ (như Ngành nghề) có bản ghi chuyển hướng thì đưa khách sang
+  // trang thay thế, thay vì một trang "chưa có nội dung".
+  if ((await emptySections(locale)).has(section)) await applyRedirect(pagePath);
   if (section === "typography" && !demo) notFound();
   if (section === "articles") return <Insights locale={locale} query={query} />;
   if (section === "guide") return <ClientGuide locale={locale} />;
@@ -629,6 +678,9 @@ export default async function Page({ params, searchParams }: Props) {
                   "This policy has not yet been approved for publication.",
                 )}
               />
+            )}
+            {section === "about" && (
+              <LawyerHighlights locale={locale} stacked cta />
             )}
           </article>
           <aside className="sidebar">

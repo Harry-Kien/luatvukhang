@@ -2085,3 +2085,64 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
   border-color: var(--red);
   color: var(--red);
 }
+
+/* Luật sư của Vũ Khang — trang chủ (mục 04) và trang Về chúng tôi. */
+.lawyer-highlights h2 {
+  font-size: clamp(1.7rem, 2.3vw, 2.3rem);
+  margin: 18px 0 30px;
+}
+.lawyer-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 48px;
+}
+.lawyer-highlight {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+}
+.lawyer-highlight:hover .person-photo img {
+  transform: scale(1.025);
+}
+.lawyer-highlight h3 {
+  font-size: 23px;
+  margin: 8px 0 12px;
+}
+.lawyer-highlight-text p:not(.person-role) {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #536170;
+  margin: 0 0 14px;
+}
+.lawyer-highlights > .button {
+  margin-top: 34px;
+}
+/* Trong cột nội dung hẹp (trang Về chúng tôi): từng người một hàng. */
+.lawyer-highlights.stacked {
+  margin-top: 56px;
+}
+.lawyer-highlights.stacked .lawyer-highlights-grid {
+  grid-template-columns: 1fr;
+}
+@media (max-width: 900px) {
+  .lawyer-highlights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .lawyer-highlight {
+    grid-template-columns: minmax(0, 36%) minmax(0, 1fr);
+    gap: 16px;
+  }
+  .lawyer-highlight h3 {
+    font-size: 20px;
+  }
+  .lawyer-highlight-text p:not(.person-role) {
+    font-size: 14px;
+  }
+}

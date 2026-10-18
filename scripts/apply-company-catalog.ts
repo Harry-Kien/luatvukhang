@@ -14,6 +14,9 @@
  *   2. Cập nhật tên, tóm tắt, phạm vi, từ khóa và thẻ SEO của sáu nhóm còn lại —
  *      CHỈ ô nào còn nguyên như bản nạp trước đây (practice-areas-2026-09.json).
  *      Ô công ty đã tự biên tập trong CMS được giữ nguyên.
+ *   4. Khi mục Ngành nghề đang tắt (industriesEnabled), gỡ các ngành đã xuất
+ *      bản và chuyển hướng cả trang danh sách lẫn từng ngành về trang Chuyên
+ *      môn. Bản ghi giữ ở dạng nháp; publish-drafts không đăng lại.
  *   3. Thêm mục "Năm giá trị chúng tôi giữ" vào trang Về chúng tôi, nếu các mục
  *      của trang vẫn là bốn mục của bản nạp ban đầu.
  *
@@ -32,6 +35,7 @@ import {
 import { practiceKeywords } from "./content/keywords";
 import { seoTitles } from "./content/seo-titles";
 import { pageContent } from "./content/pages";
+import { industriesEnabled } from "./content/industries";
 
 type Previous = {
   services: Record<
@@ -53,6 +57,23 @@ const previous: Previous = JSON.parse(
     "utf8",
   ),
 );
+
+/**
+ * Mô tả tìm kiếm đã nạp lên máy chủ ở các đợt sau bản 25/09/2026 và đã được
+ * thay tiếp trong practice-areas.ts. Ô còn đúng nguyên văn một trong các bản
+ * này cũng được cập nhật như bản gốc.
+ */
+const supersededSeoDescriptions: Record<
+  string,
+  Partial<Record<"vi" | "en" | "zh", string[]>>
+> = {
+  // Dài 176 ký tự, Google cắt mất phần cuối (thay ngày 18/10/2026).
+  "dau-tu-doanh-nghiep": {
+    en: [
+      "Corporate and commercial lawyers in Vietnam: incorporation, registration changes, contract drafting and review, debt recovery, commercial and shareholder disputes, dissolution.",
+    ],
+  },
+};
 
 const cms = await getPayload({ config });
 const admin = (
@@ -174,7 +195,10 @@ for (const area of practiceAreas) {
       seoChanged = true;
     }
     if (
-      same(seo.description, old.seoDescription[language]) &&
+      (same(seo.description, old.seoDescription[language]) ||
+        (supersededSeoDescriptions[area.slug]?.[language] ?? []).some((text) =>
+          same(seo.description, text),
+        )) &&
       !same(seo.description, area.seoDescription[language])
     ) {
       seo.description = area.seoDescription[language];
@@ -221,8 +245,54 @@ for (const language of locales) {
   console.log(`da them gia tri cot loi vao about/${language}`);
 }
 
+// 4. Gỡ mục Ngành nghề khi đang tắt. Đánh dấu đã làm bằng chính bản ghi chuyển
+// hướng: có rồi thì bỏ qua, nên công ty mở lại một ngành trong CMS sẽ không bị
+// lần cập nhật sau gỡ xuống.
+let industries = 0;
+if (!industriesEnabled)
+  for (const language of locales) {
+    const target = `/${language}/services`;
+    const docs = (
+      await cms.find({
+        collection: "industries",
+        where: { language: { equals: language } },
+        draft: true,
+        pagination: false,
+        depth: 0,
+      })
+    ).docs as Record<string, any>[];
+    // Máy chưa từng có ngành nào (cài mới, CI) thì không cần chuyển hướng gì.
+    if (!docs.length) continue;
+    for (const path of [
+      `/${language}/industries`,
+      ...docs.map((doc) => `/${language}/industries/${doc.slug}`),
+    ]) {
+      const done = await cms.count({
+        collection: "redirects",
+        where: { from: { equals: path } },
+      });
+      if (done.totalDocs) continue;
+      const slug = path.split("/")[3];
+      const doc = slug ? docs.find((d) => d.slug === slug) : undefined;
+      if (doc?._status === "published")
+        await cms.update({
+          collection: "industries",
+          id: doc.id,
+          user: admin,
+          data: { _status: "draft" } as never,
+        });
+      await cms.create({
+        collection: "redirects",
+        user: admin,
+        data: { from: path, to: target },
+      });
+      industries += 1;
+      console.log(`da go ${path} -> ${target}`);
+    }
+  }
+
 console.log(
-  `\nGo ${retired} trang linh vuc cu. Cap nhat ${fields} o. Them gia tri cot loi vao ${pages} trang.`,
+  `\nGo ${retired} trang linh vuc cu, ${industries} trang nganh nghe. Cap nhat ${fields} o. Them gia tri cot loi vao ${pages} trang.`,
 );
 await cms.destroy();
 process.exit(0);

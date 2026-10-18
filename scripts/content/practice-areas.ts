@@ -176,7 +176,7 @@ export const practiceAreas: PracticeArea[] = [
     ],
     seoDescription: {
       vi: "Luật sư doanh nghiệp và thương mại: thành lập, thay đổi đăng ký, soạn và rà soát hợp đồng, thu hồi công nợ, tranh chấp thương mại và cổ đông, giải thể.",
-      en: "Corporate and commercial lawyers in Vietnam: incorporation, registration changes, contract drafting and review, debt recovery, commercial and shareholder disputes, dissolution.",
+      en: "Corporate and commercial lawyers in Vietnam: incorporation, registration changes, contracts, debt recovery, commercial and shareholder disputes, dissolution.",
       zh: "越南企业与商事律师：设立企业、变更登记、起草与审查合同、追收欠款、商事与股东纠纷、解散。",
     },
   },

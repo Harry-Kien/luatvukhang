@@ -24,6 +24,8 @@ Node.js 24 đã được dùng để kiểm thử. Cài phụ thuộc bằng `np
 5. `npm run typecheck`, `npm test`, `npm run build`.
 6. `npm run check:all-pages` mở từng trang công khai — kể cả trang chi tiết — ở
    hai bề ngang và báo trang nào lỗi. Cần máy chủ đang chạy.
+7. `npm run score:pages` chấm điểm từng trang (SEO, trợ năng, lời mời liên hệ,
+   độ sâu nội dung, độ tin cậy) và ghi kết quả ra tệp JSON. Cần máy chủ đang chạy.
 
 Mỗi lần đẩy lên `main` và mỗi pull request đều chạy lại đúng chuỗi này trên CI,
 từ một cơ sở dữ liệu trống: migration, kiểm tra kiểu, dựng bản

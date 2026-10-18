@@ -17,7 +17,7 @@
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
-import { seoTitles } from "./content/seo-titles";
+import { replacedSeoTitles, seoTitles } from "./content/seo-titles";
 
 const listOnly = process.argv.includes("--list");
 const refresh = process.argv.includes("--refresh");
@@ -56,7 +56,8 @@ for (const [key, title] of Object.entries(seoTitles)) {
       continue;
     }
     const current = String(found.seo?.title ?? "").trim();
-    if (current && !refresh) {
+    const outdated = current === replacedSeoTitles[key]?.[language];
+    if (current && !refresh && !outdated) {
       skipped += 1;
       continue;
     }

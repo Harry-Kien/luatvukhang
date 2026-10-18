@@ -13,6 +13,18 @@
 export type Localised = { vi: string; en: string; zh: string };
 
 /** Khóa là "bộ sưu tập/đường dẫn". */
+/**
+ * Tiêu đề đã nạp lên máy chủ rồi được thay trong tệp này. prepare-seo-titles
+ * chỉ điền ô trống — trừ khi ô còn đúng nguyên văn một bản ở đây, tức chưa ai
+ * sửa tay, thì thay bằng bản mới.
+ */
+export const replacedSeoTitles: Record<string, Partial<Localised>> = {
+  // Dài 66 ký tự sau khi nối " | Vũ Khang" (thay ngày 18/10/2026).
+  "lawyers/tran-phuong-lan-anh": {
+    en: "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
+  },
+};
+
 export const seoTitles: Record<string, Localised> = {
   "services/dau-tu-doanh-nghiep": {
     vi: "Luật sư doanh nghiệp và thương mại",
@@ -127,7 +139,7 @@ export const seoTitles: Record<string, Localised> = {
   },
   "lawyers/tran-phuong-lan-anh": {
     vi: "Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án",
-    en: "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
+    en: "Lawyer Trần Phương Lan Anh — ex-Deputy Chief Judge",
     zh: "Trần Phương Lan Anh 律师 — 曾任法院副院长",
   },
   "lawyers/tran-le-kim-binh": {

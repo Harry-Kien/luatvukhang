@@ -15,7 +15,7 @@ import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
 import { draftArticles } from "./content/articles";
-import { draftIndustries } from "./content/industries";
+import { draftIndustries, industriesEnabled } from "./content/industries";
 
 const cms = await getPayload({ config });
 const admin = (
@@ -31,7 +31,11 @@ if (!admin)
 let created = 0;
 let skipped = 0;
 
-async function exists(collection: "articles" | "industries", slug: string, language: string) {
+async function exists(
+  collection: "articles" | "industries",
+  slug: string,
+  language: string,
+) {
   const found = await cms.count({
     collection,
     where: {
@@ -75,7 +79,7 @@ for (const article of draftArticles)
     console.log("da tao articles", article.slug, language);
   }
 
-for (const industry of draftIndustries)
+for (const industry of industriesEnabled ? draftIndustries : [])
   for (const language of locales) {
     if (await exists("industries", industry.slug, language)) {
       skipped += 1;

@@ -25,6 +25,7 @@
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { retiredPracticeAreas } from "./content/practice-areas";
+import { industriesEnabled } from "./content/industries";
 
 const confirm = process.argv.includes("--confirm");
 const COLLECTIONS = [
@@ -69,10 +70,13 @@ for (const collection of COLLECTIONS) {
     depth: 0,
   });
   for (const doc of found.docs as Record<string, any>[]) {
-    if (collection === "services" && doc.slug in retiredPracticeAreas) {
+    if (
+      (collection === "services" && doc.slug in retiredPracticeAreas) ||
+      (collection === "industries" && !industriesEnabled)
+    ) {
       retired += 1;
       console.log(
-        `giu lai   services/${doc.language}/${doc.slug}  —  linh vuc da ngung`,
+        `giu lai   ${collection}/${doc.language}/${doc.slug}  —  da ngung, khong dang lai`,
       );
       continue;
     }
@@ -111,7 +115,7 @@ for (const collection of COLLECTIONS) {
 
 if (retired)
   console.log(`
-${retired} ban ghi linh vuc da ngung duoc giu o trang thai nhap.`);
+${retired} ban ghi da ngung (linh vuc, nganh nghe) duoc giu o trang thai nhap.`);
 if (held)
   console.log(
     `\n${held} trang chinh sach duoc giu o trang thai nhap. ` +

@@ -19,7 +19,8 @@
     "check:content": "node scripts/check-page-content.mjs",
     "check:all-pages": "node scripts/check-all-pages.mjs",
     "seed:content": "node --env-file=.env scripts/seed-content.mjs",
-    "bundle:hosting": "node scripts/make-hosting-bundle.mjs"
+    "bundle:hosting": "node scripts/make-hosting-bundle.mjs",
+    "score:pages": "node scripts/score-pages.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.125.0",

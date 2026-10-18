@@ -162,9 +162,11 @@ export async function RecordDetails({
 export async function RelatedContent({
   record,
   locale,
+  section,
 }: {
   record: ContentRecord;
   locale: Locale;
+  section?: string;
 }) {
   const groups = await Promise.all(
     (
@@ -185,6 +187,26 @@ export async function RelatedContent({
             ids.has(String(r.id)),
           )
         : [];
+      /**
+       * Trang dịch vụ: người phụ trách được gán ở hồ sơ của từng người (ô
+       * "Chuyên môn"), không ở bản ghi dịch vụ, nên tra ngược. Chỉ tra cho
+       * dịch vụ — id của bài viết có thể trùng số với id dịch vụ. Tiêu đề nói
+       * "đội ngũ" chứ không nói "luật sư", vì danh sách có cả chuyên viên.
+       */
+      if (collection === "lawyers" && !records.length && section === "services") {
+        const assigned = (await getRecords("lawyers", locale)).filter(
+          (person) =>
+            (person.services || []).some(
+              (s: any) =>
+                String(typeof s === "object" ? s.id : s) === String(record.id),
+            ),
+        );
+        return {
+          collection,
+          title: t(locale, "Đội ngũ phụ trách", "People in this area"),
+          records: assigned,
+        };
+      }
       return { collection, title: t(locale, vi, en), records };
     }),
   );

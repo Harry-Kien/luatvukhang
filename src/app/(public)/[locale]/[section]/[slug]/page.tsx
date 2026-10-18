@@ -274,7 +274,7 @@ export default async function Detail({ params, searchParams }: Props) {
                   section={section}
                 />
                 <ContentBody record={record} />
-                <RelatedContent record={record} locale={locale} />
+                <RelatedContent record={record} locale={locale} section={p.section} />
                 {!!record.scope?.length && (
                   <>
                     <h2>{t(locale, "Phạm vi hỗ trợ", "Scope of support")}</h2>

@@ -3,6 +3,7 @@ const translations: Record<string, string> = {
   "Articles on new regulations, practical application and the issues businesses encounter.":
     "了解法规动态、实际应用与企业面临的法律问题。",
   "Vũ Khang — Legal counsel in Vietnam": "Vũ Khang — 越南法律咨询",
+  "Vũ Khang Law — Lawyers in Đồng Nai, Vietnam": "Vũ Khang 律师事务所 — 越南同奈律师",
   "Vũ Khang · Legal counsel": "Vũ Khang · 法律咨询",
   Understand: "深入理解",
   "the matter.": "您的问题。",
@@ -126,6 +127,7 @@ const translations: Record<string, string> = {
     "从准备咨询到商定工作范围，让每一步更清晰。",
   "Starting an enquiry": "开始咨询申请",
   "Frequently asked questions": "常见问题",
+  "Which area does your matter fall under?": "您的事务属于哪个领域？",
   "Ready to talk?": "准备好沟通了吗？",
   "Briefly describe your needs to start the enquiry process.":
     "请简要说明需求，以便开始受理流程。",
@@ -201,6 +203,9 @@ const translations: Record<string, string> = {
   "All practice areas": "全部专业领域",
   "Sort names": "姓名排序",
   "Default order": "默认顺序",
+  "Our lawyers": "我们的律师",
+  "View profile": "查看简介",
+  "People in this area": "本领域团队",
   "Find people": "查找律师",
   "matching profiles": "份匹配履历",
   "No matching profiles": "未找到匹配履历",
