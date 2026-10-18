@@ -368,9 +368,15 @@ for (const section of ["about", "contact"])
  *
  * Hạn mức đặt theo dung lượng thật đo được, có chừa khoảng trống. Vượt hạn mức
  * không có nghĩa là sai: nghĩa là phải xem lại có đáng không.
+ *
+ * 18/10/2026: nâng 260 → 280KB khi trang chủ thêm ảnh các luật sư. Ảnh đã được
+ * thu nhỏ đúng khổ hiển thị (khoảng 20KB cả hai trên điện thoại, thay vì 134KB
+ * bản 800px), và mặt người là thứ khách cần thấy — nhưng chúng đưa trang trên
+ * điện thoại lên khoảng 259KB, sát hạn mức cũ tới mức CI đổ theo từng phiên
+ * bản sharp.
  */
 test("trang chủ giữ dung lượng ảnh trong hạn mức", async ({ page }) => {
-  const IMAGE_BUDGET_KB = 260;
+  const IMAGE_BUDGET_KB = 280;
   const sizes: [string, number][] = [];
   page.on("response", async (response) => {
     if (response.request().resourceType() !== "image") return;

@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { CmsImage } from "./cms-image";
 import { getRecords } from "@/lib/cms";
 import { t, type Locale } from "@/lib/content";
 
@@ -56,11 +56,18 @@ export async function LawyerHighlights({
             key={record.id}
           >
             <div className="person-photo">
+              {/* Ảnh chỉ rộng 170px: để Next thu nhỏ thay vì tải bản 800px
+                  của CMS — hai ảnh như vậy từng đẩy trang chủ vượt hạn mức
+                  dung lượng ảnh (tests/seo.spec.ts). Payload trả địa chỉ
+                  tuyệt đối, mà Next coi đó là ảnh ngoài và từ chối (400),
+                  nên chỉ giữ phần đường dẫn. */}
               {record.portrait?.url && (
-                <CmsImage
-                  media={record.portrait}
-                  fallbackAlt={record.title}
-                  sizes="(max-width: 700px) 30vw, 170px"
+                <Image
+                  src={record.portrait.url.replace(/^https?:\/\/[^/]+/, "")}
+                  alt={record.portrait.alt || record.title}
+                  width={record.portrait.width ?? 800}
+                  height={record.portrait.height ?? 1000}
+                  sizes="(max-width: 600px) 32vw, 170px"
                 />
               )}
             </div>
