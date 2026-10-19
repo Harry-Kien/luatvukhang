@@ -56,7 +56,9 @@ for (const [key, title] of Object.entries(seoTitles)) {
       continue;
     }
     const current = String(found.seo?.title ?? "").trim();
-    const outdated = current === replacedSeoTitles[key]?.[language];
+    const outdated = Boolean(
+      current && replacedSeoTitles[key]?.[language]?.includes(current),
+    );
     if (current && !refresh && !outdated) {
       skipped += 1;
       continue;

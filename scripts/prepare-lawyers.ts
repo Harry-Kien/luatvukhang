@@ -15,8 +15,8 @@
  *
  * Chạy lại nhiều lần không tạo bản trùng và không ghi đè nội dung đã sửa. Khi
  * công ty đính chính thông tin trong scripts/content/lawyers.ts, ô nào trên CMS
- * còn nguyên giá trị nạp lần trước (content/lawyers-2026-09.json) được cập nhật
- * theo; ô đã sửa tay thì giữ. Lĩnh vực phụ trách (`services`) được gắn vào hồ
+ * còn nguyên giá trị của một lần nạp trước (content/lawyers-2026-*.json) được
+ * cập nhật theo; ô đã sửa tay thì giữ. Lĩnh vực phụ trách (`services`) được gắn vào hồ
  * sơ chưa có lĩnh vực nào.
  *
  * Ảnh chân dung khai trong scripts/content/lawyers.ts (ô `portrait`) được tải
@@ -73,19 +73,34 @@ if (samples.docs.length)
   console.log(`da go ${samples.docs.length} ho so minh hoa.`);
 
 /**
- * Giá trị đã nạp ở lần trước (bản 25/09/2026). Ô nào trên CMS còn đúng bằng giá
- * trị này nghĩa là chưa ai sửa tay, nên được đính chính theo lawyers.ts mà
- * không cần cờ --refresh. Ô công ty đã tự sửa thì giữ nguyên.
+ * Giá trị đã nạp ở các lần trước: bản 25/09/2026 và bản 07–11/10/2026. Ô nào
+ * trên CMS còn đúng bằng một trong các giá trị này nghĩa là chưa ai sửa tay, nên
+ * được đính chính theo lawyers.ts mà không cần cờ --refresh. Ô công ty đã tự sửa
+ * thì giữ nguyên.
+ *
+ * Mỗi lần đổi chức danh, tóm tắt hay mô tả trong lawyers.ts sau khi bản cũ đã
+ * lên hosting, lưu bản cũ thành một tệp mới ở đây — thiếu nó thì hosting không
+ * nhận đính chính.
  */
-const previous: Record<
-  string,
-  Record<"position" | "summary" | "qualifications", Localised>
-> = JSON.parse(
-  readFileSync(
-    new URL("./content/lawyers-2026-09.json", import.meta.url),
-    "utf8",
-  ),
+type Seeded = Record<"position" | "summary" | "qualifications", Localised> & {
+  seoDescription?: Localised;
+};
+const previousVersions: Record<string, Seeded>[] = [
+  "./content/lawyers-2026-09.json",
+  "./content/lawyers-2026-10.json",
+].map((file) =>
+  JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );
+/** Ô còn đúng giá trị của một lần nạp trước. */
+const wasSeeded = (
+  slug: string,
+  value: unknown,
+  pick: (seeded: Seeded) => string | undefined,
+) =>
+  previousVersions.some((version) => {
+    const seeded = version[slug];
+    return seeded !== undefined && same(value, pick(seeded));
+  });
 
 /** id lĩnh vực cùng ngôn ngữ, giữ đúng thứ tự công ty nêu. */
 async function serviceIds(slugs: string[] | undefined, language: string) {
@@ -141,17 +156,29 @@ for (const lawyer of firmLawyers)
         console.log("da xuat ban", lawyer.slug, language);
       }
       const data: Record<string, unknown> = {};
-      const before = previous[lawyer.slug];
       for (const key of ["position", "summary", "qualifications"] as const) {
         const next = lawyer[key][language];
         if (same(found[key], next)) continue;
-        if (refresh || (before && same(found[key], before[key][language])))
+        if (
+          refresh ||
+          wasSeeded(lawyer.slug, found[key], (seeded) => seeded[key][language])
+        )
           data[key] = next;
       }
+      // Mô tả tìm kiếm nạp lần đầu chính là tóm tắt; từ tháng 10 có ô riêng.
       if (
         !same(found.seo?.description, seoDescription) &&
         (refresh ||
-          (before && same(found.seo?.description, before.summary[language])))
+          wasSeeded(
+            lawyer.slug,
+            found.seo?.description,
+            (seeded) => (seeded.seoDescription ?? seeded.summary)[language],
+          ) ||
+          wasSeeded(
+            lawyer.slug,
+            found.seo?.description,
+            (seeded) => seeded.summary[language],
+          ))
       )
         data.seo = { ...(found.seo ?? {}), description: seoDescription };
       // Vai trò không phải nội dung biên tập mà là tư cách hành nghề do công ty

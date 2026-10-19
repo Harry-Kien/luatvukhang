@@ -127,6 +127,12 @@ Chủ website cung cấp hai luật sư của công ty:
 | Trần Phương Lan Anh | Luật sư | Thạc sĩ Luật. Nguyên Phó Chánh án Tòa án khu vực Nha Trang |
 | Trần Lê Kim Bình | Chuyên viên | Cử nhân Luật. **Không phải luật sư** — hồ sơ không dùng chữ "luật sư" ở bất kỳ ô nào |
 
+> **Cập nhật 19/10/2026:** Ls Trần Phương Lan Anh giữ chức **Phó Giám đốc** (chủ
+> website xác nhận). Chức danh trên website: "Phó Giám đốc - Luật sư" / "Deputy
+> Director & Lawyer" / "副主任、律师". Thông tin nghề nghiệp hiện dùng: Thạc sĩ
+> Luật; nguyên Thẩm phán trung cấp, nguyên Phó Chánh án Tòa án nhân dân huyện Cam
+> Lâm, tỉnh Khánh Hòa; 22 năm công tác tại Tòa án — xem scripts/content/lawyers.ts.
+
 Vì đội ngũ có người không phải luật sư, tiêu đề trang đổi từ "Đội ngũ luật sư"
 thành **"Đội ngũ"** (tiếng Trung: 律师团队 → 团队成员). Gọi một chuyên viên là
 luật sư là sai tư cách hành nghề, không phải cách nói cho gọn.

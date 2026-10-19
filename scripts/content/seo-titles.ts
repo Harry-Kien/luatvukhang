@@ -18,10 +18,20 @@ export type Localised = { vi: string; en: string; zh: string };
  * chỉ điền ô trống — trừ khi ô còn đúng nguyên văn một bản ở đây, tức chưa ai
  * sửa tay, thì thay bằng bản mới.
  */
-export const replacedSeoTitles: Record<string, Partial<Localised>> = {
-  // Dài 66 ký tự sau khi nối " | Vũ Khang" (thay ngày 18/10/2026).
+export const replacedSeoTitles: Record<
+  string,
+  Partial<Record<keyof Localised, string[]>>
+> = {
   "lawyers/tran-phuong-lan-anh": {
-    en: "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
+    // 19/10/2026: Ls Lan Anh giữ chức Phó Giám đốc — tiêu đề nêu chức danh,
+    // còn chức vụ ở tòa án nằm trong mô tả.
+    vi: ["Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án"],
+    en: [
+      // Dài 66 ký tự sau khi nối " | Vũ Khang" (thay ngày 18/10/2026).
+      "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
+      "Lawyer Trần Phương Lan Anh — ex-Deputy Chief Judge",
+    ],
+    zh: ["Trần Phương Lan Anh 律师 — 曾任法院副院长"],
   },
 };
 
@@ -138,9 +148,9 @@ export const seoTitles: Record<string, Localised> = {
     zh: "Phan Thùy Trang 律师 — 主任、曾任法官",
   },
   "lawyers/tran-phuong-lan-anh": {
-    vi: "Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án",
-    en: "Lawyer Trần Phương Lan Anh — ex-Deputy Chief Judge",
-    zh: "Trần Phương Lan Anh 律师 — 曾任法院副院长",
+    vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc",
+    en: "Trần Phương Lan Anh — Deputy Director & Lawyer",
+    zh: "Trần Phương Lan Anh 律师 — 副主任",
   },
   "lawyers/tran-le-kim-binh": {
     vi: "Trần Lê Kim Bình — Chuyên viên pháp lý",

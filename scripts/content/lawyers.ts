@@ -137,11 +137,17 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "tran-phuong-lan-anh",
     name: "Trần Phương Lan Anh",
     role: "lawyer",
-    position: { vi: "Luật sư", en: "Lawyer", zh: "律师" },
+    // Phó Giám đốc theo chủ website xác nhận ngày 19/10/2026. 副主任 đi cặp với
+    // 主任 của Giám đốc, đúng cách gọi trong một công ty luật.
+    position: {
+      vi: "Phó Giám đốc - Luật sư",
+      en: "Deputy Director & Lawyer",
+      zh: "副主任、律师",
+    },
     summary: {
-      vi: `Luật sư của ${FIRM}, Thạc sĩ Luật. Nguyên Thẩm phán trung cấp, nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, tỉnh Khánh Hòa; 22 năm công tác tại Tòa án.`,
-      en: `Lawyer at ${FIRM}, holding a Master of Laws. Former intermediate-level Judge and former Deputy Chief Judge of the People's Court of Cam Lâm District, Khánh Hòa Province, with 22 years in the court system.`,
-      zh: `${FIRM} 律师，法学硕士。曾任中级法官、Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。`,
+      vi: `Phó Giám đốc, Luật sư của ${FIRM}, Thạc sĩ Luật. Nguyên Thẩm phán trung cấp, nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, tỉnh Khánh Hòa; 22 năm công tác tại Tòa án.`,
+      en: `Deputy Director and Lawyer at ${FIRM}, holding a Master of Laws. Former intermediate-level Judge and former Deputy Chief Judge of the People's Court of Cam Lâm District, Khánh Hòa Province, with 22 years in the court system.`,
+      zh: `${FIRM} 副主任、律师，法学硕士。曾任中级法官、Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。`,
     },
     qualifications: {
       vi: "Thạc sĩ Luật. Nguyên Thẩm phán trung cấp; nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, tỉnh Khánh Hòa. 22 năm công tác tại Tòa án, trong đó 14 năm xét xử. 4 năm hành nghề luật sư.",
@@ -149,9 +155,9 @@ export const firmLawyers: FirmLawyer[] = [
       zh: "法学硕士。曾任中级法官、Khánh Hòa 省 Cam Lâm 县人民法院副院长。在法院系统工作22年，其中从事审判工作14年。执业律师4年。",
     },
     seoDescription: {
-      vi: "Luật sư Trần Phương Lan Anh — Thạc sĩ Luật, nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, Khánh Hòa; 22 năm công tác tại Tòa án.",
-      en: "Trần Phương Lan Anh — lawyer, Master of Laws, former Deputy Chief Judge of Cam Lâm District People's Court, Khánh Hòa; 22 years in the courts.",
-      zh: "Trần Phương Lan Anh 律师——法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
+      vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc Công ty Luật Vũ Khang, Thạc sĩ Luật, nguyên Phó Chánh án TAND huyện Cam Lâm, Khánh Hòa.",
+      en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm, Master of Laws, former Deputy Chief Judge of Cam Lâm District People's Court.",
+      zh: "Trần Phương Lan Anh 律师——Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
     },
     portrait: {
       file: "tran-phuong-lan-anh-2026-10.jpg",
