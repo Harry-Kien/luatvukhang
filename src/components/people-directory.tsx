@@ -5,7 +5,8 @@ import { PageHeading } from "./content";
 import { CmsImage } from "./cms-image";
 import { getRecords, getSampleRecords, type ContentRecord } from "@/lib/cms";
 import { inPeopleGroups } from "@/lib/people-order";
-import { fold, t, type Locale } from "@/lib/content";
+import { matchesPerson } from "@/lib/people-search";
+import { t, type Locale } from "@/lib/content";
 type Query = {
   q?: string;
   service?: string;
@@ -58,11 +59,7 @@ export async function PeopleDirectory({
   const assignedServices = services.filter((s) => covered.has(String(s.id)));
   const filtered = people
     .filter(
-      (r) =>
-        fold(
-          `${r.title} ${r.position || ""} ${r.summary} ${r.languages || ""}`,
-        ).includes(fold(keyword)) &&
-        (!service || related(r).has(service)),
+      (r) => matchesPerson(r, keyword) && (!service || related(r).has(service)),
     )
     .sort((a, b) => {
       if (!sort) return 0;

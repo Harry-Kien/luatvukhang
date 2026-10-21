@@ -8,6 +8,11 @@
  */
 export type LlmsItem = { title: string; path: string; summary?: string | null };
 export type LlmsSection = { heading: string; items: LlmsItem[] };
+/** Nhóm dữ kiện dạng "nhãn: giá trị" (liên hệ, hệ sinh thái); giá trị trống bị bỏ. */
+export type LlmsFacts = {
+  heading: string;
+  lines: { label: string; value?: string | null }[];
+};
 
 /** Tóm tắt xuống dòng sẽ phá cấu trúc danh sách; gộp lại thành một dòng. */
 const oneLine = (value: string) => value.replace(/\s+/g, " ").trim();
@@ -18,15 +23,26 @@ export function buildLlmsTxt({
   summary,
   sections,
   note,
+  facts = [],
 }: {
   siteUrl: string;
   firm: string;
   summary: string;
   sections: LlmsSection[];
   note?: string;
+  /** Đặt ngay sau phần giới thiệu: câu hỏi hay gặp nhất là "liên hệ ở đâu". */
+  facts?: LlmsFacts[];
 }): string {
   const lines = [`# ${firm}`, "", `> ${oneLine(summary)}`, ""];
   if (note) lines.push(oneLine(note), "");
+  for (const group of facts) {
+    const filled = group.lines.filter((line) => line.value?.trim());
+    if (!filled.length) continue;
+    lines.push(`## ${group.heading}`, "");
+    for (const line of filled)
+      lines.push(`- ${line.label}: ${oneLine(String(line.value))}`);
+    lines.push("");
+  }
   for (const section of sections) {
     // Tiêu đề nhóm không có mục nào chỉ làm nhiễu bản tóm tắt.
     if (!section.items.length) continue;

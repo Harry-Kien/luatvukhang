@@ -3,6 +3,8 @@ import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsTxt, type LlmsSection } from "@/lib/llms";
 import { siteUrl } from "@/lib/seo";
+import { contactChannels } from "@/lib/contact";
+import { ECOSYSTEM } from "@/lib/ecosystem";
 
 /** Nhóm nội dung đưa vào bản tóm tắt, theo thứ tự khách hay cần. */
 const SECTIONS = [
@@ -51,6 +53,30 @@ export async function GET() {
       `vụ, quy trình và câu hỏi thường gặp: ${siteUrl}/llms-full.txt. Thông tin ` +
       `trên website mang tính tham khảo chung, không phải ý kiến pháp lý cho một ` +
       `vụ việc cụ thể.`,
+    // Công cụ AI hay được hỏi "liên hệ luật sư ở đâu": đặt dữ kiện liên hệ
+    // ngay đầu tệp, lấy từ Cài đặt như chân trang website.
+    facts: [
+      {
+        heading: "Liên hệ",
+        lines: [
+          { label: "Địa chỉ", value: settings?.address },
+          { label: "Điện thoại", value: settings?.phone },
+          { label: "Zalo", value: contactChannels(settings?.phone)?.zalo },
+          { label: "Email", value: settings?.email },
+          { label: "Gửi yêu cầu tư vấn", value: `${siteUrl}/vi/consultation` },
+          { label: "Trang liên hệ", value: `${siteUrl}/vi/contact` },
+        ],
+      },
+      {
+        heading: "Hệ sinh thái Luật Vũ Khang",
+        lines: ECOSYSTEM.filter((member) => !member.self && member.href).map(
+          (member) => ({
+            label: `${member.name} (${member.role.vi})`,
+            value: `${member.href} — ${member.summary.vi}`,
+          }),
+        ),
+      },
+    ],
     sections,
   });
 

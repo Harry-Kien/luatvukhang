@@ -75,3 +75,37 @@ test("/llms.txt mở sau khi duyệt ra mắt, trước đó trả 404", async (
     expect(await full.text()).toContain("## Lĩnh vực dịch vụ");
   }
 });
+
+test("llms.txt đặt liên hệ ngay sau phần giới thiệu, bỏ dòng trống", () => {
+  const text = buildLlmsTxt({
+    siteUrl: "https://luatvukhang.com",
+    firm: "Vũ Khang",
+    summary: "A",
+    facts: [
+      {
+        heading: "Liên hệ",
+        lines: [
+          { label: "Điện thoại", value: "0832270898" },
+          { label: "Email", value: "" },
+          { label: "Địa chỉ", value: null },
+        ],
+      },
+      { heading: "Hệ sinh thái", lines: [] },
+    ],
+    sections: [
+      {
+        heading: "Chuyên môn",
+        items: [{ title: "X", path: "/vi/x" }],
+      },
+    ],
+  });
+  expect(text).toContain("## Liên hệ\n\n- Điện thoại: 0832270898\n");
+  expect(text).not.toContain("Email:");
+  expect(text).not.toContain("Địa chỉ:");
+  expect(text, "nhóm không còn dòng nào thì bỏ hẳn").not.toContain(
+    "## Hệ sinh thái",
+  );
+  expect(text.indexOf("## Liên hệ")).toBeLessThan(
+    text.indexOf("## Chuyên môn"),
+  );
+});
