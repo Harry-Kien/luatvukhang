@@ -167,12 +167,21 @@ export const firmLawyers: FirmLawyer[] = [
       en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm, Master of Laws, former Deputy Chief Judge of Cam Lâm District People's Court.",
       zh: "Trần Phương Lan Anh 律师——Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
     },
+    // Ảnh vest luật sư gửi ngày 19/10/2026, chủ website chọn dùng ngày
+    // 21/10/2026. Ảnh gốc chụp cận (1024x1536, hai vai chạm mép) nên không cắt
+    // được theo chuẩn chung: khung lấy trọn bề ngang ảnh, đầu chiếm ~58% thay vì
+    // 35,5%. Phông xám xanh đã đưa về trắng như ảnh những người khác.
     portrait: {
-      file: "tran-phuong-lan-anh-2026-10.jpg",
-      replaces: ["tran-phuong-lan-anh.jpg", "tran-phuong-lan-anh-5x7.jpg"],
+      file: "tran-phuong-lan-anh-2026-10-19.jpg",
+      replaces: [
+        "tran-phuong-lan-anh.jpg",
+        "tran-phuong-lan-anh-5x7.jpg",
+        "tran-phuong-lan-anh-2026-10.jpg",
+      ],
       alt: "Chân dung Luật sư Trần Phương Lan Anh",
       credit: FIRM,
-      rights: PROVIDED_1010,
+      rights:
+        "Chủ website cung cấp ngày 19/10/2026 để đăng trên hồ sơ tại website công ty.",
     },
   },
   {
