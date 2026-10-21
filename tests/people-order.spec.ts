@@ -67,7 +67,7 @@ test("đội ngũ chia theo khối, người chưa xếp khối vào nhóm cuố
   expect(groups).toEqual([
     ["leadership", ["phan-thuy-trang", "tran-phuong-lan-anh"]],
     ["legal", ["tran-thi-anh-nhu"]],
-    ["business", ["le-tran-doan-khang", "hoang-vu"]],
+    ["business", ["hoang-vu", "le-tran-doan-khang"]],
     ["others", ["nguoi-moi"]],
   ]);
 });

@@ -12,15 +12,16 @@
  * bao giờ làm mất nó khỏi website.
  *
  * 21/10/2026: thêm khối kinh doanh & đối ngoại, đứng sau khối pháp lý — trên
- * website công ty luật, người khách cần gặp về pháp lý đứng trước.
+ * website công ty luật, người khách cần gặp về pháp lý đứng trước. Trong khối,
+ * chủ website xếp: Hoàng Vũ, Lê Trần Đoan Khang, Nguyễn Anh Tân.
  */
 export const PEOPLE_ORDER = [
   "phan-thuy-trang",
   "tran-phuong-lan-anh",
   "tran-le-kim-binh",
   "tran-thi-anh-nhu",
-  "le-tran-doan-khang",
   "hoang-vu",
+  "le-tran-doan-khang",
   "nguyen-anh-tan",
 ] as const;
 
@@ -60,7 +61,7 @@ export const PEOPLE_GROUPS: {
       en: "Business development & external relations",
       zh: "业务拓展与对外关系",
     },
-    slugs: ["le-tran-doan-khang", "hoang-vu", "nguyen-anh-tan"],
+    slugs: ["hoang-vu", "le-tran-doan-khang", "nguyen-anh-tan"],
   },
 ];
 const OTHERS: Localised = { vi: "Đội ngũ", en: "Our people", zh: "团队成员" };
