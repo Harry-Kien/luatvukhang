@@ -13,8 +13,10 @@
  *     (nguyên Thẩm phán, đoàn luật sư, số năm kinh nghiệm, lĩnh vực) — không lấy
  *     tên công ty, số điện thoại, email hay khẩu hiệu trên ảnh.
  *
+ *   - 21/10/2026: lĩnh vực phụ trách của bà Lan Anh.
+ *
  * NHỮNG Ô CÒN TRỐNG LÀ CỐ Ý. Số thẻ luật sư, đoàn luật sư của bà Lan Anh, lĩnh
- * vực của bà Lan Anh và chị Anh Như, ngôn ngữ làm việc chưa được cung cấp. Bịa
+ * vực của chị Anh Như, ngôn ngữ làm việc chưa được cung cấp. Bịa
  * ra một trong số đó là dựng hồ sơ hành nghề sai sự thật trên website công ty
  * luật.
  */
@@ -167,6 +169,15 @@ export const firmLawyers: FirmLawyer[] = [
       en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm, Master of Laws, former Deputy Chief Judge of Cam Lâm District People's Court.",
       zh: "Trần Phương Lan Anh 律师——Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
     },
+    // Chủ website nêu ngày 21/10/2026: tranh chấp dân sự, hôn nhân gia đình,
+    // hình sự, kinh doanh thương mại, lao động.
+    services: [
+      "giai-quyet-tranh-chap",
+      "hon-nhan-gia-dinh",
+      "hinh-su",
+      "dau-tu-doanh-nghiep",
+      "lao-dong-nhan-su",
+    ],
     // Ảnh vest luật sư gửi ngày 19/10/2026, chủ website chọn dùng ngày
     // 21/10/2026. Ảnh gốc chụp cận (1024x1536, hai vai chạm mép) nên không cắt
     // được theo chuẩn chung: khung lấy trọn bề ngang ảnh, đầu chiếm ~58% thay vì
