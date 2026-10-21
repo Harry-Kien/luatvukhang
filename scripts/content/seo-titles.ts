@@ -167,11 +167,6 @@ export const seoTitles: Record<string, Localised> = {
     en: "Hoàng Vũ — Head of Business Development",
     zh: "Hoàng Vũ — 业务拓展部经理",
   },
-  "lawyers/nguyen-anh-tan": {
-    vi: "Nguyễn Anh Tân — Phó phòng Kinh doanh",
-    en: "Nguyễn Anh Tân — Deputy Head, Business Development",
-    zh: "Nguyễn Anh Tân — 业务拓展部副经理",
-  },
   "lawyers/tran-thi-anh-nhu": {
     vi: "Trần Thị Anh Như — Chuyên viên pháp lý",
     en: "Trần Thị Anh Như — Legal Specialist",

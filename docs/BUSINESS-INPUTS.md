@@ -134,9 +134,9 @@ Chủ website cung cấp hai luật sư của công ty:
 > Lâm, tỉnh Khánh Hòa; 22 năm công tác tại Tòa án — xem scripts/content/lawyers.ts.
 
 > **Cập nhật 21/10/2026 — khối kinh doanh & đối ngoại** (chủ website cung cấp họ
-> tên, chức danh, ảnh): Lê Trần Đoan Khang — Trưởng phòng Đối ngoại; Hoàng Vũ —
-> Trưởng phòng Kinh doanh; Nguyễn Anh Tân — Phó phòng Kinh doanh. Không phải luật
-> sư. Trình độ, kinh nghiệm chưa cung cấp nên hồ sơ để trống mục "Thông tin nghề
+> tên, chức danh, ảnh): Hoàng Vũ — Trưởng phòng Kinh doanh; Lê Trần Đoan Khang —
+> Trưởng phòng Đối ngoại. Không phải luật sư. (Ông Nguyễn Anh Tân — Phó phòng Kinh
+> doanh — được gỡ theo yêu cầu cùng ngày, trước khi lên hosting.) Trình độ, kinh nghiệm chưa cung cấp nên hồ sơ để trống mục "Thông tin nghề
 > nghiệp". Trang Đội ngũ chia ba khối: Ban lãnh đạo, Chuyên viên pháp lý, Kinh
 > doanh & Đối ngoại (src/lib/people-order.ts).
 >

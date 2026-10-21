@@ -83,7 +83,7 @@ const FIRM = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
 const PROVIDED_1010 =
   "Chủ website cung cấp ngày 10/10/2026 để đăng trên hồ sơ tại website công ty.";
 /**
- * Ảnh ba nhân sự khối kinh doanh & đối ngoại gửi ngày 21/10/2026, cắt theo cùng
+ * Ảnh nhân sự khối kinh doanh & đối ngoại gửi ngày 21/10/2026, cắt theo cùng
  * chuẩn trên. Riêng ảnh ông Hoàng Vũ giơ ngón cái ngang ngực: khung dừng ngay
  * trên ngón tay, nên đầu chiếm khoảng 42% thay vì 35,5%.
  */
@@ -239,7 +239,9 @@ export const firmLawyers: FirmLawyer[] = [
   },
   // Khối kinh doanh & đối ngoại (chủ website cung cấp ngày 21/10/2026): họ
   // tên, chức danh và ảnh. Không phải luật sư — không dùng chữ "luật sư" ở ô
-  // nào của ba hồ sơ này. Trình độ, kinh nghiệm chưa được cung cấp nên để trống.
+  // nào của các hồ sơ này. Trình độ, kinh nghiệm chưa được cung cấp nên để trống.
+  // Ông Nguyễn Anh Tân (Phó phòng Kinh doanh) được gỡ theo yêu cầu chủ website
+  // cùng ngày, trước khi lên hosting.
   {
     slug: "le-tran-doan-khang",
     name: "Lê Trần Đoan Khang",
@@ -290,33 +292,6 @@ export const firmLawyers: FirmLawyer[] = [
     portrait: {
       file: "hoang-vu-2026-10.jpg",
       alt: "Chân dung Trưởng phòng Kinh doanh Hoàng Vũ",
-      credit: FIRM,
-      rights: PROVIDED_1021,
-    },
-  },
-  {
-    slug: "nguyen-anh-tan",
-    name: "Nguyễn Anh Tân",
-    role: "specialist",
-    position: {
-      vi: "Phó phòng Kinh doanh",
-      en: "Deputy Head of Business Development",
-      zh: "业务拓展部副经理",
-    },
-    summary: {
-      vi: `Phó phòng Kinh doanh của ${FIRM}.`,
-      en: `Deputy Head of Business Development at ${FIRM}.`,
-      zh: `${FIRM} 业务拓展部副经理。`,
-    },
-    seoDescription: {
-      vi: "Nguyễn Anh Tân — Phó phòng Kinh doanh, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
-      en: "Nguyễn Anh Tân — Deputy Head of Business Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
-      zh: "Nguyễn Anh Tân——Vũ Khang Solutions & Partners 律师事务所业务拓展部副经理（越南同奈）。",
-    },
-    publishOnCreate: true,
-    portrait: {
-      file: "nguyen-anh-tan-2026-10.jpg",
-      alt: "Chân dung Phó phòng Kinh doanh Nguyễn Anh Tân",
       credit: FIRM,
       rights: PROVIDED_1021,
     },
