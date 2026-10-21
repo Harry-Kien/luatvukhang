@@ -1,15 +1,23 @@
+import { ArrowUpRight } from "lucide-react";
 import { ECOSYSTEM, type EcosystemMember } from "@/lib/ecosystem";
 import { t, type Locale } from "@/lib/content";
 
-/** Logo trong ô trắng bo góc kiểu biểu tượng ứng dụng: rõ trên cả nền tối. */
+/**
+ * Logo trong ô trắng bo góc kiểu biểu tượng ứng dụng: rõ trên cả nền tối.
+ * Thành viên có website thì cả thẻ là liên kết mở tab mới, có mũi tên ↗ và tên
+ * miền để người xem biết mình sắp rời website công ty luật.
+ */
 function Member({
   member,
   locale,
   className,
+  detailed = false,
 }: {
   member: EcosystemMember;
   locale: Locale;
   className: string;
+  /** Thêm câu giới thiệu và tên miền — dùng cho thẻ ở trang Về chúng tôi. */
+  detailed?: boolean;
 }) {
   const body = (
     <>
@@ -19,15 +27,33 @@ function Member({
       <span className="ecosystem-text">
         <strong>{member.name}</strong>
         <small>{member.role[locale]}</small>
+        {detailed && <span>{member.summary[locale]}</span>}
+        {detailed && member.site && (
+          <span className="ecosystem-site">{member.site}</span>
+        )}
       </span>
+      {member.href && (
+        <ArrowUpRight className="ecosystem-arrow" size={18} aria-hidden />
+      )}
     </>
   );
-  return member.href ? (
-    <a className={className} href={member.href} rel="noopener" target="_blank">
+  if (!member.href) return <div className={className}>{body}</div>;
+  const label = `${member.name} — ${member.site ?? member.href} (${t(
+    locale,
+    "mở trong tab mới",
+    "opens in a new tab",
+  )})`;
+  return (
+    <a
+      className={className}
+      href={member.href}
+      rel="noopener"
+      target="_blank"
+      aria-label={label}
+      title={label}
+    >
       {body}
     </a>
-  ) : (
-    <div className={className}>{body}</div>
   );
 }
 
@@ -76,6 +102,7 @@ export function EcosystemSection({ locale }: { locale: Locale }) {
             member={member}
             locale={locale}
             className="ecosystem-card"
+            detailed
           />
         ))}
       </div>

@@ -33,6 +33,17 @@ export const replacedSeoTitles: Record<
     ],
     zh: ["Trần Phương Lan Anh 律师 — 曾任法院副院长"],
   },
+  // 21/10/2026: phòng Kinh doanh / Đối ngoại đổi thành Phát triển khách hàng.
+  "lawyers/hoang-vu": {
+    vi: ["Hoàng Vũ — Trưởng phòng Kinh doanh"],
+    en: ["Hoàng Vũ — Head of Business Development"],
+    zh: ["Hoàng Vũ — 业务拓展部经理"],
+  },
+  "lawyers/le-tran-doan-khang": {
+    vi: ["Lê Trần Đoan Khang — Trưởng phòng Đối ngoại"],
+    en: ["Lê Trần Đoan Khang — Head of External Relations"],
+    zh: ["Lê Trần Đoan Khang — 对外关系部经理"],
+  },
 };
 
 export const seoTitles: Record<string, Localised> = {
@@ -157,15 +168,15 @@ export const seoTitles: Record<string, Localised> = {
     en: "Trần Lê Kim Bình — Legal Specialist",
     zh: "Trần Lê Kim Bình — 法务专员",
   },
-  "lawyers/le-tran-doan-khang": {
-    vi: "Lê Trần Đoan Khang — Trưởng phòng Đối ngoại",
-    en: "Lê Trần Đoan Khang — Head of External Relations",
-    zh: "Lê Trần Đoan Khang — 对外关系部经理",
-  },
   "lawyers/hoang-vu": {
-    vi: "Hoàng Vũ — Trưởng phòng Kinh doanh",
-    en: "Hoàng Vũ — Head of Business Development",
-    zh: "Hoàng Vũ — 业务拓展部经理",
+    vi: "Hoàng Vũ — Trưởng phòng Phát triển khách hàng",
+    en: "Hoàng Vũ — Head of Client Development",
+    zh: "Hoàng Vũ — 客户发展部经理",
+  },
+  "lawyers/le-tran-doan-khang": {
+    vi: "Lê Trần Đoan Khang — Phó phòng Phát triển khách hàng",
+    en: "Lê Trần Đoan Khang — Deputy Head, Client Development",
+    zh: "Lê Trần Đoan Khang — 客户发展部副经理",
   },
   "lawyers/tran-thi-anh-nhu": {
     vi: "Trần Thị Anh Như — Chuyên viên pháp lý",

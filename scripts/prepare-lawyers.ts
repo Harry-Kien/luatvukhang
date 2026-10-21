@@ -73,7 +73,8 @@ if (samples.docs.length)
   console.log(`da go ${samples.docs.length} ho so minh hoa.`);
 
 /**
- * Giá trị đã nạp ở các lần trước: bản 25/09/2026 và bản 07–11/10/2026. Ô nào
+ * Giá trị đã nạp ở các lần trước: bản 25/09/2026, bản 07–11/10/2026 và chức
+ * danh cũ của phòng Phát triển khách hàng (21/10/2026). Ô nào
  * trên CMS còn đúng bằng một trong các giá trị này nghĩa là chưa ai sửa tay, nên
  * được đính chính theo lawyers.ts mà không cần cờ --refresh. Ô công ty đã tự sửa
  * thì giữ nguyên.
@@ -82,12 +83,14 @@ if (samples.docs.length)
  * lên hosting, lưu bản cũ thành một tệp mới ở đây — thiếu nó thì hosting không
  * nhận đính chính.
  */
-type Seeded = Record<"position" | "summary" | "qualifications", Localised> & {
+type Seeded = Record<"position" | "summary", Localised> & {
+  qualifications?: Localised;
   seoDescription?: Localised;
 };
 const previousVersions: Record<string, Seeded>[] = [
   "./content/lawyers-2026-09.json",
   "./content/lawyers-2026-10.json",
+  "./content/lawyers-2026-10-21.json",
 ].map((file) =>
   JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );
@@ -161,7 +164,11 @@ for (const lawyer of firmLawyers)
         if (next === undefined || same(found[key], next)) continue;
         if (
           refresh ||
-          wasSeeded(lawyer.slug, found[key], (seeded) => seeded[key][language])
+          wasSeeded(
+            lawyer.slug,
+            found[key],
+            (seeded) => seeded[key]?.[language],
+          )
         )
           data[key] = next;
       }

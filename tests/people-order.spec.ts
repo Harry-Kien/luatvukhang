@@ -42,8 +42,8 @@ test("đội ngũ đứng theo thứ tự công ty nêu, người mới đứng 
 });
 
 /**
- * Trang Đội ngũ chia theo khối: ban lãnh đạo, chuyên viên pháp lý, kinh doanh
- * & đối ngoại. Người chưa thuộc khối nào vẫn hiện — ở nhóm cuối — chứ không
+ * Trang Đội ngũ chia theo khối: ban lãnh đạo, chuyên viên pháp lý, phát triển
+ * khách hàng. Người chưa thuộc khối nào vẫn hiện — ở nhóm cuối — chứ không
  * biến mất khỏi trang.
  */
 test("đội ngũ chia theo khối, người chưa xếp khối vào nhóm cuối", () => {
@@ -67,7 +67,7 @@ test("đội ngũ chia theo khối, người chưa xếp khối vào nhóm cuố
   expect(groups).toEqual([
     ["leadership", ["phan-thuy-trang", "tran-phuong-lan-anh"]],
     ["legal", ["tran-thi-anh-nhu"]],
-    ["business", ["hoang-vu", "le-tran-doan-khang"]],
+    ["clients", ["hoang-vu", "le-tran-doan-khang"]],
     ["others", ["nguoi-moi"]],
   ]);
 });

@@ -2279,3 +2279,39 @@ a.ecosystem-card:hover strong {
     grid-template-columns: 1fr;
   }
 }
+.ecosystem-card {
+  align-items: flex-start;
+}
+.ecosystem-text > span {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #536170;
+}
+.ecosystem-text > .ecosystem-site {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #142439;
+}
+.ecosystem-arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: #a51c30;
+}
+.ecosystem-chip .ecosystem-arrow {
+  margin-left: 4px;
+  color: #aab6c3;
+}
+a.ecosystem-card,
+a.ecosystem-chip {
+  transition: background-color 0.2s;
+}
+a.ecosystem-card:hover {
+  background: #e9ecf0;
+}
+a.ecosystem-card:focus-visible,
+a.ecosystem-chip:focus-visible {
+  outline: 2px solid #a51c30;
+  outline-offset: 3px;
+}

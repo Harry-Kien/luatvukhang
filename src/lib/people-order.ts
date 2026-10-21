@@ -11,9 +11,9 @@
  * cùng — luật sư trước nhân sự khác, rồi theo tên — nên thêm hồ sơ mới không
  * bao giờ làm mất nó khỏi website.
  *
- * 21/10/2026: thêm khối kinh doanh & đối ngoại, đứng sau khối pháp lý — trên
- * website công ty luật, người khách cần gặp về pháp lý đứng trước. Trong khối,
- * chủ website xếp: Hoàng Vũ, Lê Trần Đoan Khang.
+ * 21/10/2026: thêm phòng Phát triển khách hàng, đứng sau khối pháp lý — trên
+ * website công ty luật, người khách cần gặp về pháp lý đứng trước. Trong phòng:
+ * Trưởng phòng Hoàng Vũ, Phó phòng Lê Trần Đoan Khang.
  */
 export const PEOPLE_ORDER = [
   "phan-thuy-trang",
@@ -29,7 +29,7 @@ type Localised = { vi: string; en: string; zh: string };
 /**
  * Các nhóm trên trang Đội ngũ, theo thứ tự hiển thị. Bảy người trong một lưới
  * liền đọc như một danh sách; tách theo khối thì khách thấy ngay ai điều hành,
- * ai làm pháp lý, ai lo kinh doanh và đối ngoại.
+ * ai làm pháp lý, ai phụ trách phát triển khách hàng.
  *
  * Người chưa thuộc nhóm nào vào nhóm cuối "Đội ngũ", nên thêm hồ sơ mới trong
  * CMS không bao giờ làm nó biến mất khỏi trang.
@@ -54,11 +54,11 @@ export const PEOPLE_GROUPS: {
     slugs: ["tran-le-kim-binh", "tran-thi-anh-nhu"],
   },
   {
-    key: "business",
+    key: "clients",
     title: {
-      vi: "Kinh doanh & Đối ngoại",
-      en: "Business development & external relations",
-      zh: "业务拓展与对外关系",
+      vi: "Phát triển khách hàng",
+      en: "Client development",
+      zh: "客户发展部",
     },
     slugs: ["hoang-vu", "le-tran-doan-khang"],
   },

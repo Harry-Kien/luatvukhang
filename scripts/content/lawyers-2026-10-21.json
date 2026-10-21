@@ -1,0 +1,36 @@
+{
+  "le-tran-doan-khang": {
+    "position": {
+      "vi": "Trưởng phòng Đối ngoại",
+      "en": "Head of External Relations",
+      "zh": "对外关系部经理"
+    },
+    "summary": {
+      "vi": "Trưởng phòng Đối ngoại của Công ty Luật TNHH Vũ Khang Solutions & Partners.",
+      "en": "Head of External Relations at Công ty Luật TNHH Vũ Khang Solutions & Partners.",
+      "zh": "Công ty Luật TNHH Vũ Khang Solutions & Partners 对外关系部经理。"
+    },
+    "seoDescription": {
+      "vi": "Lê Trần Đoan Khang — Trưởng phòng Đối ngoại, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      "en": "Lê Trần Đoan Khang — Head of External Relations at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      "zh": "Lê Trần Đoan Khang——Vũ Khang Solutions & Partners 律师事务所对外关系部经理（越南同奈）。"
+    }
+  },
+  "hoang-vu": {
+    "position": {
+      "vi": "Trưởng phòng Kinh doanh",
+      "en": "Head of Business Development",
+      "zh": "业务拓展部经理"
+    },
+    "summary": {
+      "vi": "Trưởng phòng Kinh doanh của Công ty Luật TNHH Vũ Khang Solutions & Partners.",
+      "en": "Head of Business Development at Công ty Luật TNHH Vũ Khang Solutions & Partners.",
+      "zh": "Công ty Luật TNHH Vũ Khang Solutions & Partners 业务拓展部经理。"
+    },
+    "seoDescription": {
+      "vi": "Hoàng Vũ — Trưởng phòng Kinh doanh, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      "en": "Hoàng Vũ — Head of Business Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      "zh": "Hoàng Vũ——Vũ Khang Solutions & Partners 律师事务所业务拓展部经理（越南同奈）。"
+    }
+  }
+}
