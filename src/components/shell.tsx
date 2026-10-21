@@ -21,6 +21,7 @@ import {
 import type { SiteLayoutData } from "@/cms/site-layout";
 import { Brand } from "./brand";
 import { ContactChannels } from "./contact-channels";
+import { EcosystemStrip } from "./ecosystem";
 export function Header({
   locale,
   services = [],
@@ -374,6 +375,7 @@ export function Footer({
             ))}
         </div>
       </div>
+      <EcosystemStrip locale={locale} />
       <div className="footer-bottom">
         <span>
           © {new Date().getFullYear()} {layout.copyright}

@@ -157,8 +157,8 @@ for (const lawyer of firmLawyers)
       }
       const data: Record<string, unknown> = {};
       for (const key of ["position", "summary", "qualifications"] as const) {
-        const next = lawyer[key][language];
-        if (same(found[key], next)) continue;
+        const next = lawyer[key]?.[language];
+        if (next === undefined || same(found[key], next)) continue;
         if (
           refresh ||
           wasSeeded(lawyer.slug, found[key], (seeded) => seeded[key][language])
@@ -226,7 +226,7 @@ for (const lawyer of firmLawyers)
         position: lawyer.position[language],
         role: lawyer.role,
         summary: lawyer.summary[language],
-        qualifications: lawyer.qualifications[language],
+        qualifications: lawyer.qualifications?.[language],
         services: await serviceIds(lawyer.services, language),
         seo: { description: seoDescription },
         reviewState: live ? "approved" : "working",

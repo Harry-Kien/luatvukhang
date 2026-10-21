@@ -4,6 +4,7 @@ import { ArrowUpRight, Users, Search } from "lucide-react";
 import { PageHeading } from "./content";
 import { CmsImage } from "./cms-image";
 import { getRecords, getSampleRecords, type ContentRecord } from "@/lib/cms";
+import { inPeopleGroups } from "@/lib/people-order";
 import { fold, t, type Locale } from "@/lib/content";
 type Query = {
   q?: string;
@@ -82,6 +83,53 @@ export async function PeopleDirectory({
   );
   const pageHref = (page: number) =>
     `/${locale}/lawyers?${new URLSearchParams({ q: keyword, service, sort, page: String(page) })}`;
+  // Chưa tìm, chưa lọc, chưa đổi thứ tự: chia theo khối (people-order.ts) và
+  // hiện hết trên một trang. Đang tìm hay lọc thì trở về lưới kết quả liền.
+  const grouped =
+    !keyword && !service && !sort && !showingSamples
+      ? inPeopleGroups(filtered)
+      : null;
+  const card = (r: ContentRecord) => (
+    <Link
+      className="person-card"
+      href={`/${locale}/lawyers/${r.slug}`}
+      key={r.id}
+    >
+      <div className="person-photo">
+        {r.portrait?.url ? (
+          <CmsImage
+            media={r.portrait}
+            fallbackAlt={r.title}
+            sizes="(max-width: 600px) 100vw, (max-width: 1180px) 50vw, 330px"
+          />
+        ) : (
+          <span className="person-initials" aria-hidden="true">
+            {r.title
+              .split(/\s+/)
+              .slice(-2)
+              .map((s: string) => s[0])
+              .join("")}
+          </span>
+        )}
+        <span className="person-open" aria-hidden="true">
+          <ArrowUpRight size={22} />
+        </span>
+      </div>
+      <div className="person-info">
+        <p className="person-role">{r.position}</p>
+        <h3>{r.title}</h3>
+        <p>{r.summary}</p>
+        <div className="person-practices">
+          {services
+            .filter((s) => related(r).has(String(s.id)))
+            .slice(0, 3)
+            .map((s) => (
+              <span key={s.id}>{s.title}</span>
+            ))}
+        </div>
+      </div>
+    </Link>
+  );
   return (
     <>
       <PageHeading
@@ -204,49 +252,20 @@ export async function PeopleDirectory({
             )}
           </div>
         )}
-        {filtered.length > 0 ? (
+        {grouped ? (
+          grouped.map((group) => (
+            <section
+              className="people-group"
+              key={group.key}
+              aria-labelledby={`people-group-${group.key}`}
+            >
+              <h2 id={`people-group-${group.key}`}>{group.title[locale]}</h2>
+              <div className="people-grid">{group.people.map(card)}</div>
+            </section>
+          ))
+        ) : filtered.length > 0 ? (
           <div className="people-grid">
-            {filtered.slice((current - 1) * 9, current * 9).map((r) => (
-              <Link
-                className="person-card"
-                href={`/${locale}/lawyers/${r.slug}`}
-                key={r.id}
-              >
-                <div className="person-photo">
-                  {r.portrait?.url ? (
-                    <CmsImage
-                      media={r.portrait}
-                      fallbackAlt={r.title}
-                      sizes="(max-width: 600px) 100vw, (max-width: 1180px) 50vw, 330px"
-                    />
-                  ) : (
-                    <span className="person-initials" aria-hidden="true">
-                      {r.title
-                        .split(/\s+/)
-                        .slice(-2)
-                        .map((s: string) => s[0])
-                        .join("")}
-                    </span>
-                  )}
-                  <span className="person-open" aria-hidden="true">
-                    <ArrowUpRight size={22} />
-                  </span>
-                </div>
-                <div className="person-info">
-                  <p className="person-role">{r.position}</p>
-                  <h3>{r.title}</h3>
-                  <p>{r.summary}</p>
-                  <div className="person-practices">
-                    {services
-                      .filter((s) => related(r).has(String(s.id)))
-                      .slice(0, 3)
-                      .map((s) => (
-                        <span key={s.id}>{s.title}</span>
-                      ))}
-                  </div>
-                </div>
-              </Link>
-            ))}
+            {filtered.slice((current - 1) * 9, current * 9).map(card)}
           </div>
         ) : (
           <div className="people-empty">
@@ -294,7 +313,7 @@ export async function PeopleDirectory({
             </div>
           </div>
         )}
-        {pages > 1 && (
+        {!grouped && pages > 1 && (
           <nav
             className="pagination"
             aria-label={t(locale, "Phân trang đội ngũ", "People pagination")}

@@ -2146,3 +2146,136 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
     font-size: 14px;
   }
 }
+
+/* Trang Đội ngũ chia theo khối (people-order.ts: PEOPLE_GROUPS). */
+.people-group + .people-group {
+  margin-top: 72px;
+}
+.people-group > h2 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 30px;
+  font-size: clamp(22px, 2.2vw, 30px);
+}
+.people-group > h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #d3d8dd;
+}
+@media (max-width: 600px) {
+  .people-group + .people-group {
+    margin-top: 48px;
+  }
+  .people-group > h2 {
+    margin-bottom: 22px;
+  }
+}
+
+/* Hệ sinh thái Luật Vũ Khang (components/ecosystem.tsx). */
+.ecosystem-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(17, 31, 50, 0.12);
+}
+.ecosystem-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.ecosystem-text {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.ecosystem-text strong {
+  font-weight: 600;
+  line-height: 1.35;
+}
+.ecosystem-text small {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.footer-ecosystem {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  padding: 26px 0;
+  border-top: 1px solid var(--border-dark);
+}
+.footer-ecosystem-label {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #aab6c3;
+}
+.footer-ecosystem ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ecosystem-chip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+.ecosystem-chip .ecosystem-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+}
+.ecosystem-chip .ecosystem-icon img {
+  width: 34px;
+  height: 34px;
+}
+.ecosystem-chip small {
+  color: #aab6c3;
+}
+a.ecosystem-chip:hover strong,
+a.ecosystem-card:hover strong {
+  text-decoration: underline;
+}
+.ecosystem-section {
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid #d3d8dd;
+}
+.ecosystem-section > p {
+  color: #536170;
+}
+.ecosystem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+.ecosystem-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 22px;
+  background: #f3f4f6;
+  color: #172637;
+  text-decoration: none;
+}
+.ecosystem-card small {
+  color: #8d1d2e;
+}
+@media (max-width: 700px) {
+  .ecosystem-grid {
+    grid-template-columns: 1fr;
+  }
+}

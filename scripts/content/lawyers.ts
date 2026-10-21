@@ -33,9 +33,10 @@ export type FirmLawyer = {
   summary: Localised;
   /**
    * Nền tảng nghề nghiệp đã được công ty xác nhận. Hiện ở trang hồ sơ dưới
-   * nhãn "Thông tin nghề nghiệp". Chỉ ghi điều công ty đã khẳng định.
+   * nhãn "Thông tin nghề nghiệp". Chỉ ghi điều công ty đã khẳng định — chưa
+   * có thì bỏ trống, trang hồ sơ không hiện mục này.
    */
-  qualifications: Localised;
+  qualifications?: Localised;
   /**
    * Mô tả trên kết quả tìm kiếm, tối đa 160 ký tự (Google cắt phần dư). Bỏ trống
    * thì dùng tóm tắt — chỉ khi tóm tắt đủ ngắn.
@@ -81,6 +82,13 @@ const FIRM = "Công ty Luật TNHH Vũ Khang Solutions & Partners";
  */
 const PROVIDED_1010 =
   "Chủ website cung cấp ngày 10/10/2026 để đăng trên hồ sơ tại website công ty.";
+/**
+ * Ảnh ba nhân sự khối kinh doanh & đối ngoại gửi ngày 21/10/2026, cắt theo cùng
+ * chuẩn trên. Riêng ảnh ông Hoàng Vũ giơ ngón cái ngang ngực: khung dừng ngay
+ * trên ngón tay, nên đầu chiếm khoảng 42% thay vì 35,5%.
+ */
+const PROVIDED_1021 =
+  "Chủ website cung cấp ngày 21/10/2026 để đăng trên hồ sơ tại website công ty.";
 
 /**
  * Địa danh giữ nguyên ở cả ba ngôn ngữ.
@@ -227,6 +235,90 @@ export const firmLawyers: FirmLawyer[] = [
       alt: "Chân dung chuyên viên pháp lý Trần Thị Anh Như",
       credit: FIRM,
       rights: PROVIDED_1010,
+    },
+  },
+  // Khối kinh doanh & đối ngoại (chủ website cung cấp ngày 21/10/2026): họ
+  // tên, chức danh và ảnh. Không phải luật sư — không dùng chữ "luật sư" ở ô
+  // nào của ba hồ sơ này. Trình độ, kinh nghiệm chưa được cung cấp nên để trống.
+  {
+    slug: "le-tran-doan-khang",
+    name: "Lê Trần Đoan Khang",
+    role: "specialist",
+    position: {
+      vi: "Trưởng phòng Đối ngoại",
+      en: "Head of External Relations",
+      zh: "对外关系部经理",
+    },
+    summary: {
+      vi: `Trưởng phòng Đối ngoại của ${FIRM}.`,
+      en: `Head of External Relations at ${FIRM}.`,
+      zh: `${FIRM} 对外关系部经理。`,
+    },
+    seoDescription: {
+      vi: "Lê Trần Đoan Khang — Trưởng phòng Đối ngoại, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      en: "Lê Trần Đoan Khang — Head of External Relations at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      zh: "Lê Trần Đoan Khang——Vũ Khang Solutions & Partners 律师事务所对外关系部经理（越南同奈）。",
+    },
+    publishOnCreate: true,
+    portrait: {
+      file: "le-tran-doan-khang-2026-10.jpg",
+      alt: "Chân dung Trưởng phòng Đối ngoại Lê Trần Đoan Khang",
+      credit: FIRM,
+      rights: PROVIDED_1021,
+    },
+  },
+  {
+    slug: "hoang-vu",
+    name: "Hoàng Vũ",
+    role: "specialist",
+    position: {
+      vi: "Trưởng phòng Kinh doanh",
+      en: "Head of Business Development",
+      zh: "业务拓展部经理",
+    },
+    summary: {
+      vi: `Trưởng phòng Kinh doanh của ${FIRM}.`,
+      en: `Head of Business Development at ${FIRM}.`,
+      zh: `${FIRM} 业务拓展部经理。`,
+    },
+    seoDescription: {
+      vi: "Hoàng Vũ — Trưởng phòng Kinh doanh, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      en: "Hoàng Vũ — Head of Business Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      zh: "Hoàng Vũ——Vũ Khang Solutions & Partners 律师事务所业务拓展部经理（越南同奈）。",
+    },
+    publishOnCreate: true,
+    portrait: {
+      file: "hoang-vu-2026-10.jpg",
+      alt: "Chân dung Trưởng phòng Kinh doanh Hoàng Vũ",
+      credit: FIRM,
+      rights: PROVIDED_1021,
+    },
+  },
+  {
+    slug: "nguyen-anh-tan",
+    name: "Nguyễn Anh Tân",
+    role: "specialist",
+    position: {
+      vi: "Phó phòng Kinh doanh",
+      en: "Deputy Head of Business Development",
+      zh: "业务拓展部副经理",
+    },
+    summary: {
+      vi: `Phó phòng Kinh doanh của ${FIRM}.`,
+      en: `Deputy Head of Business Development at ${FIRM}.`,
+      zh: `${FIRM} 业务拓展部副经理。`,
+    },
+    seoDescription: {
+      vi: "Nguyễn Anh Tân — Phó phòng Kinh doanh, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      en: "Nguyễn Anh Tân — Deputy Head of Business Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      zh: "Nguyễn Anh Tân——Vũ Khang Solutions & Partners 律师事务所业务拓展部副经理（越南同奈）。",
+    },
+    publishOnCreate: true,
+    portrait: {
+      file: "nguyen-anh-tan-2026-10.jpg",
+      alt: "Chân dung Phó phòng Kinh doanh Nguyễn Anh Tân",
+      credit: FIRM,
+      rights: PROVIDED_1021,
     },
   },
 ];

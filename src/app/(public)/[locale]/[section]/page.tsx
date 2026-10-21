@@ -23,6 +23,7 @@ import { emptySections } from "@/lib/empty-sections";
 import { t, demo, samples, fold, type Locale, navigation } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { LawyerHighlights } from "@/components/lawyer-highlights";
+import { EcosystemSection } from "@/components/ecosystem";
 const extra: Record<string, [string, string]> = {
   guide: ["Hướng dẫn khách hàng", "Client guide"],
   consultation: ["Yêu cầu tư vấn", "Request a consultation"],
@@ -64,8 +65,8 @@ const descriptions: Record<string, [string, string]> = {
     "Practice areas at Vũ Khang: corporate and commercial, civil disputes, employment, land and housing, family, criminal defence and retained counsel.",
   ],
   lawyers: [
-    "Hồ sơ luật sư của Vũ Khang: chức danh, lĩnh vực chuyên môn và ngôn ngữ làm việc. Tìm luật sư phù hợp với vấn đề của bạn.",
-    "Lawyer profiles at Vũ Khang: roles, areas of practice and working languages. Find the right lawyer for your matter.",
+    "Đội ngũ Vũ Khang: ban lãnh đạo là các luật sư nguyên Thẩm phán, chuyên viên pháp lý và khối kinh doanh, đối ngoại. Tìm người phù hợp với vấn đề của bạn.",
+    "The Vũ Khang team: leadership lawyers who are former judges, legal specialists, and business development and external relations staff.",
   ],
   experience: [
     "Kinh nghiệm công việc đã được phép công bố, phân theo lĩnh vực chuyên môn và loại vấn đề pháp lý.",
@@ -118,9 +119,9 @@ const seoTitleDefaults: Record<string, Record<Locale, string>> = {
     zh: "刑事、土地、婚姻家庭与企业律师",
   },
   lawyers: {
-    vi: "Đội ngũ luật sư và chuyên viên pháp lý",
-    en: "Our lawyers and legal specialists",
-    zh: "律师与法务团队",
+    vi: "Đội ngũ luật sư và nhân sự công ty luật",
+    en: "Our lawyers and team",
+    zh: "律师与团队成员",
   },
   articles: {
     vi: "Góc nhìn pháp lý và hướng dẫn thực tế",
@@ -150,7 +151,7 @@ const zhDescriptions: Record<string, string> = {
     "了解 Vũ Khang 的八个业务领域：刑事、婚姻家庭、土地住房、民事纠纷、企业商事、劳动、标准化法律产品与常年法律顾问。",
   experience: "浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",
   lawyers:
-    "认识 Vũ Khang 的律师与法务团队：曾任法官的律师、执业经历、学历及负责的业务领域。",
+    "认识 Vũ Khang 团队：曾任法官的律师领导团队、法务专员，以及业务拓展与对外关系部门。",
   articles:
     "按主题阅读 Vũ Khang 律师团队撰写的法律文章：合同、诉讼、土地、劳动与婚姻家庭的实务指南。",
   contact:
@@ -679,6 +680,7 @@ export default async function Page({ params, searchParams }: Props) {
                 )}
               />
             )}
+            {section === "about" && <EcosystemSection locale={locale} />}
             {section === "about" && (
               <LawyerHighlights locale={locale} stacked cta />
             )}

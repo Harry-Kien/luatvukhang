@@ -133,6 +133,18 @@ Chủ website cung cấp hai luật sư của công ty:
 > Luật; nguyên Thẩm phán trung cấp, nguyên Phó Chánh án Tòa án nhân dân huyện Cam
 > Lâm, tỉnh Khánh Hòa; 22 năm công tác tại Tòa án — xem scripts/content/lawyers.ts.
 
+> **Cập nhật 21/10/2026 — khối kinh doanh & đối ngoại** (chủ website cung cấp họ
+> tên, chức danh, ảnh): Lê Trần Đoan Khang — Trưởng phòng Đối ngoại; Hoàng Vũ —
+> Trưởng phòng Kinh doanh; Nguyễn Anh Tân — Phó phòng Kinh doanh. Không phải luật
+> sư. Trình độ, kinh nghiệm chưa cung cấp nên hồ sơ để trống mục "Thông tin nghề
+> nghiệp". Trang Đội ngũ chia ba khối: Ban lãnh đạo, Chuyên viên pháp lý, Kinh
+> doanh & Đối ngoại (src/lib/people-order.ts).
+>
+> **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
+> chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
+> (src/lib/ecosystem.ts). **Còn thiếu:** đường dẫn tải ứng dụng (App Store /
+> Google Play) hoặc website của Luật Việt — có thì thẻ Luật Việt tự thành liên kết.
+
 Vì đội ngũ có người không phải luật sư, tiêu đề trang đổi từ "Đội ngũ luật sư"
 thành **"Đội ngũ"** (tiếng Trung: 律师团队 → 团队成员). Gọi một chuyên viên là
 luật sư là sai tư cách hành nghề, không phải cách nói cho gọn.

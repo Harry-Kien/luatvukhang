@@ -157,6 +157,21 @@ export const seoTitles: Record<string, Localised> = {
     en: "Trần Lê Kim Bình — Legal Specialist",
     zh: "Trần Lê Kim Bình — 法务专员",
   },
+  "lawyers/le-tran-doan-khang": {
+    vi: "Lê Trần Đoan Khang — Trưởng phòng Đối ngoại",
+    en: "Lê Trần Đoan Khang — Head of External Relations",
+    zh: "Lê Trần Đoan Khang — 对外关系部经理",
+  },
+  "lawyers/hoang-vu": {
+    vi: "Hoàng Vũ — Trưởng phòng Kinh doanh",
+    en: "Hoàng Vũ — Head of Business Development",
+    zh: "Hoàng Vũ — 业务拓展部经理",
+  },
+  "lawyers/nguyen-anh-tan": {
+    vi: "Nguyễn Anh Tân — Phó phòng Kinh doanh",
+    en: "Nguyễn Anh Tân — Deputy Head, Business Development",
+    zh: "Nguyễn Anh Tân — 业务拓展部副经理",
+  },
   "lawyers/tran-thi-anh-nhu": {
     vi: "Trần Thị Anh Như — Chuyên viên pháp lý",
     en: "Trần Thị Anh Như — Legal Specialist",
