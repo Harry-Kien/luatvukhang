@@ -126,23 +126,31 @@ export default async function Layout({
                 : "Development preview · Sample content, not an official statement of the firm."}
           </div>
         )}
-        <Editable target={{ global: "site-layout", tab: "header" }} label="đầu trang">
+        <Editable
+          target={{ global: "site-layout", tab: "header" }}
+          label="đầu trang"
+        >
           <Header
             locale={locale}
             companyName={companyName || undefined}
             services={serviceLinks}
             phone={settings?.phone}
+            zalo={settings?.zaloNumbers}
             // Chỉ gửi những gì header cần; mục menu đang ẩn không xuống trình duyệt.
             layout={{ tagline: layout.header.tagline, cta: layout.header.cta }}
             nav={nav}
           />
         </Editable>
         <main id="main">{children}</main>
-        <Editable target={{ global: "site-layout", tab: "footer" }} label="chân trang">
+        <Editable
+          target={{ global: "site-layout", tab: "footer" }}
+          label="chân trang"
+        >
           <Footer
             locale={locale}
             companyName={companyName || undefined}
             phone={settings?.phone}
+            zalo={settings?.zaloNumbers}
             address={settings?.address}
             email={settings?.email}
             layout={footer}
@@ -153,6 +161,7 @@ export default async function Layout({
         <ContactChannels
           locale={locale}
           phone={settings?.phone}
+          zalo={settings?.zaloNumbers}
           variant="dock"
         />
         <Analytics />

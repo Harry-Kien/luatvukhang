@@ -22,10 +22,12 @@ import type { SiteLayoutData } from "@/cms/site-layout";
 import { Brand } from "./brand";
 import { ContactChannels } from "./contact-channels";
 import { EcosystemStrip } from "./ecosystem";
+import type { ZaloNumber } from "@/lib/contact";
 export function Header({
   locale,
   services = [],
   phone,
+  zalo,
   layout,
   nav,
 }: {
@@ -33,6 +35,7 @@ export function Header({
   companyName?: string;
   services?: { slug: string; title: string }[];
   phone?: string | null;
+  zalo?: ZaloNumber[] | null;
   layout: SiteLayoutData["header"];
   nav: NavItem[];
 }) {
@@ -73,7 +76,12 @@ export function Header({
       <div className="utility-bar">
         <span>{layout.tagline}</span>
         <div>
-          <ContactChannels locale={locale} phone={phone} variant="bar" />
+          <ContactChannels
+            locale={locale}
+            phone={phone}
+            zalo={zalo}
+            variant="bar"
+          />
           {phone && <span className="utility-divider" />}
           <Link href={"/" + locale + "/search"}>
             <Search size={14} />
@@ -248,7 +256,12 @@ export function Header({
             {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
             <ArrowRight size={18} />
           </Link>
-          <ContactChannels locale={locale} phone={phone} variant="stack" />
+          <ContactChannels
+            locale={locale}
+            phone={phone}
+            zalo={zalo}
+            variant="stack"
+          />
         </nav>
       )}
     </header>
@@ -263,6 +276,7 @@ export function Footer({
   locale,
   companyName,
   phone,
+  zalo,
   address,
   email,
   layout,
@@ -272,6 +286,7 @@ export function Footer({
   locale: Locale;
   companyName?: string;
   phone?: string | null;
+  zalo?: ZaloNumber[] | null;
   address?: string | null;
   email?: string | null;
   layout: SiteLayoutData["footer"];
@@ -334,7 +349,12 @@ export function Footer({
               {email && <a href={"mailto:" + email}>{email}</a>}
             </address>
           )}
-          <ContactChannels locale={locale} phone={phone} variant="stack" />
+          <ContactChannels
+            locale={locale}
+            phone={phone}
+            zalo={zalo}
+            variant="stack"
+          />
           {social.length > 0 && (
             <ul className="footer-social">
               {social.map(([key, label]) => (

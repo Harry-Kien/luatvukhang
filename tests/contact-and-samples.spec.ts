@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { ADDITIONAL_ZALO_PHONES, contactChannels } from "../src/lib/contact";
+import { contactChannels, zaloChannels } from "../src/lib/contact";
 
 test("phone numbers become both a call link and a Zalo link", () => {
   // Cách công ty nhập số không cố định; cả bốn dạng dưới đây đều là một thuê bao.
@@ -87,9 +87,10 @@ test("nút Zalo nổi gom mọi số Zalo vào một danh sách chọn số", as
     await request.get("/api/globals/site-settings")
   ).json();
   test.skip(!settings.phone, "Chưa nhập số điện thoại trong Cài đặt.");
-  const numbers = [settings.phone, ...ADDITIONAL_ZALO_PHONES]
-    .map((phone) => contactChannels(phone)?.zalo)
-    .filter((zalo, index, all) => zalo && all.indexOf(zalo) === index);
+  // Số chính và các số trong ô "Số Zalo bổ sung" của Cài đặt.
+  const numbers = zaloChannels(settings.phone, settings.zaloNumbers).map(
+    (channel) => channel.zalo,
+  );
   test.skip(numbers.length < 2, "Chỉ có một số Zalo.");
   await page.setViewportSize({ width: 390, height: 760 });
   await page.goto("/vi");

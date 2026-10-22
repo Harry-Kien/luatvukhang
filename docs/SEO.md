@@ -65,7 +65,8 @@ hoặc [Schema Markup Validator](https://validator.schema.org/).
 
 Cả hai chỉ mở sau khi duyệt ra mắt, cùng công tắc với robots.txt. Chỉ gồm nội
 dung đã xuất bản — không có giá, không có thông tin nội bộ. `/llms.txt` và `/llms-full.txt`
-liệt kê điện thoại chính, liên kết Zalo chính và hai liên kết Zalo bổ sung.
+liệt kê điện thoại chính, liên kết Zalo chính và các số trong ô "Số Zalo bổ sung"
+của Cài đặt.
 
 Google đã ngừng hiển thị sitelinks search box từ 21/11/2024, vì vậy `SearchAction`
 không còn được phát. `WebSite` vẫn được khai báo để giúp Google hiểu tên website.

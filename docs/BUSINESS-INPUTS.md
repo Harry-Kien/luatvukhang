@@ -7,6 +7,12 @@ nguồn duy nhất sinh ra nút gọi (`tel:+84832270898`), nút Zalo
 (`https://zalo.me/0832270898`) và trường `telephone` trong dữ liệu có cấu trúc
 `Organization`. Đổi số trong Cài đặt là cả ba nơi đổi theo; không sửa trong mã.
 
+**Số Zalo bổ sung** (từ 22/10/2026): ô riêng trong **Cài đặt → Số Zalo bổ sung**,
+dành cho các số chỉ để nhắn Zalo (số Điện thoại chính đã tự có nút Zalo). Thêm,
+xóa, kéo đổi thứ tự rồi bấm Lưu là thanh trên cùng, chân trang, trang Liên hệ,
+nút Zalo nổi và llms.txt đổi theo. Số nhập sai bị chặn khi lưu. Hai số 0976894548
+và 0382140336 được điền sẵn khi cài bản có ô này.
+
 ```
 node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
 ```

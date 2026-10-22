@@ -4,6 +4,7 @@ import * as migration_20260914_105733_co_ban_dich_may from './20260914_105733_co
 import * as migration_20260916_043812_giao_dien_mang_theo_ngon_ngu from './20260916_043812_giao_dien_mang_theo_ngon_ngu';
 import * as migration_20260916_120420_them_vai_tro_doi_ngu from './20260916_120420_them_vai_tro_doi_ngu';
 import * as migration_20260920_145122_them_theo_doi_yeu_cau from './20260920_145122_them_theo_doi_yeu_cau';
+import * as migration_20261022_015132_them_so_zalo_bo_sung from './20261022_015132_them_so_zalo_bo_sung';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260920_145122_them_theo_doi_yeu_cau.up,
     down: migration_20260920_145122_them_theo_doi_yeu_cau.down,
-    name: '20260920_145122_them_theo_doi_yeu_cau'
+    name: '20260920_145122_them_theo_doi_yeu_cau',
+  },
+  {
+    up: migration_20261022_015132_them_so_zalo_bo_sung.up,
+    down: migration_20261022_015132_them_so_zalo_bo_sung.down,
+    name: '20261022_015132_them_so_zalo_bo_sung'
   },
 ];

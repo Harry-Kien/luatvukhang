@@ -1,9 +1,9 @@
 /**
- * Kênh liên hệ trực tiếp dựng từ một số điện thoại duy nhất trong Cài đặt.
+ * Kênh liên hệ trực tiếp dựng từ số điện thoại trong Cài đặt.
  *
- * Không thêm trường riêng cho Zalo: ở Việt Nam Zalo gắn với chính số thuê bao,
- * nên tách thành hai trường chỉ tạo ra khả năng hai nơi lệch nhau mà không ai
- * phát hiện. Đổi số trong Cài đặt là cả nút gọi lẫn nút Zalo đổi theo.
+ * Số chính tự sinh cả nút gọi lẫn nút Zalo: ở Việt Nam Zalo gắn với chính số
+ * thuê bao, nên không có ô Zalo riêng cho số chính. Các số CHỈ để nhắn Zalo
+ * nằm ở ô "Số Zalo bổ sung" trong Cài đặt (thêm tháng 10/2026).
  */
 export type ContactChannels = {
   /** Giữ nguyên cách công ty nhập để hiển thị. */
@@ -14,14 +14,6 @@ export type ContactChannels = {
   zalo: string;
 };
 
-/**
- * Hai số Zalo bổ sung chủ website đưa thêm (tháng 10/2026), chỉ dùng để nhắn
- * Zalo — nút gọi vẫn là số chính trong Cài đặt. Hiện ở thanh tiện ích, chân
- * trang, trang Liên hệ, nút Zalo nổi (gom thành danh sách chọn số) và tệp cho
- * công cụ AI. Các số này ghi trong mã chứ không ở CMS: đổi hay bỏ số thì sửa
- * ở đây.
- */
-export const ADDITIONAL_ZALO_PHONES = ["0976894548", "0382140336"] as const;
 /**
  * Trả về null khi chưa có số hợp lệ, để giao diện ẩn hẳn nút thay vì hiện một
  * liên kết gọi đến số rỗng.
@@ -44,4 +36,24 @@ export function contactChannels(phone?: string | null): ContactChannels | null {
     tel: "+84" + local.slice(1),
     zalo: "https://zalo.me/" + local,
   };
+}
+
+/** Một dòng của ô "Số Zalo bổ sung" trong Cài đặt. */
+export type ZaloNumber = { phone?: string | null } | null | undefined;
+
+/**
+ * Các kênh Zalo theo thứ tự hiển thị: số chính trước, rồi các số bổ sung trong
+ * Cài đặt. Bỏ số không hợp lệ và số trùng (cùng một thuê bao nhập hai cách).
+ */
+export function zaloChannels(
+  phone?: string | null,
+  extra?: ZaloNumber[] | null,
+): ContactChannels[] {
+  return [phone, ...(extra ?? []).map((item) => item?.phone)]
+    .map((number) => contactChannels(number))
+    .filter((item): item is ContactChannels => item !== null)
+    .filter(
+      (item, index, all) =>
+        all.findIndex((candidate) => candidate.zalo === item.zalo) === index,
+    );
 }

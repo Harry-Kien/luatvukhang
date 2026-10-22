@@ -11,6 +11,7 @@ import sharp from "sharp";
 import { trackSlugChange } from "./cms/redirect-hook";
 import { emailAdapter } from "./cms/email";
 import { SiteLayout } from "./cms/site-layout";
+import { contactChannels } from "./lib/contact";
 import { translateEndpoint } from "./cms/translation/endpoint";
 import {
   isAdmin,
@@ -782,6 +783,38 @@ export default buildConfig({
         text("englishName", "Tên tiếng Anh"),
         text("registration", "Thông tin đăng ký hoạt động"),
         text("phone", "Điện thoại"),
+        {
+          // Số chính ở trên đã tự có nút Zalo; đây là các số chỉ để nhắn Zalo.
+          name: "zaloNumbers",
+          label: "Số Zalo bổ sung",
+          type: "array",
+          labels: { singular: "Số Zalo", plural: "Số Zalo bổ sung" },
+          admin: {
+            description:
+              "Số chỉ dùng để nhắn Zalo, ngoài số Điện thoại ở trên (số đó đã tự có nút Zalo). Hiện ở thanh trên cùng, chân trang, trang Liên hệ và nút Zalo nổi. Kéo để đổi thứ tự, bấm ⋯ để xóa. Bấm Lưu là website đổi theo.",
+            initCollapsed: false,
+          },
+          fields: [
+            {
+              name: "phone",
+              label: "Số Zalo",
+              type: "text",
+              required: true,
+              validate: (value: unknown) =>
+                contactChannels(typeof value === "string" ? value : null)
+                  ? true
+                  : "Số không hợp lệ — nhập 9 đến 12 chữ số, ví dụ 0976894548.",
+            },
+            {
+              name: "note",
+              label: "Ghi chú nội bộ (không hiện trên website)",
+              type: "text",
+              // Cài đặt đọc công khai qua /api/globals/site-settings; ghi chú
+              // nội bộ thì chỉ người đã đăng nhập admin mới đọc được.
+              access: { read: ({ req }) => Boolean(req.user) },
+            },
+          ],
+        },
         { name: "email", label: "Email tiếp nhận", type: "email" },
         { name: "address", label: "Địa chỉ", type: "text", localized: true },
         {

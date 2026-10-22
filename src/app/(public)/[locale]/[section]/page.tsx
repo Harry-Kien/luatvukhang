@@ -596,7 +596,11 @@ export default async function Page({ params, searchParams }: Props) {
                 {contact.hours && (
                   <p style={{ whiteSpace: "pre-line" }}>{contact.hours}</p>
                 )}
-                <ContactChannels locale={locale} phone={settings?.phone} />
+                <ContactChannels
+                  locale={locale}
+                  phone={settings?.phone}
+                  zalo={settings?.zaloNumbers}
+                />
                 {contact.mapEmbed && (
                   <iframe
                     className="contact-map"

@@ -2249,6 +2249,16 @@ export interface SiteSetting {
   englishName?: string | null;
   registration?: string | null;
   phone?: string | null;
+  /**
+   * Số chỉ dùng để nhắn Zalo, ngoài số Điện thoại ở trên (số đó đã tự có nút Zalo). Hiện ở thanh trên cùng, chân trang, trang Liên hệ và nút Zalo nổi. Kéo để đổi thứ tự, bấm ⋯ để xóa. Bấm Lưu là website đổi theo.
+   */
+  zaloNumbers?:
+    | {
+        phone: string;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   email?: string | null;
   address?: string | null;
   privacyApproved?: boolean | null;
@@ -2369,6 +2379,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   englishName?: T;
   registration?: T;
   phone?: T;
+  zaloNumbers?:
+    | T
+    | {
+        phone?: T;
+        note?: T;
+        id?: T;
+      };
   email?: T;
   address?: T;
   privacyApproved?: T;

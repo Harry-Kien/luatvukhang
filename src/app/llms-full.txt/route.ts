@@ -3,7 +3,7 @@ import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsFull } from "@/lib/llms";
 import { siteUrl } from "@/lib/seo";
-import { ADDITIONAL_ZALO_PHONES, contactChannels } from "@/lib/contact";
+import { zaloChannels } from "@/lib/contact";
 
 export async function GET() {
   // Cùng điều kiện với llms.txt, robots.txt và feed.xml.
@@ -38,18 +38,12 @@ export async function GET() {
       { label: "Tên tiếng Anh", value: settings?.englishName },
       { label: "Đăng ký hoạt động", value: settings?.registration },
       { label: "Điện thoại", value: settings?.phone },
-      ...(contactChannels(settings?.phone)
-        ? [
-            {
-              label: "Zalo (điện thoại chính)",
-              value: contactChannels(settings?.phone)!.zalo,
-            },
-          ]
-        : []),
-      ...ADDITIONAL_ZALO_PHONES.map((phone, index) => ({
-        label: `Zalo ${index + 2}`,
-        value: `https://zalo.me/${phone}`,
-      })),
+      ...zaloChannels(settings?.phone, settings?.zaloNumbers).map(
+        (channel, index) => ({
+          label: index ? `Zalo ${index + 1}` : "Zalo (điện thoại chính)",
+          value: channel.zalo,
+        }),
+      ),
       { label: "Email", value: settings?.email },
       { label: "Địa chỉ", value: settings?.address },
       { label: "Gửi yêu cầu tư vấn", value: `${siteUrl}/vi/consultation` },
