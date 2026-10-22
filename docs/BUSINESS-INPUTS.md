@@ -148,6 +148,12 @@ Chủ website cung cấp hai luật sư của công ty:
 > khối: Ban lãnh đạo, Chuyên viên pháp lý, Phát triển khách hàng
 > (src/lib/people-order.ts).
 >
+> **22/10/2026:** thêm **Trần Trung Kiên — Phó phòng Phát triển khách hàng**; ảnh
+> mới cho Ls Phan Thùy Trang và ông Hoàng Vũ. Khối và thứ tự từng người sửa trong
+> admin (ô "Khối trên trang Đội ngũ", "Thứ tự hiển thị"). Ảnh của ông Kiên là áo
+> polo trên phông trắng, độ phân giải thấp — nên thay bằng ảnh vest cùng kiểu
+> với cả đội khi có.
+>
 > **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
 > chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
 > (src/lib/ecosystem.ts). Logo dẫn tới https://luatviet247.com (mở tab mới);

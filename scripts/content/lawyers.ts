@@ -98,6 +98,8 @@ const PROVIDED_1010 =
  */
 const PROVIDED_1021 =
   "Chủ website cung cấp ngày 21/10/2026 để đăng trên hồ sơ tại website công ty.";
+const PROVIDED_1022 =
+  "Chủ website cung cấp ngày 22/10/2026 để đăng trên hồ sơ tại website công ty.";
 
 /**
  * Địa danh giữ nguyên ở cả ba ngôn ngữ.
@@ -140,16 +142,18 @@ export const firmLawyers: FirmLawyer[] = [
     // bảo vệ); kinh doanh thương mại (doanh nghiệp, đầu tư).
     services: ["giai-quyet-tranh-chap", "hinh-su", "dau-tu-doanh-nghiep"],
     portrait: {
-      file: "phan-thuy-trang-2026-10-11.jpg",
+      // Ảnh 22/10/2026 (tay chống cằm, khoanh tay): khung rộng hơn chuẩn một
+      // chút để không cắt ngang bàn tay — đầu chiếm ~32% thay vì 35,5%.
+      file: "phan-thuy-trang-2026-10-22.jpg",
       replaces: [
         "phan-thuy-trang.jpg",
         "phan-thuy-trang-5x7.jpg",
         "phan-thuy-trang-2026-10.jpg",
+        "phan-thuy-trang-2026-10-11.jpg",
       ],
       alt: "Chân dung Luật sư Phan Thùy Trang",
       credit: FIRM,
-      rights:
-        "Chủ website cung cấp ngày 11/10/2026 để đăng trên hồ sơ tại website công ty.",
+      rights: PROVIDED_1022,
     },
   },
   {
@@ -277,6 +281,7 @@ export const firmLawyers: FirmLawyer[] = [
   // phòng Đối ngoại"). Không phải luật sư — không dùng chữ "luật sư" ở ô nào của
   // các hồ sơ này. Trình độ, kinh nghiệm chưa được cung cấp nên để trống. Ông
   // Nguyễn Anh Tân được gỡ theo yêu cầu chủ website, trước khi lên hosting.
+  // 22/10/2026: thêm ông Trần Trung Kiên — Phó phòng Phát triển khách hàng.
   {
     slug: "hoang-vu",
     name: "Hoàng Vũ",
@@ -300,10 +305,12 @@ export const firmLawyers: FirmLawyer[] = [
     },
     publishOnCreate: true,
     portrait: {
-      file: "hoang-vu-2026-10.jpg",
+      // Ảnh 22/10/2026 (khoanh tay): khung trọn hai bàn tay, đầu ~33%.
+      file: "hoang-vu-2026-10-22.jpg",
+      replaces: ["hoang-vu-2026-10.jpg"],
       alt: "Chân dung Trưởng phòng Phát triển khách hàng Hoàng Vũ",
       credit: FIRM,
-      rights: PROVIDED_1021,
+      rights: PROVIDED_1022,
     },
   },
   {
@@ -333,6 +340,37 @@ export const firmLawyers: FirmLawyer[] = [
       alt: "Chân dung Phó phòng Phát triển khách hàng Lê Trần Đoan Khang",
       credit: FIRM,
       rights: PROVIDED_1021,
+    },
+  },
+  {
+    slug: "tran-trung-kien",
+    name: "Trần Trung Kiên",
+    role: "specialist",
+    team: "clients",
+    sortOrder: 70,
+    position: {
+      vi: "Phó phòng Phát triển khách hàng",
+      en: "Deputy Head of Client Development",
+      zh: "客户发展部副经理",
+    },
+    summary: {
+      vi: `Phó phòng Phát triển khách hàng của ${FIRM}.`,
+      en: `Deputy Head of Client Development at ${FIRM}.`,
+      zh: `${FIRM} 客户发展部副经理。`,
+    },
+    seoDescription: {
+      vi: "Trần Trung Kiên — Phó phòng Phát triển khách hàng, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      en: "Trần Trung Kiên — Deputy Head of Client Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      zh: "Trần Trung Kiên——Vũ Khang Solutions & Partners 律师事务所客户发展部副经理（越南同奈）。",
+    },
+    publishOnCreate: true,
+    portrait: {
+      // Ảnh gốc 560x700 nén mạnh: khử nhiễu rồi phóng ~1,6 lần. Áo trắng trên
+      // phông trắng; chỉ xóa vệt bóng sau đầu, không vẽ thêm gì.
+      file: "tran-trung-kien-2026-10.jpg",
+      alt: "Chân dung Phó phòng Phát triển khách hàng Trần Trung Kiên",
+      credit: FIRM,
+      rights: PROVIDED_1022,
     },
   },
 ];
