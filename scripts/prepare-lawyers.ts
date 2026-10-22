@@ -91,6 +91,7 @@ const previousVersions: Record<string, Seeded>[] = [
   "./content/lawyers-2026-09.json",
   "./content/lawyers-2026-10.json",
   "./content/lawyers-2026-10-21.json",
+  "./content/lawyers-2026-10-22.json",
 ].map((file) =>
   JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );

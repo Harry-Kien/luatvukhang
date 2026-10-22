@@ -151,8 +151,12 @@ Chủ website cung cấp hai luật sư của công ty:
 > **22/10/2026:** thêm **Trần Trung Kiên — Phó phòng Phát triển khách hàng**; ảnh
 > mới cho Ls Phan Thùy Trang và ông Hoàng Vũ. Khối và thứ tự từng người sửa trong
 > admin (ô "Khối trên trang Đội ngũ", "Thứ tự hiển thị"). Ảnh của ông Kiên là áo
-> polo trên phông trắng, độ phân giải thấp — nên thay bằng ảnh vest cùng kiểu
-> với cả đội khi có.
+> vest (thay ảnh áo polo ngày 22/10/2026).
+>
+> **22/10/2026 — chức danh hai luật sư** (chủ website chốt): Ls Phan Thùy Trang
+> "Giám đốc - Nguyên Thẩm phán Tòa án Tây Ninh"; Ls Trần Phương Lan Anh "Luật sư -
+> Nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa" — bỏ chức Phó Giám đốc đặt
+> ngày 19/10/2026.
 >
 > **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
 > chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
