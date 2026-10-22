@@ -629,6 +629,18 @@ const Requests: CollectionConfig = {
         return data;
       },
     ],
+    // Xóa yêu cầu (thư rác, yêu cầu thử) thì xóa luôn thông báo của nó, để
+    // hàng đợi email không giữ những hàng không còn gì để báo. Phải chạy TRƯỚC
+    // khi xóa: xóa xong thì khóa ngoại đã gỡ liên kết, không còn tìm thấy hàng.
+    beforeDelete: [
+      async ({ id, req }) => {
+        await req.payload.delete({
+          collection: "notification-outbox",
+          where: { request: { equals: id } },
+          req,
+        });
+      },
+    ],
   },
 };
 const Outbox: CollectionConfig = {

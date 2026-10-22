@@ -3,12 +3,16 @@ import {
   readLimitedBody,
   clientAddress,
 } from "@/lib/request-guards";
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { createHmac, randomBytes } from "node:crypto";
 import { query } from "@/lib/operations-db";
 import { overLimit } from "@/lib/rate-limit";
 import { consultationSchema } from "@/lib/consultation";
 import { getCMS } from "@/lib/cms";
+import {
+  deliverPendingNotifications,
+  notificationsConfigured,
+} from "@/lib/notifications";
 
 const json = (body: unknown, status = 200) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -158,6 +162,24 @@ export async function POST(request: Request) {
         data: { request: record.id, status: "pending" },
       });
       await cms.db.commitTransaction(transactionID);
+      /**
+       * Báo cho công ty ngay sau khi đã trả lời khách — không bắt khách chờ
+       * máy chủ thư. Hosting dùng chung thường không đặt được lịch chạy định
+       * kỳ, nên nếu chỉ dựa vào scripts/send-notifications.ts thì yêu cầu được
+       * lưu mà không ai được báo. Gửi hỏng thì thư nằm lại trong hàng đợi và
+       * được thử lại ở lần gửi yêu cầu sau hoặc lần chạy định kỳ.
+       */
+      if (notificationsConfigured())
+        after(async () => {
+          try {
+            await deliverPendingNotifications(cms, { limit: 10 });
+          } catch (error) {
+            console.error(
+              "Chua gui duoc thong bao ngay, se thu lai:",
+              error instanceof Error ? error.message : error,
+            );
+          }
+        });
       return json({ reference: record.reference, status: "received" }, 201);
     } catch (error) {
       await cms.db.rollbackTransaction(transactionID);

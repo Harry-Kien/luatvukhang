@@ -170,6 +170,19 @@ Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biế
 | `SITE_LAUNCH_APPROVED` | `false` cho tới khi nghiệm thu xong |
 | `TRUST_PROXY_HEADERS` | `false` |
 | `ANTHROPIC_API_KEY` | Khóa API Anthropic để bật nút dịch máy trong trang quản trị. Không bắt buộc; thiếu thì nút báo "chưa cấu hình" |
+| `SMTP_HOST` | Máy chủ gửi thư, ví dụ `smtp.gmail.com` (Gmail) hoặc `mail.luatvukhang.com` (hộp thư của hosting) |
+| `SMTP_PORT` | `465` (hoặc `587`) |
+| `SMTP_USER` | Tài khoản đăng nhập hộp thư gửi |
+| `SMTP_PASSWORD` | Mật khẩu hộp thư gửi. Gmail: **mật khẩu ứng dụng** 16 ký tự (Tài khoản Google → Bảo mật → Mật khẩu ứng dụng; cần bật xác minh 2 bước), không phải mật khẩu đăng nhập Gmail |
+| `SMTP_FROM` | Địa chỉ người gửi, thường trùng `SMTP_USER` |
+| `NOTIFICATION_EMAIL` | Hộp thư nhận báo có yêu cầu tư vấn mới |
+
+> **Thiếu sáu biến SMTP thì không ai được báo** khi khách gửi yêu cầu tư vấn:
+> yêu cầu vẫn được lưu đầy đủ trong `/admin → Yêu cầu tư vấn`, nhưng phải tự
+> vào xem. Từ 22/10/2026 website gửi email ngay khi khách bấm Gửi (không cần
+> lịch chạy định kỳ). Thư chỉ có mã yêu cầu và liên kết vào trang quản trị,
+> không chép thông tin của khách. Khai xong thì bấm Restart, rồi gửi thử một
+> yêu cầu trên website và xóa yêu cầu thử đó trong admin.
 
 > `PAYLOAD_SECRET` ngắn hơn 32 ký tự sẽ khiến ứng dụng dừng ngay khi khởi động ở
 > chế độ production. Đó là chủ ý: giá trị dự phòng nằm công khai trong kho mã,
@@ -494,9 +507,11 @@ một tiến trình.
 
 Hosting dùng chung không cho bằng VPS, và đây là những chỗ sẽ vướng:
 
-- **Không đặt được lịch chạy worker gửi email.** `scripts/send-notifications.ts`
-  cần chạy vài phút một lần. Không có cron thì yêu cầu tư vấn của khách vẫn được
-  lưu đầy đủ, nhưng **không ai được báo** — phải vào `/admin` xem thủ công.
+- **Không đặt được lịch chạy worker gửi email** trên nhiều gói. Từ 22/10/2026
+  không còn cần: website gửi email ngay khi khách bấm Gửi (lib/notifications.ts),
+  chỉ cần khai sáu biến SMTP ở Bước 3. `scripts/send-notifications.ts` vẫn dùng
+  được để thử lại thư hỏng nếu đặt được cron; không có cron thì thư hỏng được thử
+  lại ở lần khách gửi yêu cầu kế tiếp.
 - **Không tự cấu hình được Nginx**, nên không ghi đè được `X-Forwarded-For`. Giữ
   `TRUST_PROXY_HEADERS=false`; hạn mức gửi biểu mẫu chỉ áp ở mức chung.
 - **Tiến trình bị ngủ khi không có truy cập** trên nhiều gói, nên lần truy cập
