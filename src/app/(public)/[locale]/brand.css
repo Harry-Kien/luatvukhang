@@ -840,12 +840,18 @@ footer {
   background: var(--navy);
   border-bottom: 5px solid var(--red);
 }
+/* Chữ chìm "VŨ KHANG" đặt chính giữa banner theo cả hai chiều, trọn chữ ở mọi
+   bề rộng: cỡ chữ theo bề rộng màn hình (chữ dài ~5 lần cỡ chữ, 13vw → ~65%
+   bề ngang). Trước đây neo góc dưới bên phải và lấn ra ngoài nên bị cắt, lệch
+   khác nhau trên từng thiết bị. */
 .page-heading:after {
   content: "VŨ KHANG";
   position: absolute;
-  right: -25px;
-  bottom: -36px;
-  font: 500 110px/1.5 var(--serif);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font: 500 clamp(52px, 13vw, 190px) / 1 var(--serif);
   letter-spacing: 0.02em;
   color: transparent;
   -webkit-text-stroke: 1px #ffffff15;
@@ -1552,10 +1558,6 @@ footer {
   .page-heading h1 {
     font-size: 37px;
     line-height: 1.35;
-  }
-  .page-heading:after {
-    font-size: 65px;
-    bottom: -18px;
   }
   .breadcrumb {
     font-size: 10px;
