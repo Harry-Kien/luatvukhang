@@ -1,5 +1,6 @@
 /**
- * Điền tiêu đề hiển thị trên kết quả tìm kiếm cho các bản ghi còn trống.
+ * Điền tiêu đề (và một số mô tả) hiển thị trên kết quả tìm kiếm cho các bản
+ * ghi còn trống.
  *
  *   node --env-file=.env --import tsx scripts/prepare-seo-titles.ts
  *   node --env-file=.env --import tsx scripts/prepare-seo-titles.ts --list
@@ -17,7 +18,11 @@
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
-import { replacedSeoTitles, seoTitles } from "./content/seo-titles";
+import {
+  replacedSeoTitles,
+  seoDescriptions,
+  seoTitles,
+} from "./content/seo-titles";
 
 const listOnly = process.argv.includes("--list");
 const refresh = process.argv.includes("--refresh");
@@ -86,6 +91,53 @@ for (const [key, title] of Object.entries(seoTitles)) {
     });
     filled += 1;
     console.log(`da dien ${key}/${language}`);
+  }
+}
+
+// Mô tả: chỉ điền ô còn trống (kể cả khi có --refresh, vì mô tả công ty tự
+// viết thường đầy đủ hơn tóm tắt).
+for (const [key, description] of Object.entries(seoDescriptions)) {
+  const [collection, slug] = key.split("/");
+  for (const language of locales) {
+    const text = description[language];
+    if (!text) continue;
+    const found = (
+      await cms.find({
+        collection: collection as never,
+        where: {
+          and: [{ slug: { equals: slug } }, { language: { equals: language } }],
+        },
+        draft: true,
+        limit: 1,
+        depth: 0,
+      })
+    ).docs[0] as Record<string, any> | undefined;
+    if (!found) {
+      missing.push(`${key}/${language}`);
+      continue;
+    }
+    if (String(found.seo?.description ?? "").trim()) {
+      skipped += 1;
+      continue;
+    }
+    if (listOnly) {
+      console.log(`${key}/${language} (mo ta): ${text}`);
+      filled += 1;
+      continue;
+    }
+    const live = found._status === "published";
+    await cms.update({
+      collection: collection as never,
+      id: found.id,
+      user: admin,
+      draft: !live,
+      data: {
+        seo: { ...(found.seo ?? {}), description: text },
+        ...(live ? { _status: "published" } : {}),
+      } as never,
+    });
+    filled += 1;
+    console.log(`da dien mo ta ${key}/${language}`);
   }
 }
 

@@ -61,6 +61,16 @@ const baseHeaders = [
 export default withPayload(
   withNextIntl({
     poweredByHeader: false,
+    env: {
+      // Trạng thái ra mắt chốt ngay lúc dựng. robots.txt và sitemap là tệp tĩnh
+      // dựng sẵn, còn thẻ noindex của từng trang và llms.txt render khi có yêu
+      // cầu: đọc biến lúc chạy thì chỉ cần biến trên hosting khác lúc dựng là
+      // robots.txt cho Google vào trong khi mọi trang báo noindex (hoặc ngược
+      // lại). Chốt một lần ở bản dựng thì cả website luôn nói cùng một điều;
+      // muốn ra mắt chỉ cần dựng bản mới với launch_approved.
+      SITE_LAUNCH_APPROVED:
+        process.env.SITE_LAUNCH_APPROVED === "true" ? "true" : "false",
+    },
     devIndicators: false,
     async headers() {
       return [

@@ -148,7 +148,8 @@ Chủ website cung cấp hai luật sư của công ty:
 > khối: Ban lãnh đạo, Chuyên viên pháp lý, Phát triển khách hàng
 > (src/lib/people-order.ts).
 >
-> **22/10/2026:** thêm **Trần Trung Kiên — Phó phòng Phát triển khách hàng**; ảnh
+> **22/10/2026:** thêm **Trần Trung Kiên — Phát triển khách hàng** (lúc đầu ghi
+> "Phó phòng Phát triển khách hàng", chủ website đổi lại cùng ngày); ảnh
 > mới cho Ls Phan Thùy Trang và ông Hoàng Vũ. Khối và thứ tự từng người sửa trong
 > admin (ô "Khối trên trang Đội ngũ", "Thứ tự hiển thị"). Ảnh của ông Kiên là áo
 > vest (thay ảnh áo polo ngày 22/10/2026).

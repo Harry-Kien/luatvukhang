@@ -14,6 +14,11 @@ tả nội dung chưa công bố như thông tin chính thức của công ty.
 
 `src/lib/content.ts` tính `launched = SITE_LAUNCH_APPROVED === "true" && !demo`.
 
+Cả hai biến được **chốt lúc dựng** (`next.config.mjs` → `env`): đổi biến trên
+hosting rồi Restart không có tác dụng, phải dựng bản mới. Nhờ vậy robots.txt,
+sitemap (tệp tĩnh dựng sẵn), thẻ meta robots và llms.txt (render khi có yêu cầu)
+luôn cùng một trạng thái.
+
 | Trạng thái | robots.txt | Thẻ meta robots | sitemap.xml |
 | --- | --- | --- | --- |
 | Chưa duyệt ra mắt | `Disallow: /` | `noindex, nofollow` | rỗng |

@@ -31,7 +31,11 @@ export const replacedSeoTitles: Record<
       "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
       "Trần Phương Lan Anh — Deputy Director & Lawyer",
     ],
-    zh: ["Trần Phương Lan Anh 律师 — 副主任"],
+    zh: [
+      "Trần Phương Lan Anh 律师 — 副主任",
+      // Dài 43 ký tự sau khi nối " | Vũ Khang" (thay ngày 22/10/2026).
+      "Trần Phương Lan Anh 律师 — 曾任法院副院长",
+    ],
   },
   // 21/10/2026: phòng Kinh doanh / Đối ngoại đổi thành Phát triển khách hàng.
   "lawyers/hoang-vu": {
@@ -43,6 +47,24 @@ export const replacedSeoTitles: Record<
     vi: ["Lê Trần Đoan Khang — Trưởng phòng Đối ngoại"],
     en: ["Lê Trần Đoan Khang — Head of External Relations"],
     zh: ["Lê Trần Đoan Khang — 对外关系部经理"],
+  },
+  // 22/10/2026: "Phó phòng Phát triển khách hàng" đổi thành "Phát triển khách hàng".
+  "lawyers/tran-trung-kien": {
+    vi: ["Trần Trung Kiên — Phó phòng Phát triển khách hàng"],
+    en: ["Trần Trung Kiên — Deputy Head, Client Development"],
+    zh: ["Trần Trung Kiên — 客户发展部副经理"],
+  },
+};
+
+/**
+ * Mô tả trên kết quả tìm kiếm cho những trang mà phần tóm tắt (dùng thay khi ô
+ * mô tả trống) quá ngắn. Chỉ điền ô còn trống.
+ */
+export const seoDescriptions: Record<string, Partial<Localised>> = {
+  // Tóm tắt tiếng Trung của trang chủ chỉ 29 ký tự — Google cắt còn rất ít
+  // thông tin. Dòng chữ lớn đầu trang vẫn dùng tóm tắt ngắn.
+  "pages/home": {
+    zh: "Vũ Khang 律师事务所位于越南同奈，为企业与个人提供商事、民事纠纷、劳动、土地住房、婚姻家庭及刑事等法律服务，为重要决策提供清晰的法律视角。",
   },
 };
 
@@ -161,7 +183,8 @@ export const seoTitles: Record<string, Localised> = {
   "lawyers/tran-phuong-lan-anh": {
     vi: "Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án",
     en: "Lawyer Trần Phương Lan Anh — ex-Deputy Chief Judge",
-    zh: "Trần Phương Lan Anh 律师 — 曾任法院副院长",
+    // Đúng 40 ký tự sau khi nối " | Vũ Khang" — giới hạn cho tiêu đề tiếng Trung.
+    zh: "Trần Phương Lan Anh 律师，前法院副院长",
   },
   "lawyers/tran-le-kim-binh": {
     vi: "Trần Lê Kim Bình — Chuyên viên pháp lý",
@@ -179,9 +202,9 @@ export const seoTitles: Record<string, Localised> = {
     zh: "Lê Trần Đoan Khang — 客户发展部副经理",
   },
   "lawyers/tran-trung-kien": {
-    vi: "Trần Trung Kiên — Phó phòng Phát triển khách hàng",
-    en: "Trần Trung Kiên — Deputy Head, Client Development",
-    zh: "Trần Trung Kiên — 客户发展部副经理",
+    vi: "Trần Trung Kiên — Phát triển khách hàng",
+    en: "Trần Trung Kiên — Client Development",
+    zh: "Trần Trung Kiên — 客户发展",
   },
   "lawyers/tran-thi-anh-nhu": {
     vi: "Trần Thị Anh Như — Chuyên viên pháp lý",

@@ -1037,7 +1037,12 @@ footer {
   .hero-actions {
     display: block;
   }
+  /* Luôn xuống dòng riêng dưới nút đỏ. Để inline thì nút chữ ngắn (tiếng Anh,
+     tiếng Trung) kéo liên kết lên cùng hàng, dính sát nút vì khối block không
+     có gap. */
   .hero-secondary {
+    display: flex;
+    width: fit-content;
     margin-top: 15px;
   }
   .hero-kicker {
@@ -2033,10 +2038,11 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
     display: none;
   }
 }
-/* Đang gõ trên điện thoại: bàn phím ảo đẩy ô nhập xuống sát đáy màn hình, đúng
-   chỗ cụm nút đứng, nên nút che nhãn và chính ô đang gõ. Ẩn trong lúc đó; rời
-   ô nhập là nút hiện lại. visibility để nút ẩn không nhận chạm hay Tab. */
-@media (max-width: 700px) {
+/* Đang gõ trên điện thoại, máy tính bảng: bàn phím ảo đẩy ô nhập xuống sát đáy
+   màn hình, đúng chỗ thanh liên hệ đứng, nên thanh che nhãn và chính ô đang gõ.
+   Ẩn trong lúc đó; rời ô nhập là thanh hiện lại. visibility để thanh ẩn không
+   nhận chạm hay Tab. */
+@media (max-width: 1023px) {
   .contact-dock {
     transition: opacity 0.15s ease, visibility 0.15s;
   }
@@ -2045,9 +2051,10 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
     visibility: hidden;
   }
 }
-/* Thanh tiện ích ở 320px không đủ chỗ cho cả liên hệ, tìm kiếm và ba ngôn ngữ;
-   dưới ngưỡng này người dùng đã có nút nổi và mục liên hệ trong menu. */
-@media (max-width: 700px) {
+/* Dưới 1024px thanh tiện ích không đủ chỗ cho bốn số liên hệ, tìm kiếm và ba
+   ngôn ngữ (ở 768px chữ đã xuống dòng). Các số đã có ở thanh liên hệ đáy màn
+   hình, mục liên hệ trong menu và chân trang. */
+@media (max-width: 1023px) {
   .contact-channels.bar {
     display: none;
   }
@@ -2317,8 +2324,10 @@ a.ecosystem-chip:focus-visible {
 }
 
 /* Cụm nút liên hệ khi có nhiều số Zalo (components/contact-channels.tsx):
-   mỗi số một nút. Máy tính: cột nút tròn, rê chuột hiện số. Điện thoại: thanh
-   cố định ở đáy màn hình, chia đều các ô, mỗi ô ghi rõ số. */
+   mỗi số một nút. Máy tính (từ 1024px): cột nút tròn, rê chuột hiện số. Điện
+   thoại và máy tính bảng: thanh cố định ở đáy màn hình, chia đều các ô, mỗi ô
+   ghi rõ số. Máy tính bảng dùng thanh vì lề trang chỉ ~24px: cột nút nổi che
+   chữ "Hệ sinh thái" và dòng bản quyền ở cuối chân trang. */
 .contact-dock a {
   position: relative;
 }
@@ -2359,7 +2368,7 @@ a.ecosystem-chip:focus-visible {
   width: 48px;
   height: 48px;
 }
-@media (max-width: 700px) {
+@media (max-width: 1023px) {
   .contact-dock,
   .contact-dock:is([data-count="4"], [data-count="5"], [data-count="6"]) {
     left: 0;
@@ -2405,15 +2414,24 @@ a.ecosystem-chip:focus-visible {
     font-size: 11px;
     letter-spacing: 0.01em;
   }
+  /* Chừa chỗ cho thanh liên hệ để nó không che dòng cuối của chân trang. */
+  body:has(.contact-dock) {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom));
+  }
+}
+/* Máy tính bảng: ô rộng, chữ lớn hơn và vẫn ghi số. Điện thoại: ô hẹp, nút gọi
+   ghi "Gọi ngay" thay cho số. */
+@media (min-width: 701px) and (max-width: 1023px) {
+  .dock-label {
+    font-size: 13px;
+  }
+}
+@media (max-width: 700px) {
   .dock-label-wide {
     display: none;
   }
   .dock-label-narrow {
     display: inline;
-  }
-  /* Chừa chỗ cho thanh liên hệ để nó không che dòng cuối của chân trang. */
-  body:has(.contact-dock) {
-    padding-bottom: calc(58px + env(safe-area-inset-bottom));
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2422,7 +2440,7 @@ a.ecosystem-chip:focus-visible {
   }
 }
 /* Màn hình thấp trên máy tính: cụm nút xếp ngang, nhãn số hiện phía trên nút. */
-@media (max-height: 620px) and (min-width: 701px) {
+@media (max-height: 620px) and (min-width: 1024px) {
   .dock-label {
     left: 50%;
     top: auto;
@@ -2431,10 +2449,10 @@ a.ecosystem-chip:focus-visible {
   }
 }
 
-/* Thanh tiện ích trên điện thoại: số liên hệ đã chuyển xuống thanh đáy màn
-   hình, nên chỉ còn khẩu hiệu, tìm kiếm và ba ngôn ngữ. Không để chữ xuống
-   dòng ("Tìm / kiếm", "中 / 文") ở màn hình 320–360px. */
-@media (max-width: 700px) {
+/* Thanh tiện ích trên điện thoại, máy tính bảng: số liên hệ đã chuyển xuống
+   thanh đáy màn hình, nên chỉ còn khẩu hiệu, tìm kiếm và ba ngôn ngữ. Không để
+   chữ xuống dòng ("Tìm / kiếm", "中 / 文") ở màn hình 320–360px. */
+@media (max-width: 1023px) {
   .utility-bar > span {
     min-width: 0;
     overflow: hidden;

@@ -152,6 +152,23 @@ test("mỗi số Zalo có nút riêng, hiện vừa vặn trên máy tính và �
     .locator("footer .footer-bottom")
     .evaluate((el) => el.getBoundingClientRect().bottom);
   expect(footerBottom).toBeLessThanOrEqual(bar.y + 1);
+
+  // Máy tính bảng: cũng dùng thanh đáy, ô ghi đủ số — cột nút nổi từng che chữ
+  // "Hệ sinh thái" và dòng bản quyền ở cuối chân trang.
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto("/vi");
+  const tablet = (await dock.boundingBox())!;
+  expect(tablet.x).toBe(0);
+  expect(Math.round(tablet.width)).toBe(768);
+  expect(Math.round(tablet.y + tablet.height)).toBe(1024);
+  await expect(dock.locator("a.dock-call .dock-label-wide")).toBeVisible();
+  await expect(dock.locator("a.dock-call .dock-label-narrow")).toBeHidden();
+  await expect(zalo.last().locator(".dock-label")).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const tabletFooter = await page
+    .locator("footer .footer-bottom")
+    .evaluate((el) => el.getBoundingClientRect().bottom);
+  expect(tabletFooter).toBeLessThanOrEqual(tablet.y + 1);
 });
 
 test("every page footer shows the office address and email from Settings", async ({

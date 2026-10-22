@@ -409,9 +409,21 @@ rm -f ~/luatvukhang/hosting-*.zip
 
 ## Bước 7 — Ra mắt
 
-Chỉ làm khi `npm run release:check` không còn mục nào bị chặn. Đổi
-`SITE_LAUNCH_APPROVED` thành `true`, rồi **dựng lại** (`npm run build`) và
-Restart. Chỉ Restart là không đủ: biến này được đọc cả lúc dựng.
+Chỉ làm khi `npm run release:check` không còn mục nào bị chặn.
+
+1. Trên GitHub: tab **Actions** → *Gói bản dựng cho hosting* → **Run workflow**,
+   **đánh dấu ô `launch_approved`**, để trống `demo_mode`.
+2. Trong cPanel, đổi biến `SITE_LAUNCH_APPROVED` thành `true` (để
+   `npm run release:check` khớp với thực tế).
+3. Cập nhật hosting như mục dưới (Stop App → các lệnh Terminal → Start App).
+4. Kiểm tra: `<tên-miền>/robots.txt` có `Allow: /`, `<tên-miền>/sitemap.xml` có
+   địa chỉ, `<tên-miền>/llms.txt` mở được, và mã nguồn trang chủ có
+   `index, follow`. Cuối lệnh `hosting-setup` cũng in ra "Website DA MO cho
+   Google".
+
+Trạng thái ra mắt được **chốt trong bản dựng**: chỉ đổi biến trong cPanel rồi
+Restart không mở được website cho Google. Muốn chặn lại thì dựng bản mới và bỏ
+ô `launch_approved`.
 
 ## Cập nhật website về sau
 

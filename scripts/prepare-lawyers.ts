@@ -92,6 +92,8 @@ const previousVersions: Record<string, Seeded>[] = [
   "./content/lawyers-2026-10.json",
   "./content/lawyers-2026-10-21.json",
   "./content/lawyers-2026-10-22.json",
+  // Chức danh đầu tiên của ông Trần Trung Kiên (đổi cùng ngày 22/10/2026).
+  "./content/lawyers-2026-10-22b.json",
 ].map((file) =>
   JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );
@@ -327,6 +329,32 @@ for (const lawyer of firmLawyers) {
         lawyer.slug,
         record.language,
       );
+    }
+  }
+  // Chức danh đổi sau khi ảnh đã lên thư viện: mô tả ảnh còn đúng bản nạp
+  // trước thì đổi theo; mô tả công ty tự sửa trong CMS thì giữ.
+  if (lawyer.portrait.previousAlts?.length) {
+    const current = (
+      await cms.find({
+        collection: "media",
+        where: { filename: { equals: lawyer.portrait.file } },
+        limit: 1,
+        depth: 0,
+      })
+    ).docs[0];
+    if (
+      current &&
+      !same(current.alt, lawyer.portrait.alt) &&
+      lawyer.portrait.previousAlts.some((alt) => same(alt, current.alt))
+    ) {
+      await cms.update({
+        collection: "media",
+        id: current.id,
+        user: admin,
+        data: { alt: lawyer.portrait.alt },
+      });
+      portraits += 1;
+      console.log("da sua mo ta anh", lawyer.slug);
     }
   }
   // Dọn bản ảnh cũ khi không còn hồ sơ nào dùng, để thư viện ảnh không giữ hai

@@ -79,6 +79,11 @@ export type FirmLawyer = {
      * được đổi sang `file`; hồ sơ dùng ảnh khác (công ty tự chọn) thì giữ.
      */
     replaces?: string[];
+    /**
+     * Mô tả ảnh (alt) từng nạp cho chính tệp `file`. Ảnh trong thư viện còn
+     * đúng một mô tả cũ thì được đổi sang `alt`; mô tả công ty tự sửa thì giữ.
+     */
+    previousAlts?: string[];
   };
 };
 
@@ -283,7 +288,7 @@ export const firmLawyers: FirmLawyer[] = [
   // phòng Đối ngoại"). Không phải luật sư — không dùng chữ "luật sư" ở ô nào của
   // các hồ sơ này. Trình độ, kinh nghiệm chưa được cung cấp nên để trống. Ông
   // Nguyễn Anh Tân được gỡ theo yêu cầu chủ website, trước khi lên hosting.
-  // 22/10/2026: thêm ông Trần Trung Kiên — Phó phòng Phát triển khách hàng.
+  // 22/10/2026: thêm ông Trần Trung Kiên — Phát triển khách hàng.
   {
     slug: "hoang-vu",
     name: "Hoàng Vũ",
@@ -350,27 +355,31 @@ export const firmLawyers: FirmLawyer[] = [
     role: "specialist",
     team: "clients",
     sortOrder: 70,
+    // Chủ website chốt ngày 22/10/2026: chức danh "Phát triển khách hàng" (thay
+    // "Phó phòng Phát triển khách hàng" đặt cùng ngày). Tóm tắt chỉ nêu ông
+    // thuộc phòng này, không thêm chức danh công ty chưa cung cấp.
     position: {
-      vi: "Phó phòng Phát triển khách hàng",
-      en: "Deputy Head of Client Development",
-      zh: "客户发展部副经理",
+      vi: "Phát triển khách hàng",
+      en: "Client Development",
+      zh: "客户发展",
     },
     summary: {
-      vi: `Phó phòng Phát triển khách hàng của ${FIRM}.`,
-      en: `Deputy Head of Client Development at ${FIRM}.`,
-      zh: `${FIRM} 客户发展部副经理。`,
+      vi: `Thành viên phòng Phát triển khách hàng của ${FIRM}.`,
+      en: `Member of the Client Development team at ${FIRM}.`,
+      zh: `${FIRM} 客户发展部成员。`,
     },
     seoDescription: {
-      vi: "Trần Trung Kiên — Phó phòng Phát triển khách hàng, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
-      en: "Trần Trung Kiên — Deputy Head of Client Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
-      zh: "Trần Trung Kiên——Vũ Khang Solutions & Partners 律师事务所客户发展部副经理（越南同奈）。",
+      vi: "Trần Trung Kiên — Phát triển khách hàng, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      en: "Trần Trung Kiên — Client Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      zh: "Trần Trung Kiên——Vũ Khang Solutions & Partners 律师事务所客户发展部（越南同奈）。",
     },
     publishOnCreate: true,
     portrait: {
       // Ảnh vest gửi ngày 22/10/2026, thay ảnh áo polo; cắt cùng chuẩn 4:5.
       file: "tran-trung-kien-2026-10-22.jpg",
       replaces: ["tran-trung-kien-2026-10.jpg"],
-      alt: "Chân dung Phó phòng Phát triển khách hàng Trần Trung Kiên",
+      alt: "Chân dung Trần Trung Kiên — Phát triển khách hàng",
+      previousAlts: ["Chân dung Phó phòng Phát triển khách hàng Trần Trung Kiên"],
       credit: FIRM,
       rights: PROVIDED_1022,
     },

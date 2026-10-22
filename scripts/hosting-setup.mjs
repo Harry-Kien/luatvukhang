@@ -340,6 +340,23 @@ const draftNote =
         "Hai trang Quyen rieng tu va Dieu khoan duoc giu lai toi khi cong ty duyet.\n"
       : "Khong dem duoc so ban nhap; kiem tra bang scripts/publish-drafts.ts\n";
 
+// Trạng thái ra mắt nằm trong bản dựng (next.config.mjs → env), không theo biến
+// môi trường lúc chạy — nên đọc thẳng từ robots.txt mà bản dựng tạo sẵn.
+let launchNote;
+try {
+  const robots = readFileSync(
+    join(process.cwd(), ".next", "server", "app", "robots.txt.body"),
+    "utf8",
+  );
+  launchNote = /^Allow: \/\s*$/m.test(robots)
+    ? "Website DA MO cho Google (ban dung bat launch_approved).\n"
+    : "Website dang CHAN Google (ban dung chua bat launch_approved). Do la chu y.\n" +
+      "Ra mat: dung ban moi voi launch_approved — Buoc 7 trong tai lieu.\n";
+} catch {
+  launchNote =
+    "Khong doc duoc .next/server/app/robots.txt.body — chua biet trang thai ra mat.\n";
+}
+
 console.log(
   "\n" +
     "=".repeat(70) +
@@ -351,7 +368,7 @@ console.log(
     "  3. Doc mat khau quan tri trong .local/admin-access.txt,\n" +
     "     dang nhap /admin, DOI MAT KHAU NGAY, roi xoa tep do.\n" +
     "  4. Nhap thong tin cong ty trong /admin > Cai dat.\n\n" +
-    "Website dang chan Google (SITE_LAUNCH_APPROVED=false). Do la chu y.\n" +
+    launchNote +
     "Chi tiet: docs/DEPLOY-HOSTING-CPANEL.md\n" +
     "=".repeat(70),
 );
