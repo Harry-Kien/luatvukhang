@@ -24,6 +24,7 @@ import { t, demo, samples, fold, type Locale, navigation } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { LawyerHighlights } from "@/components/lawyer-highlights";
 import { EcosystemSection } from "@/components/ecosystem";
+import { ecosystemMembers } from "@/lib/ecosystem";
 const extra: Record<string, [string, string]> = {
   guide: ["Hướng dẫn khách hàng", "Client guide"],
   consultation: ["Yêu cầu tư vấn", "Request a consultation"],
@@ -525,7 +526,7 @@ export default async function Page({ params, searchParams }: Props) {
     );
   }
   if (["about", "contact", "privacy", "terms"].includes(section)) {
-    const settings = await getSiteSettings();
+    const settings = await getSiteSettings(locale);
     const contact = (await getSiteLayout(locale)).contact;
     /**
      * Liên kết bản đồ suy ra từ địa chỉ khi công ty chưa nhập link riêng.
@@ -684,7 +685,16 @@ export default async function Page({ params, searchParams }: Props) {
                 )}
               />
             )}
-            {section === "about" && <EcosystemSection locale={locale} />}
+            {section === "about" && (
+              <EcosystemSection
+                locale={locale}
+                members={ecosystemMembers(settings?.ecosystem)}
+                firmName={
+                  settings?.companyName ||
+                  "Công ty Luật TNHH Vũ Khang Solutions & Partners"
+                }
+              />
+            )}
             {section === "about" && (
               <LawyerHighlights locale={locale} stacked cta />
             )}

@@ -32,6 +32,13 @@ export type FirmLawyer = {
    * danh mới thì cách đoán vai trò từ chữ sẽ hỏng.
    */
   role: "lawyer" | "specialist";
+  /**
+   * Khối và thứ tự trên trang Đội ngũ (lib/people-order.ts: TEAMS). Chỉ điền
+   * vào hồ sơ CHƯA có — từ 22/10/2026 công ty tự đổi trong admin, lần cài đặt
+   * sau không ghi đè.
+   */
+  team?: "leadership" | "lawyers" | "legal" | "clients" | "operations";
+  sortOrder?: number;
   summary: Localised;
   /**
    * Nền tảng nghề nghiệp đã được công ty xác nhận. Hiện ở trang hồ sơ dưới
@@ -105,6 +112,8 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "phan-thuy-trang",
     name: "Phan Thùy Trang",
     role: "lawyer",
+    team: "leadership",
+    sortOrder: 10,
     position: {
       vi: "Giám đốc - Luật sư",
       en: "Director & Lawyer",
@@ -147,6 +156,8 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "tran-phuong-lan-anh",
     name: "Trần Phương Lan Anh",
     role: "lawyer",
+    team: "leadership",
+    sortOrder: 20,
     // Phó Giám đốc theo chủ website xác nhận ngày 19/10/2026. 副主任 đi cặp với
     // 主任 của Giám đốc, đúng cách gọi trong một công ty luật.
     position: {
@@ -202,6 +213,8 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "tran-le-kim-binh",
     name: "Trần Lê Kim Bình",
     role: "specialist",
+    team: "legal",
+    sortOrder: 30,
     position: { vi: "Chuyên viên", en: "Legal Specialist", zh: "法务专员" },
     summary: {
       vi: `Chuyên viên của ${FIRM}, cử nhân luật. Lĩnh vực dân sự, hôn nhân và gia đình; 5 năm kinh nghiệm làm việc với tư cách chuyên viên.`,
@@ -233,6 +246,8 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "tran-thi-anh-nhu",
     name: "Trần Thị Anh Như",
     role: "specialist",
+    team: "legal",
+    sortOrder: 40,
     position: {
       vi: "Chuyên viên pháp lý",
       en: "Legal Specialist",
@@ -266,6 +281,8 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "hoang-vu",
     name: "Hoàng Vũ",
     role: "specialist",
+    team: "clients",
+    sortOrder: 50,
     position: {
       vi: "Trưởng phòng Phát triển khách hàng",
       en: "Head of Client Development",
@@ -293,6 +310,8 @@ export const firmLawyers: FirmLawyer[] = [
     slug: "le-tran-doan-khang",
     name: "Lê Trần Đoan Khang",
     role: "specialist",
+    team: "clients",
+    sortOrder: 60,
     position: {
       vi: "Phó phòng Phát triển khách hàng",
       en: "Deputy Head of Client Development",

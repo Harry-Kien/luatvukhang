@@ -12,6 +12,7 @@ import { trackSlugChange } from "./cms/redirect-hook";
 import { emailAdapter } from "./cms/email";
 import { SiteLayout } from "./cms/site-layout";
 import { contactChannels } from "./lib/contact";
+import { TEAM_OPTIONS } from "./lib/people-order";
 import { translateEndpoint } from "./cms/translation/endpoint";
 import {
   isAdmin,
@@ -358,6 +359,26 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
                 { label: "Luật sư", value: "lawyer" },
                 { label: "Chuyên viên / nhân sự khác", value: "specialist" },
               ],
+            } as Field,
+            {
+              name: "team",
+              label: "Khối trên trang Đội ngũ",
+              type: "select",
+              admin: {
+                description:
+                  'Trang Đội ngũ chia người theo khối, các khối xếp theo thứ tự trong danh sách này. Chỉ cần chọn ở bản tiếng Việt — bản tiếng Anh và tiếng Trung tự theo. Để trống thì người này nằm ở nhóm cuối "Đội ngũ".',
+              },
+              options: TEAM_OPTIONS,
+            } as Field,
+            {
+              name: "sortOrder",
+              label: "Thứ tự hiển thị",
+              type: "number",
+              admin: {
+                description:
+                  "Số nhỏ đứng trước (ví dụ 10, 20, 30 — chừa khoảng để chèn người mới vào giữa). Dùng cho trang Đội ngũ, trang chủ và dữ liệu gửi Google. Chỉ cần đặt ở bản tiếng Việt.",
+                step: 10,
+              },
             } as Field,
             {
               name: "portrait",
@@ -834,6 +855,59 @@ export default buildConfig({
           label: "Chính sách quyền riêng tư đã được rà soát",
           type: "checkbox",
           defaultValue: false,
+        },
+        {
+          name: "ecosystem",
+          label: "Hệ sinh thái",
+          type: "array",
+          labels: {
+            singular: "Thành viên hệ sinh thái",
+            plural: "Hệ sinh thái",
+          },
+          admin: {
+            description:
+              'Ứng dụng, công ty thành viên hiện logo ở chân trang mọi trang và ở mục "Hệ sinh thái" trên trang Về chúng tôi. Thêm, xóa, kéo đổi thứ tự rồi bấm Lưu. Vai trò và câu giới thiệu có ba ngôn ngữ — chọn ngôn ngữ ở góc trên bên phải.',
+            initCollapsed: false,
+          },
+          fields: [
+            { name: "name", label: "Tên", type: "text", required: true },
+            {
+              name: "role",
+              label: "Vai trò ngắn (ví dụ: Ứng dụng pháp luật)",
+              type: "text",
+              localized: true,
+            },
+            {
+              name: "summary",
+              label: "Một câu giới thiệu",
+              type: "textarea",
+              localized: true,
+            },
+            {
+              name: "logo",
+              label: "Logo (ảnh vuông, nền trong suốt)",
+              type: "upload",
+              relationTo: "media",
+              required: true,
+            },
+            {
+              name: "url",
+              label: "Đường dẫn website (bấm logo sẽ mở trong tab mới)",
+              type: "text",
+              validate: (value: unknown) =>
+                !value ||
+                /^https:\/\/[^\s]+$/.test(String(value)) ||
+                "Nhập đường dẫn đầy đủ bắt đầu bằng https://",
+            },
+          ],
+        },
+        {
+          // Đã nạp sẵn Luật Việt một lần (scripts/prepare-ecosystem.ts): công ty
+          // xóa hết thì lần cài sau không tự thêm lại.
+          name: "ecosystemSeeded",
+          type: "checkbox",
+          defaultValue: false,
+          admin: { hidden: true },
         },
       ],
     },

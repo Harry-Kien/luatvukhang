@@ -4,7 +4,7 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsTxt, type LlmsSection } from "@/lib/llms";
 import { siteUrl } from "@/lib/seo";
 import { zaloChannels } from "@/lib/contact";
-import { ECOSYSTEM } from "@/lib/ecosystem";
+import { ecosystemMembers } from "@/lib/ecosystem";
 
 /** Nhóm nội dung đưa vào bản tóm tắt, theo thứ tự khách hay cần. */
 const SECTIONS = [
@@ -74,12 +74,15 @@ export async function GET() {
       },
       {
         heading: "Hệ sinh thái Luật Vũ Khang",
-        lines: ECOSYSTEM.filter((member) => !member.self && member.href).map(
-          (member) => ({
-            label: `${member.name} (${member.role.vi})`,
-            value: `${member.href} — ${member.summary.vi}`,
-          }),
-        ),
+        // Lấy từ Cài đặt → "Hệ sinh thái" (bản tiếng Việt).
+        lines: ecosystemMembers(settings?.ecosystem)
+          .filter((member) => member.href)
+          .map((member) => ({
+            label: member.role
+              ? `${member.name} (${member.role})`
+              : member.name,
+            value: [member.href, member.summary].filter(Boolean).join(" — "),
+          })),
       },
     ],
     sections,

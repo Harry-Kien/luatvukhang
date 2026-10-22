@@ -22,6 +22,7 @@ import { AdminBar } from "@/components/admin-bar";
 import { Editable } from "@/components/editable";
 import { getEditor } from "@/lib/editor";
 import { getSiteLayout } from "@/lib/site-layout";
+import { ecosystemMembers } from "@/lib/ecosystem";
 import { navigationFrom } from "@/lib/content";
 import { emptySections, withoutEmpty } from "@/lib/empty-sections";
 import {
@@ -75,7 +76,7 @@ export default async function Layout({
   const { locale } = await params;
   if (locale !== "vi" && locale !== "en" && locale !== "zh") notFound();
   setRequestLocale(locale);
-  const settings = await getSiteSettings();
+  const settings = await getSiteSettings(locale);
   const records = await getRecords("services", locale);
   const serviceLinks = records.length
     ? records.map((r) => ({ slug: r.slug, title: r.title }))
@@ -148,6 +149,7 @@ export default async function Layout({
         >
           <Footer
             locale={locale}
+            ecosystem={ecosystemMembers(settings?.ecosystem)}
             companyName={companyName || undefined}
             phone={settings?.phone}
             zalo={settings?.zaloNumbers}

@@ -165,3 +165,36 @@ Giao diện website và Cài đặt, nút *Dịch từ tiếng Việt* điền t
 EN/ZH để rà soát rồi Lưu. Cần khai `ANTHROPIC_API_KEY` trong `.env`; mỗi
 người tối đa 60 lượt dịch một giờ. Tên công ty và số hiệu văn bản được giữ
 nguyên; thuật ngữ pháp lý dịch theo bảng trong `src/cms/translation/glossary.ts`.
+
+## Đội ngũ: khối và thứ tự hiển thị
+
+Trong **Đội ngũ**, mỗi hồ sơ có hai ô:
+
+- **Khối trên trang Đội ngũ** — Ban lãnh đạo, Luật sư, Chuyên viên pháp lý,
+  Phát triển khách hàng, Hành chính – Văn phòng. Trang Đội ngũ chia người theo
+  khối, các khối xếp đúng thứ tự trong danh sách này; khối không có ai thì ẩn.
+  Để trống thì người đó nằm ở nhóm cuối "Đội ngũ".
+- **Thứ tự hiển thị** — số nhỏ đứng trước (10, 20, 30… để còn chèn người mới vào
+  giữa, ví dụ 25). Dùng chung cho trang Đội ngũ, mục luật sư ở trang chủ và dữ
+  liệu gửi Google.
+
+Chỉ cần đặt hai ô này ở **bản tiếng Việt**; bản tiếng Anh và tiếng Trung tự theo.
+Thêm người mới: tạo hồ sơ, chọn khối, đặt thứ tự, tải ảnh chân dung (khung 4:5),
+duyệt rồi Xuất bản. Vai trò "Luật sư" mới hiện ở mục luật sư trên trang chủ.
+
+## Số Zalo và Hệ sinh thái (trong Cài đặt)
+
+- **Số Zalo bổ sung** — các số chỉ để nhắn Zalo (số Điện thoại chính đã tự có
+  nút gọi và nút Zalo). Mỗi số một nút ở thanh trên cùng, chân trang, trang Liên
+  hệ và cụm nút nổi. Kéo để đổi thứ tự, bấm ⋯ để xóa. Ô ghi chú không hiện ra
+  ngoài.
+- **Hệ sinh thái** — ứng dụng, công ty thành viên hiện logo ở chân trang mọi
+  trang và mục "Hệ sinh thái" trên trang Về chúng tôi. Mỗi thành viên: tên, vai
+  trò ngắn, một câu giới thiệu (ba ngôn ngữ — chọn ngôn ngữ ở góc trên bên phải),
+  logo vuông nền trong suốt, đường dẫn https:// (bấm logo mở tab mới). Xóa hết
+  thành viên thì dải hệ sinh thái tự ẩn.
+
+## Bảng tổng quan: bản nháp chờ xuất bản
+
+Bảng "Nội dung đã xuất bản" có cột **Bản nháp** — nội dung đã viết nhưng khách
+chưa thấy. Bấm vào số đó để mở danh sách bản nháp, đọc, duyệt rồi Xuất bản.

@@ -2147,7 +2147,7 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
   }
 }
 
-/* Trang Đội ngũ chia theo khối (people-order.ts: PEOPLE_GROUPS). */
+/* Trang Đội ngũ chia theo khối (ô "Khối trên trang Đội ngũ" của từng hồ sơ). */
 .people-group + .people-group {
   margin-top: 72px;
 }
@@ -2458,5 +2458,38 @@ a.ecosystem-chip:focus-visible {
   .utility-bar > div > a[href$="/search"] {
     font-size: 0;
     gap: 0;
+  }
+}
+
+/* Huy hiệu nền trong khung "Đội ngũ" ở trang chủ: đặt giữa theo chiều dọc ở nửa
+   phải, hiện trọn vẹn và không chồng lên chữ — trước đây neo góc dưới và bị cắt
+   mất một phần. */
+.editorial-mark,
+.editorial-people .editorial-mark {
+  top: 50%;
+  bottom: auto;
+  right: clamp(20px, 5%, 56px);
+  width: 210px;
+  height: 210px;
+  transform: translateY(-50%);
+}
+@media (max-width: 1100px) {
+  .editorial-people .editorial-mark {
+    width: 180px;
+    height: 180px;
+    right: 20px;
+  }
+}
+@media (max-width: 700px) {
+  /* Khung hẹp: chữ chiếm hết bề ngang, huy hiệu xuống góc dưới bên phải cạnh
+     liên kết "Tìm luật sư" — vẫn hiện trọn, không nằm sau đoạn chữ. */
+  .editorial-people .editorial-mark {
+    top: auto;
+    bottom: 18px;
+    right: 18px;
+    width: 116px;
+    height: 116px;
+    transform: none;
+    opacity: 0.16;
   }
 }

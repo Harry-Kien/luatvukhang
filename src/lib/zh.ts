@@ -129,8 +129,8 @@ const translations: Record<string, string> = {
   "Starting an enquiry": "开始咨询申请",
   "Frequently asked questions": "常见问题",
   "Vũ Khang Law ecosystem": "Vũ Khang 律师事务所生态系统",
-  "The Vũ Khang Law ecosystem brings together the law firm and the Luật Việt app.":
-    "Vũ Khang 律师事务所生态系统包括律师事务所与 Luật Việt 应用。",
+  "The Vũ Khang Law ecosystem brings together the law firm and the members below.":
+    "Vũ Khang 律师事务所生态系统包括律师事务所及以下成员。",
   "Which area does your matter fall under?": "您的事务属于哪个领域？",
   "Ready to talk?": "准备好沟通了吗？",
   "Briefly describe your needs to start the enquiry process.":

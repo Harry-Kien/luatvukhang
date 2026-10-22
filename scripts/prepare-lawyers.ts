@@ -193,6 +193,14 @@ for (const lawyer of firmLawyers)
       // giá trị mặc định "luật sư" — một chuyên viên vì thế bị xếp lẫn vào giữa
       // các luật sư.
       if (found.role !== lawyer.role) data.role = lawyer.role;
+      // Khối và thứ tự trên trang Đội ngũ chỉ điền vào hồ sơ chưa có: công ty
+      // tự sắp xếp trong admin, lần cài đặt sau không xếp lại.
+      if (lawyer.team && !found.team) data.team = lawyer.team;
+      if (
+        typeof lawyer.sortOrder === "number" &&
+        typeof found.sortOrder !== "number"
+      )
+        data.sortOrder = lawyer.sortOrder;
       // Lĩnh vực chỉ gắn khi hồ sơ chưa có: lĩnh vực công ty tự chọn được giữ.
       if (!found.services?.length) {
         const ids = await serviceIds(lawyer.services, language);
@@ -232,6 +240,8 @@ for (const lawyer of firmLawyers)
         translationKey: lawyer.slug,
         position: lawyer.position[language],
         role: lawyer.role,
+        team: lawyer.team,
+        sortOrder: lawyer.sortOrder,
         summary: lawyer.summary[language],
         qualifications: lawyer.qualifications?.[language],
         services: await serviceIds(lawyer.services, language),

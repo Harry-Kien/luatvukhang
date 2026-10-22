@@ -1,98 +1,118 @@
 /**
- * Thứ tự nhân sự do chủ website nêu ngày 11/10/2026: Luật sư Phan Thùy Trang
- * đứng đầu, kế đến Luật sư Trần Phương Lan Anh.
+ * Thứ tự và khối của đội ngũ — công ty tự đặt trong admin, ở hai ô của từng hồ
+ * sơ: "Khối trên trang Đội ngũ" và "Thứ tự hiển thị" (từ 22/10/2026; trước đó
+ * hai danh sách này ghi cứng trong mã).
  *
- * Trước đây trang Đội ngũ xếp "luật sư trước, rồi theo tên A→Z", còn dữ liệu có
- * cấu trúc và llms-full.txt xếp theo lần sửa gần nhất — ba nơi ba thứ tự, và
- * thứ tự đổi mỗi khi ai đó lưu một hồ sơ. Thứ tự người trong một công ty luật
- * là thứ bậc nghề nghiệp, không phải bảng chữ cái.
+ * Một thứ tự dùng chung cho trang Đội ngũ, mục luật sư ở trang chủ, dữ liệu có
+ * cấu trúc và llms-full.txt. Thứ tự người trong một công ty luật là thứ bậc
+ * nghề nghiệp, không phải bảng chữ cái hay lần sửa gần nhất.
  *
- * Người có trong danh sách đứng đúng vị trí. Người mới chưa được xếp đứng sau
- * cùng — luật sư trước nhân sự khác, rồi theo tên — nên thêm hồ sơ mới không
- * bao giờ làm mất nó khỏi website.
- *
- * 21/10/2026: thêm phòng Phát triển khách hàng, đứng sau khối pháp lý — trên
- * website công ty luật, người khách cần gặp về pháp lý đứng trước. Trong phòng:
- * Trưởng phòng Hoàng Vũ, Phó phòng Lê Trần Đoan Khang.
+ * Mỗi hồ sơ có ba bản ngôn ngữ; khối và thứ tự chỉ cần đặt ở bản tiếng Việt,
+ * bản tiếng Anh/Trung theo bản tiếng Việt cùng mã liên kết bản dịch. Người chưa
+ * có thứ tự đứng sau cùng — luật sư trước nhân sự khác, rồi theo tên — nên thêm
+ * hồ sơ mới không bao giờ làm nó biến mất khỏi website.
  */
-export const PEOPLE_ORDER = [
-  "phan-thuy-trang",
-  "tran-phuong-lan-anh",
-  "tran-le-kim-binh",
-  "tran-thi-anh-nhu",
-  "hoang-vu",
-  "le-tran-doan-khang",
-] as const;
-
 type Localised = { vi: string; en: string; zh: string };
 
-/**
- * Các nhóm trên trang Đội ngũ, theo thứ tự hiển thị. Bảy người trong một lưới
- * liền đọc như một danh sách; tách theo khối thì khách thấy ngay ai điều hành,
- * ai làm pháp lý, ai phụ trách phát triển khách hàng.
- *
- * Người chưa thuộc nhóm nào vào nhóm cuối "Đội ngũ", nên thêm hồ sơ mới trong
- * CMS không bao giờ làm nó biến mất khỏi trang.
- */
-export const PEOPLE_GROUPS: {
-  key: string;
-  title: Localised;
-  slugs: readonly string[];
-}[] = [
+/** Các khối theo thứ tự hiển thị trên trang Đội ngũ; khối không có ai thì ẩn. */
+export const TEAMS: readonly { value: string; label: Localised }[] = [
   {
-    key: "leadership",
-    title: { vi: "Ban lãnh đạo", en: "Leadership", zh: "领导团队" },
-    slugs: ["phan-thuy-trang", "tran-phuong-lan-anh"],
+    value: "leadership",
+    label: { vi: "Ban lãnh đạo", en: "Leadership", zh: "领导团队" },
   },
+  { value: "lawyers", label: { vi: "Luật sư", en: "Lawyers", zh: "律师" } },
   {
-    key: "legal",
-    title: {
+    value: "legal",
+    label: {
       vi: "Chuyên viên pháp lý",
       en: "Legal specialists",
       zh: "法务专员",
     },
-    slugs: ["tran-le-kim-binh", "tran-thi-anh-nhu"],
   },
   {
-    key: "clients",
-    title: {
+    value: "clients",
+    label: {
       vi: "Phát triển khách hàng",
       en: "Client development",
       zh: "客户发展部",
     },
-    slugs: ["hoang-vu", "le-tran-doan-khang"],
+  },
+  {
+    value: "operations",
+    label: {
+      vi: "Hành chính – Văn phòng",
+      en: "Office & administration",
+      zh: "行政与办公室",
+    },
   },
 ];
 const OTHERS: Localised = { vi: "Đội ngũ", en: "Our people", zh: "团队成员" };
 
-/** Chia danh sách (đã xếp theo PEOPLE_ORDER) thành các nhóm, bỏ nhóm trống. */
-export const inPeopleGroups = <T extends Person>(records: T[]) => {
-  const grouped = PEOPLE_GROUPS.map((group) => ({
-    key: group.key,
-    title: group.title,
-    people: records.filter((r) => group.slugs.includes(r.slug)),
-  }));
-  const placed = new Set(PEOPLE_GROUPS.flatMap((group) => group.slugs));
-  grouped.push({
-    key: "others",
-    title: OTHERS,
-    people: records.filter((r) => !placed.has(r.slug)),
-  });
-  return grouped.filter((group) => group.people.length > 0);
+/** Lựa chọn cho ô "Khối trên trang Đội ngũ" trong admin. */
+export const TEAM_OPTIONS = TEAMS.map((team) => ({
+  label: team.label.vi,
+  value: team.value,
+}));
+
+type Person = {
+  slug: string;
+  title: string;
+  role?: string | null;
+  team?: string | null;
+  sortOrder?: number | null;
+  translationKey?: string | null;
 };
 
-type Person = { slug: string; title: string; role?: string | null };
-
-const rank = (slug: string) => {
-  const at = (PEOPLE_ORDER as readonly string[]).indexOf(slug);
-  return at < 0 ? PEOPLE_ORDER.length : at;
-};
+const position = (person: Person) =>
+  typeof person.sortOrder === "number" ? person.sortOrder : Infinity;
 const roleRank = (person: Person) => (person.role === "specialist" ? 1 : 0);
 
 export const inPeopleOrder = <T extends Person>(records: T[]) =>
-  [...records].sort(
-    (a, b) =>
-      rank(a.slug) - rank(b.slug) ||
+  [...records].sort((a, b) => {
+    const pa = position(a);
+    const pb = position(b);
+    return (
+      (pa === pb ? 0 : pa - pb) ||
       roleRank(a) - roleRank(b) ||
-      a.title.localeCompare(b.title, "vi"),
+      a.title.localeCompare(b.title, "vi")
+    );
+  });
+
+/** Chia danh sách (đã xếp) thành các khối theo thứ tự TEAMS, bỏ khối trống. */
+export const inPeopleGroups = <T extends Person>(records: T[]) => {
+  const known = new Set(TEAMS.map((team) => team.value));
+  const groups = TEAMS.map((team) => ({
+    key: team.value,
+    title: team.label,
+    people: records.filter((record) => record.team === team.value),
+  }));
+  groups.push({
+    key: "others",
+    title: OTHERS,
+    people: records.filter((record) => !known.has(record.team ?? "")),
+  });
+  return groups.filter((group) => group.people.length > 0);
+};
+
+/**
+ * Bản tiếng Anh/Trung lấy khối và thứ tự của bản tiếng Việt cùng mã liên kết
+ * bản dịch, để công ty chỉ phải đặt một lần.
+ */
+export const withVietnameseOrder = <T extends Person>(
+  records: T[],
+  vietnamese: Person[],
+): T[] => {
+  const byKey = new Map(
+    vietnamese.map((person) => [person.translationKey || person.slug, person]),
   );
+  return records.map((record) => {
+    const source = byKey.get(record.translationKey || record.slug);
+    return source
+      ? {
+          ...record,
+          team: source.team ?? record.team,
+          sortOrder: source.sortOrder ?? record.sortOrder,
+        }
+      : record;
+  });
+};

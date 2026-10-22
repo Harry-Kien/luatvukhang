@@ -1,11 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-import { ECOSYSTEM, type EcosystemMember } from "@/lib/ecosystem";
+import { FIRM_MEMBER, type EcosystemMember } from "@/lib/ecosystem";
 import { t, type Locale } from "@/lib/content";
 
 /**
  * Logo trong ô trắng bo góc kiểu biểu tượng ứng dụng: rõ trên cả nền tối.
  * Thành viên có website thì cả thẻ là liên kết mở tab mới, có mũi tên ↗ và tên
  * miền để người xem biết mình sắp rời website công ty luật.
+ *
+ * Danh sách thành viên do công ty sửa trong admin: Cài đặt → "Hệ sinh thái".
  */
 function Member({
   member,
@@ -26,8 +28,8 @@ function Member({
       </span>
       <span className="ecosystem-text">
         <strong>{member.name}</strong>
-        <small>{member.role[locale]}</small>
-        {detailed && <span>{member.summary[locale]}</span>}
+        {member.role && <small>{member.role}</small>}
+        {detailed && member.summary && <span>{member.summary}</span>}
         {detailed && member.site && (
           <span className="ecosystem-site">{member.site}</span>
         )}
@@ -58,9 +60,14 @@ function Member({
 }
 
 /** Dải "Hệ sinh thái" ở chân trang mọi trang — như các tập đoàn gắn logo thành viên. */
-export function EcosystemStrip({ locale }: { locale: Locale }) {
-  const members = ECOSYSTEM.filter((member) => !member.self);
-  if (!members.length) return null;
+export function EcosystemStrip({
+  locale,
+  members,
+}: {
+  locale: Locale;
+  members?: EcosystemMember[] | null;
+}) {
+  if (!members?.length) return null;
   return (
     <div className="footer-ecosystem">
       <span className="footer-ecosystem-label">
@@ -81,8 +88,23 @@ export function EcosystemStrip({ locale }: { locale: Locale }) {
   );
 }
 
-/** Mục giới thiệu hệ sinh thái trên trang Về chúng tôi. */
-export function EcosystemSection({ locale }: { locale: Locale }) {
+/** Mục giới thiệu hệ sinh thái trên trang Về chúng tôi: công ty luật đứng đầu. */
+export function EcosystemSection({
+  locale,
+  members,
+  firmName,
+}: {
+  locale: Locale;
+  members?: EcosystemMember[] | null;
+  firmName: string;
+}) {
+  if (!members?.length) return null;
+  const firm: EcosystemMember = {
+    ...FIRM_MEMBER,
+    name: firmName,
+    role: FIRM_MEMBER.role[locale],
+    summary: FIRM_MEMBER.summary[locale],
+  };
   return (
     <section className="ecosystem-section" aria-labelledby="ecosystem-heading">
       <h2 id="ecosystem-heading">
@@ -91,12 +113,12 @@ export function EcosystemSection({ locale }: { locale: Locale }) {
       <p>
         {t(
           locale,
-          "Hệ sinh thái Luật Vũ Khang gồm công ty luật và ứng dụng Luật Việt.",
-          "The Vũ Khang Law ecosystem brings together the law firm and the Luật Việt app.",
+          "Hệ sinh thái Luật Vũ Khang gồm công ty luật và các thành viên dưới đây.",
+          "The Vũ Khang Law ecosystem brings together the law firm and the members below.",
         )}
       </p>
       <div className="ecosystem-grid">
-        {ECOSYSTEM.map((member) => (
+        {[firm, ...members].map((member) => (
           <Member
             key={member.key}
             member={member}

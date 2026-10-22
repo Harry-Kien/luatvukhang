@@ -3,7 +3,7 @@ import type { CollectionSlug } from "payload";
 import type { Locale } from "./content";
 import { demo } from "./content";
 import { inServiceOrder } from "./service-order";
-import { inPeopleOrder } from "./people-order";
+import { inPeopleOrder, withVietnameseOrder } from "./people-order";
 export type ContentRecord = {
   id: string | number;
   title: string;
@@ -55,7 +55,13 @@ export const getRecords = cache(async function getRecords(
     // Dịch vụ theo thứ tự danh mục của công ty, đội ngũ theo thứ tự công ty
     // nêu — không theo lần sửa gần nhất.
     if (collection === "services") return inServiceOrder(docs);
-    if (collection === "lawyers") return inPeopleOrder(docs);
+    // Khối và thứ tự đặt ở bản tiếng Việt; bản tiếng Anh/Trung theo đó.
+    if (collection === "lawyers")
+      return inPeopleOrder(
+        locale === "vi"
+          ? docs
+          : withVietnameseOrder(docs, await getRecords("lawyers", "vi")),
+      );
     return docs;
   } catch (error) {
     if (demo) return [];

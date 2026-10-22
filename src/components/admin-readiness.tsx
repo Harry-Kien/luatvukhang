@@ -82,15 +82,30 @@ export async function AdminReadiness({
           return result.totalDocs;
         }),
       );
-      return { slug, label, per };
+      // Bản nháp chờ duyệt (cả ba ngôn ngữ): nội dung đã viết nhưng khách chưa
+      // thấy — thường là chỗ cần luật sư đọc rồi bấm Xuất bản.
+      const drafts = (
+        await payload.count({
+          collection: slug as "services",
+          where: {
+            and: [
+              { _status: { equals: "draft" } },
+              { isSample: { not_equals: true } },
+            ],
+          },
+          user,
+          overrideAccess: false,
+        })
+      ).totalDocs;
+      return { slug, label, per, drafts };
     }),
   );
 
   // Vận hành: đường gửi email thông báo và hàng đợi thông báo.
   const emailConfigured = Boolean(
     process.env.SMTP_HOST &&
-      process.env.SMTP_FROM &&
-      process.env.NOTIFICATION_EMAIL,
+    process.env.SMTP_FROM &&
+    process.env.NOTIFICATION_EMAIL,
   );
   const isAdmin = (user as any)?.role === "admin";
   const outboxCount = async (status: string) =>
@@ -103,7 +118,10 @@ export async function AdminReadiness({
       })
     ).totalDocs;
   const outbox = isAdmin
-    ? { pending: await outboxCount("pending"), failed: await outboxCount("failed") }
+    ? {
+        pending: await outboxCount("pending"),
+        failed: await outboxCount("failed"),
+      }
     : null;
 
   const cell: React.CSSProperties = { padding: 12 };
@@ -158,9 +176,9 @@ export async function AdminReadiness({
       <section style={box}>
         <h2>Thông tin công ty</h2>
         <p>
-          Sáu ô trong Cài đặt là điều kiện bắt buộc để bật ra mắt. Địa chỉ,
-          điện thoại và email ở đây tự hiện ở footer, trang Liên hệ, nút gọi và
-          nút Zalo.
+          Sáu ô trong Cài đặt là điều kiện bắt buộc để bật ra mắt. Địa chỉ, điện
+          thoại và email ở đây tự hiện ở footer, trang Liên hệ, nút gọi và nút
+          Zalo.
         </p>
         <p>
           {missingSettings.length === 0
@@ -185,7 +203,9 @@ export async function AdminReadiness({
         <h2>Nội dung đã xuất bản</h2>
         <p>
           Số bản ghi thật đã xuất bản theo ngôn ngữ. Bản minh họa không được
-          tính. Mục nào bằng 0 thì trang tương ứng trên website đang trống.
+          tính. Mục nào bằng 0 thì trang tương ứng trên website đang trống. Cột
+          &quot;Bản nháp&quot; là nội dung đã viết nhưng khách chưa thấy — bấm
+          vào tên mục để đọc và xuất bản.
         </p>
         <div style={{ overflowX: "auto" }}>
           <table
@@ -197,11 +217,13 @@ export async function AdminReadiness({
           >
             <thead>
               <tr>
-                {["Mục", "Tiếng Việt", "English", "简体中文"].map((h) => (
-                  <th key={h} style={head}>
-                    {h}
-                  </th>
-                ))}
+                {["Mục", "Tiếng Việt", "English", "简体中文", "Bản nháp"].map(
+                  (h) => (
+                    <th key={h} style={head}>
+                      {h}
+                    </th>
+                  ),
+                )}
               </tr>
             </thead>
             <tbody>
@@ -215,6 +237,17 @@ export async function AdminReadiness({
                       {n > 0 ? tag(true, String(n)) : tag(false, "0")}
                     </td>
                   ))}
+                  <td style={cell}>
+                    {c.drafts > 0 ? (
+                      <a
+                        href={`/admin/collections/${c.slug}?where[_status][equals]=draft`}
+                      >
+                        {c.drafts} chờ xuất bản
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -249,61 +282,61 @@ export async function AdminReadiness({
 
       <section style={box}>
         <h2>Nội dung cần hoàn tất trước khi ra mắt</h2>
-      <p>
-        Mỗi ngôn ngữ được duyệt riêng. Trạng thái xuất bản không thay thế việc
-        xác minh nội dung và cấu hình vận hành.
-      </p>
-      <div style={{ overflowX: "auto" }}>
-        <table
-          style={{
-            width: "100%",
-            textAlign: "left",
-            borderCollapse: "collapse",
-          }}
-        >
-          <thead>
-            <tr>
-              {["Trang", "Tiếng Việt", "English", "简体中文"].map((h) => (
-                <th
-                  key={h}
-                  style={{
-                    padding: 12,
-                    borderBottom: "1px solid var(--theme-elevation-200)",
-                  }}
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {checks.map((c) => (
-              <tr key={c.slug}>
-                <th style={{ padding: 12 }}>{names[c.slug]}</th>
-                {[c.vi, c.en, c.zh].map((doc, i) => (
-                  <td key={i} style={{ padding: 12 }}>
-                    <a
-                      href={
-                        doc
-                          ? `/admin/collections/pages/${doc.id}`
-                          : "/admin/collections/pages/create"
-                      }
-                    >
-                      {status(doc)}
-                    </a>
-                  </td>
+        <p>
+          Mỗi ngôn ngữ được duyệt riêng. Trạng thái xuất bản không thay thế việc
+          xác minh nội dung và cấu hình vận hành.
+        </p>
+        <div style={{ overflowX: "auto" }}>
+          <table
+            style={{
+              width: "100%",
+              textAlign: "left",
+              borderCollapse: "collapse",
+            }}
+          >
+            <thead>
+              <tr>
+                {["Trang", "Tiếng Việt", "English", "简体中文"].map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      padding: 12,
+                      borderBottom: "1px solid var(--theme-elevation-200)",
+                    }}
+                  >
+                    {h}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p>
-        <a href="/admin/collections/lawyers">Bổ sung hồ sơ luật sư →</a>
-        {" · "}
-        <a href="/admin/collections/media">Quản lý ảnh được phép sử dụng →</a>
-      </p>
-    </section>
+            </thead>
+            <tbody>
+              {checks.map((c) => (
+                <tr key={c.slug}>
+                  <th style={{ padding: 12 }}>{names[c.slug]}</th>
+                  {[c.vi, c.en, c.zh].map((doc, i) => (
+                    <td key={i} style={{ padding: 12 }}>
+                      <a
+                        href={
+                          doc
+                            ? `/admin/collections/pages/${doc.id}`
+                            : "/admin/collections/pages/create"
+                        }
+                      >
+                        {status(doc)}
+                      </a>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          <a href="/admin/collections/lawyers">Bổ sung hồ sơ luật sư →</a>
+          {" · "}
+          <a href="/admin/collections/media">Quản lý ảnh được phép sử dụng →</a>
+        </p>
+      </section>
     </>
   );
 }

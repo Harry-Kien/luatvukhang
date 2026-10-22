@@ -22,6 +22,7 @@ import type { SiteLayoutData } from "@/cms/site-layout";
 import { Brand } from "./brand";
 import { ContactChannels } from "./contact-channels";
 import { EcosystemStrip } from "./ecosystem";
+import type { EcosystemMember } from "@/lib/ecosystem";
 import type { ZaloNumber } from "@/lib/contact";
 export function Header({
   locale,
@@ -277,6 +278,7 @@ export function Footer({
   companyName,
   phone,
   zalo,
+  ecosystem,
   address,
   email,
   layout,
@@ -287,6 +289,8 @@ export function Footer({
   companyName?: string;
   phone?: string | null;
   zalo?: ZaloNumber[] | null;
+  /** Ô "Hệ sinh thái" trong Cài đặt, đã đổi thành thẻ hiển thị. */
+  ecosystem?: EcosystemMember[];
   address?: string | null;
   email?: string | null;
   layout: SiteLayoutData["footer"];
@@ -395,7 +399,7 @@ export function Footer({
             ))}
         </div>
       </div>
-      <EcosystemStrip locale={locale} />
+      <EcosystemStrip locale={locale} members={ecosystem} />
       <div className="footer-bottom">
         <span>
           © {new Date().getFullYear()} {layout.copyright}

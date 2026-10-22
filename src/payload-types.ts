@@ -526,6 +526,14 @@ export interface Lawyer {
    * Quyết định thứ tự trên trang Đội ngũ: luật sư đứng trước, rồi mới tới nhân sự khác. Chức danh là chữ tự do nên không dùng để đoán vai trò.
    */
   role: 'lawyer' | 'specialist';
+  /**
+   * Trang Đội ngũ chia người theo khối, các khối xếp theo thứ tự trong danh sách này. Chỉ cần chọn ở bản tiếng Việt — bản tiếng Anh và tiếng Trung tự theo. Để trống thì người này nằm ở nhóm cuối "Đội ngũ".
+   */
+  team?: ('leadership' | 'lawyers' | 'legal' | 'clients' | 'operations') | null;
+  /**
+   * Số nhỏ đứng trước (ví dụ 10, 20, 30 — chừa khoảng để chèn người mới vào giữa). Dùng cho trang Đội ngũ, trang chủ và dữ liệu gửi Google. Chỉ cần đặt ở bản tiếng Việt.
+   */
+  sortOrder?: number | null;
   portrait?: (number | null) | Media;
   qualifications?: string | null;
   languages?: string | null;
@@ -1707,6 +1715,8 @@ export interface LawyersSelect<T extends boolean = true> {
       };
   position?: T;
   role?: T;
+  team?: T;
+  sortOrder?: T;
   portrait?: T;
   qualifications?: T;
   languages?: T;
@@ -2262,6 +2272,20 @@ export interface SiteSetting {
   email?: string | null;
   address?: string | null;
   privacyApproved?: boolean | null;
+  /**
+   * Ứng dụng, công ty thành viên hiện logo ở chân trang mọi trang và ở mục "Hệ sinh thái" trên trang Về chúng tôi. Thêm, xóa, kéo đổi thứ tự rồi bấm Lưu. Vai trò và câu giới thiệu có ba ngôn ngữ — chọn ngôn ngữ ở góc trên bên phải.
+   */
+  ecosystem?:
+    | {
+        name: string;
+        role?: string | null;
+        summary?: string | null;
+        logo: number | Media;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  ecosystemSeeded?: boolean | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2389,6 +2413,17 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   email?: T;
   address?: T;
   privacyApproved?: T;
+  ecosystem?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        summary?: T;
+        logo?: T;
+        url?: T;
+        id?: T;
+      };
+  ecosystemSeeded?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

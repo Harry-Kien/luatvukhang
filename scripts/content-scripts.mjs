@@ -31,6 +31,7 @@ export const CONTENT_SCRIPTS = [
   "refresh-policy-drafts.ts",
   "prepare-site-layout.ts",
   "apply-company-settings.ts",
+  "prepare-ecosystem.ts",
   "prepare-practice-areas.ts",
   "prepare-keywords.ts",
   "prepare-page-content.ts",
