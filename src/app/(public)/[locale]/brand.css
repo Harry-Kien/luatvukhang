@@ -2244,6 +2244,64 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
   }
 }
 
+/* Ban lãnh đạo: thẻ lớn, ảnh trái chữ phải, hai người lấp đủ một hàng. Lưới 4
+   cột của nhân viên làm thẻ lãnh đạo hẹp: chức danh dài xuống ba dòng, tên gãy
+   dòng, hai thẻ lệch nhau và nửa hàng bỏ trống. */
+.people-grid-featured {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px;
+}
+.person-card-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #d3d8dd;
+}
+.person-card-featured .person-photo {
+  max-width: none;
+}
+.person-card-featured .person-info {
+  padding: 2px 0 0;
+  border-bottom: 0;
+}
+.person-card-featured .person-role {
+  line-height: 1.7;
+}
+.person-card-featured .person-info h3 {
+  font-size: 27px;
+  margin: 12px 0 14px;
+}
+.person-card-featured .person-practices {
+  margin-top: 16px;
+}
+@media (max-width: 1180px) {
+  .people-grid-featured {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .person-card-featured {
+    grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .people-grid-featured {
+    gap: 26px;
+  }
+  .person-card-featured {
+    grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+    gap: 18px;
+    padding-bottom: 26px;
+  }
+  .person-card-featured .person-info {
+    padding: 0;
+  }
+  .person-card-featured .person-info h3 {
+    font-size: 21px;
+    margin: 6px 0 8px;
+  }
+}
+
 /* Hệ sinh thái Luật Vũ Khang (components/ecosystem.tsx). */
 .ecosystem-icon {
   flex-shrink: 0;

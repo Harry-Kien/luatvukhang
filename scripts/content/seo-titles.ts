@@ -22,19 +22,24 @@ export const replacedSeoTitles: Record<
   string,
   Partial<Record<keyof Localised, string[]>>
 > = {
+  "lawyers/phan-thuy-trang": {
+    // 22/10/2026: tiêu đề nêu thêm chức Giám đốc.
+    vi: ["Luật sư Phan Thùy Trang — nguyên Thẩm phán"],
+  },
   "lawyers/tran-phuong-lan-anh": {
-    // 22/10/2026: bỏ chức Phó Giám đốc (đặt 19/10/2026), tiêu đề trở lại nêu
-    // chức vụ ở tòa án.
-    vi: ["Luật sư Trần Phương Lan Anh — Phó Giám đốc"],
+    // Tối 22/10/2026: Ls Lan Anh là Phó Giám đốc (chủ website xác nhận lại) —
+    // tiêu đề nêu chức vụ ở công ty; chức vụ ở tòa án nằm trong mô tả.
+    vi: ["Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án"],
     en: [
       // Dài 66 ký tự sau khi nối " | Vũ Khang" (thay ngày 18/10/2026).
       "Trần Phương Lan Anh — Lawyer, former Deputy Chief Judge",
       "Trần Phương Lan Anh — Deputy Director & Lawyer",
+      "Lawyer Trần Phương Lan Anh — ex-Deputy Chief Judge",
     ],
     zh: [
-      "Trần Phương Lan Anh 律师 — 副主任",
       // Dài 43 ký tự sau khi nối " | Vũ Khang" (thay ngày 22/10/2026).
       "Trần Phương Lan Anh 律师 — 曾任法院副院长",
+      "Trần Phương Lan Anh 律师，前法院副院长",
     ],
   },
   // 21/10/2026: phòng Kinh doanh / Đối ngoại đổi thành Phát triển khách hàng.
@@ -176,15 +181,16 @@ export const seoTitles: Record<string, Localised> = {
   // Tên người giữ nguyên ở cả ba ngôn ngữ, đúng như phần còn lại của website.
   // Đặt một tên tiếng Trung cho người thật là bịa danh tính, không phải dịch.
   "lawyers/phan-thuy-trang": {
-    vi: "Luật sư Phan Thùy Trang — nguyên Thẩm phán",
+    vi: "Luật sư Phan Thùy Trang — Giám đốc, nguyên Thẩm phán",
     en: "Phan Thùy Trang — Director, Lawyer, former Judge",
     zh: "Phan Thùy Trang 律师 — 主任、曾任法官",
   },
   "lawyers/tran-phuong-lan-anh": {
-    vi: "Luật sư Trần Phương Lan Anh — nguyên Phó Chánh án",
-    en: "Lawyer Trần Phương Lan Anh — ex-Deputy Chief Judge",
-    // Đúng 40 ký tự sau khi nối " | Vũ Khang" — giới hạn cho tiêu đề tiếng Trung.
-    zh: "Trần Phương Lan Anh 律师，前法院副院长",
+    // Tối 22/10/2026: Phó Giám đốc. Tiếng Trung 39 ký tự sau khi nối
+    // " | Vũ Khang" (giới hạn 40).
+    vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc",
+    en: "Trần Phương Lan Anh — Deputy Director, former Judge",
+    zh: "Trần Phương Lan Anh 律师 — 副主任",
   },
   "lawyers/tran-le-kim-binh": {
     vi: "Trần Lê Kim Bình — Chuyên viên pháp lý",

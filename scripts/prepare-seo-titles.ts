@@ -146,7 +146,7 @@ if (missing.length)
 console.log(
   listOnly
     ? `\n${filled} o se duoc dien. Bo qua vi da co: ${skipped}.`
-    : `\nDa dien ${filled} tieu de. Bo qua vi da co: ${skipped}.`,
+    : `\nDa dien ${filled} o (tieu de, mo ta). Bo qua vi da co: ${skipped}.`,
 );
 await cms.destroy();
 process.exit(0);

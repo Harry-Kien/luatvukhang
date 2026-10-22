@@ -159,6 +159,10 @@ Chủ website cung cấp hai luật sư của công ty:
 > Nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa" — bỏ chức Phó Giám đốc đặt
 > ngày 19/10/2026.
 >
+> **Tối 22/10/2026** (chủ website xác nhận lại): Ls Trần Phương Lan Anh là **Phó
+> Giám đốc** — thẻ "Phó Giám đốc - Nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh
+> Hòa", cùng mẫu với Giám đốc Phan Thùy Trang.
+>
 > **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
 > chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
 > (src/lib/ecosystem.ts). Logo dẫn tới https://luatviet247.com (mở tab mới);

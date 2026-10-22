@@ -86,9 +86,10 @@ export async function PeopleDirectory({
     !keyword && !service && !sort && !showingSamples
       ? inPeopleGroups(filtered)
       : null;
-  const card = (r: ContentRecord) => (
+  // featured: thẻ lớn của Ban lãnh đạo — ảnh trái, chữ phải, đủ lĩnh vực.
+  const card = (r: ContentRecord, featured = false) => (
     <Link
-      className="person-card"
+      className={featured ? "person-card person-card-featured" : "person-card"}
       href={`/${locale}/lawyers/${r.slug}`}
       key={r.id}
     >
@@ -97,7 +98,11 @@ export async function PeopleDirectory({
           <CmsImage
             media={r.portrait}
             fallbackAlt={r.title}
-            sizes="(max-width: 600px) 100vw, (max-width: 1180px) 50vw, 330px"
+            sizes={
+              featured
+                ? "(max-width: 600px) 38vw, (max-width: 1000px) 300px, 280px"
+                : "(max-width: 600px) 100vw, (max-width: 1180px) 50vw, 330px"
+            }
           />
         ) : (
           <span className="person-initials" aria-hidden="true">
@@ -119,7 +124,7 @@ export async function PeopleDirectory({
         <div className="person-practices">
           {services
             .filter((s) => related(r).has(String(s.id)))
-            .slice(0, 3)
+            .slice(0, featured ? 8 : 3)
             .map((s) => (
               <span key={s.id}>{s.title}</span>
             ))}
@@ -257,12 +262,20 @@ export async function PeopleDirectory({
               aria-labelledby={`people-group-${group.key}`}
             >
               <h2 id={`people-group-${group.key}`}>{group.title[locale]}</h2>
-              <div className="people-grid">{group.people.map(card)}</div>
+              {group.key === "leadership" ? (
+                <div className="people-grid people-grid-featured">
+                  {group.people.map((r) => card(r, true))}
+                </div>
+              ) : (
+                <div className="people-grid">
+                  {group.people.map((r) => card(r))}
+                </div>
+              )}
             </section>
           ))
         ) : filtered.length > 0 ? (
           <div className="people-grid">
-            {filtered.slice((current - 1) * 9, current * 9).map(card)}
+            {filtered.slice((current - 1) * 9, current * 9).map((r) => card(r))}
           </div>
         ) : (
           <div className="people-empty">

@@ -94,6 +94,8 @@ const previousVersions: Record<string, Seeded>[] = [
   "./content/lawyers-2026-10-22.json",
   // Chức danh đầu tiên của ông Trần Trung Kiên (đổi cùng ngày 22/10/2026).
   "./content/lawyers-2026-10-22b.json",
+  // Ls Lan Anh không mang chức Phó Giám đốc (chiều 22/10/2026).
+  "./content/lawyers-2026-10-22c.json",
 ].map((file) =>
   JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );
