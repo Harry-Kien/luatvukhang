@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { FIRM_MEMBER, type EcosystemMember } from "@/lib/ecosystem";
 import { t, type Locale } from "@/lib/content";
@@ -24,7 +25,9 @@ function Member({
   const body = (
     <>
       <span className="ecosystem-icon">
-        <img src={member.logo} alt="" width={96} height={96} loading="lazy" />
+        {/* Logo hiện khoảng 40px: để Next thu nhỏ thay vì tải ảnh gốc 512px
+            từ thư viện ảnh (từng đẩy trang chủ vượt hạn mức dung lượng ảnh). */}
+        <Image src={member.logo} alt="" width={96} height={96} sizes="40px" />
       </span>
       <span className="ecosystem-text">
         <strong>{member.name}</strong>
