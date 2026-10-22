@@ -44,13 +44,13 @@ try {
             overflow,
             violations: result.violations.map((v) => v.id),
           });
+        // Trang Liên hệ có biểu mẫu gửi yêu cầu ngay trên trang (trước đây chỉ
+        // có nút dẫn sang /consultation).
         if (
           section === "contact" &&
-          (await page
-            .locator('main a[href="/' + locale + '/consultation"]')
-            .count()) === 0
+          (await page.locator("main form.form button").count()) === 0
         )
-          findings.push({ path, width, error: "missing contact action" });
+          findings.push({ path, width, error: "missing consultation form" });
         if (locale === "vi" && ["industries", "contact"].includes(section))
           await page.screenshot({
             path: `artifacts/content-${section}-${width}.png`,
