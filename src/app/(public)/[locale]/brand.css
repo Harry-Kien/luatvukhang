@@ -2316,75 +2316,147 @@ a.ecosystem-chip:focus-visible {
   outline-offset: 3px;
 }
 
-/* Nút Zalo nổi khi có nhiều số: một nút tròn, bấm thì bung danh sách số bên
-   phải (components/contact-channels.tsx). */
-.dock-zalo-group {
+/* Cụm nút liên hệ khi có nhiều số Zalo (components/contact-channels.tsx):
+   mỗi số một nút. Máy tính: cột nút tròn, rê chuột hiện số. Điện thoại: thanh
+   cố định ở đáy màn hình, chia đều các ô, mỗi ô ghi rõ số. */
+.contact-dock a {
   position: relative;
 }
-.dock-zalo-group > summary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  color: var(--white);
-  box-shadow: 0 8px 24px rgba(16, 29, 53, 0.3);
-  cursor: pointer;
-  list-style: none;
-  transition: transform 0.15s ease;
-}
-.dock-zalo-group > summary::-webkit-details-marker {
-  display: none;
-}
-.dock-zalo-group > summary:hover {
-  transform: translateY(-2px);
-}
-.dock-zalo-group > summary:focus-visible {
-  outline: 2px solid #0068ff;
-  outline-offset: 3px;
-}
-.dock-zalo-menu {
+.dock-label {
   position: absolute;
   left: calc(100% + 10px);
-  bottom: 0;
-  display: grid;
-  gap: 2px;
-  min-width: 178px;
-  margin: 0;
-  padding: 6px;
-  list-style: none;
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(16, 29, 53, 0.24);
-}
-.contact-dock .dock-zalo-menu a {
-  justify-content: flex-start;
-  gap: 10px;
-  width: auto;
-  height: auto;
-  padding: 11px 12px;
-  border-radius: 8px;
-  color: #0068ff;
-  font-size: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #111f32;
+  color: var(--white);
+  font-size: 13px;
   font-weight: 600;
-  text-decoration: none;
-  box-shadow: none;
+  line-height: 1.2;
   white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(16, 29, 53, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
 }
-.contact-dock .dock-zalo-menu a:hover {
-  background: #eef4ff;
-  transform: none;
+.dock-label-narrow {
+  display: none;
 }
-.contact-dock .dock-zalo-menu a:focus-visible {
-  outline: 2px solid #0068ff;
-  outline-offset: -2px;
+.contact-dock a:hover .dock-label,
+.contact-dock a:focus-visible .dock-label {
+  opacity: 1;
+}
+.contact-dock a:focus-visible {
+  outline: 2px solid #111f32;
+  outline-offset: 3px;
+}
+/* Bốn nút trở lên: nhỏ lại một chút để cột nút không quá cao. */
+.contact-dock:is([data-count="4"], [data-count="5"], [data-count="6"]) {
+  gap: 8px;
+}
+.contact-dock:is([data-count="4"], [data-count="5"], [data-count="6"]) a {
+  width: 48px;
+  height: 48px;
+}
+@media (max-width: 700px) {
+  .contact-dock,
+  .contact-dock:is([data-count="4"], [data-count="5"], [data-count="6"]) {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    gap: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: #0068ff;
+    box-shadow: 0 -6px 20px rgba(16, 29, 53, 0.18);
+  }
+  .contact-dock a,
+  .contact-dock:is([data-count="4"], [data-count="5"], [data-count="6"]) a {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    height: 58px;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .contact-dock a + a {
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+  }
+  .contact-dock a:hover {
+    transform: none;
+  }
+  .contact-dock a:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: -4px;
+  }
+  .dock-label {
+    position: static;
+    transform: none;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    opacity: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    letter-spacing: 0.01em;
+  }
+  .dock-label-wide {
+    display: none;
+  }
+  .dock-label-narrow {
+    display: inline;
+  }
+  /* Chừa chỗ cho thanh liên hệ để nó không che dòng cuối của chân trang. */
+  body:has(.contact-dock) {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom));
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dock-zalo-group > summary {
+  .dock-label {
     transition: none;
   }
-  .dock-zalo-group > summary:hover {
-    transform: none;
+}
+/* Màn hình thấp trên máy tính: cụm nút xếp ngang, nhãn số hiện phía trên nút. */
+@media (max-height: 620px) and (min-width: 701px) {
+  .dock-label {
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+  }
+}
+
+/* Thanh tiện ích trên điện thoại: số liên hệ đã chuyển xuống thanh đáy màn
+   hình, nên chỉ còn khẩu hiệu, tìm kiếm và ba ngôn ngữ. Không để chữ xuống
+   dòng ("Tìm / kiếm", "中 / 文") ở màn hình 320–360px. */
+@media (max-width: 700px) {
+  .utility-bar > span {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .utility-bar > div {
+    flex-shrink: 0;
+  }
+  .utility-bar > div > .utility-divider:first-of-type {
+    display: none;
+  }
+  .utility-bar > div > a,
+  .utility-bar .language {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 380px) {
+  /* Tìm kiếm chỉ còn biểu tượng; chữ vẫn nằm trong trang nên trình đọc màn
+     hình vẫn đọc được tên nút. */
+  .utility-bar > div > a[href$="/search"] {
+    font-size: 0;
+    gap: 0;
   }
 }

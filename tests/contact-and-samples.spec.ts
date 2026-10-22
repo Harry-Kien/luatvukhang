@@ -51,8 +51,9 @@ test("every public page offers a call and a Zalo route to the firm", async ({
     );
     // Nút nổi phải bấm được ngay, không cần cuộn.
     await expect(page.locator(".contact-dock a.dock-call")).toBeVisible();
-    // Một số Zalo: nút là liên kết; nhiều số: nút mở danh sách chọn số.
-    await expect(page.locator(".contact-dock .dock-zalo")).toBeVisible();
+    await expect(
+      page.locator(".contact-dock a.dock-zalo").first(),
+    ).toBeVisible();
     // Rời trang là hành động ngoài website: phải mở tab mới và chặn opener.
     await expect(zalo.first()).toHaveAttribute("rel", /noopener/);
   }
@@ -69,17 +70,18 @@ test("the quick-contact buttons keep an accessible name when their text is hidde
   test.skip(!settings.phone, "Chưa nhập số điện thoại trong Cài đặt.");
   await page.setViewportSize({ width: 360, height: 720 });
   await page.goto("/vi");
-  for (const selector of [".dock-call", ".dock-zalo"]) {
-    const button = page.locator(".contact-dock " + selector);
+  const buttons = page.locator(".contact-dock a");
+  expect(await buttons.count()).toBeGreaterThanOrEqual(2);
+  for (const button of await buttons.all()) {
     await expect(button).toBeVisible();
-    // Chữ bị ẩn ở khung hẹp, nên tên gọi phải đến từ aria-label.
+    // Chữ trên nút ngắn hoặc bị ẩn, nên tên gọi đầy đủ đến từ aria-label.
     const name = await button.getAttribute("aria-label");
-    expect(name, selector).toBeTruthy();
-    expect(name!.length, selector).toBeGreaterThan(3);
+    expect(name).toBeTruthy();
+    expect(name!.length).toBeGreaterThan(3);
   }
 });
 
-test("nút Zalo nổi gom mọi số Zalo vào một danh sách chọn số", async ({
+test("mỗi số Zalo có nút riêng, hiện vừa vặn trên máy tính và điện thoại", async ({
   page,
   request,
 }) => {
@@ -88,42 +90,68 @@ test("nút Zalo nổi gom mọi số Zalo vào một danh sách chọn số", as
   ).json();
   test.skip(!settings.phone, "Chưa nhập số điện thoại trong Cài đặt.");
   // Số chính và các số trong ô "Số Zalo bổ sung" của Cài đặt.
-  const numbers = zaloChannels(settings.phone, settings.zaloNumbers).map(
-    (channel) => channel.zalo,
-  );
-  test.skip(numbers.length < 2, "Chỉ có một số Zalo.");
-  await page.setViewportSize({ width: 390, height: 760 });
-  await page.goto("/vi");
+  const numbers = zaloChannels(settings.phone, settings.zaloNumbers);
   const dock = page.locator(".contact-dock");
-  // Cụm nút nổi chỉ gồm nút gọi và một nút Zalo, dù có nhiều số.
-  await expect(dock.locator(":scope > a, :scope > details")).toHaveCount(2);
-  const menu = dock.locator(".dock-zalo-menu");
-  await expect(menu).toBeHidden();
-  await dock.locator("summary.dock-zalo").click();
-  await expect(menu).toBeVisible();
-  const links = menu.locator("a");
-  await expect(links).toHaveCount(numbers.length);
-  for (const [index, zalo] of numbers.entries()) {
-    await expect(links.nth(index)).toHaveAttribute("href", zalo!);
-    await expect(links.nth(index)).toHaveAttribute("target", "_blank");
-    await expect(links.nth(index)).toHaveAttribute("rel", /noopener/);
+
+  // Máy tính: cột nút tròn, mỗi số Zalo một nút, đúng thứ tự, trong khung nhìn.
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/vi");
+  const zalo = dock.locator("a.dock-zalo");
+  await expect(zalo).toHaveCount(numbers.length);
+  for (const [index, channel] of numbers.entries()) {
+    const button = zalo.nth(index);
+    await expect(button).toBeVisible();
+    await expect(button).toHaveAttribute("href", channel.zalo);
+    await expect(button).toHaveAttribute("target", "_blank");
+    await expect(button).toHaveAttribute("rel", /noopener/);
+    await expect(button).toHaveAttribute(
+      "aria-label",
+      new RegExp(channel.display),
+    );
+    const box = (await button.boundingBox())!;
+    expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.y + box.height).toBeLessThanOrEqual(800);
   }
-  // Danh sách không được tràn ra ngoài khung nhìn trên điện thoại.
-  const box = await menu.boundingBox();
-  expect(box!.x + box!.width).toBeLessThanOrEqual(390);
+  // Rê chuột vào nút thì hiện đúng số của nút đó.
+  await zalo.last().hover();
+  await expect(zalo.last().locator(".dock-label")).toHaveCSS("opacity", "1");
+  await expect(zalo.last().locator(".dock-label")).toHaveText(
+    numbers[numbers.length - 1].display,
+  );
+
+  // Điện thoại: thanh liên hệ ở đáy màn hình, chia đều, mỗi ô ghi số.
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.goto("/vi");
+  const bar = (await dock.boundingBox())!;
+  expect(bar.x).toBe(0);
+  expect(Math.round(bar.width)).toBe(360);
+  expect(Math.round(bar.y + bar.height)).toBe(740);
+  const cells = dock.locator("a");
+  await expect(cells).toHaveCount(numbers.length + 1);
+  const widths = await cells.evaluateAll((els) =>
+    els.map((el) => Math.round(el.getBoundingClientRect().width)),
+  );
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(2);
+  for (const [index, channel] of numbers.entries())
+    await expect(zalo.nth(index).locator(".dock-label")).toHaveText(
+      channel.display,
+    );
+  // Chữ trong ô không bị cắt và trang không tràn ngang.
+  const clipped = await dock
+    .locator(".dock-label")
+    .evaluateAll(
+      (els) => els.filter((el) => el.scrollWidth > el.clientWidth + 1).length,
+    );
+  expect(clipped).toBe(0);
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
-  ).toBeLessThanOrEqual(391);
-  // Đóng như một menu: Esc, hoặc bấm ra ngoài.
-  await page.keyboard.press("Escape");
-  await expect(menu).toBeHidden();
-  await dock.locator("summary.dock-zalo").click();
-  await expect(menu).toBeVisible();
-  await page.mouse.click(330, 120);
-  await expect(menu).toBeHidden();
-  // Thanh tiện ích / chân trang hiện đủ các số để khách thấy ngay.
-  for (const zalo of numbers)
-    expect(await page.locator(`footer a[href="${zalo}"]`).count()).toBe(1);
+  ).toBeLessThanOrEqual(361);
+  // Thanh không che dòng cuối của chân trang.
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const footerBottom = await page
+    .locator("footer .footer-bottom")
+    .evaluate((el) => el.getBoundingClientRect().bottom);
+  expect(footerBottom).toBeLessThanOrEqual(bar.y + 1);
 });
 
 test("every page footer shows the office address and email from Settings", async ({
