@@ -375,3 +375,44 @@ for (const locale of ["vi", "en", "zh"] as const)
       "liên kết bản đồ phải trỏ đúng địa chỉ trong Cài đặt",
     ).toContain(address);
   });
+
+/**
+ * Trang Liên hệ: khách gửi yêu cầu ngay tại chỗ.
+ *
+ * Trước đây trang chỉ có một nút dẫn sang /consultation — thêm một lần chuyển
+ * trang giữa người đã quyết định liên hệ và biểu mẫu. Biểu mẫu phải đứng ngay
+ * dưới phần giới thiệu, trước thông tin liên hệ, ở cả ba ngôn ngữ.
+ */
+for (const locale of ["vi", "en", "zh"] as const)
+  test(`trang Liên hệ /${locale} có biểu mẫu ngay dưới phần giới thiệu`, async ({
+    page,
+  }) => {
+    await page.goto(`/${locale}/contact`);
+    const heading = page.locator("main #gui-yeu-cau");
+    await expect(heading).toBeVisible();
+    const form = page.locator("main form.form");
+    await expect(form).toHaveCount(1);
+    for (const field of ["#name", "#email", "#phone", "#message"])
+      await expect(form.locator(field)).toBeVisible();
+    await expect(form.locator("button")).toBeVisible();
+    // Biểu mẫu là khối đầu tiên sau phần giới thiệu, đứng trước cột liên hệ.
+    const order = await page.evaluate(() => {
+      const f = document.querySelector("main form.form")!;
+      const aside = document.querySelector("main .contact-details");
+      return aside
+        ? Boolean(
+            f.compareDocumentPosition(aside) & Node.DOCUMENT_POSITION_FOLLOWING,
+          )
+        : true;
+    });
+    expect(order, "biểu mẫu phải đứng trước thông tin liên hệ").toBe(true);
+    // Không còn nút đẩy khách sang trang biểu mẫu khác; nút ở dải cuối trang
+    // cuộn lên biểu mẫu.
+    await expect(
+      page.locator(`main a[href="/${locale}/consultation"]`),
+    ).toHaveCount(0);
+    await expect(page.locator("footer .footer-invitation a")).toHaveAttribute(
+      "href",
+      "#gui-yeu-cau",
+    );
+  });

@@ -305,6 +305,18 @@ export function Footer({
       </span>
     ));
   const social = SOCIAL.filter(([key]) => contact[key]);
+  const pathname = usePathname();
+  const invitationHref = localizeHref(
+    locale,
+    layout.invitationCta?.href || "/consultation",
+  );
+  // Trang Liên hệ đã có biểu mẫu ngay trên trang: nút mời gửi yêu cầu cuộn lên
+  // biểu mẫu thay vì mở một trang khác có cùng biểu mẫu.
+  const onContactPage = pathname === `/${locale}/contact`;
+  const invitationTarget =
+    onContactPage && invitationHref === `/${locale}/consultation`
+      ? "#gui-yeu-cau"
+      : invitationHref;
   return (
     <footer>
       <div className="footer-top">
@@ -314,13 +326,7 @@ export function Footer({
         </div>
         <div className="footer-invitation">
           <p>{layout.invitation}</p>
-          <Link
-            className="button red"
-            href={localizeHref(
-              locale,
-              layout.invitationCta?.href || "/consultation",
-            )}
-          >
+          <Link className="button red" href={invitationTarget}>
             {layout.invitationCta?.label ||
               t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
             <ArrowUpRight size={18} />

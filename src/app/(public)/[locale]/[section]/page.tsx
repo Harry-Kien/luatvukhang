@@ -12,6 +12,7 @@ import { PageHeading, EmptyContent, ContentBody } from "@/components/content";
 import { CmsImage } from "@/components/cms-image";
 import { ConsultationForm } from "@/components/consultation-form";
 import { ContactChannels } from "@/components/contact-channels";
+import { contactChannels } from "@/lib/contact";
 import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
@@ -571,154 +572,192 @@ export default async function Page({ params, searchParams }: Props) {
           title={record?.title || title}
           summary={record?.summary}
         />
-        <section className="section content-grid">
-          <article className="article-body">
-            {section === "contact" && (
-              <div className="contact-details">
-                <h2>
-                  {localText(
-                    ["Kết nối với Vũ Khang", "Contact", "联系方式"],
-                    locale,
-                  )}
-                </h2>
-                {settings?.address && <p>{settings.address}</p>}
-                {settings?.phone && (
-                  <p>
-                    <a href={"tel:" + settings.phone.replace(/[^+0-9]/g, "")}>
-                      {settings.phone}
-                    </a>
-                  </p>
-                )}
-                {settings?.email && (
-                  <p>
-                    <a href={"mailto:" + settings.email}>{settings.email}</a>
-                  </p>
-                )}
-                {contact.hours && (
-                  <p style={{ whiteSpace: "pre-line" }}>{contact.hours}</p>
-                )}
-                <ContactChannels
-                  locale={locale}
-                  phone={settings?.phone}
-                  zalo={settings?.zaloNumbers}
-                />
-                {contact.mapEmbed && (
-                  <iframe
-                    className="contact-map"
-                    src={contact.mapEmbed}
-                    title={t(locale, "Bản đồ văn phòng", "Office map")}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    style={{ width: "100%", height: 320, border: 0 }}
-                  />
-                )}
-                {mapHref && (
-                  <p>
-                    <a href={mapHref} rel="noreferrer" target="_blank">
-                      {t(locale, "Mở bản đồ", "Open map")}
-                    </a>
-                  </p>
-                )}
-                {!settings?.address && !settings?.phone && !settings?.email && (
-                  <p>
-                    {t(
-                      locale,
-                      "Thông tin văn phòng, số điện thoại và email sẽ được hiển thị sau khi công ty xác nhận.",
-                      "Office details, telephone numbers and email addresses will appear after confirmation by the firm.",
-                    )}
-                  </p>
-                )}
-                <Link className="button red" href={`/${locale}/consultation`}>
-                  {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")}
-                  <ArrowUpRight size={19} />
-                </Link>
-              </div>
-            )}
-            {record ? (
-              <ContentBody record={record} />
-            ) : section === "about" ? (
-              <>
-                <h2>
-                  {t(
-                    locale,
-                    "Hiểu bối cảnh trước khi đề xuất hướng đi.",
-                    "Understand the context before proposing a direction.",
-                  )}
-                </h2>
-                <p>
-                  {t(
-                    locale,
-                    "Nội dung giới thiệu công ty đang chờ thông tin chính thức về tổ chức, phạm vi hành nghề và đội ngũ.",
-                    "The firm profile is awaiting confirmed details about its organisation, practice and people.",
-                  )}
-                </p>
-                {demo && (
-                  <span className="sample-badge">
-                    {t(
-                      locale,
-                      "Nội dung phát triển — chờ duyệt",
-                      "Development content — awaiting approval",
-                    )}
-                  </span>
-                )}
-              </>
-            ) : section === "contact" ? (
-              <p>
+        {section === "contact" ? (
+          /* Trang Liên hệ: biểu mẫu nằm ngay dưới phần giới thiệu để khách gửi
+             yêu cầu tại chỗ, không phải sang trang khác; địa chỉ, điện thoại,
+             Zalo và bản đồ ở cột phải (điện thoại: xếp dưới biểu mẫu, còn
+             thanh gọi/Zalo ở đáy màn hình luôn hiện). */
+          <section className="section content-grid contact-page">
+            <div className="contact-form-panel">
+              <h2 id="gui-yeu-cau">
                 {localText(
                   [
-                    "Nêu ngắn gọn vấn đề, kết quả mong muốn và thời hạn cần lưu ý. Bạn có thể xem hướng dẫn khách hàng trước khi gửi yêu cầu.",
-                    "Briefly describe your matter, preferred outcome and relevant dates. Read the client guide before submitting your request.",
-                    "请简要说明问题、期望结果及需要注意的日期。提交前可查阅客户指南。",
+                    "Gửi yêu cầu tư vấn",
+                    "Request a consultation",
+                    "提交咨询申请",
+                  ],
+                  locale,
+                )}
+              </h2>
+              <p className="contact-form-lead">
+                {localText(
+                  [
+                    "Ô có dấu * là bắt buộc. Gửi yêu cầu chưa đồng nghĩa với xác nhận lịch hẹn hay thiết lập quan hệ luật sư–khách hàng.",
+                    "Fields marked * are required. Sending a request does not confirm an appointment or establish a lawyer–client relationship.",
+                    "带 * 的项目为必填。提交申请并不代表预约已确认，也不构成律师与客户关系。",
                   ],
                   locale,
                 )}
               </p>
-            ) : demo && (section === "privacy" || section === "terms") ? (
-              <PolicyDraft kind={section} locale={locale} />
-            ) : (
-              <EmptyContent
-                locale={locale}
-                title={t(
-                  locale,
-                  "Văn bản chưa được phê duyệt công bố.",
-                  "This policy has not yet been approved for publication.",
+              <ConsultationForm locale={locale} service={query.service || ""} />
+              <div className="article-body contact-notes">
+                {record ? (
+                  <ContentBody record={record} />
+                ) : (
+                  <p>
+                    {localText(
+                      [
+                        "Nêu ngắn gọn vấn đề, kết quả mong muốn và thời hạn cần lưu ý. Bạn có thể xem hướng dẫn khách hàng trước khi gửi yêu cầu.",
+                        "Briefly describe your matter, preferred outcome and relevant dates. Read the client guide before submitting your request.",
+                        "请简要说明问题、期望结果及需要注意的日期。提交前可查阅客户指南。",
+                      ],
+                      locale,
+                    )}
+                  </p>
                 )}
-              />
-            )}
-            {section === "about" && (
-              <EcosystemSection
+              </div>
+            </div>
+            <aside className="sidebar contact-details">
+              <h2>
+                {localText(
+                  ["Liên hệ trực tiếp", "Contact us directly", "直接联系"],
+                  locale,
+                )}
+              </h2>
+              {settings?.address && <p>{settings.address}</p>}
+              {/* Số hợp lệ đã có nút gọi bên dưới; chỉ in dòng chữ khi số
+                  không tạo được nút (nhập thiếu chữ số). */}
+              {settings?.phone && !contactChannels(settings.phone) && (
+                <p>
+                  <a href={"tel:" + settings.phone.replace(/[^+0-9]/g, "")}>
+                    {settings.phone}
+                  </a>
+                </p>
+              )}
+              {settings?.email && (
+                <p>
+                  <a href={"mailto:" + settings.email}>{settings.email}</a>
+                </p>
+              )}
+              {contact.hours && (
+                <p style={{ whiteSpace: "pre-line" }}>{contact.hours}</p>
+              )}
+              <ContactChannels
                 locale={locale}
-                members={ecosystemMembers(settings?.ecosystem)}
-                firmName={
-                  settings?.companyName ||
-                  "Công ty Luật TNHH Vũ Khang Solutions & Partners"
-                }
+                phone={settings?.phone}
+                zalo={settings?.zaloNumbers}
               />
-            )}
-            {section === "about" && (
-              <LawyerHighlights locale={locale} stacked cta />
-            )}
-          </article>
-          <aside className="sidebar">
-            <h2>
-              {t(
-                locale,
-                "Thông tin rõ ràng.\nLựa chọn có cơ sở.",
-                "Clear information.\nInformed choices.",
+              {contact.mapEmbed && (
+                <iframe
+                  className="contact-map"
+                  src={contact.mapEmbed}
+                  title={t(locale, "Bản đồ văn phòng", "Office map")}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{ width: "100%", height: 280, border: 0 }}
+                />
               )}
-            </h2>
-            <p>
-              {t(
-                locale,
-                "Tìm hiểu các lĩnh vực trước khi gửi yêu cầu.",
-                "Explore the practice areas before submitting your request.",
+              {mapHref && (
+                <p>
+                  <a
+                    className="underlined"
+                    href={mapHref}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {t(locale, "Mở bản đồ", "Open map")} ↗
+                  </a>
+                </p>
               )}
-            </p>
-            <Link className="underlined" href={`/${locale}/services`}>
-              {t(locale, "Xem chuyên môn", "Explore expertise")} →
-            </Link>
-          </aside>
-        </section>
+              {!settings?.address && !settings?.phone && !settings?.email && (
+                <p>
+                  {t(
+                    locale,
+                    "Thông tin văn phòng, số điện thoại và email sẽ được hiển thị sau khi công ty xác nhận.",
+                    "Office details, telephone numbers and email addresses will appear after confirmation by the firm.",
+                  )}
+                </p>
+              )}
+            </aside>
+          </section>
+        ) : (
+          <section className="section content-grid">
+            <article className="article-body">
+              {record ? (
+                <ContentBody record={record} />
+              ) : section === "about" ? (
+                <>
+                  <h2>
+                    {t(
+                      locale,
+                      "Hiểu bối cảnh trước khi đề xuất hướng đi.",
+                      "Understand the context before proposing a direction.",
+                    )}
+                  </h2>
+                  <p>
+                    {t(
+                      locale,
+                      "Nội dung giới thiệu công ty đang chờ thông tin chính thức về tổ chức, phạm vi hành nghề và đội ngũ.",
+                      "The firm profile is awaiting confirmed details about its organisation, practice and people.",
+                    )}
+                  </p>
+                  {demo && (
+                    <span className="sample-badge">
+                      {t(
+                        locale,
+                        "Nội dung phát triển — chờ duyệt",
+                        "Development content — awaiting approval",
+                      )}
+                    </span>
+                  )}
+                </>
+              ) : demo && (section === "privacy" || section === "terms") ? (
+                <PolicyDraft kind={section} locale={locale} />
+              ) : (
+                <EmptyContent
+                  locale={locale}
+                  title={t(
+                    locale,
+                    "Văn bản chưa được phê duyệt công bố.",
+                    "This policy has not yet been approved for publication.",
+                  )}
+                />
+              )}
+              {section === "about" && (
+                <EcosystemSection
+                  locale={locale}
+                  members={ecosystemMembers(settings?.ecosystem)}
+                  firmName={
+                    settings?.companyName ||
+                    "Công ty Luật TNHH Vũ Khang Solutions & Partners"
+                  }
+                />
+              )}
+              {section === "about" && (
+                <LawyerHighlights locale={locale} stacked cta />
+              )}
+            </article>
+            <aside className="sidebar">
+              <h2>
+                {t(
+                  locale,
+                  "Thông tin rõ ràng.\nLựa chọn có cơ sở.",
+                  "Clear information.\nInformed choices.",
+                )}
+              </h2>
+              <p>
+                {t(
+                  locale,
+                  "Tìm hiểu các lĩnh vực trước khi gửi yêu cầu.",
+                  "Explore the practice areas before submitting your request.",
+                )}
+              </p>
+              <Link className="underlined" href={`/${locale}/services`}>
+                {t(locale, "Xem chuyên môn", "Explore expertise")} →
+              </Link>
+            </aside>
+          </section>
+        )}
       </Wrap>
     );
   }

@@ -1893,6 +1893,70 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
 .contact-details a {
   overflow-wrap: anywhere;
 }
+
+/* Trang Liên hệ: biểu mẫu ngay dưới phần giới thiệu, thông tin liên hệ ở cột
+   phải. Cột phải dính theo khi cuộn, canh dưới đầu trang (cao ~136px). */
+.section.contact-page {
+  padding-top: 64px;
+}
+.contact-form-panel > h2 {
+  font-size: 30px;
+  margin: 0 0 10px;
+}
+.contact-form-lead {
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 62ch;
+  margin: 0 0 28px;
+}
+.contact-form-panel .form {
+  max-width: none;
+}
+.contact-notes {
+  max-width: none;
+  margin-top: 56px;
+  border-top: 1px solid var(--line);
+}
+.contact-notes > :first-child h2,
+.contact-notes > h2:first-child {
+  margin-top: 36px;
+}
+.contact-page .contact-details {
+  top: 160px;
+  margin: 0;
+  border-bottom: 0;
+}
+.contact-page .contact-details h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+.contact-page .contact-details p {
+  margin: 0 0 10px;
+}
+.contact-page .contact-channels.stack {
+  flex-direction: column;
+  align-items: stretch;
+  margin: 18px 0 16px;
+}
+.contact-page .contact-map {
+  margin: 4px 0 12px;
+}
+@media (max-width: 1050px) {
+  .contact-page .contact-details {
+    top: 110px;
+  }
+}
+@media (max-width: 700px) {
+  .section.contact-page {
+    padding-top: 44px;
+  }
+  .contact-form-panel > h2 {
+    font-size: 26px;
+  }
+  .contact-notes {
+    margin-top: 40px;
+  }
+}
 @media (max-width: 900px) {
   .resource-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
