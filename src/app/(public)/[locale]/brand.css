@@ -840,21 +840,21 @@ footer {
   background: var(--navy);
   border-bottom: 5px solid var(--red);
 }
-/* Chữ chìm "VŨ KHANG" đặt chính giữa banner theo cả hai chiều, trọn chữ ở mọi
-   bề rộng: cỡ chữ theo bề rộng màn hình (chữ dài ~5 lần cỡ chữ, 13vw → ~65%
-   bề ngang). Trước đây neo góc dưới bên phải và lấn ra ngoài nên bị cắt, lệch
-   khác nhau trên từng thiết bị. */
+/* Logo chìm chính giữa banner theo cả hai chiều, trên mọi thiết bị. Dùng bản
+   logo một màu trắng nền trong suốt (public/brand/logo-watermark.webp, tách từ
+   logo-512.png): logo gốc có nền tròn trắng, đặt mờ lên nền navy sẽ thành một
+   đĩa sáng và chữ V xanh chìm mất. Cao ~84% banner, không vượt bề ngang màn
+   hình điện thoại; độ đậm 8% để chữ tiêu đề phía trước vẫn đọc rõ. */
 .page-heading:after {
-  content: "VŨ KHANG";
+  content: "";
   position: absolute;
   left: 50%;
   top: 50%;
+  height: min(84%, 92vw);
+  aspect-ratio: 1;
   transform: translate(-50%, -50%);
-  white-space: nowrap;
-  font: 500 clamp(52px, 13vw, 190px) / 1 var(--serif);
-  letter-spacing: 0.02em;
-  color: transparent;
-  -webkit-text-stroke: 1px #ffffff15;
+  background: url("/brand/logo-watermark.webp") center / contain no-repeat;
+  opacity: 0.08;
   pointer-events: none;
 }
 .page-heading h1 {
@@ -1778,7 +1778,8 @@ html[lang="zh-Hans"] body{line-height:1.85}html[lang="zh-Hans"] h1,html[lang="zh
     padding-left: 0;
     padding-right: 0;
   }
-  .editorial-mark {
+  .editorial-mark,
+  .page-heading::after {
     display: none;
   }
   .page-heading h1,
