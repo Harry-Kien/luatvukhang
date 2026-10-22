@@ -3,7 +3,7 @@ import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsTxt, type LlmsSection } from "@/lib/llms";
 import { siteUrl } from "@/lib/seo";
-import { contactChannels } from "@/lib/contact";
+import { ADDITIONAL_ZALO_PHONES, contactChannels } from "@/lib/contact";
 import { ECOSYSTEM } from "@/lib/ecosystem";
 
 /** Nhóm nội dung đưa vào bản tóm tắt, theo thứ tự khách hay cần. */
@@ -62,6 +62,10 @@ export async function GET() {
           { label: "Địa chỉ", value: settings?.address },
           { label: "Điện thoại", value: settings?.phone },
           { label: "Zalo", value: contactChannels(settings?.phone)?.zalo },
+          ...ADDITIONAL_ZALO_PHONES.map((phone, index) => ({
+            label: `Zalo ${index + 2}`,
+            value: contactChannels(phone)?.zalo,
+          })),
           { label: "Email", value: settings?.email },
           { label: "Gửi yêu cầu tư vấn", value: `${siteUrl}/vi/consultation` },
           { label: "Trang liên hệ", value: `${siteUrl}/vi/contact` },

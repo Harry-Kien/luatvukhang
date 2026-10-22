@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { contactChannels } from "../src/lib/contact";
+import { ADDITIONAL_ZALO_PHONES, contactChannels } from "../src/lib/contact";
 
 test("phone numbers become both a call link and a Zalo link", () => {
   // Cách công ty nhập số không cố định; cả bốn dạng dưới đây đều là một thuê bao.
@@ -51,7 +51,8 @@ test("every public page offers a call and a Zalo route to the firm", async ({
     );
     // Nút nổi phải bấm được ngay, không cần cuộn.
     await expect(page.locator(".contact-dock a.dock-call")).toBeVisible();
-    await expect(page.locator(".contact-dock a.dock-zalo")).toBeVisible();
+    // Một số Zalo: nút là liên kết; nhiều số: nút mở danh sách chọn số.
+    await expect(page.locator(".contact-dock .dock-zalo")).toBeVisible();
     // Rời trang là hành động ngoài website: phải mở tab mới và chặn opener.
     await expect(zalo.first()).toHaveAttribute("rel", /noopener/);
   }
@@ -76,6 +77,52 @@ test("the quick-contact buttons keep an accessible name when their text is hidde
     expect(name, selector).toBeTruthy();
     expect(name!.length, selector).toBeGreaterThan(3);
   }
+});
+
+test("nút Zalo nổi gom mọi số Zalo vào một danh sách chọn số", async ({
+  page,
+  request,
+}) => {
+  const settings = await (
+    await request.get("/api/globals/site-settings")
+  ).json();
+  test.skip(!settings.phone, "Chưa nhập số điện thoại trong Cài đặt.");
+  const numbers = [settings.phone, ...ADDITIONAL_ZALO_PHONES]
+    .map((phone) => contactChannels(phone)?.zalo)
+    .filter((zalo, index, all) => zalo && all.indexOf(zalo) === index);
+  test.skip(numbers.length < 2, "Chỉ có một số Zalo.");
+  await page.setViewportSize({ width: 390, height: 760 });
+  await page.goto("/vi");
+  const dock = page.locator(".contact-dock");
+  // Cụm nút nổi chỉ gồm nút gọi và một nút Zalo, dù có nhiều số.
+  await expect(dock.locator(":scope > a, :scope > details")).toHaveCount(2);
+  const menu = dock.locator(".dock-zalo-menu");
+  await expect(menu).toBeHidden();
+  await dock.locator("summary.dock-zalo").click();
+  await expect(menu).toBeVisible();
+  const links = menu.locator("a");
+  await expect(links).toHaveCount(numbers.length);
+  for (const [index, zalo] of numbers.entries()) {
+    await expect(links.nth(index)).toHaveAttribute("href", zalo!);
+    await expect(links.nth(index)).toHaveAttribute("target", "_blank");
+    await expect(links.nth(index)).toHaveAttribute("rel", /noopener/);
+  }
+  // Danh sách không được tràn ra ngoài khung nhìn trên điện thoại.
+  const box = await menu.boundingBox();
+  expect(box!.x + box!.width).toBeLessThanOrEqual(390);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(391);
+  // Đóng như một menu: Esc, hoặc bấm ra ngoài.
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeHidden();
+  await dock.locator("summary.dock-zalo").click();
+  await expect(menu).toBeVisible();
+  await page.mouse.click(330, 120);
+  await expect(menu).toBeHidden();
+  // Thanh tiện ích / chân trang hiện đủ các số để khách thấy ngay.
+  for (const zalo of numbers)
+    expect(await page.locator(`footer a[href="${zalo}"]`).count()).toBe(1);
 });
 
 test("every page footer shows the office address and email from Settings", async ({

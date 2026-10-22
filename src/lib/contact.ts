@@ -13,6 +13,15 @@ export type ContactChannels = {
   /** zalo.me dùng số nội địa, không dấu cộng. */
   zalo: string;
 };
+
+/**
+ * Hai số Zalo bổ sung chủ website đưa thêm (tháng 10/2026), chỉ dùng để nhắn
+ * Zalo — nút gọi vẫn là số chính trong Cài đặt. Hiện ở thanh tiện ích, chân
+ * trang, trang Liên hệ, nút Zalo nổi (gom thành danh sách chọn số) và tệp cho
+ * công cụ AI. Các số này ghi trong mã chứ không ở CMS: đổi hay bỏ số thì sửa
+ * ở đây.
+ */
+export const ADDITIONAL_ZALO_PHONES = ["0976894548", "0382140336"] as const;
 /**
  * Trả về null khi chưa có số hợp lệ, để giao diện ẩn hẳn nút thay vì hiện một
  * liên kết gọi đến số rỗng.

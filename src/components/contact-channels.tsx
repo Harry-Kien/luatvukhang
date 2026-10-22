@@ -1,6 +1,7 @@
 import { Phone } from "lucide-react";
 import { t, type Locale } from "@/lib/content";
-import { contactChannels } from "@/lib/contact";
+import { DismissibleDetails } from "./dismissible-details";
+import { ADDITIONAL_ZALO_PHONES, contactChannels } from "@/lib/contact";
 
 /**
  * Chữ hiệu Zalo chính thức.
@@ -41,21 +42,27 @@ type Props = {
 };
 
 /**
- * Hai kênh liên hệ tức thời. Ẩn hoàn toàn khi Cài đặt chưa có số điện thoại,
- * để website không mời gọi một hành động không thực hiện được.
+ * Gọi điện và nhắn Zalo (số chính cùng các số bổ sung trong lib/contact.ts).
+ * Ẩn hoàn toàn khi Cài đặt chưa có số điện thoại, để website không mời gọi
+ * một hành động không thực hiện được.
  */
 export function ContactChannels({ locale, phone, variant = "stack" }: Props) {
   const channels = contactChannels(phone);
   if (!channels) return null;
+  const zaloChannels = [phone, ...ADDITIONAL_ZALO_PHONES]
+    .map((number) => contactChannels(number))
+    .filter((item): item is NonNullable<typeof item> => item !== null)
+    .filter(
+      (item, index, all) =>
+        all.findIndex((candidate) => candidate.zalo === item.zalo) === index,
+    );
   // Ghép nhãn từ chuỗi tĩnh rồi mới nối số: chuỗi dựng động không lọt vào
   // scripts/check-translations.ts, nên bản tiếng Trung sẽ âm thầm rơi về tiếng
   // Anh mà không có gì báo.
   const callTitle = t(locale, "Gọi", "Call") + " " + channels.display;
-  const zaloTitle =
-    t(locale, "Nhắn tin Zalo tới", "Chat on Zalo with") +
-    " " +
-    channels.display;
   const newTab = t(locale, "mở trong tab mới", "opens in a new tab");
+  const zaloTitle = (display: string) =>
+    t(locale, "Nhắn tin Zalo tới", "Chat on Zalo with") + " " + display;
   if (variant === "dock")
     return (
       /**
@@ -77,16 +84,56 @@ export function ContactChannels({ locale, phone, variant = "stack" }: Props) {
         >
           <Phone size={21} aria-hidden="true" />
         </a>
-        <a
-          className="dock-zalo"
-          href={channels.zalo}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={zaloTitle + " — " + newTab}
-          title={zaloTitle}
-        >
-          <ZaloMark height={17} />
-        </a>
+        {zaloChannels.length === 1 ? (
+          <a
+            className="dock-zalo"
+            href={zaloChannels[0].zalo}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={zaloTitle(zaloChannels[0].display) + " — " + newTab}
+            title={zaloTitle(zaloChannels[0].display)}
+          >
+            <ZaloMark height={17} />
+          </a>
+        ) : (
+          /**
+           * Nhiều số Zalo gom vào một nút: mỗi số một nút tròn thì cụm nút nổi
+           * cao gần 240px, che chữ ở cạnh trái trên điện thoại. Bấm nút Zalo là
+           * bung danh sách số để chọn; bấm ra ngoài, nhấn Esc hay chọn xong là đóng.
+           */
+          <DismissibleDetails className="dock-zalo-group">
+            <summary
+              className="dock-zalo"
+              aria-label={t(
+                locale,
+                "Nhắn tin Zalo — chọn số",
+                "Chat on Zalo — choose a number",
+              )}
+              title={t(
+                locale,
+                "Nhắn tin Zalo — chọn số",
+                "Chat on Zalo — choose a number",
+              )}
+            >
+              <ZaloMark height={17} />
+            </summary>
+            <ul className="dock-zalo-menu">
+              {zaloChannels.map((zaloChannel) => (
+                <li key={zaloChannel.zalo}>
+                  <a
+                    href={zaloChannel.zalo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={zaloTitle(zaloChannel.display) + " — " + newTab}
+                  >
+                    <ZaloMark height={12} />
+                    <span>{zaloChannel.display}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </DismissibleDetails>
+        )}
       </div>
     );
   return (
@@ -95,16 +142,20 @@ export function ContactChannels({ locale, phone, variant = "stack" }: Props) {
         <Phone size={variant === "bar" ? 14 : 17} aria-hidden="true" />
         <span>{channels.display}</span>
       </a>
-      <a
-        className="zalo-link"
-        href={channels.zalo}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={zaloTitle + " — " + newTab}
-        title={zaloTitle}
-      >
-        <ZaloMark height={variant === "bar" ? 11 : 15} />
-      </a>
+      {zaloChannels.map((zaloChannel) => (
+        <a
+          className="zalo-link"
+          href={zaloChannel.zalo}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={zaloTitle(zaloChannel.display) + " — " + newTab}
+          title={zaloTitle(zaloChannel.display)}
+          key={zaloChannel.zalo}
+        >
+          <ZaloMark height={variant === "bar" ? 11 : 15} />
+          <span>{zaloChannel.display}</span>
+        </a>
+      ))}
     </div>
   );
 }

@@ -2315,3 +2315,76 @@ a.ecosystem-chip:focus-visible {
   outline: 2px solid #a51c30;
   outline-offset: 3px;
 }
+
+/* Nút Zalo nổi khi có nhiều số: một nút tròn, bấm thì bung danh sách số bên
+   phải (components/contact-channels.tsx). */
+.dock-zalo-group {
+  position: relative;
+}
+.dock-zalo-group > summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  color: var(--white);
+  box-shadow: 0 8px 24px rgba(16, 29, 53, 0.3);
+  cursor: pointer;
+  list-style: none;
+  transition: transform 0.15s ease;
+}
+.dock-zalo-group > summary::-webkit-details-marker {
+  display: none;
+}
+.dock-zalo-group > summary:hover {
+  transform: translateY(-2px);
+}
+.dock-zalo-group > summary:focus-visible {
+  outline: 2px solid #0068ff;
+  outline-offset: 3px;
+}
+.dock-zalo-menu {
+  position: absolute;
+  left: calc(100% + 10px);
+  bottom: 0;
+  display: grid;
+  gap: 2px;
+  min-width: 178px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(16, 29, 53, 0.24);
+}
+.contact-dock .dock-zalo-menu a {
+  justify-content: flex-start;
+  gap: 10px;
+  width: auto;
+  height: auto;
+  padding: 11px 12px;
+  border-radius: 8px;
+  color: #0068ff;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: none;
+  white-space: nowrap;
+}
+.contact-dock .dock-zalo-menu a:hover {
+  background: #eef4ff;
+  transform: none;
+}
+.contact-dock .dock-zalo-menu a:focus-visible {
+  outline: 2px solid #0068ff;
+  outline-offset: -2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dock-zalo-group > summary {
+    transition: none;
+  }
+  .dock-zalo-group > summary:hover {
+    transform: none;
+  }
+}

@@ -303,6 +303,7 @@ const translations: Record<string, string> = {
   "Chat on Zalo with": "通过 Zalo 联系",
   "Quick contact": "快速联系",
   "opens in a new tab": "在新标签页中打开",
+  "Chat on Zalo — choose a number": "通过 Zalo 联系 — 选择号码",
   "Illustrative content shown to preview the layout — not the firm's official information":
     "示例内容，仅用于预览版面，并非本所正式发布的信息",
   "Or choose the area closest to your matter": "或选择与您的问题最接近的领域",

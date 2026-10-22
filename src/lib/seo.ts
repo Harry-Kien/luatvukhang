@@ -262,7 +262,7 @@ export function organizationJsonLd(
   });
 }
 
-/** Khai báo website và hộp tìm kiếm nội bộ cho sitelinks searchbox. */
+/** Khai báo tên website, ngôn ngữ và tổ chức phát hành cho máy tìm kiếm. */
 export function websiteJsonLd(locale: Locale, name: string) {
   return {
     "@context": "https://schema.org",
@@ -272,14 +272,6 @@ export function websiteJsonLd(locale: Locale, name: string) {
     name,
     inLanguage: languageInfo[locale].tag,
     publisher: { "@id": ORGANIZATION_ID },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: absolute(`/${locale}/search?q={search_term_string}`),
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 

@@ -42,12 +42,12 @@ tiếng Việt khi có.
 | Schema | Nơi phát | Nguồn dữ liệu |
 | --- | --- | --- |
 | `LegalService` + `Organization` | mọi trang công khai | Cài đặt trong CMS, kèm danh mục dịch vụ (`hasOfferCatalog`, `knowsAbout`), đầu mối liên hệ (`contactPoint`) và luật sư (`employee`) lấy từ bản ghi đã xuất bản |
-| `WebSite` + `SearchAction` | mọi trang công khai | Cài đặt + route tìm kiếm |
+| `WebSite` | mọi trang công khai | tên website, ngôn ngữ và tổ chức phát hành |
 | `BreadcrumbList` | mọi trang có `PageHeading` | đường dẫn trang |
 | `Article` | `/[locale]/articles/[slug]` | bài viết, tác giả, nguồn tham khảo |
 | `Person` | `/[locale]/lawyers/[slug]` | hồ sơ luật sư |
 | `Service` + `OfferCatalog` | `services`, `industries` | phạm vi hỗ trợ |
-| `FAQPage` | trang hướng dẫn và bản ghi có FAQ | trường FAQ |
+| `FAQPage` | trang hướng dẫn và bản ghi có FAQ | trường FAQ hiển thị trên trang; không cam kết FAQ rich result của Google |
 | `JobPosting` | `/[locale]/careers/[slug]` | tin tuyển dụng |
 
 Chuỗi JSON-LD thay ký tự `<` bằng mã unicode tương đương để nội dung biên tập viên nhập không
@@ -64,7 +64,14 @@ hoặc [Schema Markup Validator](https://validator.schema.org/).
 | `/llms-full.txt` | toàn văn: liên hệ, trang Về chúng tôi, từng lĩnh vực (tóm tắt, đối tượng, phạm vi, quy trình, hỏi đáp) và đội ngũ |
 
 Cả hai chỉ mở sau khi duyệt ra mắt, cùng công tắc với robots.txt. Chỉ gồm nội
-dung đã xuất bản — không có giá, không có thông tin nội bộ.
+dung đã xuất bản — không có giá, không có thông tin nội bộ. `/llms.txt` và `/llms-full.txt`
+liệt kê điện thoại chính, liên kết Zalo chính và hai liên kết Zalo bổ sung.
+
+Google đã ngừng hiển thị sitelinks search box từ 21/11/2024, vì vậy `SearchAction`
+không còn được phát. `WebSite` vẫn được khai báo để giúp Google hiểu tên website.
+Google đã ngừng hiển thị FAQ rich results; nội dung FAQ
+vẫn được giữ trên trang để trả lời câu hỏi hữu ích, không phải để hứa hẹn một định
+dạng kết quả đặc biệt.
 
 Hồ sơ tổ chức trong JSON-LD liệt kê tám nhóm dịch vụ và nối tới hồ sơ luật sư
 bằng cùng `@id` với `Person` trên trang hồ sơ, để công cụ tìm kiếm và công cụ
