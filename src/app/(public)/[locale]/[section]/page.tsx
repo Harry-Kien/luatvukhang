@@ -599,7 +599,11 @@ export default async function Page({ params, searchParams }: Props) {
                   locale,
                 )}
               </p>
-              <ConsultationForm locale={locale} service={query.service || ""} />
+              <ConsultationForm
+                locale={locale}
+                service={query.service || ""}
+                preferredDate={false}
+              />
               <div className="article-body contact-notes">
                 {record ? (
                   <ContentBody record={record} />

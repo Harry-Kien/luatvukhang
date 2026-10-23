@@ -392,9 +392,12 @@ for (const locale of ["vi", "en", "zh"] as const)
     await expect(heading).toBeVisible();
     const form = page.locator("main form.form");
     await expect(form).toHaveCount(1);
-    for (const field of ["#name", "#email", "#phone", "#message"])
+    for (const field of ["#name", "#email", "#phone", "#service", "#message"])
       await expect(form.locator(field)).toBeVisible();
     await expect(form.locator("button")).toBeVisible();
+    // Trang Liên hệ không hỏi ngày hẹn (chủ website bỏ ngày 23/10/2026); trang
+    // Đặt lịch tư vấn vẫn giữ ô này.
+    await expect(form.locator("#preferredDate")).toHaveCount(0);
     // Biểu mẫu là khối đầu tiên sau phần giới thiệu, đứng trước cột liên hệ.
     const order = await page.evaluate(() => {
       const f = document.querySelector("main form.form")!;

@@ -170,27 +170,29 @@ export const firmLawyers: FirmLawyer[] = [
     team: "leadership",
     sortOrder: 20,
     // Chủ website xác nhận lại tối 22/10/2026: Ls Lan Anh là Phó Giám đốc.
+    // 23/10/2026: bỏ tên huyện Cam Lâm — hồ sơ nêu "Tòa án khu vực tỉnh Khánh
+    // Hòa" như trên thẻ.
     // Thẻ theo cùng mẫu với Giám đốc: chức vụ ở công ty, rồi chức vụ ở tòa án
     // trước đây. 副主任 đi cặp với 主任 của Giám đốc.
     position: {
       vi: "Phó Giám đốc - Nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa",
       en: "Deputy Director - Former Deputy Chief Judge, Khánh Hòa",
-      zh: "副主任、曾任 Khánh Hòa 省法院副院长",
+      zh: "副主任、曾任 Khánh Hòa 省区域法院副院长",
     },
     summary: {
-      vi: `Phó Giám đốc, Luật sư của ${FIRM}, Thạc sĩ Luật. Nguyên Thẩm phán trung cấp, nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, tỉnh Khánh Hòa; 22 năm công tác tại Tòa án.`,
-      en: `Deputy Director and Lawyer at ${FIRM}, holding a Master of Laws. Former intermediate-level Judge and former Deputy Chief Judge of the People's Court of Cam Lâm District, Khánh Hòa Province, with 22 years in the court system.`,
-      zh: `${FIRM} 副主任、律师，法学硕士。曾任中级法官、Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。`,
+      vi: `Phó Giám đốc, Luật sư của ${FIRM}, Thạc sĩ Luật. Nguyên Thẩm phán trung cấp, nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa; 22 năm công tác tại Tòa án.`,
+      en: `Deputy Director and Lawyer at ${FIRM}, holding a Master of Laws. Former intermediate-level Judge and former Deputy Chief Judge of a regional people's court in Khánh Hòa Province, with 22 years in the court system.`,
+      zh: `${FIRM} 副主任、律师，法学硕士。曾任中级法官、Khánh Hòa 省区域人民法院副院长，在法院系统工作22年。`,
     },
     qualifications: {
-      vi: "Thạc sĩ Luật. Nguyên Thẩm phán trung cấp; nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, tỉnh Khánh Hòa. 22 năm công tác tại Tòa án, trong đó 14 năm xét xử. 4 năm hành nghề luật sư.",
-      en: "Master of Laws. Former intermediate-level Judge; former Deputy Chief Judge, People's Court of Cam Lâm District, Khánh Hòa Province. 22 years in the court system, 14 of them adjudicating. 4 years in practice as a lawyer.",
-      zh: "法学硕士。曾任中级法官、Khánh Hòa 省 Cam Lâm 县人民法院副院长。在法院系统工作22年，其中从事审判工作14年。执业律师4年。",
+      vi: "Thạc sĩ Luật. Nguyên Thẩm phán trung cấp; nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa. 22 năm công tác tại Tòa án, trong đó 14 năm xét xử. 4 năm hành nghề luật sư.",
+      en: "Master of Laws. Former intermediate-level Judge; former Deputy Chief Judge of a regional people's court in Khánh Hòa Province. 22 years in the court system, 14 of them adjudicating. 4 years in practice as a lawyer.",
+      zh: "法学硕士。曾任中级法官、Khánh Hòa 省区域人民法院副院长。在法院系统工作22年，其中从事审判工作14年。执业律师4年。",
     },
     seoDescription: {
-      vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc Công ty Luật Vũ Khang, Thạc sĩ Luật, nguyên Phó Chánh án Tòa án nhân dân huyện Cam Lâm, tỉnh Khánh Hòa.",
-      en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm, Master of Laws, former Deputy Chief Judge of Cam Lâm District People's Court, Khánh Hòa.",
-      zh: "Trần Phương Lan Anh 律师——Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省 Cam Lâm 县人民法院副院长，在法院系统工作22年。",
+      vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc Công ty Luật Vũ Khang, Thạc sĩ Luật, nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa; 22 năm công tác tại Tòa án.",
+      en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm, Master of Laws, former Deputy Chief Judge of a regional court in Khánh Hòa; 22 years in the courts.",
+      zh: "Trần Phương Lan Anh 律师——Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省区域人民法院副院长，在法院系统工作22年。",
     },
     // Chủ website nêu ngày 21/10/2026: tranh chấp dân sự, hôn nhân gia đình,
     // hình sự, kinh doanh thương mại, lao động.

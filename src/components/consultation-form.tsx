@@ -16,9 +16,16 @@ type Values = {
 export function ConsultationForm({
   locale,
   service,
+  preferredDate = true,
 }: {
   locale: Locale;
   service: string;
+  /**
+   * Ô "Ngày mong muốn". Trang Đặt lịch tư vấn giữ ô này; trang Liên hệ bỏ để
+   * biểu mẫu gọn (chủ website yêu cầu 23/10/2026) — ô Lĩnh vực lên cùng hàng
+   * với Số điện thoại.
+   */
+  preferredDate?: boolean;
 }) {
   const {
     register,
@@ -98,6 +105,14 @@ export function ConsultationForm({
     locale,
     "Vui lòng điền thông tin này.",
     "Please complete this field.",
+  );
+  const serviceField = (
+    <div className="field">
+      <label htmlFor="service">
+        {t(locale, "Lĩnh vực cần trao đổi", "Area of interest")}
+      </label>
+      <input id="service" maxLength={160} {...register("service")} />
+    </div>
   );
   return (
     <form className="form" noValidate onSubmit={handleSubmit(submit)}>
@@ -180,28 +195,27 @@ export function ConsultationForm({
             </p>
           )}
         </div>
-        <div className="field">
-          <label htmlFor="preferredDate">
-            {t(
-              locale,
-              "Ngày mong muốn (không bắt buộc)",
-              "Preferred date (optional)",
-            )}
-          </label>
-          <input
-            id="preferredDate"
-            type="date"
-            min={officeDate()}
-            {...register("preferredDate")}
-          />
-        </div>
+        {preferredDate ? (
+          <div className="field">
+            <label htmlFor="preferredDate">
+              {t(
+                locale,
+                "Ngày mong muốn (không bắt buộc)",
+                "Preferred date (optional)",
+              )}
+            </label>
+            <input
+              id="preferredDate"
+              type="date"
+              min={officeDate()}
+              {...register("preferredDate")}
+            />
+          </div>
+        ) : (
+          serviceField
+        )}
       </div>
-      <div className="field">
-        <label htmlFor="service">
-          {t(locale, "Lĩnh vực cần trao đổi", "Area of interest")}
-        </label>
-        <input id="service" maxLength={160} {...register("service")} />
-      </div>
+      {preferredDate && serviceField}
       <div className="field">
         <label htmlFor="message">
           {t(locale, "Mô tả ngắn vấn đề *", "Briefly describe your matter *")}

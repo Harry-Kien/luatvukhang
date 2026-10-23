@@ -96,6 +96,8 @@ const previousVersions: Record<string, Seeded>[] = [
   "./content/lawyers-2026-10-22b.json",
   // Ls Lan Anh không mang chức Phó Giám đốc (chiều 22/10/2026).
   "./content/lawyers-2026-10-22c.json",
+  // Hồ sơ Ls Lan Anh còn nêu huyện Cam Lâm (trước 23/10/2026).
+  "./content/lawyers-2026-10-23.json",
 ].map((file) =>
   JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );
