@@ -105,6 +105,8 @@ const PROVIDED_1021 =
   "Chủ website cung cấp ngày 21/10/2026 để đăng trên hồ sơ tại website công ty.";
 const PROVIDED_1022 =
   "Chủ website cung cấp ngày 22/10/2026 để đăng trên hồ sơ tại website công ty.";
+const PROVIDED_1023 =
+  "Chủ website cung cấp ngày 23/10/2026 để đăng trên hồ sơ tại website công ty.";
 
 /**
  * Địa danh giữ nguyên ở cả ba ngôn ngữ.
@@ -247,28 +249,35 @@ export const firmLawyers: FirmLawyer[] = [
     },
     services: ["giai-quyet-tranh-chap", "hon-nhan-gia-dinh"],
     portrait: {
-      file: "tran-le-kim-binh-2026-10.jpg",
-      replaces: ["tran-le-kim-binh.jpg", "tran-le-kim-binh-5x7.jpg"],
+      // Ảnh vest đeo kính gửi ngày 23/10/2026, cắt cùng chuẩn 4:5 (dừng trên
+      // hai bàn tay đan trước bụng).
+      file: "tran-le-kim-binh-2026-10-23.jpg",
+      replaces: [
+        "tran-le-kim-binh.jpg",
+        "tran-le-kim-binh-5x7.jpg",
+        "tran-le-kim-binh-2026-10.jpg",
+      ],
       alt: "Chân dung chuyên viên Trần Lê Kim Bình",
       credit: FIRM,
-      rights: PROVIDED_1010,
+      rights: PROVIDED_1023,
     },
   },
   {
-    // Chuyên viên pháp lý, không phải luật sư — cùng lưu ý như hồ sơ trên.
-    // Lĩnh vực và kinh nghiệm công ty cố ý để trống.
+    // Chuyên viên, không phải luật sư — cùng lưu ý như hồ sơ trên. Lĩnh vực
+    // và kinh nghiệm công ty cố ý để trống. 23/10/2026: thẻ ghi "Chuyên viên"
+    // như chị Bình (trước là "Chuyên viên pháp lý").
     slug: "tran-thi-anh-nhu",
     name: "Trần Thị Anh Như",
     role: "specialist",
     team: "legal",
     sortOrder: 40,
     position: {
-      vi: "Chuyên viên pháp lý",
+      vi: "Chuyên viên",
       en: "Legal Specialist",
       zh: "法务专员",
     },
     summary: {
-      vi: `Chuyên viên pháp lý của ${FIRM}, cử nhân luật.`,
+      vi: `Chuyên viên của ${FIRM}, cử nhân luật.`,
       en: `Legal specialist at ${FIRM}, holding a Bachelor of Laws.`,
       zh: `${FIRM} 法务专员，法学学士。`,
     },
@@ -281,7 +290,8 @@ export const firmLawyers: FirmLawyer[] = [
     portrait: {
       file: "tran-thi-anh-nhu-2026-10.jpg",
       replaces: ["tran-thi-anh-nhu.jpg", "tran-thi-anh-nhu-5x7.jpg"],
-      alt: "Chân dung chuyên viên pháp lý Trần Thị Anh Như",
+      alt: "Chân dung chuyên viên Trần Thị Anh Như",
+      previousAlts: ["Chân dung chuyên viên pháp lý Trần Thị Anh Như"],
       credit: FIRM,
       rights: PROVIDED_1010,
     },

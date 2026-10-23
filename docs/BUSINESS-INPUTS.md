@@ -165,7 +165,10 @@ Chủ website cung cấp hai luật sư của công ty:
 >
 > **23/10/2026:** hồ sơ Ls Lan Anh bỏ tên huyện Cam Lâm — tóm tắt, thông tin
 > nghề nghiệp và mô tả nêu "nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa"
-> như trên thẻ.
+> như trên thẻ. Cùng ngày: ảnh vest mới (đeo kính) cho chuyên viên Trần Lê Kim
+> Bình; chị Trần Thị Anh Như ghi "Chuyên viên" như chị Bình (trước là "Chuyên
+> viên pháp lý"). Tiêu đề tìm kiếm của hai chị vẫn ghi "Chuyên viên pháp lý" để
+> Google hiểu rõ lĩnh vực.
 >
 > **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
 > chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
