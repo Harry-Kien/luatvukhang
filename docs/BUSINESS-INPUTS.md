@@ -170,6 +170,10 @@ Chủ website cung cấp hai luật sư của công ty:
 > viên pháp lý"). Tiêu đề tìm kiếm của hai chị vẫn ghi "Chuyên viên pháp lý" để
 > Google hiểu rõ lĩnh vực.
 >
+> **26/10/2026:** thêm **Trần Anh Dũng — Thành viên phòng Phát triển khách
+> hàng** (khối Phát triển khách hàng, thứ tự 80, sau ông Trần Trung Kiên). Ảnh
+> vest phông trắng cắt cùng chuẩn 4:5 với cả đội.
+>
 > **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
 > chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
 > (src/lib/ecosystem.ts). Logo dẫn tới https://luatviet247.com (mở tab mới);

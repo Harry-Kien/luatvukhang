@@ -9,8 +9,14 @@ export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 ).replace(/\/+$/, "");
 
+/**
+ * Ghép tên miền vào đường dẫn tương đối. Đường dẫn đã đầy đủ (ảnh trong thư
+ * viện Payload trả về kèm serverURL) giữ nguyên, tránh sinh "https://…/https://…".
+ */
 export const absolute = (path: string) =>
-  siteUrl + (path.startsWith("/") ? path : `/${path}`);
+  /^https?:\/\//i.test(path)
+    ? path
+    : siteUrl + (path.startsWith("/") ? path : `/${path}`);
 
 /** Tên rút gọn dùng cho og:site_name và mẫu tiêu đề. */
 export const siteName = "Vũ Khang";

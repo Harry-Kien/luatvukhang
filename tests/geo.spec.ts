@@ -180,3 +180,9 @@ test("IndexNow báo đúng đường dẫn công khai của bản ghi", () => {
   );
   expect(publicPath("articles", { language: "vi" })).toBeNull();
 });
+
+test("đường dẫn ảnh đã đầy đủ không bị ghép tên miền lần nữa", () => {
+  const full = "https://luatvukhang.com/api/media/file/a.jpg";
+  expect(absolute(full)).toBe(full);
+  expect(absolute("/vi/lawyers")).toMatch(/^https?:\/\/[^/]+\/vi\/lawyers$/);
+});
