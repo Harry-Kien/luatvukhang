@@ -453,6 +453,10 @@ export const SiteLayout: GlobalConfig = {
               label: "Liên kết Google Maps",
               type: "text",
               validate: hrefValidate,
+              admin: {
+                description:
+                  "Mở hồ sơ công ty trên Google Maps → Chia sẻ → Sao chép đường liên kết (dạng https://maps.app.goo.gl/...). Google và công cụ AI dùng liên kết này để nối website với hồ sơ Google Maps.",
+              },
             },
             {
               name: "mapEmbed",

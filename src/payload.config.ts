@@ -9,6 +9,7 @@ import { vi } from "@payloadcms/translations/languages/vi";
 import { en } from "@payloadcms/translations/languages/en";
 import sharp from "sharp";
 import { trackSlugChange } from "./cms/redirect-hook";
+import { notifyIndexNow } from "./cms/indexnow-hook";
 import { emailAdapter } from "./cms/email";
 import { SiteLayout } from "./cms/site-layout";
 import { contactChannels } from "./lib/contact";
@@ -146,7 +147,7 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
         },
       ],
       beforeChange: [publicationGuard],
-      afterChange: [trackSlugChange],
+      afterChange: [trackSlugChange, notifyIndexNow],
     },
     fields: [
       text("title", slug === "lawyers" ? "Họ và tên" : "Tiêu đề", true),

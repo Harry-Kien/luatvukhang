@@ -165,6 +165,74 @@ type Settings = {
 /** Bản ghi đã xuất bản dùng để mô tả tổ chức: chỉ cần tên và đường dẫn. */
 type Linked = { title: string; slug: string };
 
+/** Ô "Liên hệ và mạng xã hội" trong Giao diện website. */
+type ContactLinks = {
+  zalo?: string | null;
+  facebook?: string | null;
+  linkedin?: string | null;
+  youtube?: string | null;
+  mapUrl?: string | null;
+} | null;
+
+const isWebLink = (value?: string | null): value is string =>
+  !!value && /^https:\/\/\S+$/.test(value.trim());
+
+/** Liên kết tìm theo địa chỉ, cùng cách trang Liên hệ dựng nút "Xem bản đồ". */
+export const mapSearchUrl = (address: string) =>
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent(address);
+
+/**
+ * Bản đồ của văn phòng: ưu tiên liên kết hồ sơ Google Maps nhập trong admin,
+ * chưa có thì tìm theo địa chỉ. Liên kết nhúng không mở được như một trang.
+ */
+function mapLink(mapUrl?: string | null, address?: string | null) {
+  const link = mapUrl?.trim();
+  if (isWebLink(link) && !link.includes("/maps/embed")) return link;
+  return address ? mapSearchUrl(address) : undefined;
+}
+
+/**
+ * Các hồ sơ chính thức của công ty ở nơi khác (schema.org `sameAs`): Google
+ * Maps, Facebook, LinkedIn, YouTube, Zalo OA. Đây là cách Google và công cụ AI
+ * nối website với hồ sơ Google Maps thành cùng một doanh nghiệp. Chỉ nhận
+ * liên kết https đầy đủ; Zalo nhập dạng số điện thoại là kênh nhắn tin cá
+ * nhân, không phải hồ sơ tổ chức, nên bị bỏ qua.
+ */
+export function profileLinks(contact: ContactLinks): string[] {
+  const links = [
+    contact?.mapUrl,
+    contact?.facebook,
+    contact?.linkedin,
+    contact?.youtube,
+    contact?.zalo,
+  ]
+    .filter(isWebLink)
+    .map((link) => link.trim())
+    // Liên kết nhúng bản đồ không phải trang hồ sơ doanh nghiệp.
+    .filter((link) => !link.startsWith("https://www.google.com/maps/embed"));
+  return [...new Set(links)];
+}
+
+/**
+ * Dòng "nhãn: giá trị" cho llms.txt và llms-full.txt: bản đồ và trang mạng xã
+ * hội, để công cụ AI trả lời được "văn phòng ở đâu, trang chính thức nào".
+ * Ô trống được bộ dựng llms tự bỏ qua.
+ */
+export function contactFactLines(
+  contact: ContactLinks,
+  address?: string | null,
+) {
+  const web = (value?: string | null) =>
+    isWebLink(value) ? value.trim() : undefined;
+  return [
+    { label: "Google Maps", value: mapLink(contact?.mapUrl, address) },
+    { label: "Facebook", value: web(contact?.facebook) },
+    { label: "LinkedIn", value: web(contact?.linkedin) },
+    { label: "YouTube", value: web(contact?.youtube) },
+  ];
+}
+
 /**
  * Hồ sơ tổ chức. Mọi trường đều lấy từ Cài đặt trong CMS; trường chưa nhập
  * bị loại bỏ thay vì điền giá trị mẫu.
@@ -181,8 +249,10 @@ export function organizationJsonLd(
   {
     services = [],
     lawyers = [],
-  }: { services?: Linked[]; lawyers?: Linked[] } = {},
+    contact = null,
+  }: { services?: Linked[]; lawyers?: Linked[]; contact?: ContactLinks } = {},
 ) {
+  const sameAs = profileLinks(contact);
   const name =
     (locale === "en" ? settings?.englishName : settings?.companyName) ||
     settings?.companyName ||
@@ -211,6 +281,8 @@ export function organizationJsonLd(
     areaServed: settings?.address
       ? { "@type": "Country", name: "Vietnam" }
       : undefined,
+    hasMap: mapLink(contact?.mapUrl, settings?.address),
+    sameAs: sameAs.length ? sameAs : undefined,
     // Đúng bằng các ngôn ngữ website thực sự công bố.
     availableLanguage: locales.map((l) => ({
       "@type": "Language",

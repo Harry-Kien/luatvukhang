@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { launched, navigationFrom } from "@/lib/content";
 import { getSiteLayout } from "@/lib/site-layout";
 import { detailCollections, languageInfo, locales } from "@/lib/locales";
@@ -6,11 +7,13 @@ import { getRecords } from "@/lib/cms";
 import { emptySections } from "@/lib/empty-sections";
 import { siteUrl } from "@/lib/seo";
 
-
 const url = (locale: string, path: string) =>
   `${siteUrl}/${locale}${path ? "/" + path : ""}`;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Next mặc định đóng băng sitemap lúc build, nên bài xuất bản sau đó không
+  // có trong sitemap cho tới lần dựng kế tiếp. Đọc CMS theo từng yêu cầu.
+  await connection();
   if (!launched) return [];
   const result: MetadataRoute.Sitemap = [];
   const nav = navigationFrom(await getSiteLayout("vi"));

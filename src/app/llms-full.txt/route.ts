@@ -2,8 +2,9 @@ import { getRecords } from "@/lib/cms";
 import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsFull } from "@/lib/llms";
-import { siteUrl } from "@/lib/seo";
+import { contactFactLines, siteUrl } from "@/lib/seo";
 import { zaloChannels } from "@/lib/contact";
+import { getSiteLayout } from "@/lib/site-layout";
 
 export async function GET() {
   // Cùng điều kiện với llms.txt, robots.txt và feed.xml.
@@ -16,10 +17,11 @@ export async function GET() {
   const firm =
     settings?.companyName || "Công ty Luật TNHH Vũ Khang Solutions & Partners";
 
-  const [services, lawyers, pages] = await Promise.all([
+  const [services, lawyers, pages, layout] = await Promise.all([
     getRecords("services", "vi"),
     getRecords("lawyers", "vi"),
     getRecords("pages", "vi"),
+    getSiteLayout("vi"),
   ]);
   const about = pages.find((page) => page.slug === "about");
 
@@ -46,6 +48,7 @@ export async function GET() {
       ),
       { label: "Email", value: settings?.email },
       { label: "Địa chỉ", value: settings?.address },
+      ...contactFactLines(layout.contact, settings?.address),
       { label: "Gửi yêu cầu tư vấn", value: `${siteUrl}/vi/consultation` },
     ],
     about: ((about?.blocks ?? []) as any[])

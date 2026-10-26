@@ -1,6 +1,12 @@
 import { test, expect } from "@playwright/test";
 import { buildLlmsFull } from "../src/lib/llms";
-import { organizationJsonLd, serviceJsonLd, absolute } from "../src/lib/seo";
+import {
+  organizationJsonLd,
+  serviceJsonLd,
+  absolute,
+  contactFactLines,
+} from "../src/lib/seo";
+import { publicPath } from "../src/cms/indexnow-hook";
 
 /**
  * GEO/AEO: công cụ AI và công cụ tìm kiếm cần biết công ty làm gì, ai làm và
@@ -112,4 +118,65 @@ test("dịch vụ khai khu vực phục vụ và đối tượng khách hàng", 
     "@type": "Audience",
     audienceType: "Bị can và gia đình",
   });
+});
+
+test("hồ sơ tổ chức nối với Google Maps, Facebook… qua sameAs và hasMap", () => {
+  const org = organizationJsonLd(
+    { companyName: "Vũ Khang", address: "1808 Nguyễn Ái Quốc, Đồng Nai" },
+    "vi",
+    {
+      contact: {
+        mapUrl: "https://maps.app.goo.gl/abc123",
+        facebook: "https://www.facebook.com/luatvukhang",
+        youtube: "",
+        // Số điện thoại không phải hồ sơ tổ chức.
+        zalo: "0832270898",
+      },
+    },
+  ) as Record<string, any>;
+  expect(org.sameAs).toEqual([
+    "https://maps.app.goo.gl/abc123",
+    "https://www.facebook.com/luatvukhang",
+  ]);
+  expect(org.hasMap).toBe("https://maps.app.goo.gl/abc123");
+
+  // Chưa nhập liên kết: bản đồ tìm theo địa chỉ, không khai sameAs rỗng.
+  const bare = organizationJsonLd(
+    { companyName: "Vũ Khang", address: "1808 Nguyễn Ái Quốc, Đồng Nai" },
+    "vi",
+    { contact: { mapUrl: "https://www.google.com/maps/embed?pb=x" } },
+  ) as Record<string, any>;
+  expect(bare.sameAs).toBeUndefined();
+  expect(bare.hasMap).toBe(
+    "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent("1808 Nguyễn Ái Quốc, Đồng Nai"),
+  );
+});
+
+test("llms.txt có bản đồ và mạng xã hội khi đã nhập", () => {
+  const lines = contactFactLines(
+    {
+      mapUrl: "https://maps.app.goo.gl/abc123",
+      facebook: "https://www.facebook.com/luatvukhang",
+      linkedin: "khong-phai-lien-ket",
+    },
+    "Đồng Nai",
+  );
+  const value = (label: string) =>
+    lines.find((line) => line.label === label)?.value;
+  expect(lines.map((line) => line.label)).not.toContain("Giờ làm việc");
+  expect(value("Google Maps")).toBe("https://maps.app.goo.gl/abc123");
+  expect(value("Facebook")).toBe("https://www.facebook.com/luatvukhang");
+  expect(value("LinkedIn")).toBeUndefined();
+});
+
+test("IndexNow báo đúng đường dẫn công khai của bản ghi", () => {
+  expect(publicPath("pages", { language: "vi", slug: "home" })).toBe("/vi");
+  expect(publicPath("pages", { language: "en", slug: "contact" })).toBe(
+    "/en/contact",
+  );
+  expect(publicPath("articles", { language: "vi", slug: "dat-dai" })).toBe(
+    "/vi/articles/dat-dai",
+  );
+  expect(publicPath("articles", { language: "vi" })).toBeNull();
 });

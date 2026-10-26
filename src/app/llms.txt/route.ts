@@ -2,9 +2,10 @@ import { getRecords } from "@/lib/cms";
 import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsTxt, type LlmsSection } from "@/lib/llms";
-import { siteUrl } from "@/lib/seo";
+import { contactFactLines, siteUrl } from "@/lib/seo";
 import { zaloChannels } from "@/lib/contact";
 import { ecosystemMembers } from "@/lib/ecosystem";
+import { getSiteLayout } from "@/lib/site-layout";
 
 /** Nhóm nội dung đưa vào bản tóm tắt, theo thứ tự khách hay cần. */
 const SECTIONS = [
@@ -68,6 +69,10 @@ export async function GET() {
             }),
           ),
           { label: "Email", value: settings?.email },
+          ...contactFactLines(
+            (await getSiteLayout("vi")).contact,
+            settings?.address,
+          ),
           { label: "Gửi yêu cầu tư vấn", value: `${siteUrl}/vi/consultation` },
           { label: "Trang liên hệ", value: `${siteUrl}/vi/contact` },
         ],

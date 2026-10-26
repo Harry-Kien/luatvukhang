@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { launched } from "@/lib/content";
 import { siteUrl } from "@/lib/seo";
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  // Next mặc định đóng băng robots.txt lúc build. Đọc theo từng yêu cầu để
+  // luôn khớp với sitemap và trạng thái ra mắt đang chạy.
+  await connection();
   if (!launched)
     return { rules: { userAgent: "*", disallow: "/" } };
   return {
