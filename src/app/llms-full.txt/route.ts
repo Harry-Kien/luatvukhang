@@ -5,6 +5,7 @@ import { buildLlmsFull } from "@/lib/llms";
 import { contactFactLines, siteUrl } from "@/lib/seo";
 import { zaloChannels } from "@/lib/contact";
 import { getSiteLayout } from "@/lib/site-layout";
+import { ecosystemMembers } from "@/lib/ecosystem";
 
 export async function GET() {
   // Cùng điều kiện với llms.txt, robots.txt và feed.xml.
@@ -51,6 +52,13 @@ export async function GET() {
       ...contactFactLines(layout.contact, settings?.address),
       { label: "Gửi yêu cầu tư vấn", value: `${siteUrl}/vi/consultation` },
     ],
+    // Cùng nguồn và cùng cách ghi với mục "Hệ sinh thái" của llms.txt.
+    ecosystem: ecosystemMembers(settings?.ecosystem)
+      .filter((member) => member.href)
+      .map((member) => ({
+        label: member.role ? `${member.name} (${member.role})` : member.name,
+        value: [member.href, member.summary].filter(Boolean).join(" — "),
+      })),
     about: ((about?.blocks ?? []) as any[])
       .filter(
         (block) =>

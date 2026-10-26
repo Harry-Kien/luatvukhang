@@ -45,12 +45,24 @@ test("llms-full.txt có liên hệ, phạm vi, quy trình, hỏi đáp và đư�
         position: "Giám đốc - Luật sư",
       },
     ],
+    ecosystem: [
+      {
+        label: "Luật Việt (Ứng dụng pháp luật)",
+        value: "https://luatviet247.com — Tra cứu luật.",
+      },
+      { label: "Thành viên chưa có website", value: "" },
+    ],
   });
 
   expect(
     text.startsWith("# Công ty Luật TNHH Vũ Khang Solutions & Partners"),
   ).toBe(true);
   expect(text).toContain("- Điện thoại: 0832270898");
+  // Hệ sinh thái có trong bản đầy đủ như trong llms.txt (từng bị sót).
+  expect(text).toContain(
+    "## Hệ sinh thái Luật Vũ Khang\n\n- Luật Việt (Ứng dụng pháp luật): https://luatviet247.com — Tra cứu luật.",
+  );
+  expect(text).not.toContain("Thành viên chưa có website");
   expect(text, "ô trống không được in ra").not.toContain("- Email:");
   expect(text).toContain("Trách nhiệm — A\nTrung thực — B");
   expect(text).toContain(

@@ -91,6 +91,7 @@ export function buildLlmsFull({
   services,
   people,
   note,
+  ecosystem,
 }: {
   siteUrl: string;
   firm: string;
@@ -100,6 +101,8 @@ export function buildLlmsFull({
   services: LlmsFullService[];
   people: LlmsFullPerson[];
   note?: string;
+  /** Thành viên hệ sinh thái (Cài đặt → "Hệ sinh thái"), như trong llms.txt. */
+  ecosystem?: { label: string; value?: string | null }[];
 }): string {
   const lines = [`# ${firm}`, "", `> ${oneLine(summary)}`, ""];
   if (note) lines.push(oneLine(note), "");
@@ -108,6 +111,14 @@ export function buildLlmsFull({
   if (known.length) {
     lines.push("## Thông tin liên hệ", "");
     for (const entry of known)
+      lines.push(`- ${entry.label}: ${oneLine(entry.value!)}`);
+    lines.push("");
+  }
+
+  const members = (ecosystem ?? []).filter((entry) => entry.value?.trim());
+  if (members.length) {
+    lines.push("## Hệ sinh thái Luật Vũ Khang", "");
+    for (const entry of members)
       lines.push(`- ${entry.label}: ${oneLine(entry.value!)}`);
     lines.push("");
   }
