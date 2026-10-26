@@ -100,6 +100,8 @@ const previousVersions: Record<string, Seeded>[] = [
   "./content/lawyers-2026-10-23.json",
   // Chị Trần Thị Anh Như còn ghi "Chuyên viên pháp lý" (trước 23/10/2026).
   "./content/lawyers-2026-10-23b.json",
+  // Ông Trần Anh Dũng còn ghi "Thành viên phòng Phát triển khách hàng".
+  "./content/lawyers-2026-10-26.json",
 ].map((file) =>
   JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );

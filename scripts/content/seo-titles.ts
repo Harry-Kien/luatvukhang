@@ -59,6 +59,13 @@ export const replacedSeoTitles: Record<
     en: ["Trần Trung Kiên — Deputy Head, Client Development"],
     zh: ["Trần Trung Kiên — 客户发展部副经理"],
   },
+  // 26/10/2026: "Thành viên phòng Phát triển khách hàng" đổi thành "Phát triển
+  // khách hàng" như ông Trần Trung Kiên.
+  "lawyers/tran-anh-dung": {
+    vi: ["Trần Anh Dũng — Thành viên phòng Phát triển khách hàng"],
+    en: ["Trần Anh Dũng — Client Development Team"],
+    zh: ["Trần Anh Dũng — 客户发展部成员"],
+  },
 };
 
 /**
@@ -213,9 +220,9 @@ export const seoTitles: Record<string, Localised> = {
     zh: "Trần Trung Kiên — 客户发展",
   },
   "lawyers/tran-anh-dung": {
-    vi: "Trần Anh Dũng — Thành viên phòng Phát triển khách hàng",
-    en: "Trần Anh Dũng — Client Development Team",
-    zh: "Trần Anh Dũng — 客户发展部成员",
+    vi: "Trần Anh Dũng — Phát triển khách hàng",
+    en: "Trần Anh Dũng — Client Development",
+    zh: "Trần Anh Dũng — 客户发展",
   },
   "lawyers/tran-thi-anh-nhu": {
     vi: "Trần Thị Anh Như — Chuyên viên pháp lý",
