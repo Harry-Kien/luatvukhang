@@ -341,21 +341,28 @@ const draftNote =
       : "Khong dem duoc so ban nhap; kiem tra bang scripts/publish-drafts.ts\n";
 
 // Trạng thái ra mắt nằm trong bản dựng (next.config.mjs → env), không theo biến
-// môi trường lúc chạy — nên đọc thẳng từ robots.txt mà bản dựng tạo sẵn.
-let launchNote;
-try {
-  const robots = readFileSync(
-    join(process.cwd(), ".next", "server", "app", "robots.txt.body"),
-    "utf8",
-  );
-  launchNote = /^Allow: \/\s*$/m.test(robots)
-    ? "Website DA MO cho Google (ban dung bat launch_approved).\n"
-    : "Website dang CHAN Google (ban dung chua bat launch_approved). Do la chu y.\n" +
-      "Ra mat: dung ban moi voi launch_approved — Buoc 7 trong tai lieu.\n";
-} catch {
-  launchNote =
-    "Khong doc duoc .next/server/app/robots.txt.body — chua biet trang thai ra mat.\n";
+// môi trường lúc chạy. Bản dựng từ 26/10/2026 ghi nó vào .next/LAUNCH_APPROVED
+// (robots.txt giờ tạo theo từng yêu cầu); bản cũ hơn còn robots.txt tĩnh.
+function builtLaunchState() {
+  const next = (...parts) => join(process.cwd(), ".next", ...parts);
+  try {
+    return readFileSync(next("LAUNCH_APPROVED"), "utf8").trim() === "true";
+  } catch {}
+  try {
+    return /^Allow: \/\s*$/m.test(
+      readFileSync(next("server", "app", "robots.txt.body"), "utf8"),
+    );
+  } catch {}
+  return null;
 }
+const launchState = builtLaunchState();
+const launchNote =
+  launchState === true
+    ? "Website DA MO cho Google (ban dung bat launch_approved).\n"
+    : launchState === false
+      ? "Website dang CHAN Google (ban dung chua bat launch_approved). Do la chu y.\n" +
+        "Ra mat: dung ban moi voi launch_approved — Buoc 7 trong tai lieu.\n"
+      : "Chua biet trang thai ra mat — mo <ten-mien>/robots.txt: co 'Allow: /' la da mo.\n";
 
 console.log(
   "\n" +

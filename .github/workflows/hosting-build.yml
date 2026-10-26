@@ -76,7 +76,11 @@ jobs:
         run: npm run payload -- migrate
 
       - name: Dựng bản production
-        run: npm run build
+        # Ghi trạng thái ra mắt vào gói để hosting-setup báo đúng: robots.txt
+        # giờ tạo theo từng yêu cầu nên không còn tệp tĩnh để đọc.
+        run: |
+          npm run build
+          echo "$SITE_LAUNCH_APPROVED" > .next/LAUNCH_APPROVED
 
       - name: Kiểm tra gói trước khi phát hành
         # Ba điều kiện, sai bất kỳ cái nào thì bản dựng không dùng được và phải
