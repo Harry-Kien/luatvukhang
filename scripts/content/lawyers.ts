@@ -107,8 +107,8 @@ const PROVIDED_1022 =
   "Chủ website cung cấp ngày 22/10/2026 để đăng trên hồ sơ tại website công ty.";
 const PROVIDED_1023 =
   "Chủ website cung cấp ngày 23/10/2026 để đăng trên hồ sơ tại website công ty.";
-const PROVIDED_1026 =
-  "Chủ website cung cấp ngày 26/10/2026 để đăng trên hồ sơ tại website công ty.";
+const PROVIDED_1027 =
+  "Chủ website cung cấp ngày 27/10/2026 để đăng trên hồ sơ tại website công ty.";
 
 /**
  * Địa danh giữ nguyên ở cả ba ngôn ngữ.
@@ -327,12 +327,14 @@ export const firmLawyers: FirmLawyer[] = [
     },
     publishOnCreate: true,
     portrait: {
-      // Ảnh 22/10/2026 (khoanh tay): khung trọn hai bàn tay, đầu ~33%.
-      file: "hoang-vu-2026-10-22.jpg",
-      replaces: ["hoang-vu-2026-10.jpg"],
+      // Ảnh 27/10/2026 (hai tay đút túi, phông xám có vệt nắng đã đưa về
+      // trắng): đầu ~32,5% cho cân với các ảnh khoanh tay cùng hàng, khung
+      // dừng trên bàn tay.
+      file: "hoang-vu-2026-10-27.jpg",
+      replaces: ["hoang-vu-2026-10.jpg", "hoang-vu-2026-10-22.jpg"],
       alt: "Chân dung Trưởng phòng Phát triển khách hàng Hoàng Vũ",
       credit: FIRM,
-      rights: PROVIDED_1022,
+      rights: PROVIDED_1027,
     },
   },
   {
@@ -394,7 +396,9 @@ export const firmLawyers: FirmLawyer[] = [
       file: "tran-trung-kien-2026-10-22.jpg",
       replaces: ["tran-trung-kien-2026-10.jpg"],
       alt: "Chân dung Trần Trung Kiên — Phát triển khách hàng",
-      previousAlts: ["Chân dung Phó phòng Phát triển khách hàng Trần Trung Kiên"],
+      previousAlts: [
+        "Chân dung Phó phòng Phát triển khách hàng Trần Trung Kiên",
+      ],
       credit: FIRM,
       rights: PROVIDED_1022,
     },
@@ -404,34 +408,37 @@ export const firmLawyers: FirmLawyer[] = [
     name: "Trần Anh Dũng",
     role: "specialist",
     team: "clients",
+    // Chủ website chốt thứ tự ngày 27/10/2026: Hoàng Vũ → Lê Trần Đoan Khang →
+    // Trần Trung Kiên → Trần Anh Dũng.
     sortOrder: 80,
-    // Chủ website thêm ngày 26/10/2026 với chức danh "Thành viên phòng Phát
-    // triển khách hàng", đổi cùng ngày thành "Phát triển khách hàng" như ông
-    // Trần Trung Kiên. Không phải luật sư; trình độ, kinh nghiệm chưa cung cấp.
+    // Chủ website thêm ngày 26/10/2026 ("Thành viên phòng Phát triển khách
+    // hàng", rồi "Phát triển khách hàng"); ngày 27/10/2026 chốt "Phó phòng
+    // Phát triển khách hàng". Không phải luật sư; trình độ, kinh nghiệm chưa
+    // cung cấp.
     position: {
-      vi: "Phát triển khách hàng",
-      en: "Client Development",
-      zh: "客户发展",
+      vi: "Phó phòng Phát triển khách hàng",
+      en: "Deputy Head of Client Development",
+      zh: "客户发展部副经理",
     },
     summary: {
-      vi: `Thành viên phòng Phát triển khách hàng của ${FIRM}.`,
-      en: `Member of the Client Development team at ${FIRM}.`,
-      zh: `${FIRM} 客户发展部成员。`,
+      vi: `Phó phòng Phát triển khách hàng của ${FIRM}.`,
+      en: `Deputy Head of Client Development at ${FIRM}.`,
+      zh: `${FIRM} 客户发展部副经理。`,
     },
     seoDescription: {
-      vi: "Trần Anh Dũng — Phát triển khách hàng, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
-      en: "Trần Anh Dũng — Client Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
-      zh: "Trần Anh Dũng——Vũ Khang Solutions & Partners 律师事务所客户发展部（越南同奈）。",
+      vi: "Trần Anh Dũng — Phó phòng Phát triển khách hàng, Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai.",
+      en: "Trần Anh Dũng — Deputy Head of Client Development at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam.",
+      zh: "Trần Anh Dũng——Vũ Khang Solutions & Partners 律师事务所客户发展部副经理（越南同奈）。",
     },
     publishOnCreate: true,
     portrait: {
-      // Ảnh vest phông trắng gửi ngày 26/10/2026, cắt cùng chuẩn 4:5 (đỉnh đầu
-      // 9%, đầu ~35%); phần dưới có biểu tượng mờ ở góc ảnh gốc bị cắt bỏ.
-      file: "tran-anh-dung-2026-10-26.jpg",
-      alt: "Chân dung Trần Anh Dũng — Phát triển khách hàng",
-      previousAlts: ["Chân dung Trần Anh Dũng — Thành viên phòng Phát triển khách hàng"],
+      // Ảnh 27/10/2026 (khoanh tay, đeo kính): khung trọn hai cánh tay, đầu
+      // ~31%; xoá khung tranh ở góc và đưa tường kem về trắng.
+      file: "tran-anh-dung-2026-10-27.jpg",
+      replaces: ["tran-anh-dung-2026-10-26.jpg"],
+      alt: "Chân dung Phó phòng Phát triển khách hàng Trần Anh Dũng",
       credit: FIRM,
-      rights: PROVIDED_1026,
+      rights: PROVIDED_1027,
     },
   },
 ];

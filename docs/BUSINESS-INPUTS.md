@@ -175,6 +175,11 @@ Chủ website cung cấp hai luật sư của công ty:
 > phòng Phát triển khách hàng", chủ website đổi cùng ngày cho giống ông Kiên. Ảnh
 > vest phông trắng cắt cùng chuẩn 4:5 với cả đội.
 >
+> **27/10/2026:** ông Trần Anh Dũng là **Phó phòng Phát triển khách hàng**; thứ
+> tự trong phòng giữ Hoàng Vũ → Lê Trần Đoan Khang → Trần Trung Kiên → Trần Anh
+> Dũng (chủ website chốt). Ảnh mới cho ông Dũng (khoanh tay, đeo kính; xoá khung
+> tranh, tường về trắng) và ông Hoàng Vũ (đút túi; phông có vệt nắng về trắng).
+>
 > **Hệ sinh thái:** ứng dụng Luật Việt thuộc hệ sinh thái Luật Vũ Khang — logo ở
 > chân trang mọi trang và mục "Hệ sinh thái" trên trang Về chúng tôi
 > (src/lib/ecosystem.ts). Logo dẫn tới https://luatviet247.com (mở tab mới);
