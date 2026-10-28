@@ -5,6 +5,7 @@ import {
   serviceJsonLd,
   absolute,
   contactFactLines,
+  postalAddress,
 } from "../src/lib/seo";
 import { publicPath } from "../src/cms/indexnow-hook";
 
@@ -197,4 +198,20 @@ test("đường dẫn ảnh đã đầy đủ không bị ghép tên miền lầ
   const full = "https://luatvukhang.com/api/media/file/a.jpg";
   expect(absolute(full)).toBe(full);
   expect(absolute("/vi/lawyers")).toMatch(/^https?:\/\/[^/]+\/vi\/lawyers$/);
+});
+
+test("địa chỉ tách thành đường, phường, tỉnh để khớp hồ sơ Google Maps", () => {
+  expect(
+    postalAddress(
+      "1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai",
+    ),
+  ).toEqual({
+    "@type": "PostalAddress",
+    streetAddress: "1808 đường Nguyễn Ái Quốc",
+    addressLocality: "phường Trấn Biên",
+    addressRegion: "Thành phố Đồng Nai",
+    addressCountry: "VN",
+  });
+  // Không đủ ba phần: giữ nguyên, không đoán.
+  expect(postalAddress("Đồng Nai").streetAddress).toBe("Đồng Nai");
 });

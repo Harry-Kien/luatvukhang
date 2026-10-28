@@ -183,6 +183,32 @@ type ContactLinks = {
 const isWebLink = (value?: string | null): value is string =>
   !!value && /^https:\/\/\S+$/.test(value.trim());
 
+/**
+ * Tách địa chỉ một dòng ("số nhà đường, phường, tỉnh/thành phố") thành các ô
+ * của PostalAddress. Google dùng phường và tỉnh để khớp website với hồ sơ
+ * Google Maps của cùng doanh nghiệp. Địa chỉ không đủ ba phần thì giữ nguyên
+ * một dòng thay vì đoán.
+ */
+export function postalAddress(address: string) {
+  const parts = address
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (parts.length < 3)
+    return {
+      "@type": "PostalAddress",
+      streetAddress: address.trim(),
+      addressCountry: "VN",
+    };
+  return {
+    "@type": "PostalAddress",
+    streetAddress: parts.slice(0, -2).join(", "),
+    addressLocality: parts.at(-2),
+    addressRegion: parts.at(-1),
+    addressCountry: "VN",
+  };
+}
+
 /** Liên kết tìm theo địa chỉ, cùng cách trang Liên hệ dựng nút "Xem bản đồ". */
 export const mapSearchUrl = (address: string) =>
   "https://www.google.com/maps/search/?api=1&query=" +
@@ -277,13 +303,7 @@ export function organizationJsonLd(
     telephone: settings?.phone || undefined,
     email: settings?.email || undefined,
     identifier: settings?.registration || undefined,
-    address: settings?.address
-      ? {
-          "@type": "PostalAddress",
-          streetAddress: settings.address,
-          addressCountry: "VN",
-        }
-      : undefined,
+    address: settings?.address ? postalAddress(settings.address) : undefined,
     areaServed: settings?.address
       ? { "@type": "Country", name: "Vietnam" }
       : undefined,

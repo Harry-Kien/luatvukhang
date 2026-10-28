@@ -32,9 +32,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Trang mục còn trống chỉ có dòng "Chưa có nội dung": khai báo cho Google là
   // mời nó lập chỉ mục một trang mỏng. Xét theo từng ngôn ngữ.
+  // Chính sách chưa duyệt (chưa có bản ghi Trang xuất bản) mang thẻ noindex —
+  // cùng điều kiện với generateMetadata của [section]. Khai nó trong sitemap thì
+  // Search Console báo "URL đã gửi bị đánh dấu noindex".
   const empty = Object.fromEntries(
     await Promise.all(
-      locales.map(async (l) => [l, await emptySections(l)] as const),
+      locales.map(async (l) => {
+        const skip = new Set(await emptySections(l));
+        const pages = new Set(
+          (await getRecords("pages", l)).map((page) => page.slug),
+        );
+        for (const policy of ["privacy", "terms"])
+          if (!pages.has(policy)) skip.add(policy);
+        return [l, skip] as const;
+      }),
     ),
   );
   for (const path of STATIC_PATHS) {
