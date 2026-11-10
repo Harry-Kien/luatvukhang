@@ -108,7 +108,7 @@ const vi: SiteLayoutData = {
     cta: { label: "Đặt lịch tư vấn", href: "/consultation" },
   },
   home: {
-    heroKicker: "Công ty Luật TNHH Vũ Khang Solutions & Partners",
+    heroKicker: "Công ty Luật Vũ Khang · Biên Hòa, Đồng Nai",
     heroTitle: "Thấu hiểu\nvấn đề.\nVững vàng\nquyết định.",
     heroSummary:
       "Góc nhìn pháp lý rõ ràng cho những quyết định quan trọng — từ hoạt động kinh doanh đến bảo vệ quyền và lợi ích của bạn.",
@@ -194,7 +194,7 @@ const en: SiteLayoutData = {
     cta: { label: "Consultation", href: "/consultation" },
   },
   home: {
-    heroKicker: "Vũ Khang · Legal counsel",
+    heroKicker: "Vũ Khang Law Firm · Biên Hòa, Đồng Nai",
     heroTitle: "Understand\nthe matter.\nDecide with\nconfidence.",
     heroSummary:
       "A clear legal perspective on the decisions that matter — from business operations to protecting your rights and interests.",

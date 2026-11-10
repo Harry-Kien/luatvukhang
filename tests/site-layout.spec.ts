@@ -45,6 +45,8 @@ test("menu, hero and footer come from the site-layout global in every language",
       "QA khẩu hiệu kiểm thử",
     );
     await expect(page.locator(".hero-kicker")).toContainText("QA dòng dẫn");
+    // Dòng dẫn là một phần tiêu đề chính (h1) của trang chủ.
+    await expect(page.locator("h1")).toContainText("QA dòng dẫn");
 
     // EN chưa sửa: rơi về bản mặc định tiếng Anh, không hiện chuỗi tiếng Việt.
     await page.goto("/en");

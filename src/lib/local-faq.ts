@@ -139,6 +139,23 @@ export function buildLocalFaq({
           .join(pick(locale, "; ", "; ", "；")) + pick(locale, ".", ".", "。"),
     });
 
+  // Người tìm "công ty luật uy tín" cần biết cách tự kiểm tra. Câu trả lời
+  // chỉ nêu điều Luật Luật sư quy định, không tự khen và không hứa kết quả.
+  faq.push({
+    question: pick(
+      locale,
+      "Làm sao biết một công ty luật ở Đồng Nai hoạt động hợp pháp và đáng tin cậy?",
+      "How can I tell whether a law firm in Đồng Nai is properly licensed and trustworthy?",
+      "如何判断同奈的律师事务所是否合法执业、值得信赖？",
+    ),
+    answer: pick(
+      locale,
+      "Theo Luật Luật sư, công ty luật phải được Sở Tư pháp nơi đặt trụ sở cấp Giấy đăng ký hoạt động, và người trực tiếp tư vấn phải là luật sư có Chứng chỉ hành nghề, là thành viên một Đoàn luật sư và có Thẻ luật sư. Bạn có quyền đề nghị xem các giấy tờ này, yêu cầu hợp đồng dịch vụ pháp lý bằng văn bản ghi rõ công việc và thù lao, và nên thận trọng với lời hứa chắc chắn thắng kiện. Hồ sơ từng luật sư của Vũ Khang có trên trang Đội ngũ.",
+      "Under the Law on Lawyers, a law firm must hold a certificate of registration issued by the Department of Justice where it is based, and the person advising you must be a lawyer with a practising certificate, a member of a bar association and holder of a lawyer's card. You may ask to see these documents and ask for a written legal services contract setting out the work and the fees; be wary of any promise of a guaranteed win. Profiles of Vũ Khang's lawyers are on the Team page.",
+      "根据越南《律师法》，律师事务所须取得所在地司法厅颁发的执业登记证，为您提供咨询的人须为持有执业证书、隶属某一律师协会并持有律师证的律师。您有权要求查看上述文件，并要求签订载明工作内容和费用的书面法律服务合同；对“保证胜诉”的承诺应保持谨慎。Vũ Khang 各位律师的简介可在“团队”页面查看。",
+    ),
+  });
+
   faq.push({
     question: pick(
       locale,

@@ -63,6 +63,10 @@ test("hỏi đáp trang chủ trả lời từ Cài đặt và hồ sơ đã đ�
   expect(text).not.toContain("+84 977 013 358");
   expect(text).toContain("Hình sự, Hôn nhân & gia đình");
   expect(text).toContain("Luật sư Phan Thùy Trang — Giám đốc");
+  // Câu "công ty luật đáng tin cậy": nêu điều luật định, không tự khen.
+  expect(text).toContain("Giấy đăng ký hoạt động");
+  expect(text).toContain("Thẻ luật sư");
+  expect(text).not.toMatch(/uy tín nhất|hàng đầu|cam kết thắng/i);
   // Nhân sự không phải luật sư không được gọi là luật sư.
   expect(text).not.toContain("Hoàng Vũ");
 });
@@ -74,8 +78,12 @@ test("thiếu dữ liệu thì bỏ câu hỏi, không trả lời chung chung",
     services: [],
     people: [],
   });
-  expect(faq).toHaveLength(1);
-  expect(faq[0].question).toMatch(/book an appointment/);
+  // Còn lại hai câu không phụ thuộc dữ liệu: cách kiểm tra một công ty luật
+  // và gửi yêu cầu chưa phải đặt lịch.
+  expect(faq.map((entry) => entry.question)).toEqual([
+    expect.stringMatching(/properly licensed/),
+    expect.stringMatching(/book an appointment/),
+  ]);
 });
 
 test("chính sách ghi số điện thoại chính hiện tại, không còn số cũ", () => {

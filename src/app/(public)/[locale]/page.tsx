@@ -44,12 +44,13 @@ export async function generateMetadata({
   );
   return pageMetadata({
     locale,
-    // Dưới 60 ký tự để Google không cắt; nêu lĩnh vực chính và nơi đặt văn
-    // phòng — hai điều người tìm luật sư gõ vào ô tìm kiếm.
+    // Dưới 60 ký tự để Google không cắt. Nêu "công ty luật", "luật sư" và nơi
+    // đặt văn phòng — đúng các cụm người ta gõ khi tìm ("công ty luật Đồng
+    // Nai", "luật sư Biên Hòa"). Lĩnh vực đã có ở mô tả và từng trang dịch vụ.
     title: t(
       locale,
-      "Luật Vũ Khang — Luật sư hình sự, dân sự, đất đai tại Đồng Nai",
-      "Vũ Khang Law — Lawyers in Đồng Nai, Vietnam",
+      "Công ty Luật Vũ Khang — Luật sư tại Biên Hòa, Đồng Nai",
+      "Vũ Khang Law Firm — Lawyers in Biên Hòa, Đồng Nai, Vietnam",
     ),
     titleAbsolute: true,
     description: home?.seo?.description || home?.summary || INTRO[locale],
@@ -89,11 +90,16 @@ export default async function Home({
       <Editable target={homeTab} label="phần mở đầu trang chủ">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <div className="hero-kicker">
-              <span />
-              {layout.heroKicker}
-            </div>
+            {/* Dòng dẫn nằm TRONG thẻ h1: tiêu đề chính của trang chủ khi đó là
+                "Công ty Luật Vũ Khang · Biên Hòa, Đồng Nai — Thấu hiểu vấn
+                đề…", chứ không chỉ có khẩu hiệu. Giao diện giữ như cũ. */}
             <h1 id="hero-title">
+              {layout.heroKicker && (
+                <span className="hero-kicker">
+                  <span aria-hidden="true" />
+                  {layout.heroKicker}
+                </span>
+              )}
               {home?.title ||
                 (heroLines.length >= 4 ? (
                   <>

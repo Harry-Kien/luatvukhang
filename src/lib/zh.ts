@@ -6,6 +6,10 @@ const translations: Record<string, string> = {
   "Vũ Khang Law — Lawyers in Đồng Nai, Vietnam":
     "Vũ Khang 律师事务所 — 越南同奈律师",
   "Vũ Khang · Legal counsel": "Vũ Khang · 法律咨询",
+  "Vũ Khang Law Firm · Biên Hòa, Đồng Nai":
+    "Vũ Khang 律师事务所 · 越南同奈边和",
+  "Vũ Khang Law Firm — Lawyers in Biên Hòa, Đồng Nai, Vietnam":
+    "Vũ Khang 律师事务所 — 越南同奈边和律师",
   Understand: "深入理解",
   "the matter.": "您的问题。",
   "Decide with": "审慎决策，",

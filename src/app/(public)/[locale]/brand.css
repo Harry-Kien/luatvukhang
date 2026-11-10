@@ -289,6 +289,18 @@ p {
 .hero h1 > span {
   color: #cbd3df;
 }
+/* Dòng dẫn nằm trong h1 (xem page.tsx) nhưng phải trông như dòng chữ nhỏ
+   phía trên, không nhận phông, cỡ chữ và màu xám của tiêu đề. */
+.hero h1 > .hero-kicker {
+  /* Thắng luật ".hero h1 > span { display: block }" trên điện thoại, nếu
+     không vạch đỏ đầu dòng biến mất. */
+  display: flex;
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: normal;
+  color: var(--light-text);
+}
 .hero-copy > p {
   color: var(--light-text);
   font-size: 15px;
