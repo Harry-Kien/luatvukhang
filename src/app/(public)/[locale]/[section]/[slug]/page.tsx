@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeading, ContentBody } from "@/components/content";
 import { getRecords, getSampleRecords } from "@/lib/cms";
 import { getSiteSettings } from "@/lib/site-settings";
+import { ContactChannels } from "@/components/contact-channels";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
 import { PreviewRefresh } from "@/components/preview-refresh";
@@ -13,6 +14,7 @@ import { navigation } from "@/lib/content";
 import { JsonLd } from "@/components/json-ld";
 import {
   absolute,
+  addressRegion,
   articleJsonLd,
   faqJsonLd,
   jobPostingJsonLd,
@@ -71,7 +73,8 @@ function structuredDataFor(
   if (!record) return [];
   const data: object[] = [];
   if (section === "articles") data.push(articleJsonLd(record, locale, path));
-  else if (section === "lawyers") data.push(personJsonLd(record, locale, path));
+  else if (section === "lawyers")
+    data.push(personJsonLd(record, locale, path, address));
   else if (section === "careers") data.push(jobPostingJsonLd(record, path));
   else if (section === "services" || section === "industries")
     data.push(serviceJsonLd(record, locale, path, address));
@@ -159,16 +162,12 @@ export default async function Detail({ params, searchParams }: Props) {
     : t(locale, ...(sectionNames[section] ?? [section, section]));
   // Bản xem trước và nội dung minh họa không được phát dữ liệu có cấu trúc:
   // schema.org mô tả nội dung công ty đã công bố, không mô tả bản nháp.
+  const settings = await getSiteSettings(locale).catch(() => null);
+  const region = addressRegion(settings?.address);
   const structured =
     preview || sampleRecord
       ? []
-      : structuredDataFor(
-          published,
-          locale,
-          section,
-          path,
-          (await getSiteSettings(locale))?.address,
-        );
+      : structuredDataFor(published, locale, section, path, settings?.address);
   // Bọc trang trong khung sửa khi có bản ghi thật (bản minh họa từ mã thì không).
   const Wrap = ({ children }: { children: React.ReactNode }) =>
     record?.id ? (
@@ -190,6 +189,12 @@ export default async function Detail({ params, searchParams }: Props) {
         path={path}
         trail={[{ name: sectionLabel, path: `/${locale}/${section}` }]}
         title={title}
+        heading={
+          section === "services"
+            ? (record as { seo?: { title?: string | null } } | null)?.seo
+                ?.title || undefined
+            : undefined
+        }
         summary={
           record?.summary ||
           (sample
@@ -282,7 +287,11 @@ export default async function Detail({ params, searchParams }: Props) {
                   section={section}
                 />
                 <ContentBody record={record} />
-                <RelatedContent record={record} locale={locale} section={p.section} />
+                <RelatedContent
+                  record={record}
+                  locale={locale}
+                  section={p.section}
+                />
                 {!!record.scope?.length && (
                   <>
                     <h2>{t(locale, "Phạm vi hỗ trợ", "Scope of support")}</h2>
@@ -341,6 +350,27 @@ export default async function Detail({ params, searchParams }: Props) {
           >
             {t(locale, "Gửi yêu cầu tư vấn", "Request a consultation")} ↗
           </Link>
+          {/* Văn phòng ngay cạnh nội dung: khách gọi hoặc nhắn Zalo luôn, và
+              trang có đủ tên tỉnh/thành, địa chỉ cho tìm kiếm địa phương. */}
+          {settings?.address && (
+            <div className="sidebar-office">
+              <h3>
+                {region
+                  ? locale === "en"
+                    ? `Our office in ${region}`
+                    : locale === "zh"
+                      ? `${region} 办公室`
+                      : `Văn phòng tại ${region}`
+                  : t(locale, "Văn phòng", "Office")}
+              </h3>
+              <p>{settings.address}</p>
+              <ContactChannels
+                locale={locale}
+                phone={settings.phone}
+                zalo={settings.zaloNumbers}
+              />
+            </div>
+          )}
         </aside>
       </section>
     </Wrap>

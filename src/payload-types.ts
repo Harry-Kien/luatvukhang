@@ -2274,6 +2274,14 @@ export interface SiteSetting {
     | null;
   email?: string | null;
   address?: string | null;
+  /**
+   * Search Console → Thêm thuộc tính → Tiền tố URL → https://luatvukhang.com → phương thức “Thẻ HTML” → sao chép thẻ và dán cả thẻ (hoặc chỉ phần content) vào đây.
+   */
+  googleVerification?: string | null;
+  /**
+   * Không bắt buộc: Bing cho nhập thẳng thuộc tính đã xác minh từ Google Search Console. Nếu xác minh bằng thẻ HTML thì dán thẻ msvalidate.01 vào đây.
+   */
+  bingVerification?: string | null;
   privacyApproved?: boolean | null;
   /**
    * Ứng dụng, công ty thành viên hiện logo ở chân trang mọi trang và ở mục "Hệ sinh thái" trên trang Về chúng tôi. Thêm, xóa, kéo đổi thứ tự rồi bấm Lưu. Vai trò và câu giới thiệu có ba ngôn ngữ — chọn ngôn ngữ ở góc trên bên phải.
@@ -2418,6 +2426,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
       };
   email?: T;
   address?: T;
+  googleVerification?: T;
+  bingVerification?: T;
   privacyApproved?: T;
   ecosystem?:
     | T

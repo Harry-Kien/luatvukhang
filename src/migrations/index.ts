@@ -6,6 +6,7 @@ import * as migration_20260916_120420_them_vai_tro_doi_ngu from './20260916_1204
 import * as migration_20260920_145122_them_theo_doi_yeu_cau from './20260920_145122_them_theo_doi_yeu_cau';
 import * as migration_20261022_015132_them_so_zalo_bo_sung from './20261022_015132_them_so_zalo_bo_sung';
 import * as migration_20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai from './20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai';
+import * as migration_20261110_025119_them_ma_xac_minh_tim_kiem from './20261110_025119_them_ma_xac_minh_tim_kiem';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai.up,
     down: migration_20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai.down,
-    name: '20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai'
+    name: '20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai',
+  },
+  {
+    up: migration_20261110_025119_them_ma_xac_minh_tim_kiem.up,
+    down: migration_20261110_025119_them_ma_xac_minh_tim_kiem.down,
+    name: '20261110_025119_them_ma_xac_minh_tim_kiem'
   },
 ];

@@ -2651,3 +2651,24 @@ a.ecosystem-chip:focus-visible {
   color: var(--muted);
   line-height: 1.85;
 }
+
+/* Khối văn phòng trong khung bên phải của trang chi tiết (dịch vụ, luật sư,
+   bài viết): địa chỉ và nút gọi/Zalo ngay cạnh nội dung. */
+.sidebar-office {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.sidebar-office h3 {
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+.sidebar-office p {
+  font-size: 14px;
+  margin: 0 0 6px;
+}
+.sidebar-office .contact-channels.stack {
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 14px;
+}

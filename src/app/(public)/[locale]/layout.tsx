@@ -12,6 +12,7 @@ import "@fontsource/be-vietnam-pro/latin-600.css";
 import "./styles.css";
 import "./brand.css";
 import { getSiteSettings } from "@/lib/site-settings";
+import { verificationCode } from "@/lib/verification";
 import { Header, Footer } from "@/components/shell";
 import { ContactChannels } from "@/components/contact-channels";
 import { getRecords } from "@/lib/cms";
@@ -31,7 +32,7 @@ import {
   siteUrl,
   websiteJsonLd,
 } from "@/lib/seo";
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: "Công ty Luật TNHH Vũ Khang Solutions & Partners",
@@ -50,18 +51,35 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  verification: {
-    google: process.env.SITE_VERIFICATION_GOOGLE,
-    other: process.env.SITE_VERIFICATION_BING
-      ? { "msvalidate.01": process.env.SITE_VERIFICATION_BING }
-      : {},
-  },
   openGraph: { type: "website", siteName },
   twitter: { card: "summary_large_image" },
   // Số điện thoại trong nội dung không tự động thành liên kết gọi trên iOS,
   // tránh làm sai lệch bố cục và màu chữ của các trang.
   formatDetection: { telephone: false, address: false, email: false },
 };
+/**
+ * Thẻ xác minh Search Console / Bing: ưu tiên mã nhập trong admin (Cài đặt →
+ * "Google Search Console và Bing"), chưa có thì dùng biến môi trường cũ.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = (await getSiteSettings().catch(() => null)) as {
+    googleVerification?: string | null;
+    bingVerification?: string | null;
+  } | null;
+  const google =
+    verificationCode(settings?.googleVerification) ||
+    verificationCode(process.env.SITE_VERIFICATION_GOOGLE);
+  const bing =
+    verificationCode(settings?.bingVerification) ||
+    verificationCode(process.env.SITE_VERIFICATION_BING);
+  return {
+    ...baseMetadata,
+    verification: {
+      google,
+      other: bing ? { "msvalidate.01": bing } : {},
+    },
+  };
+}
 export const viewport: Viewport = {
   themeColor: "#101d35",
   colorScheme: "light",

@@ -145,9 +145,9 @@ export const firmLawyers: FirmLawyer[] = [
       zh: "曾任 Tây Ninh 法院法官。逾18年法律从业经验。胡志明市律师协会（Đoàn Luật sư Thành phố Hồ Chí Minh）会员。",
     },
     seoDescription: {
-      vi: "Luật sư Phan Thùy Trang — Giám đốc Công ty Luật Vũ Khang, nguyên Thẩm phán Tòa án Tây Ninh, hơn 18 năm kinh nghiệm pháp lý.",
-      en: "Phan Thùy Trang — Director of Vũ Khang law firm, former Judge at the Tây Ninh Court, more than 18 years of legal experience.",
-      zh: "Phan Thùy Trang 律师——Vũ Khang 律师事务所主任，曾任 Tây Ninh 法院法官，逾18年法律从业经验。",
+      vi: "Luật sư Phan Thùy Trang — Giám đốc Công ty Luật Vũ Khang tại Đồng Nai, nguyên Thẩm phán Tòa án Tây Ninh, hơn 18 năm kinh nghiệm pháp lý.",
+      en: "Phan Thùy Trang — Director of Vũ Khang law firm in Đồng Nai, former Judge at the Tây Ninh Court, more than 18 years of legal experience.",
+      zh: "Phan Thùy Trang 律师——越南同奈 Vũ Khang 律师事务所主任，曾任 Tây Ninh 法院法官，逾18年法律从业经验。",
     },
     // Theo ảnh giới thiệu: tranh chấp dân sự và hợp đồng; hình sự (bào chữa,
     // bảo vệ); kinh doanh thương mại (doanh nghiệp, đầu tư).
@@ -194,9 +194,9 @@ export const firmLawyers: FirmLawyer[] = [
       zh: "法学硕士。曾任中级法官、Khánh Hòa 省区域人民法院副院长。在法院系统工作22年，其中从事审判工作14年。执业律师4年。",
     },
     seoDescription: {
-      vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc Công ty Luật Vũ Khang, Thạc sĩ Luật, nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa; 22 năm công tác tại Tòa án.",
-      en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm, Master of Laws, former Deputy Chief Judge of a regional court in Khánh Hòa; 22 years in the courts.",
-      zh: "Trần Phương Lan Anh 律师——Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省区域人民法院副院长，在法院系统工作22年。",
+      vi: "Luật sư Trần Phương Lan Anh — Phó Giám đốc Công ty Luật Vũ Khang tại Đồng Nai, Thạc sĩ Luật, nguyên Phó Chánh án Tòa án khu vực tỉnh Khánh Hòa.",
+      en: "Trần Phương Lan Anh — Deputy Director of Vũ Khang law firm in Đồng Nai, Master of Laws, former Deputy Chief Judge of a regional court in Khánh Hòa.",
+      zh: "Trần Phương Lan Anh 律师——越南同奈 Vũ Khang 律师事务所副主任，法学硕士，曾任 Khánh Hòa 省区域人民法院副院长，在法院系统工作22年。",
     },
     // Chủ website nêu ngày 21/10/2026: tranh chấp dân sự, hôn nhân gia đình,
     // hình sự, kinh doanh thương mại, lao động.
@@ -245,9 +245,9 @@ export const firmLawyers: FirmLawyer[] = [
       zh: "法学学士。5年法务专员工作经验。",
     },
     seoDescription: {
-      vi: "Trần Lê Kim Bình — chuyên viên Công ty Luật Vũ Khang, cử nhân luật, lĩnh vực dân sự, hôn nhân và gia đình, 5 năm kinh nghiệm.",
-      en: "Trần Lê Kim Bình — legal specialist at Vũ Khang law firm, Bachelor of Laws, civil and family matters, 5 years of experience.",
-      zh: "Trần Lê Kim Bình——Vũ Khang 律师事务所法务专员，法学学士，负责民事及婚姻家庭领域，拥有5年工作经验。",
+      vi: "Trần Lê Kim Bình — chuyên viên Công ty Luật Vũ Khang tại Đồng Nai, cử nhân luật, lĩnh vực dân sự, hôn nhân và gia đình, 5 năm kinh nghiệm.",
+      en: "Trần Lê Kim Bình — legal specialist at Vũ Khang law firm in Đồng Nai, Bachelor of Laws, civil and family matters, 5 years of experience.",
+      zh: "Trần Lê Kim Bình——越南同奈 Vũ Khang 律师事务所法务专员，法学学士，负责民事及婚姻家庭领域，拥有5年工作经验。",
     },
     services: ["giai-quyet-tranh-chap", "hon-nhan-gia-dinh"],
     portrait: {
@@ -287,6 +287,11 @@ export const firmLawyers: FirmLawyer[] = [
       vi: "Cử nhân Luật.",
       en: "Bachelor of Laws.",
       zh: "法学学士。",
+    },
+    seoDescription: {
+      vi: "Trần Thị Anh Như — chuyên viên Công ty Luật TNHH Vũ Khang Solutions & Partners tại Đồng Nai, cử nhân luật.",
+      en: "Trần Thị Anh Như — legal specialist at Vũ Khang Solutions & Partners law firm in Đồng Nai, Vietnam; Bachelor of Laws.",
+      zh: "Trần Thị Anh Như——越南同奈 Vũ Khang Solutions & Partners 律师事务所法务专员，法学学士。",
     },
     publishOnCreate: true,
     portrait: {

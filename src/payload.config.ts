@@ -13,6 +13,7 @@ import { notifyIndexNow } from "./cms/indexnow-hook";
 import { emailAdapter } from "./cms/email";
 import { SiteLayout } from "./cms/site-layout";
 import { validateExtraZalo, validateMainPhone } from "./lib/contact";
+import { verificationCode } from "./lib/verification";
 import { TEAM_OPTIONS } from "./lib/people-order";
 import { translateEndpoint } from "./cms/translation/endpoint";
 import {
@@ -877,6 +878,51 @@ export default buildConfig({
         },
         { name: "email", label: "Email tiếp nhận", type: "email" },
         { name: "address", label: "Địa chỉ", type: "text", localized: true },
+        {
+          // Thẻ xác minh quyền sở hữu website — thay cho việc phải khai biến môi
+          // trường trên hosting. Ô trống thì website dùng SITE_VERIFICATION_*.
+          type: "collapsible",
+          label: "Google Search Console và Bing",
+          admin: {
+            initCollapsed: true,
+            description:
+              "Dùng một lần khi khai báo website với Google và Bing. Dán mã xác minh rồi bấm Lưu, sau đó quay lại Search Console bấm Xác minh.",
+          },
+          fields: [
+            {
+              name: "googleVerification",
+              label: "Mã xác minh Google Search Console",
+              type: "text",
+              admin: {
+                placeholder: `<meta name="google-site-verification" content="…" />`,
+                description:
+                  "Search Console → Thêm thuộc tính → Tiền tố URL → https://luatvukhang.com → phương thức “Thẻ HTML” → sao chép thẻ và dán cả thẻ (hoặc chỉ phần content) vào đây.",
+              },
+              validate: (value: unknown) =>
+                typeof value !== "string" ||
+                !value.trim() ||
+                verificationCode(value)
+                  ? true
+                  : "Không đọc được mã — dán đúng thẻ meta Google cung cấp.",
+            },
+            {
+              name: "bingVerification",
+              label: "Mã xác minh Bing Webmaster Tools",
+              type: "text",
+              admin: {
+                placeholder: `<meta name="msvalidate.01" content="…" />`,
+                description:
+                  "Không bắt buộc: Bing cho nhập thẳng thuộc tính đã xác minh từ Google Search Console. Nếu xác minh bằng thẻ HTML thì dán thẻ msvalidate.01 vào đây.",
+              },
+              validate: (value: unknown) =>
+                typeof value !== "string" ||
+                !value.trim() ||
+                verificationCode(value)
+                  ? true
+                  : "Không đọc được mã — dán đúng thẻ meta Bing cung cấp.",
+            },
+          ],
+        },
         {
           name: "privacyApproved",
           label: "Chính sách quyền riêng tư đã được rà soát",

@@ -465,7 +465,13 @@ const mediaUrl = (value: SeoRecord["portrait"]) =>
     ? absolute(value.url)
     : undefined;
 
-export function personJsonLd(record: SeoRecord, locale: Locale, path: string) {
+export function personJsonLd(
+  record: SeoRecord,
+  locale: Locale,
+  path: string,
+  /** Địa chỉ văn phòng (Cài đặt) — nơi làm việc, cho tìm kiếm địa phương. */
+  address?: string | null,
+) {
   return prune({
     "@context": "https://schema.org",
     "@type": "Person",
@@ -478,6 +484,9 @@ export function personJsonLd(record: SeoRecord, locale: Locale, path: string) {
     knowsLanguage: record.languages || undefined,
     hasCredential: record.qualifications || undefined,
     worksFor: { "@id": ORGANIZATION_ID },
+    workLocation: address
+      ? { "@type": "Place", address: postalAddress(address) }
+      : undefined,
     inLanguage: languageInfo[locale].tag,
   });
 }

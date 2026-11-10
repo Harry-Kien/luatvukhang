@@ -3,10 +3,13 @@ import {
   addressRegion,
   areaServed,
   organizationJsonLd,
+  personJsonLd,
   serviceJsonLd,
 } from "../src/lib/seo";
+import { verificationCode } from "../src/lib/verification";
 import { seoTitles, seoDescriptions } from "../scripts/content/seo-titles";
 import { practiceAreas } from "../scripts/content/practice-areas";
+import { firmLawyers } from "../scripts/content/lawyers";
 
 /**
  * Tìm kiếm địa phương ("luật sư Đồng Nai", "luật sư Biên Hòa"): Google cần biết
@@ -89,4 +92,41 @@ test("mô tả tìm kiếm trang dịch vụ và trang chủ nêu Đồng Nai, �
   expect(home.vi).toContain("Đồng Nai");
   expect(home.vi).toContain("Biên Hòa");
   expect(home.en).toContain("Đồng Nai");
+});
+
+test("mã xác minh Search Console: nhận cả thẻ meta lẫn mã trần, chặn chuỗi lạ", () => {
+  expect(
+    verificationCode(
+      '<meta name="google-site-verification" content="AbC123_xyz-9876543" />',
+    ),
+  ).toBe("AbC123_xyz-9876543");
+  expect(verificationCode("  AbC123_xyz-9876543 ")).toBe("AbC123_xyz-9876543");
+  expect(verificationCode("")).toBeUndefined();
+  expect(verificationCode('"><script>alert(1)</script>')).toBeUndefined();
+});
+
+test("hồ sơ người nêu nơi làm việc là văn phòng ở Đồng Nai", () => {
+  const person = personJsonLd(
+    { title: "Phan Thùy Trang", position: "Giám đốc" } as never,
+    "vi",
+    "/vi/lawyers/phan-thuy-trang",
+    ADDRESS,
+  ) as Record<string, any>;
+  expect(person.workLocation.address.addressRegion).toBe("Thành phố Đồng Nai");
+  expect(person.worksFor).toBeTruthy();
+});
+
+test("mô tả tìm kiếm của mọi hồ sơ nêu Đồng Nai, không vượt độ dài", () => {
+  for (const person of firmLawyers) {
+    const d = person.seoDescription;
+    expect(d, person.slug).toBeTruthy();
+    for (const language of ["vi", "en"] as const) {
+      expect(d![language], `${person.slug}/${language}`).toContain("Đồng Nai");
+      expect(
+        d![language].length,
+        `${person.slug}/${language}`,
+      ).toBeLessThanOrEqual(160);
+    }
+    expect(d!.zh, `${person.slug}/zh`).toMatch(/同奈|Đồng Nai/);
+  }
 });

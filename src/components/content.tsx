@@ -10,9 +10,16 @@ export function PageHeading({
   summary,
   path,
   trail = [],
+  heading,
 }: {
   locale: Locale;
   title: string;
+  /**
+   * Chữ của thẻ H1 khi cần khác tên ngắn ở breadcrumb — trang dịch vụ dùng
+   * tiêu đề tìm kiếm ("Luật sư hình sự, bào chữa tại Đồng Nai") thay cho tên
+   * mục ("Hình sự"), để thẻ H1 chứa đúng cụm người ta tìm.
+   */
+  heading?: string;
   summary?: string;
   /** Đường dẫn canonical của trang; có giá trị này mới phát BreadcrumbList. */
   path?: string;
@@ -34,7 +41,7 @@ export function PageHeading({
         ))}
         <span>{title}</span>
       </div>
-      <h1>{title}</h1>
+      <h1>{heading || title}</h1>
       {summary && <p>{summary}</p>}
       {path && (
         <JsonLd data={breadcrumbJsonLd([...crumbs, { name: title, path }])} />
