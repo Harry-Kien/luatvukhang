@@ -8,9 +8,11 @@
  * dù src/lib/policy-drafts.ts đã có văn bản hoàn chỉnh. Luật sư công ty mở
  * /admin sẽ chỉ thấy bản khung cũ.
  *
- * Chỉ thay khi trang CHƯA XUẤT BẢN và nội dung còn đúng nguyên văn bản khung
- * (policy-drafts-2026-09.json). Trang công ty đã sửa hoặc đã xuất bản được giữ
- * nguyên. Kết quả vẫn là NHÁP: chỉ có hiệu lực khi luật sư duyệt và xuất bản.
+ * Chỉ thay khi trang CHƯA XUẤT BẢN và nội dung còn đúng nguyên một bản đã nạp
+ * trước đây: bản khung (policy-drafts-2026-09.json) hoặc bản hoàn chỉnh còn số
+ * điện thoại cũ 0832270898 (policy-drafts-2026-11.json — công ty đổi số chính
+ * thành 0977013358 tháng 11/2026). Trang công ty đã sửa hoặc đã xuất bản được
+ * giữ nguyên. Kết quả vẫn là NHÁP: chỉ có hiệu lực khi luật sư duyệt và xuất bản.
  * Chạy lại bao nhiêu lần cũng không làm gì thêm.
  */
 import { readFileSync } from "node:fs";
@@ -24,11 +26,11 @@ import { POLICY_SUMMARIES, SUMMARIES } from "./content/page-summaries";
 type Section = readonly [string, string];
 type Slug = "privacy" | "terms";
 
-const previous: Record<Slug, Record<Locale, Section[]>> = JSON.parse(
-  readFileSync(
-    new URL("./content/policy-drafts-2026-09.json", import.meta.url),
-    "utf8",
-  ),
+const previousVersions: Record<Slug, Record<Locale, Section[]>>[] = [
+  "./content/policy-drafts-2026-09.json",
+  "./content/policy-drafts-2026-11.json",
+].map((file) =>
+  JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8")),
 );
 const current = (slug: Slug, language: Locale) =>
   (language === "zh"
@@ -67,7 +69,12 @@ for (const slug of ["privacy", "terms"] as const)
     const sections: Section[] = (page.blocks ?? []).map(
       (b: Record<string, string>) => [b.heading ?? "", b.body ?? ""] as const,
     );
-    if (!same(sections, previous[slug][language])) continue;
+    if (
+      !previousVersions.some((version) =>
+        same(sections, version[slug][language]),
+      )
+    )
+      continue;
     await cms.update({
       collection: "pages",
       id: page.id,

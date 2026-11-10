@@ -1,7 +1,7 @@
 /**
  * Ghi thông tin liên hệ đã được công ty xác nhận vào Cài đặt.
  *
- *   node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
+ *   node --env-file=.env --import tsx scripts/set-contact.ts --phone "0977013358"
  *   node --env-file=.env --import tsx scripts/set-contact.ts --email a@b.vn --address "..."
  *
  * Chỉ ghi đúng những trường được truyền vào; trường không nhắc tới giữ nguyên.
@@ -34,7 +34,7 @@ for (const field of FIELDS) {
 if (!Object.keys(data).length) {
   console.log(
     "Khong co gi de ghi. Vi du:\n" +
-      '  node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"\n' +
+      '  node --env-file=.env --import tsx scripts/set-contact.ts --phone "0977013358"\n' +
       "Truong ho tro: " +
       FIELDS.join(", "),
   );
@@ -43,7 +43,7 @@ if (!Object.keys(data).length) {
 // Số sai định dạng sẽ khiến website ẩn nút gọi mà không báo lỗi; chặn ngay đây.
 if (data.phone && !contactChannels(data.phone)) {
   console.error(
-    `So dien thoai khong hop le: "${data.phone}". Can 9-12 chu so, vi du 0832270898.`,
+    `So dien thoai khong hop le: "${data.phone}". Can 9-12 chu so, vi du 0977013358.`,
   );
   process.exit(1);
 }

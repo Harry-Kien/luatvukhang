@@ -52,7 +52,7 @@ export const policyDrafts = {
       ],
       [
         "Hiệu lực và liên hệ",
-        "Điều khoản có hiệu lực từ ngày được công bố trên trang này. Khi có thay đổi, bản cập nhật được đăng tại đây. Mọi câu hỏi xin gửi về email luatvukhang@gmail.com hoặc gọi 0832270898.",
+        "Điều khoản có hiệu lực từ ngày được công bố trên trang này. Khi có thay đổi, bản cập nhật được đăng tại đây. Mọi câu hỏi xin gửi về email luatvukhang@gmail.com hoặc gọi 0977013358.",
       ],
     ],
     en: [
@@ -94,7 +94,7 @@ export const policyDrafts = {
       ],
       [
         "Effect and contact",
-        "These terms take effect on the date they are published on this page. Updates will be posted here. Questions: luatvukhang@gmail.com or +84 832 270 898.",
+        "These terms take effect on the date they are published on this page. Updates will be posted here. Questions: luatvukhang@gmail.com or +84 977 013 358.",
       ],
     ],
   },
@@ -146,7 +146,7 @@ export const policyDrafts = {
       ],
       [
         "Liên hệ và hiệu lực",
-        "Mọi câu hỏi và yêu cầu về dữ liệu cá nhân xin gửi về email luatvukhang@gmail.com, gọi 0832270898, hoặc gửi thư tới 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai. Chính sách có hiệu lực từ ngày được công bố trên trang này. Khi thay đổi, bản cập nhật được đăng tại đây; nếu thay đổi mục đích xử lý, chúng tôi sẽ xin lại sự đồng ý của bạn khi pháp luật yêu cầu.",
+        "Mọi câu hỏi và yêu cầu về dữ liệu cá nhân xin gửi về email luatvukhang@gmail.com, gọi 0977013358, hoặc gửi thư tới 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai. Chính sách có hiệu lực từ ngày được công bố trên trang này. Khi thay đổi, bản cập nhật được đăng tại đây; nếu thay đổi mục đích xử lý, chúng tôi sẽ xin lại sự đồng ý của bạn khi pháp luật yêu cầu.",
       ],
     ],
     en: [
@@ -196,7 +196,7 @@ export const policyDrafts = {
       ],
       [
         "Contact and effective date",
-        "Questions and requests about personal data: luatvukhang@gmail.com, +84 832 270 898, or by post to 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai, Vietnam. This policy takes effect on the date it is published on this page. Updates will be posted here; if the purpose of processing changes, we will ask for your consent again where the law requires.",
+        "Questions and requests about personal data: luatvukhang@gmail.com, +84 977 013 358, or by post to 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai, Vietnam. This policy takes effect on the date it is published on this page. Updates will be posted here; if the purpose of processing changes, we will ask for your consent again where the law requires.",
       ],
     ],
   },

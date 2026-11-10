@@ -231,7 +231,7 @@ sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-pages.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-practice-areas.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-keywords.ts
 sudo -u luatvukhang node --env-file=.env --import tsx scripts/prepare-page-content.ts
-sudo -u luatvukhang node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
+sudo -u luatvukhang node --env-file=.env --import tsx scripts/set-contact.ts --phone "0977013358"
 ```
 
 `bootstrap.ts` ghi mật khẩu quản trị vào `.local/admin-access.txt`. Đọc nó, đổi

@@ -337,7 +337,7 @@ bộ từ khóa tìm kiếm. Còn một việc chưa nằm trong script vì nó 
 doanh nghiệp — chạy khi số điện thoại đã được xác nhận:
 
 ```bash
-node --import tsx scripts/set-contact.ts --phone "0832270898"
+node --import tsx scripts/set-contact.ts --phone "0977013358"
 ```
 
 Số này đồng thời sinh ra nút gọi, nút Zalo và trường `telephone` trong dữ liệu có

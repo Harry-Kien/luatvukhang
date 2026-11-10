@@ -18,3 +18,13 @@ export const officeArea: Record<Locale, string> = {
   en: "central Biên Hòa (Trấn Biên ward), Đồng Nai, Vietnam",
   zh: "越南同奈边和中心区（Trấn Biên 坊）",
 };
+
+/**
+ * Cụm ngắn đặt ngay sau địa chỉ đầy đủ (địa chỉ đã có tên phường và thành
+ * phố), để không lặp "phường Trấn Biên, thành phố Đồng Nai" hai lần.
+ */
+export const officeLandmark: Record<Locale, string> = {
+  vi: "khu trung tâm Biên Hòa cũ",
+  en: "central Biên Hòa",
+  zh: "边和中心区",
+};

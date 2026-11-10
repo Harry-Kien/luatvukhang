@@ -12,7 +12,7 @@ import { trackSlugChange } from "./cms/redirect-hook";
 import { notifyIndexNow } from "./cms/indexnow-hook";
 import { emailAdapter } from "./cms/email";
 import { SiteLayout } from "./cms/site-layout";
-import { contactChannels } from "./lib/contact";
+import { validateExtraZalo, validateMainPhone } from "./lib/contact";
 import { TEAM_OPTIONS } from "./lib/people-order";
 import { translateEndpoint } from "./cms/translation/endpoint";
 import {
@@ -816,36 +816,62 @@ export default buildConfig({
         text("companyName", "Tên công ty chính thức"),
         text("englishName", "Tên tiếng Anh"),
         text("registration", "Thông tin đăng ký hoạt động"),
-        text("phone", "Điện thoại"),
         {
-          // Số chính ở trên đã tự có nút Zalo; đây là các số chỉ để nhắn Zalo.
-          name: "zaloNumbers",
-          label: "Số Zalo bổ sung",
-          type: "array",
-          labels: { singular: "Số Zalo", plural: "Số Zalo bổ sung" },
+          // Khung chỉ để gom trên màn hình admin: dữ liệu vẫn là hai ô phone và
+          // zaloNumbers như trước, không cần đổi cơ sở dữ liệu.
+          type: "collapsible",
+          label: "Điện thoại và Zalo",
           admin: {
-            description:
-              "Số chỉ dùng để nhắn Zalo, ngoài số Điện thoại ở trên (số đó đã tự có nút Zalo). Hiện ở thanh trên cùng, chân trang, trang Liên hệ và nút Zalo nổi. Kéo để đổi thứ tự, bấm ⋯ để xóa. Bấm Lưu là website đổi theo.",
             initCollapsed: false,
+            description:
+              "Số chính là nút Gọi và Zalo 1; các dòng bên dưới là Zalo 2, Zalo 3… Mọi nơi trên website (thanh trên cùng, chân trang, trang Liên hệ, nút gọi và Zalo nổi, dữ liệu gửi Google và công cụ AI) đổi theo ngay khi bấm Lưu.",
           },
           fields: [
             {
               name: "phone",
-              label: "Số Zalo",
+              label: "Số điện thoại chính — nút Gọi và Zalo 1",
               type: "text",
-              required: true,
-              validate: (value: unknown) =>
-                contactChannels(typeof value === "string" ? value : null)
-                  ? true
-                  : "Số không hợp lệ — nhập 9 đến 12 chữ số, ví dụ 0976894548.",
+              admin: {
+                placeholder: "0977013358",
+                description:
+                  "Khách bấm Gọi và nhắn Zalo 1 vào số này; Google Maps và danh bạ nên ghi đúng số này. Nhập kiểu nào cũng được: 0977013358, 0977 013 358 hoặc +84 977 013 358.",
+              },
+              validate: (value: unknown) => validateMainPhone(value),
             },
             {
-              name: "note",
-              label: "Ghi chú nội bộ (không hiện trên website)",
-              type: "text",
-              // Cài đặt đọc công khai qua /api/globals/site-settings; ghi chú
-              // nội bộ thì chỉ người đã đăng nhập admin mới đọc được.
-              access: { read: ({ req }) => Boolean(req.user) },
+              name: "zaloNumbers",
+              label: "Zalo 2, Zalo 3… (số chỉ để nhắn Zalo)",
+              type: "array",
+              labels: { singular: "Số Zalo", plural: "Số Zalo bổ sung" },
+              admin: {
+                description:
+                  "Mỗi dòng là một nút Zalo riêng, theo thứ tự Zalo 2, Zalo 3… Kéo để đổi thứ tự, bấm ⋯ để xóa, bấm “Thêm Số Zalo” để thêm. Không cần nhập lại số chính ở đây.",
+                initCollapsed: false,
+                components: {
+                  RowLabel: "/components/admin/zalo-row-label#ZaloRowLabel",
+                },
+              },
+              fields: [
+                {
+                  name: "phone",
+                  label: "Số Zalo",
+                  type: "text",
+                  required: true,
+                  admin: { placeholder: "0976894548" },
+                  validate: (
+                    value: unknown,
+                    { data }: { data?: Record<string, any> },
+                  ) => validateExtraZalo(value, data?.phone, data?.zaloNumbers),
+                },
+                {
+                  name: "note",
+                  label: "Ghi chú nội bộ (không hiện trên website)",
+                  type: "text",
+                  // Cài đặt đọc công khai qua /api/globals/site-settings; ghi
+                  // chú nội bộ thì chỉ người đã đăng nhập admin mới đọc được.
+                  access: { read: ({ req }) => Boolean(req.user) },
+                },
+              ],
             },
           ],
         },

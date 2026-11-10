@@ -2258,9 +2258,12 @@ export interface SiteSetting {
   companyName?: string | null;
   englishName?: string | null;
   registration?: string | null;
+  /**
+   * Khách bấm Gọi và nhắn Zalo 1 vào số này; Google Maps và danh bạ nên ghi đúng số này. Nhập kiểu nào cũng được: 0977013358, 0977 013 358 hoặc +84 977 013 358.
+   */
   phone?: string | null;
   /**
-   * Số chỉ dùng để nhắn Zalo, ngoài số Điện thoại ở trên (số đó đã tự có nút Zalo). Hiện ở thanh trên cùng, chân trang, trang Liên hệ và nút Zalo nổi. Kéo để đổi thứ tự, bấm ⋯ để xóa. Bấm Lưu là website đổi theo.
+   * Mỗi dòng là một nút Zalo riêng, theo thứ tự Zalo 2, Zalo 3… Kéo để đổi thứ tự, bấm ⋯ để xóa, bấm “Thêm Số Zalo” để thêm. Không cần nhập lại số chính ở đây.
    */
   zaloNumbers?:
     | {

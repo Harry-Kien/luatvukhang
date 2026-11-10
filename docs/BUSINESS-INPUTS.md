@@ -2,10 +2,16 @@
 
 Đã nhận tên chính thức: Công ty Luật TNHH Vũ Khang Solutions & Partners. Website đã cập nhật tên này.
 
-Đã nhận số điện thoại: **0832270898**. Số này nằm trong Cài đặt của CMS và là
-nguồn duy nhất sinh ra nút gọi (`tel:+84832270898`), nút Zalo
-(`https://zalo.me/0832270898`) và trường `telephone` trong dữ liệu có cấu trúc
-`Organization`. Đổi số trong Cài đặt là cả ba nơi đổi theo; không sửa trong mã.
+Số điện thoại chính: **0977013358** (công ty đổi trong admin, chủ website xác
+nhận ngày 10/11/2026; số trước đây 0832270898). Số này nằm trong Cài đặt của CMS
+và là nguồn duy nhất sinh ra nút gọi (`tel:+84977013358`), nút Zalo 1
+(`https://zalo.me/0977013358`) và trường `telephone` trong dữ liệu có cấu trúc
+`Organization`. Đổi số trong Cài đặt là mọi nơi đổi theo; không sửa trong mã.
+Google Maps, Facebook, danh bạ phải ghi đúng số này.
+
+**Sửa trong admin:** Cài đặt → khung **Điện thoại và Zalo**: ô *Số điện thoại
+chính — nút Gọi và Zalo 1*, rồi danh sách *Zalo 2, Zalo 3…* (mỗi dòng ghi sẵn
+"Zalo 2 · số…"). Số sai, số trùng số chính hoặc trùng dòng khác bị chặn khi lưu.
 
 **Số Zalo bổ sung** (từ 22/10/2026): ô riêng trong **Cài đặt → Số Zalo bổ sung**,
 dành cho các số chỉ để nhắn Zalo (số Điện thoại chính đã tự có nút Zalo). Thêm,
@@ -14,7 +20,7 @@ nút Zalo nổi và llms.txt đổi theo. Số nhập sai bị chặn khi lưu. 
 và 0382140336 được điền sẵn khi cài bản có ô này.
 
 ```
-node --env-file=.env --import tsx scripts/set-contact.ts --phone "0832270898"
+node --env-file=.env --import tsx scripts/set-contact.ts --phone "0977013358"
 ```
 
 ## Quyết định trước khi công bố
@@ -231,7 +237,7 @@ từng bài, hoặc rà soát rồi nhận đứng tên.
 | Trường | Giá trị | Nguồn |
 | --- | --- | --- |
 | Tên công ty | Công ty Luật TNHH Vũ Khang Solutions & Partners | đã xác nhận |
-| Điện thoại | 0832270898 | đã xác nhận 13/09/2026 |
+| Điện thoại | 0977013358 | đã xác nhận 10/11/2026 (trước: 0832270898, 13/09/2026) |
 | Email tiếp nhận | luatvukhang@gmail.com | đã xác nhận 19/09/2026 |
 | Địa chỉ văn phòng | 1808 đường Nguyễn Ái Quốc, phường Trấn Biên, Thành phố Đồng Nai | đã xác nhận 19/09/2026 |
 | Tên tiếng Anh | VU KHANG SOLUTIONS & PARTNERS LAW COMPANY LIMITED | đã xác nhận 19/09/2026 |

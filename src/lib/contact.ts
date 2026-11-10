@@ -57,3 +57,35 @@ export function zaloChannels(
         all.findIndex((candidate) => candidate.zalo === item.zalo) === index,
     );
 }
+
+const INVALID_NUMBER =
+  "Số không hợp lệ — nhập 9 đến 12 chữ số, ví dụ 0977013358 hoặc +84 977 013 358.";
+
+/**
+ * Ô "Số điện thoại chính" trong admin: để trống được (website ẩn nút gọi và
+ * Zalo), có nhập thì phải là số gọi được.
+ */
+export function validateMainPhone(value: unknown): true | string {
+  if (typeof value !== "string" || !value.trim()) return true;
+  return contactChannels(value) ? true : INVALID_NUMBER;
+}
+
+/**
+ * Một dòng Zalo bổ sung: phải là số hợp lệ, không trùng số chính (số chính đã
+ * là Zalo 1) và không trùng dòng khác — cùng một thuê bao nhập hai cách
+ * ("0976894548" và "+84 976 894 548") cũng tính là trùng.
+ */
+export function validateExtraZalo(
+  value: unknown,
+  mainPhone?: string | null,
+  rows?: ZaloNumber[] | null,
+): true | string {
+  const channel = contactChannels(typeof value === "string" ? value : null);
+  if (!channel) return INVALID_NUMBER;
+  if (contactChannels(mainPhone)?.zalo === channel.zalo)
+    return "Số này trùng số điện thoại chính — số chính đã là Zalo 1, không cần nhập lại.";
+  const same = (rows ?? []).filter(
+    (row) => contactChannels(row?.phone)?.zalo === channel.zalo,
+  ).length;
+  return same > 1 ? "Số này đã có ở một dòng Zalo khác." : true;
+}

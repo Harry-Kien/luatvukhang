@@ -2636,3 +2636,18 @@ a.ecosystem-chip:focus-visible {
     opacity: 0.16;
   }
 }
+
+/* Hỏi đáp cuối trang chủ (components/local-faq.tsx): cùng kiểu danh sách hỏi
+   đáp của trang dịch vụ, giới hạn bề ngang cho dễ đọc. */
+.home-faq > h2 {
+  font-size: clamp(26px, 3vw, 40px);
+  max-width: 880px;
+  margin: 0 0 28px;
+}
+.home-faq .faq-list {
+  max-width: 880px;
+}
+.home-faq .faq-list details p {
+  color: var(--muted);
+  line-height: 1.85;
+}

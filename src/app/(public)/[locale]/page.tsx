@@ -18,6 +18,7 @@ import { getRecords } from "@/lib/cms";
 import { getSiteLayout } from "@/lib/site-layout";
 import { pageMetadata } from "@/lib/seo";
 import { LawyerHighlights } from "@/components/lawyer-highlights";
+import { LocalFaq } from "@/components/local-faq";
 const INTRO: Record<Locale, string> = {
   zh: "Vũ Khang — 为越南投资、企业经营、合同与争议问题提供清晰的法律视角。",
   vi: "Công ty Luật TNHH Vũ Khang Solutions & Partners — góc nhìn pháp lý rõ ràng cho đầu tư, doanh nghiệp, hợp đồng và giải quyết tranh chấp tại Việt Nam.",
@@ -295,7 +296,11 @@ export default async function Home({
           </ol>
         </section>
       </Editable>
-      <LawyerHighlights locale={locale} index="04" className="section home-lawyers" />
+      <LawyerHighlights
+        locale={locale}
+        index="04"
+        className="section home-lawyers"
+      />
       <section className="section editorial">
         <div className="section-index">
           <span>05</span>
@@ -368,6 +373,7 @@ export default async function Home({
           </Link>
         </div>
       </section>
+      <LocalFaq locale={locale} index="06" />
     </>
   );
 }
