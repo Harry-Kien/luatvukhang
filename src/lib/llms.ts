@@ -24,6 +24,7 @@ export function buildLlmsTxt({
   sections,
   note,
   facts = [],
+  faq = [],
 }: {
   siteUrl: string;
   firm: string;
@@ -32,6 +33,8 @@ export function buildLlmsTxt({
   note?: string;
   /** Đặt ngay sau phần giới thiệu: câu hỏi hay gặp nhất là "liên hệ ở đâu". */
   facts?: LlmsFacts[];
+  /** Hỏi đáp như ở cuối trang chủ (lib/local-faq.ts) — câu trợ lý AI hay được hỏi. */
+  faq?: { question: string; answer: string }[];
 }): string {
   const lines = [`# ${firm}`, "", `> ${oneLine(summary)}`, ""];
   if (note) lines.push(oneLine(note), "");
@@ -41,6 +44,12 @@ export function buildLlmsTxt({
     lines.push(`## ${group.heading}`, "");
     for (const line of filled)
       lines.push(`- ${line.label}: ${oneLine(String(line.value))}`);
+    lines.push("");
+  }
+  if (faq.length) {
+    lines.push("## Hỏi đáp", "");
+    for (const entry of faq)
+      lines.push(`- **${oneLine(entry.question)}** ${oneLine(entry.answer)}`);
     lines.push("");
   }
   for (const section of sections) {
@@ -92,6 +101,7 @@ export function buildLlmsFull({
   people,
   note,
   ecosystem,
+  faq = [],
 }: {
   siteUrl: string;
   firm: string;
@@ -103,6 +113,8 @@ export function buildLlmsFull({
   note?: string;
   /** Thành viên hệ sinh thái (Cài đặt → "Hệ sinh thái"), như trong llms.txt. */
   ecosystem?: { label: string; value?: string | null }[];
+  /** Hỏi đáp như ở cuối trang chủ (lib/local-faq.ts). */
+  faq?: { question: string; answer: string }[];
 }): string {
   const lines = [`# ${firm}`, "", `> ${oneLine(summary)}`, ""];
   if (note) lines.push(oneLine(note), "");
@@ -121,6 +133,12 @@ export function buildLlmsFull({
     for (const entry of members)
       lines.push(`- ${entry.label}: ${oneLine(entry.value!)}`);
     lines.push("");
+  }
+
+  if (faq.length) {
+    lines.push("## Hỏi đáp", "");
+    for (const entry of faq)
+      lines.push(`**${oneLine(entry.question)}**`, oneLine(entry.answer), "");
   }
 
   if (about?.length) {

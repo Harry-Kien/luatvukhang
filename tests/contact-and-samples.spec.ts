@@ -370,10 +370,19 @@ for (const locale of ["vi", "en", "zh"] as const)
       `trang Liên hệ /${locale} không có liên kết bản đồ`,
     ).toHaveCount(1);
     const href = await link.getAttribute("href");
-    expect(
-      decodeURIComponent(href!),
-      "liên kết bản đồ phải trỏ đúng địa chỉ trong Cài đặt",
-    ).toContain(address);
+    // Liên kết hồ sơ Google Maps nhập trong Giao diện → Liên hệ được ưu tiên
+    // (mở đúng hồ sơ doanh nghiệp kèm đánh giá); chưa có thì tìm theo địa chỉ.
+    const layout = await (
+      await request.get("/api/globals/site-layout?depth=0")
+    ).json();
+    const mapUrl = String(layout?.contact?.mapUrl ?? "").trim();
+    if (mapUrl && !mapUrl.includes("/maps/embed"))
+      expect(href, "phải mở đúng hồ sơ Google Maps của công ty").toBe(mapUrl);
+    else
+      expect(
+        decodeURIComponent(href!),
+        "liên kết bản đồ phải trỏ đúng địa chỉ trong Cài đặt",
+      ).toContain(address);
   });
 
 /**

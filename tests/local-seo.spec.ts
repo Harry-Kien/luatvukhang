@@ -4,12 +4,15 @@ import {
   areaServed,
   organizationJsonLd,
   personJsonLd,
+  profileLinks,
   serviceJsonLd,
 } from "../src/lib/seo";
 import { verificationCode } from "../src/lib/verification";
 import { seoTitles, seoDescriptions } from "../scripts/content/seo-titles";
 import { practiceAreas } from "../scripts/content/practice-areas";
 import { firmLawyers } from "../scripts/content/lawyers";
+import { buildLlmsFull, buildLlmsTxt } from "../src/lib/llms";
+import { SITE_LAYOUT_DEFAULTS } from "../src/cms/site-layout";
 
 /**
  * Tìm kiếm địa phương ("luật sư Đồng Nai", "luật sư Biên Hòa"): Google cần biết
@@ -129,4 +132,39 @@ test("mô tả tìm kiếm của mọi hồ sơ nêu Đồng Nai, không vượt
     }
     expect(d!.zh, `${person.slug}/zh`).toMatch(/同奈|Đồng Nai/);
   }
+});
+
+test("llms.txt và llms-full.txt có mục Hỏi đáp cho trợ lý AI", () => {
+  const faq = [
+    { question: "Văn phòng ở đâu tại Đồng Nai?", answer: "Phường Trấn Biên." },
+  ];
+  const short = buildLlmsTxt({
+    siteUrl: "https://luatvukhang.com",
+    firm: "Vũ Khang",
+    summary: "Công ty luật.",
+    sections: [],
+    faq,
+  });
+  expect(short).toContain(
+    "## Hỏi đáp\n\n- **Văn phòng ở đâu tại Đồng Nai?** Phường Trấn Biên.",
+  );
+  const full = buildLlmsFull({
+    siteUrl: "https://luatvukhang.com",
+    firm: "Vũ Khang",
+    summary: "Công ty luật.",
+    contact: [],
+    services: [],
+    people: [],
+    faq,
+  });
+  expect(full).toContain(
+    "## Hỏi đáp\n\n**Văn phòng ở đâu tại Đồng Nai?**\nPhường Trấn Biên.",
+  );
+});
+
+test("hồ sơ Google Maps của công ty là liên kết bản đồ mặc định, nối qua sameAs", () => {
+  const gbp = "https://www.google.com/maps?cid=12786868505512129675";
+  for (const locale of ["vi", "en", "zh"] as const)
+    expect(SITE_LAYOUT_DEFAULTS[locale].contact.mapUrl, locale).toBe(gbp);
+  expect(profileLinks({ mapUrl: gbp })).toContain(gbp);
 });

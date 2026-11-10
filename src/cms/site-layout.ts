@@ -170,7 +170,12 @@ const vi: SiteLayoutData = {
     ],
     copyright: "Vũ Khang.",
   },
-  contact: {},
+  contact: {
+    // Hồ sơ Google Maps của công ty (CID lấy từ hồ sơ trên Google ngày
+    // 10/11/2026). Chỉ điền khi ô trống — liên kết công ty tự nhập được giữ.
+    // Nối website với hồ sơ bản đồ qua hasMap/sameAs và llms.txt.
+    mapUrl: "https://www.google.com/maps?cid=12786868505512129675",
+  },
 };
 
 const en: SiteLayoutData = {
@@ -248,7 +253,12 @@ const en: SiteLayoutData = {
     ],
     copyright: "Vũ Khang.",
   },
-  contact: {},
+  contact: {
+    // Hồ sơ Google Maps của công ty (CID lấy từ hồ sơ trên Google ngày
+    // 10/11/2026). Chỉ điền khi ô trống — liên kết công ty tự nhập được giữ.
+    // Nối website với hồ sơ bản đồ qua hasMap/sameAs và llms.txt.
+    mapUrl: "https://www.google.com/maps?cid=12786868505512129675",
+  },
 };
 
 /** Bản Trung sinh từ bản Anh qua từ điển zh.ts như phần còn lại của website. */

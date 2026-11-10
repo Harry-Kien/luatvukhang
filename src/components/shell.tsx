@@ -272,6 +272,9 @@ const SOCIAL: [keyof SiteLayoutData["contact"], string][] = [
   ["facebook", "Facebook"],
   ["linkedin", "LinkedIn"],
   ["youtube", "YouTube"],
+  // Hồ sơ Google Maps: khách xem đánh giá, chỉ đường; cũng là liên kết
+  // website ↔ hồ sơ bản đồ mà Google và AI dùng để nhận ra cùng một công ty.
+  ["mapUrl", "Google Maps"],
 ];
 export function Footer({
   locale,

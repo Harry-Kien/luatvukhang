@@ -7,6 +7,7 @@ import { zaloChannels } from "@/lib/contact";
 import { ecosystemMembers } from "@/lib/ecosystem";
 import { getSiteLayout } from "@/lib/site-layout";
 import { officeArea } from "@/lib/local-area";
+import { buildLocalFaq } from "@/lib/local-faq";
 
 /** Nhóm nội dung đưa vào bản tóm tắt, theo thứ tự khách hay cần. */
 const SECTIONS = [
@@ -43,7 +44,22 @@ export async function GET() {
     });
   }
 
+  // Cùng hỏi đáp với cuối trang chủ, bản tiếng Việt.
+  const faq = buildLocalFaq({
+    locale: "vi",
+    settings: settings as never,
+    services: (await getRecords("services", "vi")).map((record) => ({
+      title: record.title,
+    })),
+    people: (await getRecords("lawyers", "vi")).map((record: any) => ({
+      title: record.title,
+      position: record.position,
+      role: record.role,
+    })),
+  });
+
   const text = buildLlmsTxt({
+    faq,
     siteUrl,
     firm,
     summary:

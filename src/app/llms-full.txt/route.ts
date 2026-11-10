@@ -7,6 +7,7 @@ import { zaloChannels } from "@/lib/contact";
 import { getSiteLayout } from "@/lib/site-layout";
 import { ecosystemMembers } from "@/lib/ecosystem";
 import { officeArea } from "@/lib/local-area";
+import { buildLocalFaq } from "@/lib/local-faq";
 
 export async function GET() {
   // Cùng điều kiện với llms.txt, robots.txt và feed.xml.
@@ -28,6 +29,17 @@ export async function GET() {
   const about = pages.find((page) => page.slug === "about");
 
   const text = buildLlmsFull({
+    // Cùng hỏi đáp với cuối trang chủ, bản tiếng Việt.
+    faq: buildLocalFaq({
+      locale: "vi",
+      settings: settings as never,
+      services: services.map((record: any) => ({ title: record.title })),
+      people: lawyers.map((record: any) => ({
+        title: record.title,
+        position: record.position,
+        role: record.role,
+      })),
+    }),
     siteUrl,
     firm,
     summary:
