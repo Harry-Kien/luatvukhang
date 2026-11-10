@@ -22,6 +22,58 @@ export const replacedSeoTitles: Record<
   string,
   Partial<Record<keyof Localised, string[]>>
 > = {
+  // 10/11/2026: tiêu đề nhắm tìm kiếm địa phương ("luật sư Đồng Nai",
+  // "luật sư Biên Hòa"); các tiêu đề trước đó được thay.
+  "services/dau-tu-doanh-nghiep": {
+    vi: ["Luật sư doanh nghiệp và thương mại"],
+    en: ["Corporate and commercial lawyers in Vietnam"],
+    zh: ["企业与商事法律顾问"],
+  },
+  "services/giai-quyet-tranh-chap": {
+    vi: ["Luật sư dân sự và giải quyết tranh chấp"],
+    en: ["Civil and dispute resolution lawyers"],
+    zh: ["民事与纠纷解决律师"],
+  },
+  "services/lao-dong-nhan-su": {
+    vi: ["Luật sư lao động và quản trị nội bộ"],
+    en: ["Employment and governance lawyers in Vietnam"],
+    zh: ["劳动与内部治理法律顾问"],
+  },
+  "services/dat-dai-bat-dong-san": {
+    vi: ["Luật sư đất đai và nhà ở"],
+    en: ["Land and housing lawyers in Vietnam"],
+    zh: ["土地与住房法律顾问"],
+  },
+  "services/hon-nhan-gia-dinh": {
+    vi: ["Luật sư hôn nhân và gia đình"],
+    en: ["Marriage and family lawyers in Vietnam"],
+    zh: ["婚姻家庭律师"],
+  },
+  "services/hinh-su": {
+    vi: ["Luật sư bào chữa vụ án hình sự"],
+    en: ["Criminal defence lawyers in Vietnam"],
+    zh: ["刑事辩护律师"],
+  },
+  "services/san-pham-phap-ly-tieu-chuan": {
+    vi: ["Soạn đơn, mẫu hợp đồng và kiểm tra hồ sơ"],
+    en: ["Legal forms, contract templates and document checks"],
+    zh: ["文书起草、合同范本与材料审查"],
+  },
+  "services/luat-su-rieng-tu-van-dinh-ky": {
+    vi: ["Luật sư riêng cho gia đình và doanh nghiệp"],
+    en: ["Retained lawyers for families and businesses"],
+    zh: ["家庭与企业常年律师"],
+  },
+  "pages/about": {
+    vi: ["Về công ty luật Vũ Khang Solutions & Partners"],
+    en: ["About Vũ Khang Solutions & Partners law firm"],
+    zh: ["关于 Vũ Khang Solutions & Partners 律师事务所"],
+  },
+  "pages/contact": {
+    vi: ["Liên hệ luật sư tư vấn pháp lý"],
+    en: ["Contact our lawyers for legal advice"],
+    zh: ["联系律师获取法律咨询"],
+  },
   "lawyers/phan-thuy-trang": {
     // 22/10/2026: tiêu đề nêu thêm chức Giám đốc.
     vi: ["Luật sư Phan Thùy Trang — nguyên Thẩm phán"],
@@ -83,50 +135,52 @@ export const seoDescriptions: Record<string, Partial<Localised>> = {
   // Tóm tắt tiếng Trung của trang chủ chỉ 29 ký tự — Google cắt còn rất ít
   // thông tin. Dòng chữ lớn đầu trang vẫn dùng tóm tắt ngắn.
   "pages/home": {
+    vi: "Công ty Luật Vũ Khang — luật sư tại Đồng Nai, văn phòng ở phường Trấn Biên (trung tâm Biên Hòa cũ): hình sự, ly hôn, đất đai, dân sự, doanh nghiệp, lao động.",
+    en: "Vũ Khang law firm — lawyers in Đồng Nai, Vietnam, office in central Biên Hòa (Trấn Biên ward): criminal, divorce, land, civil, corporate and employment.",
     zh: "Vũ Khang 律师事务所位于越南同奈，为企业与个人提供商事、民事纠纷、劳动、土地住房、婚姻家庭及刑事等法律服务，为重要决策提供清晰的法律视角。",
   },
 };
 
 export const seoTitles: Record<string, Localised> = {
   "services/dau-tu-doanh-nghiep": {
-    vi: "Luật sư doanh nghiệp và thương mại",
-    en: "Corporate and commercial lawyers in Vietnam",
-    zh: "企业与商事法律顾问",
+    vi: "Luật sư doanh nghiệp, thương mại tại Đồng Nai",
+    en: "Corporate and commercial lawyers in Đồng Nai",
+    zh: "同奈企业与商事律师",
   },
   "services/giai-quyet-tranh-chap": {
-    vi: "Luật sư dân sự và giải quyết tranh chấp",
-    en: "Civil and dispute resolution lawyers",
-    zh: "民事与纠纷解决律师",
+    vi: "Luật sư dân sự, tranh chấp tại Đồng Nai",
+    en: "Civil and dispute resolution lawyers in Đồng Nai",
+    zh: "同奈民事与纠纷解决律师",
   },
   "services/lao-dong-nhan-su": {
-    vi: "Luật sư lao động và quản trị nội bộ",
-    en: "Employment and governance lawyers in Vietnam",
-    zh: "劳动与内部治理法律顾问",
+    vi: "Luật sư lao động tại Đồng Nai",
+    en: "Employment lawyers in Đồng Nai, Vietnam",
+    zh: "同奈劳动与内部治理律师",
   },
   "services/dat-dai-bat-dong-san": {
-    vi: "Luật sư đất đai và nhà ở",
-    en: "Land and housing lawyers in Vietnam",
-    zh: "土地与住房法律顾问",
+    vi: "Luật sư đất đai, nhà ở tại Đồng Nai",
+    en: "Land and housing lawyers in Đồng Nai",
+    zh: "同奈土地与住房律师",
   },
   "services/hon-nhan-gia-dinh": {
-    vi: "Luật sư hôn nhân và gia đình",
-    en: "Marriage and family lawyers in Vietnam",
-    zh: "婚姻家庭律师",
+    vi: "Luật sư ly hôn, hôn nhân gia đình tại Đồng Nai",
+    en: "Divorce and family lawyers in Đồng Nai",
+    zh: "同奈婚姻家庭与离婚律师",
   },
   "services/hinh-su": {
-    vi: "Luật sư bào chữa vụ án hình sự",
-    en: "Criminal defence lawyers in Vietnam",
-    zh: "刑事辩护律师",
+    vi: "Luật sư hình sự, bào chữa tại Đồng Nai",
+    en: "Criminal defence lawyers in Đồng Nai",
+    zh: "同奈刑事辩护律师",
   },
   "services/san-pham-phap-ly-tieu-chuan": {
-    vi: "Soạn đơn, mẫu hợp đồng và kiểm tra hồ sơ",
-    en: "Legal forms, contract templates and document checks",
-    zh: "文书起草、合同范本与材料审查",
+    vi: "Soạn đơn, mẫu hợp đồng, kiểm tra hồ sơ tại Đồng Nai",
+    en: "Legal forms and document checks in Đồng Nai",
+    zh: "同奈文书起草、合同范本与材料审查",
   },
   "services/luat-su-rieng-tu-van-dinh-ky": {
-    vi: "Luật sư riêng cho gia đình và doanh nghiệp",
-    en: "Retained lawyers for families and businesses",
-    zh: "家庭与企业常年律师",
+    vi: "Luật sư riêng cho gia đình, doanh nghiệp tại Đồng Nai",
+    en: "Retained lawyers for families and firms in Đồng Nai",
+    zh: "同奈家庭与企业常年律师",
   },
 
   "industries/san-xuat-va-xuat-khau": {
@@ -238,13 +292,13 @@ export const seoTitles: Record<string, Localised> = {
   },
 
   "pages/about": {
-    vi: "Về công ty luật Vũ Khang Solutions & Partners",
-    en: "About Vũ Khang Solutions & Partners law firm",
-    zh: "关于 Vũ Khang Solutions & Partners 律师事务所",
+    vi: "Về Công ty Luật Vũ Khang — công ty luật tại Đồng Nai",
+    en: "About Vũ Khang — a law firm in Đồng Nai, Vietnam",
+    zh: "关于 Vũ Khang——越南同奈律师事务所",
   },
   "pages/contact": {
-    vi: "Liên hệ luật sư tư vấn pháp lý",
-    en: "Contact our lawyers for legal advice",
-    zh: "联系律师获取法律咨询",
+    vi: "Liên hệ luật sư tại Biên Hòa, Đồng Nai",
+    en: "Contact our lawyers in Biên Hòa, Đồng Nai",
+    zh: "联系同奈边和律师",
   },
 };

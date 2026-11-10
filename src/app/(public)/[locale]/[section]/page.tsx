@@ -13,6 +13,7 @@ import { CmsImage } from "@/components/cms-image";
 import { ConsultationForm } from "@/components/consultation-form";
 import { ContactChannels } from "@/components/contact-channels";
 import { contactChannels } from "@/lib/contact";
+import { officeArea } from "@/lib/local-area";
 import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
@@ -59,16 +60,16 @@ const descriptions: Record<string, [string, string]> = {
     "How to make an enquiry with Vũ Khang: what to prepare, how the process works and answers to frequently asked questions.",
   ],
   about: [
-    "Tìm hiểu Công ty Luật TNHH Vũ Khang Solutions & Partners: cách tiếp cận vấn đề pháp lý, phạm vi hoạt động và nguyên tắc làm việc với khách hàng.",
-    "Learn about Vũ Khang: how the firm approaches legal matters, its scope of practice and the principles behind client work.",
+    "Công ty Luật TNHH Vũ Khang Solutions & Partners — công ty luật tại Đồng Nai, văn phòng ở trung tâm Biên Hòa cũ: cách tiếp cận, phạm vi hoạt động, đội ngũ.",
+    "Vũ Khang Solutions & Partners — a law firm in Đồng Nai, Vietnam, based in central Biên Hòa: how we approach legal matters, our practice and our people.",
   ],
   services: [
-    "Chuyên môn của Vũ Khang: doanh nghiệp và thương mại, tranh chấp dân sự, lao động, đất đai và nhà ở, hôn nhân gia đình, hình sự và luật sư riêng.",
-    "Practice areas at Vũ Khang: corporate and commercial, civil disputes, employment, land and housing, family, criminal defence and retained counsel.",
+    "Luật sư tại Đồng Nai: doanh nghiệp và thương mại, tranh chấp dân sự, lao động, đất đai và nhà ở, ly hôn và hôn nhân gia đình, hình sự, luật sư riêng.",
+    "Lawyers in Đồng Nai, Vietnam: corporate and commercial, civil disputes, employment, land and housing, divorce and family, criminal defence, retained counsel.",
   ],
   lawyers: [
-    "Đội ngũ Vũ Khang: ban lãnh đạo là các luật sư nguyên Thẩm phán, chuyên viên pháp lý và khối kinh doanh, đối ngoại. Tìm người phù hợp với vấn đề của bạn.",
-    "The Vũ Khang team: leadership lawyers who are former judges, legal specialists, and business development and external relations staff.",
+    "Đội ngũ Vũ Khang tại Đồng Nai: luật sư lãnh đạo nguyên Thẩm phán, nguyên Phó Chánh án; chuyên viên pháp lý và phòng Phát triển khách hàng.",
+    "The Vũ Khang team in Đồng Nai: leadership lawyers who are a former judge and a former deputy chief judge, legal specialists and client development.",
   ],
   experience: [
     "Kinh nghiệm công việc đã được phép công bố, phân theo lĩnh vực chuyên môn và loại vấn đề pháp lý.",
@@ -79,8 +80,8 @@ const descriptions: Record<string, [string, string]> = {
     "Legal insights from Vũ Khang on new regulations, practical application and the issues businesses encounter.",
   ],
   contact: [
-    "Thông tin liên hệ Công ty Luật TNHH Vũ Khang Solutions & Partners: địa chỉ văn phòng, điện thoại và email tiếp nhận yêu cầu.",
-    "Contact details for Vũ Khang: office address, telephone and the email address for enquiries.",
+    "Liên hệ Luật Vũ Khang tại Đồng Nai: văn phòng ở phường Trấn Biên (trung tâm Biên Hòa cũ), điện thoại, Zalo, email và biểu mẫu gửi yêu cầu tư vấn.",
+    "Contact Vũ Khang in Đồng Nai: office in central Biên Hòa (Trấn Biên ward), telephone, Zalo, email and an online form to request a consultation.",
   ],
   consultation: [
     "Gửi yêu cầu tư vấn tới Vũ Khang. Mô tả ngắn gọn vấn đề của bạn; việc gửi yêu cầu chưa thiết lập quan hệ luật sư–khách hàng.",
@@ -116,14 +117,14 @@ const descriptions: Record<string, [string, string]> = {
  */
 const seoTitleDefaults: Record<string, Record<Locale, string>> = {
   services: {
-    vi: "Luật sư hình sự, đất đai, hôn nhân, doanh nghiệp",
-    en: "Criminal, land, family and corporate lawyers",
-    zh: "刑事、土地、婚姻家庭与企业律师",
+    vi: "Luật sư tại Đồng Nai: hình sự, đất đai, ly hôn",
+    en: "Lawyers in Đồng Nai: criminal, land, family, corporate",
+    zh: "同奈律师：刑事、土地、婚姻家庭与企业",
   },
   lawyers: {
-    vi: "Đội ngũ luật sư và nhân sự công ty luật",
-    en: "Our lawyers and team",
-    zh: "律师与团队成员",
+    vi: "Đội ngũ luật sư tại Đồng Nai",
+    en: "Our lawyers and team in Đồng Nai",
+    zh: "同奈律师与团队成员",
   },
   articles: {
     vi: "Góc nhìn pháp lý và hướng dẫn thực tế",
@@ -148,16 +149,16 @@ const seoTitleDefaults: Record<string, Record<Locale, string>> = {
 };
 const zhDescriptions: Record<string, string> = {
   about:
-    "了解 Công ty Luật TNHH Vũ Khang Solutions & Partners 的介绍、团队及沟通方式。",
+    "了解越南同奈律师事务所 Công ty Luật TNHH Vũ Khang Solutions & Partners（边和中心区）的介绍、团队及沟通方式。",
   services:
-    "了解 Vũ Khang 的八个业务领域：刑事、婚姻家庭、土地住房、民事纠纷、企业商事、劳动、标准化法律产品与常年法律顾问。",
+    "越南同奈律师 Vũ Khang 的八个业务领域：刑事、婚姻家庭、土地住房、民事纠纷、企业商事、劳动、标准化法律产品与常年法律顾问。",
   experience: "浏览已获准公开的项目经验，按专业领域与法律问题类型分类。",
   lawyers:
-    "认识 Vũ Khang 团队：曾任法官的律师领导团队、法务专员，以及业务拓展与对外关系部门。",
+    "认识 Vũ Khang 同奈团队：曾任法官的律师领导团队、法务专员与客户发展部门。",
   articles:
     "按主题阅读 Vũ Khang 律师团队撰写的法律文章：合同、诉讼、土地、劳动与婚姻家庭的实务指南。",
   contact:
-    "Vũ Khang 律师事务所联系方式：位于同奈的办公室地址、电话、电子邮箱及在线咨询申请。",
+    "Vũ Khang 律师事务所联系方式：位于越南同奈边和中心区的办公室地址、电话、Zalo、电子邮箱及在线咨询申请。",
   consultation:
     "简要说明您的问题。提交申请不代表预约已确认或建立律师与客户关系。",
   guide:
@@ -629,6 +630,19 @@ export default async function Page({ params, searchParams }: Props) {
                 )}
               </h2>
               {settings?.address && <p>{settings.address}</p>}
+              {/* Khu vực theo cách khách vẫn gọi (Biên Hòa) — xem lib/local-area.ts. */}
+              {settings?.address && (
+                <p className="contact-area">
+                  {localText(
+                    [
+                      `Văn phòng ở ${officeArea.vi}.`,
+                      `Our office is in ${officeArea.en}.`,
+                      `办公室位于${officeArea.zh}。`,
+                    ],
+                    locale,
+                  )}
+                </p>
+              )}
               {/* Số hợp lệ đã có nút gọi bên dưới; chỉ in dòng chữ khi số
                   không tạo được nút (nhập thiếu chữ số). */}
               {settings?.phone && !contactChannels(settings.phone) && (

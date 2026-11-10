@@ -1,6 +1,7 @@
 import { languageInfo, locales } from "./locales";
 import type { Metadata } from "next";
 import { launched, type Locale } from "./content";
+import { officeArea } from "./local-area";
 
 type Json = Record<string, unknown>;
 
@@ -209,6 +210,32 @@ export function postalAddress(address: string) {
   };
 }
 
+/** Tỉnh/thành phố trong địa chỉ (phần cuối, bỏ chữ "Thành phố"/"Tỉnh"). */
+export function addressRegion(address?: string | null) {
+  const parts = (address ?? "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (parts.length < 3) return undefined;
+  return (
+    parts[parts.length - 1].replace(/^(thành phố|tỉnh|tp\.?)\s+/i, "").trim() ||
+    undefined
+  );
+}
+
+/**
+ * Nơi phục vụ: tỉnh/thành có văn phòng trước, rồi cả nước — tư vấn và tranh
+ * tụng không giới hạn trong một tỉnh, nhưng tìm kiếm địa phương cần biết văn
+ * phòng ở đâu.
+ */
+export function areaServed(address?: string | null) {
+  const region = addressRegion(address);
+  const country = { "@type": "Country", name: "Vietnam" };
+  return region
+    ? [{ "@type": "AdministrativeArea", name: region }, country]
+    : country;
+}
+
 /** Liên kết tìm theo địa chỉ, cùng cách trang Liên hệ dựng nút "Xem bản đồ". */
 export const mapSearchUrl = (address: string) =>
   "https://www.google.com/maps/search/?api=1&query=" +
@@ -266,6 +293,32 @@ export function contactFactLines(
 }
 
 /**
+ * Một câu giới thiệu: công ty luật ở đâu (theo cách người ta tìm — Biên Hòa,
+ * Đồng Nai) và các lĩnh vực đã công bố. Công cụ AI hay trích nguyên câu này.
+ */
+function organizationDescription(
+  name: string,
+  locale: Locale,
+  services: Linked[],
+) {
+  const fields = services.map((service) => service.title);
+  if (locale === "en")
+    return (
+      `${name} is a law firm in ${officeArea.en}` +
+      (fields.length ? `. Practice areas: ${fields.join(", ")}.` : ".")
+    );
+  if (locale === "zh")
+    return (
+      `${name}，律师事务所，位于${officeArea.zh}` +
+      (fields.length ? `。业务领域：${fields.join("、")}。` : "。")
+    );
+  return (
+    `${name} — công ty luật ở ${officeArea.vi}` +
+    (fields.length ? `. Lĩnh vực: ${fields.join(", ")}.` : ".")
+  );
+}
+
+/**
  * Hồ sơ tổ chức. Mọi trường đều lấy từ Cài đặt trong CMS; trường chưa nhập
  * bị loại bỏ thay vì điền giá trị mẫu.
  *
@@ -298,15 +351,17 @@ export function organizationJsonLd(
     name,
     alternateName: alternateName || undefined,
     url: absolute(`/${locale}`),
+    // Câu giới thiệu cho công cụ tìm kiếm và AI: công ty luật ở đâu, làm gì.
+    description: organizationDescription(name, locale, services),
     // Google yêu cầu logo tối thiểu 112×112, ưu tiên PNG/JPG hơn SVG.
     logo: absolute("/brand/logo-512.png"),
+    // Doanh nghiệp địa phương (LegalService) cần ảnh đại diện để hiện đầy đủ.
+    image: absolute(DEFAULT_OG_IMAGE.url),
     telephone: settings?.phone || undefined,
     email: settings?.email || undefined,
     identifier: settings?.registration || undefined,
     address: settings?.address ? postalAddress(settings.address) : undefined,
-    areaServed: settings?.address
-      ? { "@type": "Country", name: "Vietnam" }
-      : undefined,
+    areaServed: settings?.address ? areaServed(settings.address) : undefined,
     hasMap: mapLink(contact?.mapUrl, settings?.address),
     sameAs: sameAs.length ? sameAs : undefined,
     // Đúng bằng các ngôn ngữ website thực sự công bố.
@@ -462,7 +517,13 @@ export function articleJsonLd(record: SeoRecord, locale: Locale, path: string) {
   });
 }
 
-export function serviceJsonLd(record: SeoRecord, locale: Locale, path: string) {
+export function serviceJsonLd(
+  record: SeoRecord,
+  locale: Locale,
+  path: string,
+  /** Địa chỉ văn phòng (Cài đặt) — để nêu tỉnh/thành phục vụ. */
+  address?: string | null,
+) {
   return prune({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -471,7 +532,7 @@ export function serviceJsonLd(record: SeoRecord, locale: Locale, path: string) {
     description: record.summary || undefined,
     serviceType: record.title,
     provider: { "@id": ORGANIZATION_ID },
-    areaServed: { "@type": "Country", name: "Vietnam" },
+    areaServed: areaServed(address),
     audience:
       typeof record.audience === "string" && record.audience.trim()
         ? { "@type": "Audience", audienceType: record.audience }

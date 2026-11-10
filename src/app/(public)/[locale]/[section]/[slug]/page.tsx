@@ -3,6 +3,7 @@ import { RecordDetails, RelatedContent } from "@/components/record-details";
 import { notFound } from "next/navigation";
 import { PageHeading, ContentBody } from "@/components/content";
 import { getRecords, getSampleRecords } from "@/lib/cms";
+import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
 import { PreviewRefresh } from "@/components/preview-refresh";
@@ -65,6 +66,7 @@ function structuredDataFor(
   locale: Locale,
   section: string,
   path: string,
+  address?: string | null,
 ) {
   if (!record) return [];
   const data: object[] = [];
@@ -72,7 +74,7 @@ function structuredDataFor(
   else if (section === "lawyers") data.push(personJsonLd(record, locale, path));
   else if (section === "careers") data.push(jobPostingJsonLd(record, path));
   else if (section === "services" || section === "industries")
-    data.push(serviceJsonLd(record, locale, path));
+    data.push(serviceJsonLd(record, locale, path, address));
   if (record.faq?.length) data.push(faqJsonLd(record.faq));
   return data;
 }
@@ -160,7 +162,13 @@ export default async function Detail({ params, searchParams }: Props) {
   const structured =
     preview || sampleRecord
       ? []
-      : structuredDataFor(published, locale, section, path);
+      : structuredDataFor(
+          published,
+          locale,
+          section,
+          path,
+          (await getSiteSettings(locale))?.address,
+        );
   // Bọc trang trong khung sửa khi có bản ghi thật (bản minh họa từ mã thì không).
   const Wrap = ({ children }: { children: React.ReactNode }) =>
     record?.id ? (

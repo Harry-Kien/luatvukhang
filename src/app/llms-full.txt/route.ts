@@ -6,6 +6,7 @@ import { contactFactLines, siteUrl } from "@/lib/seo";
 import { zaloChannels } from "@/lib/contact";
 import { getSiteLayout } from "@/lib/site-layout";
 import { ecosystemMembers } from "@/lib/ecosystem";
+import { officeArea } from "@/lib/local-area";
 
 export async function GET() {
   // Cùng điều kiện với llms.txt, robots.txt và feed.xml.
@@ -30,7 +31,8 @@ export async function GET() {
     siteUrl,
     firm,
     summary:
-      `${firm} — tư vấn pháp lý tại Việt Nam. Toàn văn phạm vi dịch vụ, quy ` +
+      `${firm} — công ty luật ở ${officeArea.vi}, tư vấn pháp lý tại Việt ` +
+      `Nam. Toàn văn phạm vi dịch vụ, quy ` +
       `trình làm việc và câu hỏi thường gặp, trích từ các trang đã công bố.`,
     note:
       `Bản tóm tắt ngắn: ${siteUrl}/llms.txt. Nội dung có ba ngôn ngữ: /vi, /en, ` +
@@ -88,7 +90,8 @@ export async function GET() {
   return new Response(text, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      // Giữ bản mới trong 5 phút; stale-while-revalidate thêm tối đa 60 giây.
+      "Cache-Control": "public, max-age=300, stale-while-revalidate=60",
     },
   });
 }

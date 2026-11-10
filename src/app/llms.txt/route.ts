@@ -6,6 +6,7 @@ import { contactFactLines, siteUrl } from "@/lib/seo";
 import { zaloChannels } from "@/lib/contact";
 import { ecosystemMembers } from "@/lib/ecosystem";
 import { getSiteLayout } from "@/lib/site-layout";
+import { officeArea } from "@/lib/local-area";
 
 /** Nhóm nội dung đưa vào bản tóm tắt, theo thứ tự khách hay cần. */
 const SECTIONS = [
@@ -46,7 +47,8 @@ export async function GET() {
     siteUrl,
     firm,
     summary:
-      `${firm} — tư vấn pháp lý tại Việt Nam. Website giới thiệu phạm vi hỗ trợ ` +
+      `${firm} — công ty luật ở ${officeArea.vi}, tư vấn pháp lý tại Việt Nam. ` +
+      `Website giới thiệu phạm vi hỗ trợ ` +
       `theo từng lĩnh vực, quy trình làm việc và cách gửi yêu cầu tư vấn.`,
     note:
       `Nội dung có ba ngôn ngữ: tiếng Việt tại /vi, tiếng Anh tại /en, tiếng ` +
@@ -96,7 +98,8 @@ export async function GET() {
   return new Response(text, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      // Giữ bản mới trong 5 phút; stale-while-revalidate thêm tối đa 60 giây.
+      "Cache-Control": "public, max-age=300, stale-while-revalidate=60",
     },
   });
 }

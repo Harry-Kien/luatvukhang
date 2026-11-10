@@ -67,10 +67,96 @@ const supersededSeoDescriptions: Record<
   string,
   Partial<Record<"vi" | "en" | "zh", string[]>>
 > = {
-  // Dài 176 ký tự, Google cắt mất phần cuối (thay ngày 18/10/2026).
+  // dau-tu-doanh-nghiep/en đầu tiên: dài 176 ký tự, Google cắt mất phần cuối
+  // (thay ngày 18/10/2026). Còn lại: mô tả trước ngày 10/11/2026, thay bằng
+  // bản nêu "tại Đồng Nai" để nhắm tìm kiếm địa phương.
   "dau-tu-doanh-nghiep": {
+    vi: [
+      "Luật sư doanh nghiệp và thương mại: thành lập, thay đổi đăng ký, soạn và rà soát hợp đồng, thu hồi công nợ, tranh chấp thương mại và cổ đông, giải thể.",
+    ],
     en: [
       "Corporate and commercial lawyers in Vietnam: incorporation, registration changes, contract drafting and review, debt recovery, commercial and shareholder disputes, dissolution.",
+      "Corporate and commercial lawyers in Vietnam: incorporation, registration changes, contracts, debt recovery, commercial and shareholder disputes, dissolution.",
+    ],
+    zh: [
+      "越南企业与商事律师：设立企业、变更登记、起草与审查合同、追收欠款、商事与股东纠纷、解散。",
+    ],
+  },
+  "giai-quyet-tranh-chap": {
+    vi: [
+      "Luật sư dân sự và tranh chấp: tranh chấp hợp đồng, đòi nợ, tài sản, thừa kế, bồi thường thiệt hại, thương lượng và hòa giải, thi hành án dân sự.",
+    ],
+    en: [
+      "Civil and dispute lawyers in Vietnam: contract disputes, debt claims, property, inheritance, compensation, negotiation and mediation, enforcement of judgments.",
+    ],
+    zh: [
+      "越南民事与纠纷律师：合同纠纷、追讨欠款、财产、继承、损害赔偿、协商与调解、民事判决执行。",
+    ],
+  },
+  "lao-dong-nhan-su": {
+    vi: [
+      "Luật sư lao động và quản trị nội bộ: hợp đồng lao động, nội quy, quy chế quản trị, kỷ luật và chấm dứt hợp đồng, tranh chấp lao động.",
+    ],
+    en: [
+      "Employment and governance lawyers in Vietnam: employment contracts, workplace rules, internal regulations, discipline and termination, employment disputes.",
+    ],
+    zh: [
+      "越南劳动与内部治理律师：劳动合同、劳动规章、内部管理制度、纪律处分与解除合同、劳动争议。",
+    ],
+  },
+  "dat-dai-bat-dong-san": {
+    vi: [
+      "Luật sư đất đai và nhà ở: tranh chấp quyền sử dụng đất, ranh giới, chuyển nhượng, thừa kế nhà đất, sang tên, cấp và đính chính sổ, khiếu nại thu hồi đất.",
+    ],
+    en: [
+      "Land and housing lawyers in Vietnam: land use right disputes, boundaries, transfers, inherited property, title transfer, certificates, land recovery complaints.",
+    ],
+    zh: [
+      "越南土地与住房律师：土地使用权纠纷、地界、转让、房地产继承、过户、颁证与更正、征地申诉。",
+    ],
+  },
+  "hon-nhan-gia-dinh": {
+    vi: [
+      "Luật sư hôn nhân và gia đình: ly hôn thuận tình, ly hôn đơn phương, ly hôn có yếu tố nước ngoài, quyền nuôi con, cấp dưỡng, chia tài sản khi ly hôn.",
+    ],
+    en: [
+      "Marriage and family lawyers in Vietnam: consensual and contested divorce, divorce with a foreign element, child custody, maintenance, property on divorce.",
+    ],
+    zh: [
+      "越南婚姻家庭律师：协议离婚、诉讼离婚、涉外离婚、子女抚养权、抚养费、离婚财产分割。",
+    ],
+  },
+  "hinh-su": {
+    vi: [
+      "Bào chữa và bảo vệ quyền lợi trong vụ án hình sự: tham gia từ giai đoạn đầu, nghiên cứu hồ sơ, chuẩn bị cho từng bước tố tụng, bảo mật thông tin.",
+    ],
+    en: [
+      "Criminal defence in Vietnam: early involvement, case file review, preparation for each stage of proceedings, and strict confidentiality.",
+    ],
+    zh: [
+      "刑事案件辩护与权益维护：自初期阶段介入、研究案卷、为各诉讼阶段做好准备，并严格保密。",
+    ],
+  },
+  "san-pham-phap-ly-tieu-chuan": {
+    vi: [
+      "Sản phẩm pháp lý tiêu chuẩn: soạn đơn theo yêu cầu, bộ mẫu đơn và mẫu hợp đồng, kiểm tra hồ sơ pháp lý trực tuyến, mẫu đơn cho sàn thương mại điện tử.",
+    ],
+    en: [
+      "Standard legal products in Vietnam: applications drafted on request, form and contract template sets, online document review, e-commerce platform forms.",
+    ],
+    zh: [
+      "标准化法律产品：按需起草文书、文书与合同范本、在线材料审查、电商平台文书范本。",
+    ],
+  },
+  "luat-su-rieng-tu-van-dinh-ky": {
+    vi: [
+      "Luật sư riêng và tư vấn pháp lý định kỳ: luật sư gia đình, luật sư riêng cho doanh nghiệp các gói Basic, Pro, Premium, cố vấn pháp lý cho chủ doanh nghiệp.",
+    ],
+    en: [
+      "Retained counsel in Vietnam: family lawyer, retained lawyer for businesses on Basic, Pro and Premium packages, legal adviser to business owners.",
+    ],
+    zh: [
+      "常年法律顾问：家庭律师、企业常年律师（基础、专业、高级套餐）、企业主法律顾问。",
     ],
   },
 };
