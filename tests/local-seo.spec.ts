@@ -2,12 +2,14 @@ import { test, expect } from "@playwright/test";
 import {
   addressRegion,
   areaServed,
+  contactFactLines,
   organizationJsonLd,
   personJsonLd,
   profileLinks,
   serviceJsonLd,
 } from "../src/lib/seo";
 import { verificationCode } from "../src/lib/verification";
+import { googleBusiness, googleBusinessFor } from "../src/lib/local-area";
 import { seoTitles, seoDescriptions } from "../scripts/content/seo-titles";
 import { practiceAreas } from "../scripts/content/practice-areas";
 import { firmLawyers } from "../scripts/content/lawyers";
@@ -167,4 +169,55 @@ test("hồ sơ Google Maps của công ty là liên kết bản đồ mặc đ�
   for (const locale of ["vi", "en", "zh"] as const)
     expect(SITE_LAYOUT_DEFAULTS[locale].contact.mapUrl, locale).toBe(gbp);
   expect(profileLinks({ mapUrl: gbp })).toContain(gbp);
+});
+
+test("tọa độ, giờ mở cửa và nút đánh giá khớp hồ sơ Google Maps của văn phòng", () => {
+  const org = organizationJsonLd(
+    { companyName: "Vũ Khang", address: ADDRESS },
+    "vi",
+  ) as Record<string, any>;
+  expect(org.geo).toEqual({
+    "@type": "GeoCoordinates",
+    latitude: 10.9563297,
+    longitude: 106.820579,
+  });
+  expect(org.openingHoursSpecification).toMatchObject({
+    "@type": "OpeningHoursSpecification",
+    opens: "08:00",
+    closes: "19:00",
+  });
+  expect(org.openingHoursSpecification.dayOfWeek).toHaveLength(7);
+
+  // Văn phòng chuyển đi: không nêu tọa độ, giờ hay nút đánh giá của nơi cũ.
+  const moved = organizationJsonLd(
+    { companyName: "Vũ Khang", address: "12 Lê Lợi, phường Bến Thành, TP. Hồ Chí Minh" },
+    "vi",
+  ) as Record<string, any>;
+  expect(moved.geo).toBeUndefined();
+  expect(moved.openingHoursSpecification).toBeUndefined();
+  expect(googleBusinessFor("12 Lê Lợi, TP. Hồ Chí Minh")).toBeUndefined();
+  // Chữ tổ hợp (NFD) như khi gõ bằng một số bộ gõ vẫn khớp.
+  expect(googleBusinessFor(ADDRESS.normalize("NFD"))).toBe(googleBusiness);
+
+  expect(googleBusiness.reviewUrl).toBe(
+    `https://search.google.com/local/writereview?placeid=${googleBusiness.placeId}`,
+  );
+  expect(SITE_LAYOUT_DEFAULTS.vi.contact.hours).toBe(
+    "Thứ Hai – Chủ Nhật: 08:00 – 19:00",
+  );
+  expect(SITE_LAYOUT_DEFAULTS.en.contact.hours).toBe(
+    "Monday – Sunday: 08:00 – 19:00",
+  );
+  expect(SITE_LAYOUT_DEFAULTS.zh.contact.hours).toBe("周一至周日：08:00 – 19:00");
+
+  const lines = contactFactLines(
+    { hours: "Thứ Hai – Thứ Sáu: 08:00 – 17:00\nThứ Bảy: 08:00 – 11:30" },
+    ADDRESS,
+  );
+  const value = (label: string) =>
+    lines.find((line) => line.label === label)?.value;
+  expect(value("Giờ làm việc")).toBe(
+    "Thứ Hai – Thứ Sáu: 08:00 – 17:00; Thứ Bảy: 08:00 – 11:30",
+  );
+  expect(value("Viết đánh giá trên Google")).toBe(googleBusiness.reviewUrl);
 });

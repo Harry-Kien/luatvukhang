@@ -13,7 +13,7 @@ import { CmsImage } from "@/components/cms-image";
 import { ConsultationForm } from "@/components/consultation-form";
 import { ContactChannels } from "@/components/contact-channels";
 import { contactChannels } from "@/lib/contact";
-import { officeArea } from "@/lib/local-area";
+import { googleBusinessFor, officeArea } from "@/lib/local-area";
 import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
 import { getPreviewRecord } from "@/lib/preview";
@@ -547,6 +547,7 @@ export default async function Page({ params, searchParams }: Props) {
         ? "https://www.google.com/maps/search/?api=1&query=" +
           encodeURIComponent(settings.address)
         : null);
+    const reviewOffice = googleBusinessFor(settings?.address);
     const records = await getRecords("pages", locale);
     const record =
       query.preview === "true"
@@ -684,6 +685,37 @@ export default async function Page({ params, searchParams }: Props) {
                     target="_blank"
                   >
                     {t(locale, "Mở bản đồ", "Open map")} ↗
+                  </a>
+                </p>
+              )}
+              {/* Khách đã làm việc với công ty viết đánh giá thẳng lên hồ sơ
+                  Google Maps của văn phòng (lib/local-area.ts). */}
+              {reviewOffice && (
+                <p className="contact-review">
+                  {localText(
+                    [
+                      "Đã làm việc với chúng tôi?",
+                      "Worked with us?",
+                      "曾与我们合作？",
+                    ],
+                    locale,
+                  )}
+                  {locale === "zh" ? "" : " "}
+                  <a
+                    className="underlined"
+                    href={reviewOffice.reviewUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {localText(
+                      [
+                        "Viết đánh giá trên Google",
+                        "Write a Google review",
+                        "在 Google 上撰写评价",
+                      ],
+                      locale,
+                    )}{" "}
+                    ↗
                   </a>
                 </p>
               )}

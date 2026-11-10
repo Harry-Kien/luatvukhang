@@ -1,7 +1,7 @@
 import { languageInfo, locales } from "./locales";
 import type { Metadata } from "next";
 import { launched, type Locale } from "./content";
-import { officeArea } from "./local-area";
+import { googleBusinessFor, officeArea } from "./local-area";
 
 type Json = Record<string, unknown>;
 
@@ -179,6 +179,7 @@ type ContactLinks = {
   linkedin?: string | null;
   youtube?: string | null;
   mapUrl?: string | null;
+  hours?: string | null;
 } | null;
 
 const isWebLink = (value?: string | null): value is string =>
@@ -285,7 +286,16 @@ export function contactFactLines(
   const web = (value?: string | null) =>
     isWebLink(value) ? value.trim() : undefined;
   return [
+    // "Mấy giờ mở cửa" — ô "Giờ làm việc" trong admin, gộp về một dòng.
+    {
+      label: "Giờ làm việc",
+      value: contact?.hours?.replace(/\s*\n\s*/g, "; ").trim() || undefined,
+    },
     { label: "Google Maps", value: mapLink(contact?.mapUrl, address) },
+    {
+      label: "Viết đánh giá trên Google",
+      value: googleBusinessFor(address)?.reviewUrl,
+    },
     { label: "Facebook", value: web(contact?.facebook) },
     { label: "LinkedIn", value: web(contact?.linkedin) },
     { label: "YouTube", value: web(contact?.youtube) },
@@ -344,6 +354,8 @@ export function organizationJsonLd(
     "Công ty Luật TNHH Vũ Khang Solutions & Partners";
   const alternateName =
     locale === "en" ? settings?.companyName : settings?.englishName;
+  // Tọa độ và giờ mở cửa như hồ sơ Google Maps của văn phòng (lib/local-area.ts).
+  const office = googleBusinessFor(settings?.address);
   return prune({
     "@context": "https://schema.org",
     "@type": ["LegalService", "Organization"],
@@ -363,6 +375,21 @@ export function organizationJsonLd(
     address: settings?.address ? postalAddress(settings.address) : undefined,
     areaServed: settings?.address ? areaServed(settings.address) : undefined,
     hasMap: mapLink(contact?.mapUrl, settings?.address),
+    geo: office
+      ? {
+          "@type": "GeoCoordinates",
+          latitude: office.geo.latitude,
+          longitude: office.geo.longitude,
+        }
+      : undefined,
+    openingHoursSpecification: office
+      ? {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [...office.hours.days],
+          opens: office.hours.opens,
+          closes: office.hours.closes,
+        }
+      : undefined,
     sameAs: sameAs.length ? sameAs : undefined,
     // Đúng bằng các ngôn ngữ website thực sự công bố.
     availableLanguage: locales.map((l) => ({

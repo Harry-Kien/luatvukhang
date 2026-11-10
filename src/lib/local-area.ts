@@ -28,3 +28,44 @@ export const officeLandmark: Record<Locale, string> = {
   en: "central Biên Hòa",
   zh: "边和中心区",
 };
+
+/**
+ * Hồ sơ Google Maps (Google Business Profile) của công ty, đọc từ Google ngày
+ * 10/11/2026: mã địa điểm, ghim bản đồ và giờ mở cửa đang đăng trên hồ sơ.
+ *
+ * Website nêu đúng những gì hồ sơ đã công bố, để Google thấy hai nơi khớp
+ * nhau (tên, địa chỉ, tọa độ, giờ). Đổi giờ hoặc chuyển văn phòng trên Google
+ * thì sửa cả ở đây và ô "Giờ làm việc" trong admin.
+ */
+export const googleBusiness = {
+  placeId: "ChIJXQb_MwDfdDERizSudCgVdLE",
+  /** Trang "Viết bài đánh giá" của Google cho đúng hồ sơ này. */
+  reviewUrl:
+    "https://search.google.com/local/writereview?placeid=ChIJXQb_MwDfdDERizSudCgVdLE",
+  geo: { latitude: 10.9563297, longitude: 106.820579 },
+  /** Hồ sơ đăng 08:00–19:00 cả bảy ngày. */
+  hours: {
+    days: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
+    opens: "08:00",
+    closes: "19:00",
+  },
+} as const;
+
+/**
+ * Hồ sơ Google của văn phòng ở địa chỉ này, hoặc `undefined` khi địa chỉ trong
+ * Cài đặt đã đổi sang nơi khác — khi đó không nêu tọa độ, giờ hay nút đánh giá
+ * của văn phòng cũ.
+ */
+export function googleBusinessFor(address?: string | null) {
+  return /1808\s+(đường\s+)?Nguyễn Ái Quốc/i.test((address ?? "").normalize("NFC"))
+    ? googleBusiness
+    : undefined;
+}

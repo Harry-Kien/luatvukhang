@@ -258,6 +258,7 @@ const translations: Record<string, string> = {
   Industries: "行业",
   Careers: "招聘",
   "Request an appointment": "申请预约",
+  "Monday – Sunday: 08:00 – 19:00": "周一至周日：08:00 – 19:00",
   "Back to top": "返回顶部",
   "Our firm": "关于我们",
   People: "律师团队",

@@ -177,7 +177,8 @@ test("llms.txt có bản đồ và mạng xã hội khi đã nhập", () => {
   );
   const value = (label: string) =>
     lines.find((line) => line.label === label)?.value;
-  expect(lines.map((line) => line.label)).not.toContain("Giờ làm việc");
+  // Chưa nhập giờ: dòng để trống, bộ dựng llms tự bỏ qua.
+  expect(value("Giờ làm việc")).toBeUndefined();
   expect(value("Google Maps")).toBe("https://maps.app.goo.gl/abc123");
   expect(value("Facebook")).toBe("https://www.facebook.com/luatvukhang");
   expect(value("LinkedIn")).toBeUndefined();

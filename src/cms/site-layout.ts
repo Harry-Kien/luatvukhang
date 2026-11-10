@@ -175,6 +175,8 @@ const vi: SiteLayoutData = {
     // 10/11/2026). Chỉ điền khi ô trống — liên kết công ty tự nhập được giữ.
     // Nối website với hồ sơ bản đồ qua hasMap/sameAs và llms.txt.
     mapUrl: "https://www.google.com/maps?cid=12786868505512129675",
+    // Giờ mở cửa đang đăng trên hồ sơ Google Maps (lib/local-area.ts).
+    hours: "Thứ Hai – Chủ Nhật: 08:00 – 19:00",
   },
 };
 
@@ -258,6 +260,7 @@ const en: SiteLayoutData = {
     // 10/11/2026). Chỉ điền khi ô trống — liên kết công ty tự nhập được giữ.
     // Nối website với hồ sơ bản đồ qua hasMap/sameAs và llms.txt.
     mapUrl: "https://www.google.com/maps?cid=12786868505512129675",
+    hours: "Monday – Sunday: 08:00 – 19:00",
   },
 };
 
