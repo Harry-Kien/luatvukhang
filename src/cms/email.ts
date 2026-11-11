@@ -1,11 +1,14 @@
 import type { EmailAdapter } from "payload";
 import nodemailer from "nodemailer";
+/** Đủ hai biến tối thiểu để gửi thư (máy chủ gửi và địa chỉ người gửi). */
+export const emailConfigured = () =>
+  Boolean(process.env.SMTP_HOST?.trim() && process.env.SMTP_FROM?.trim());
 export const emailAdapter: EmailAdapter = () => ({
   name: "configured-smtp",
   defaultFromAddress: process.env.SMTP_FROM || "unconfigured@example.invalid",
-  defaultFromName: "Website",
+  defaultFromName: "Luật Vũ Khang",
   async sendEmail(message) {
-    if (!process.env.SMTP_HOST || !process.env.SMTP_FROM)
+    if (!emailConfigured())
       throw new Error("Email delivery has not been configured.");
     const transport = nodemailer.createTransport({
       host: process.env.SMTP_HOST,

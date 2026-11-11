@@ -4,16 +4,17 @@
  * Chạy trong Terminal của máy chủ (cần quyền vào máy chủ, nên không ai ngoài
  * người quản lý hosting dùng được):
  *
- *   node --env-file=.env --import tsx scripts/reset-admin-password.ts
+ *   node --import tsx scripts/reset-admin-password.ts
  *       → liệt kê các tài khoản (email, vai trò), không đổi gì.
  *
- *   node --env-file=.env --import tsx scripts/reset-admin-password.ts ten@email.com
+ *   node --import tsx scripts/reset-admin-password.ts ten@email.com
  *       → đặt mật khẩu ngẫu nhiên mới cho tài khoản đó, mở khóa nếu đang bị khóa
  *         vì nhập sai nhiều lần, và in mật khẩu mới ra màn hình MỘT lần.
  *
  * Mật khẩu chỉ in ra màn hình, không ghi vào tệp nào. Đăng nhập xong nên đổi
  * ngay sang mật khẩu của riêng bạn (Tài khoản → Đổi mật khẩu).
  */
+import "./load-env";
 import { randomBytes } from "node:crypto";
 import { getPayload } from "payload";
 import config from "../src/payload.config";
@@ -57,7 +58,7 @@ try {
         );
       }
       console.log(
-        "\nĐặt lại mật khẩu: node --env-file=.env --import tsx scripts/reset-admin-password.ts <email>",
+        "\nĐặt lại mật khẩu: node --import tsx scripts/reset-admin-password.ts <email>",
       );
     }
   } else {

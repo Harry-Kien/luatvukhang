@@ -11,6 +11,11 @@ import sharp from "sharp";
 import { trackSlugChange } from "./cms/redirect-hook";
 import { notifyIndexNow } from "./cms/indexnow-hook";
 import { emailAdapter } from "./cms/email";
+import {
+  refuseForgotPasswordWithoutEmail,
+  resetPasswordEmail,
+  RESET_LINK_HOURS,
+} from "./cms/password-reset";
 import { SiteLayout } from "./cms/site-layout";
 import { validateExtraZalo, validateMainPhone } from "./lib/contact";
 import { verificationCode } from "./lib/verification";
@@ -470,7 +475,28 @@ const contentCollections: CollectionConfig[] = Object.entries(labels).map(
 const Users: CollectionConfig = {
   slug: "users",
   labels: { singular: "Tài khoản", plural: "Tài khoản" },
-  auth: { maxLoginAttempts: 5, lockTime: 600000, tokenExpiration: 7200 },
+  auth: {
+    maxLoginAttempts: 5,
+    lockTime: 600000,
+    tokenExpiration: 7200,
+    forgotPassword: {
+      expiration: RESET_LINK_HOURS * 3600000,
+      generateEmailSubject: () =>
+        resetPasswordEmail({ serverURL: "", adminRoute: "", token: "" })
+          .subject,
+      generateEmailHTML: (args) =>
+        resetPasswordEmail({
+          serverURL:
+            args?.req?.payload.config.serverURL ||
+            process.env.NEXT_PUBLIC_SITE_URL ||
+            "",
+          adminRoute: args?.req?.payload.config.routes.admin || "/admin",
+          token: args?.token ?? "",
+          name: (args?.user as { name?: string } | undefined)?.name,
+        }).html,
+    },
+  },
+  hooks: { beforeOperation: [refuseForgotPasswordWithoutEmail] },
   admin: { useAsTitle: "email", group: "Quản trị" },
   access: {
     unlock: isAdmin,
@@ -728,6 +754,9 @@ export default buildConfig({
       icons: [{ rel: "icon", type: "image/png", url: "/brand/logo-192.png" }],
     },
     components: {
+      // Nút con mắt xem/ẩn mật khẩu ở mọi ô mật khẩu (đăng nhập, đặt lại, tài
+      // khoản) và cảnh báo khi "Quên mật khẩu" không gửi được thư.
+      providers: ["/components/admin/admin-providers#AdminProviders"],
       beforeDashboard: ["/components/admin-dashboard#AdminDashboard"],
       graphics: {
         Logo: "/components/admin-brand#AdminLogo",

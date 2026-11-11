@@ -8,11 +8,11 @@ Nếu bạn có VPS, hãy dùng `DEPLOY-VPS.md` — đường đó ít giới h�
 Gửi đúng ba câu này cho bộ phận kỹ thuật của nhà cung cấp. **Chỉ một câu trả lời
 "không" là gói hosting này không chạy được website**, và mọi bước phía sau đều vô ích.
 
-| # | Câu hỏi | Vì sao quyết định |
-| --- | --- | --- |
-| 1 | ~~Gói hosting có PostgreSQL không?~~ **Không còn cần** | Hệ thống đã chuyển sang SQLite — cơ sở dữ liệu là một tệp trong thư mục ứng dụng. Không cần PostgreSQL, không cần MySQL, không cần máy chủ cơ sở dữ liệu nào. |
-| 2 | Mục **Setup Node.js App** có **Node.js 20 trở lên** không? | Dự án kiểm thử trên Node 24. Node 18 trở xuống không chạy. |
-| 3 | Tiến trình Node.js được cấp **bao nhiêu RAM**? | `npm run build` cần khoảng 1–2 GB. Dưới mức đó bước dựng sẽ bị hệ thống giết giữa chừng. |
+| #   | Câu hỏi                                                    | Vì sao quyết định                                                                                                                                             |
+| --- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ~~Gói hosting có PostgreSQL không?~~ **Không còn cần**     | Hệ thống đã chuyển sang SQLite — cơ sở dữ liệu là một tệp trong thư mục ứng dụng. Không cần PostgreSQL, không cần MySQL, không cần máy chủ cơ sở dữ liệu nào. |
+| 2   | Mục **Setup Node.js App** có **Node.js 20 trở lên** không? | Dự án kiểm thử trên Node 24. Node 18 trở xuống không chạy.                                                                                                    |
+| 3   | Tiến trình Node.js được cấp **bao nhiêu RAM**?             | `npm run build` cần khoảng 1–2 GB. Dưới mức đó bước dựng sẽ bị hệ thống giết giữa chừng.                                                                      |
 
 Hỏi thêm một câu nếu có thể: có **SSH** không.
 
@@ -44,7 +44,7 @@ Kho mã để **công khai** nên lệnh này không cần tài khoản, mật k
 `importMap.js` của admin, và **không** kèm `.env`, `.local/` hay `node_modules/`.
 
 Không có SSH thì dùng **Git™ Version Control** trong cPanel: Create → dán URL
-trên vào ô *Clone URL*, đặt *Repository Path* là thư mục ứng dụng. Cách này clone
+trên vào ô _Clone URL_, đặt _Repository Path_ là thư mục ứng dụng. Cách này clone
 được mà không cần dòng lệnh.
 
 Không dùng được `git` trên hosting thì đóng gói sẵn ở máy cá nhân:
@@ -101,12 +101,12 @@ hosting), `.env` (tạo riêng, xem bước 3), `.local/`, `media/` của máy c
 > những thứ không bao giờ được ra Internet. Đặt trùng hai thứ đó vào nhau thì
 > bất kỳ ai gõ đúng đường dẫn cũng tải được:
 >
-> | Đường dẫn | Thứ họ lấy được |
-> | --- | --- |
-> | `/.local/law.db` | **Toàn bộ cơ sở dữ liệu** — mọi yêu cầu tư vấn: họ tên, email, số điện thoại, nội dung khách hàng trình bày, ghi chú nội bộ |
-> | `/.env` | `PAYLOAD_SECRET` — đủ để tự ký vé đăng nhập và vào thẳng trang quản trị với quyền cao nhất |
-> | `/.local/admin-access.txt` | Mật khẩu quản trị dạng chữ thường, nếu tệp này bị tải lên |
-> | `/.git/config` | Đủ để dựng lại nguyên vẹn kho mã |
+> | Đường dẫn                  | Thứ họ lấy được                                                                                                             |
+> | -------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+> | `/.local/law.db`           | **Toàn bộ cơ sở dữ liệu** — mọi yêu cầu tư vấn: họ tên, email, số điện thoại, nội dung khách hàng trình bày, ghi chú nội bộ |
+> | `/.env`                    | `PAYLOAD_SECRET` — đủ để tự ký vé đăng nhập và vào thẳng trang quản trị với quyền cao nhất                                  |
+> | `/.local/admin-access.txt` | Mật khẩu quản trị dạng chữ thường, nếu tệp này bị tải lên                                                                   |
+> | `/.git/config`             | Đủ để dựng lại nguyên vẹn kho mã                                                                                            |
 >
 > Với một công ty luật, mục đầu tiên không chỉ là sự cố kỹ thuật: đó là toàn bộ
 > thông tin khách hàng đã tin tưởng gửi đi.
@@ -136,18 +136,18 @@ hosting), `.env` (tạo riêng, xem bước 3), `.local/`, `media/` của máy c
 
 cPanel → **Setup Node.js App** → Create Application:
 
-| Ô | Giá trị |
-| --- | --- |
-| Node.js version | 20 trở lên, chọn cao nhất có sẵn |
-| Application mode | Production |
-| **Application root** | thư mục vừa tải mã lên, ví dụ `luatvukhang` — **ngoài `public_html`**, xem khung trên |
-| Application URL | tên miền hoặc thư mục con sẽ chạy website |
-| **Application startup file** | **`server.cjs`** |
+| Ô                            | Giá trị                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------- |
+| Node.js version              | 20 trở lên, chọn cao nhất có sẵn                                                      |
+| Application mode             | Production                                                                            |
+| **Application root**         | thư mục vừa tải mã lên, ví dụ `luatvukhang` — **ngoài `public_html`**, xem khung trên |
+| Application URL              | tên miền hoặc thư mục con sẽ chạy website                                             |
+| **Application startup file** | **`server.cjs`**                                                                      |
 
 `server.cjs` có sẵn trong kho mã. Nó tồn tại vì Passenger nạp thẳng một tệp
 JavaScript chứ không chạy `npm start`, nên `next start` không cắm vào được.
 
-> **Phải là `server.cjs`, không phải `server.js`.** Passenger không *chạy* tệp
+> **Phải là `server.cjs`, không phải `server.js`.** Passenger không _chạy_ tệp
 > khởi động, nó **nạp bằng `require()`**. Dự án khai `"type": "module"` nên mọi
 > tệp `.js` là ES module, và `require()` một ES module thì hỏng — Node 20 báo
 > `ERR_REQUIRE_ESM`, Node 22 trở lên báo `ERR_REQUIRE_ASYNC_MODULE`. Đuôi
@@ -160,22 +160,22 @@ JavaScript chứ không chạy `npm start`, nên `next start` không cắm vào 
 
 Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biến:
 
-| Biến | Giá trị |
-| --- | --- |
-| `NODE_ENV` | `production` |
-| `DATABASE_URL` | `file:/home/TÊN-TÀI-KHOẢN/luatvukhang/.local/law.db` — dùng đường dẫn **tuyệt đối**, lấy bằng `pwd` trong Terminal |
-| `PAYLOAD_SECRET` | 64 ký tự ngẫu nhiên — sinh bằng `openssl rand -hex 32` |
-| `NEXT_PUBLIC_SITE_URL` | `https://luatvukhang.com` |
-| `NEXT_PUBLIC_DEMO_MODE` | `false` |
-| `SITE_LAUNCH_APPROVED` | `false` cho tới khi nghiệm thu xong |
-| `TRUST_PROXY_HEADERS` | `false` |
-| `ANTHROPIC_API_KEY` | Khóa API Anthropic để bật nút dịch máy trong trang quản trị. Không bắt buộc; thiếu thì nút báo "chưa cấu hình" |
-| `SMTP_HOST` | Máy chủ gửi thư, ví dụ `smtp.gmail.com` (Gmail) hoặc `mail.luatvukhang.com` (hộp thư của hosting) |
-| `SMTP_PORT` | `465` (hoặc `587`) |
-| `SMTP_USER` | Tài khoản đăng nhập hộp thư gửi |
-| `SMTP_PASSWORD` | Mật khẩu hộp thư gửi. Gmail: **mật khẩu ứng dụng** 16 ký tự (Tài khoản Google → Bảo mật → Mật khẩu ứng dụng; cần bật xác minh 2 bước), không phải mật khẩu đăng nhập Gmail |
-| `SMTP_FROM` | Địa chỉ người gửi, thường trùng `SMTP_USER` |
-| `NOTIFICATION_EMAIL` | Hộp thư nhận báo có yêu cầu tư vấn mới |
+| Biến                    | Giá trị                                                                                                                                                                    |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NODE_ENV`              | `production`                                                                                                                                                               |
+| `DATABASE_URL`          | `file:/home/TÊN-TÀI-KHOẢN/luatvukhang/.local/law.db` — dùng đường dẫn **tuyệt đối**, lấy bằng `pwd` trong Terminal                                                         |
+| `PAYLOAD_SECRET`        | 64 ký tự ngẫu nhiên — sinh bằng `openssl rand -hex 32`                                                                                                                     |
+| `NEXT_PUBLIC_SITE_URL`  | `https://luatvukhang.com`                                                                                                                                                  |
+| `NEXT_PUBLIC_DEMO_MODE` | `false`                                                                                                                                                                    |
+| `SITE_LAUNCH_APPROVED`  | `false` cho tới khi nghiệm thu xong                                                                                                                                        |
+| `TRUST_PROXY_HEADERS`   | `false`                                                                                                                                                                    |
+| `ANTHROPIC_API_KEY`     | Khóa API Anthropic để bật nút dịch máy trong trang quản trị. Không bắt buộc; thiếu thì nút báo "chưa cấu hình"                                                             |
+| `SMTP_HOST`             | Máy chủ gửi thư, ví dụ `smtp.gmail.com` (Gmail) hoặc `mail.luatvukhang.com` (hộp thư của hosting)                                                                          |
+| `SMTP_PORT`             | `465` (hoặc `587`)                                                                                                                                                         |
+| `SMTP_USER`             | Tài khoản đăng nhập hộp thư gửi                                                                                                                                            |
+| `SMTP_PASSWORD`         | Mật khẩu hộp thư gửi. Gmail: **mật khẩu ứng dụng** 16 ký tự (Tài khoản Google → Bảo mật → Mật khẩu ứng dụng; cần bật xác minh 2 bước), không phải mật khẩu đăng nhập Gmail |
+| `SMTP_FROM`             | Địa chỉ người gửi, thường trùng `SMTP_USER`                                                                                                                                |
+| `NOTIFICATION_EMAIL`    | Hộp thư nhận báo có yêu cầu tư vấn mới                                                                                                                                     |
 
 > **Thiếu sáu biến SMTP thì không ai được báo** khi khách gửi yêu cầu tư vấn:
 > yêu cầu vẫn được lưu đầy đủ trong `/admin → Yêu cầu tư vấn`, nhưng phải tự
@@ -183,6 +183,17 @@ Vẫn trong màn hình đó, mục **Environment variables**, thêm từng biế
 > lịch chạy định kỳ). Thư chỉ có mã yêu cầu và liên kết vào trang quản trị,
 > không chép thông tin của khách. Khai xong thì bấm Restart, rồi gửi thử một
 > yêu cầu trên website và xóa yêu cầu thử đó trong admin.
+>
+> Thiếu SMTP thì **"Quên mật khẩu" ở trang đăng nhập quản trị cũng không gửi
+> được thư** (trang đó hiện cảnh báo màu cam). Kiểm tra hộp thư gửi đi bằng
+> một thư thử — lệnh in rõ lỗi (sai mật khẩu ứng dụng, cổng bị chặn…):
+>
+> ```bash
+> node --import tsx scripts/test-email.ts
+> ```
+>
+> Chạy sau lệnh `source ~/nodevenv/luatvukhang/*/bin/activate && cd ~/luatvukhang`
+> để có biến khai trong Setup Node.js App (lệnh cũng đọc tệp `.env` nếu có).
 
 > `PAYLOAD_SECRET` ngắn hơn 32 ký tự sẽ khiến ứng dụng dừng ngay khi khởi động ở
 > chế độ production. Đó là chủ ý: giá trị dự phòng nằm công khai trong kho mã,
@@ -361,19 +372,21 @@ trên máy chủ thật** — đó là hồ sơ luật sư minh họa, chỉ dù
 
 ### Quên tài khoản hoặc mật khẩu quản trị
 
-Website chưa cấu hình gửi email thì nút "Quên mật khẩu" không gửi được thư. Khi
-đó đặt lại ngay trên máy chủ (Stop App trước nếu Terminal báo lỗi "fork"):
+Đã khai SMTP (Bước 3) thì bấm "Quên mật khẩu" ở trang đăng nhập: thư tiếng Việt
+có nút "Đặt mật khẩu mới", hiệu lực 1 giờ. Chưa khai SMTP thì thư không gửi được
+(trang hiện cảnh báo màu cam) — đặt lại ngay trên máy chủ (Stop App trước nếu
+Terminal báo lỗi "fork"):
 
 ```bash
 source ~/nodevenv/luatvukhang/*/bin/activate && cd ~/luatvukhang
-node --env-file=.env --import tsx scripts/reset-admin-password.ts
+node --import tsx scripts/reset-admin-password.ts
 ```
 
 Lệnh trên chỉ liệt kê email và vai trò các tài khoản. Chọn email cần lấy lại
 rồi chạy (thay `ten@email.com`):
 
 ```bash
-node --env-file=.env --import tsx scripts/reset-admin-password.ts ten@email.com
+node --import tsx scripts/reset-admin-password.ts ten@email.com
 ```
 
 Mật khẩu mới hiện ra màn hình một lần, tài khoản bị khóa vì nhập sai nhiều lần
@@ -431,7 +444,7 @@ rm -f ~/luatvukhang/hosting-*.zip
 
 Chỉ làm khi `npm run release:check` không còn mục nào bị chặn.
 
-1. Trên GitHub: tab **Actions** → *Gói bản dựng cho hosting* → **Run workflow**,
+1. Trên GitHub: tab **Actions** → _Gói bản dựng cho hosting_ → **Run workflow**,
    **đánh dấu ô `launch_approved`**, để trống `demo_mode`.
 2. Trong cPanel, đổi biến `SITE_LAUNCH_APPROVED` thành `true` (để
    `npm run release:check` khớp với thực tế).
@@ -452,7 +465,7 @@ Toàn bộ việc này làm được bằng Terminal, không cần đụng vào 
 Trình tự có ba phần: lấy mã nguồn mới, lấy bản dựng mới, rồi khởi động lại.
 
 **1. Dựng bản mới trên GitHub** (một lần, trên trình duyệt): tab **Actions** →
-*Gói bản dựng cho hosting* → **Run workflow**. Chờ khoảng hai phút.
+_Gói bản dựng cho hosting_ → **Run workflow**. Chờ khoảng hai phút.
 
 Bước dựng chạy trên máy Linux của GitHub chứ không trên hosting, vì hai lý do:
 `npm run build` cần 1–2 GB RAM mà gói dùng chung không cấp đủ, và bản dựng trên
@@ -507,9 +520,9 @@ Dùng **Git™ Version Control** của cPanel thì bấm **Update from Remote** 
 
 ## Lỗi "cagefs_enter: Unable to fork" trong cPanel
 
-Triệu chứng: trang **Setup Node.js App** báo *The received data is wrong… cagefs_enter:
-Unable to fork*, còn **Terminal** báo *The user has reached resource limits
-(PMEM, number of processes…)* và thoát với mã 255. Website thì vẫn chạy.
+Triệu chứng: trang **Setup Node.js App** báo _The received data is wrong… cagefs_enter:
+Unable to fork_, còn **Terminal** báo _The user has reached resource limits
+(PMEM, number of processes…)_ và thoát với mã 255. Website thì vẫn chạy.
 
 Nguyên nhân: tài khoản đã chạm hạn mức số tiến trình (nPROC) của gói hosting.
 CloudLinux tính **mỗi luồng** của ứng dụng là một tiến trình, mà cả hai trang
