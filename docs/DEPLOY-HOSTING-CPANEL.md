@@ -359,6 +359,26 @@ rm .local/admin-access.txt
 trên máy chủ thật** — đó là hồ sơ luật sư minh họa, chỉ dùng để xem trước bố cục
 ở máy phát triển.
 
+### Quên tài khoản hoặc mật khẩu quản trị
+
+Website chưa cấu hình gửi email thì nút "Quên mật khẩu" không gửi được thư. Khi
+đó đặt lại ngay trên máy chủ (Stop App trước nếu Terminal báo lỗi "fork"):
+
+```bash
+source ~/nodevenv/luatvukhang/*/bin/activate && cd ~/luatvukhang
+node --env-file=.env --import tsx scripts/reset-admin-password.ts
+```
+
+Lệnh trên chỉ liệt kê email và vai trò các tài khoản. Chọn email cần lấy lại
+rồi chạy (thay `ten@email.com`):
+
+```bash
+node --env-file=.env --import tsx scripts/reset-admin-password.ts ten@email.com
+```
+
+Mật khẩu mới hiện ra màn hình một lần, tài khoản bị khóa vì nhập sai nhiều lần
+cũng được mở. Đăng nhập `/admin` rồi đổi sang mật khẩu của riêng bạn.
+
 ## Bước 6 — Khởi động lại và kiểm chứng
 
 Bấm **Restart** trong Setup Node.js App, rồi kiểm tra:
