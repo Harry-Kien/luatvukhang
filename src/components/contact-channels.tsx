@@ -35,17 +35,17 @@ export function ZaloMark({ height = 14 }: { height?: number }) {
 
 type Props = {
   locale: Locale;
+  /** Số nút Gọi. */
   phone?: string | null;
-  /** Ô "Số Zalo bổ sung" trong Cài đặt. */
+  /** Mọi số Zalo theo thứ tự, Zalo 1 trước: zaloNumbersOf(settings). */
   zalo?: ZaloNumber[] | null;
   /** "bar" cho thanh tiện ích, "stack" cho footer và menu, "dock" cho nút nổi. */
   variant?: "bar" | "stack" | "dock";
 };
 
 /**
- * Gọi điện và nhắn Zalo (số chính cùng các số Zalo bổ sung trong Cài đặt).
- * Ẩn hoàn toàn khi Cài đặt chưa có số điện thoại, để website không mời gọi
- * một hành động không thực hiện được.
+ * Gọi điện và nhắn Zalo (Zalo 1, Zalo 2… trong Cài đặt). Thiếu số nào thì ẩn
+ * nút đó, để website không mời gọi một hành động không thực hiện được.
  */
 export function ContactChannels({
   locale,
@@ -54,12 +54,12 @@ export function ContactChannels({
   variant = "stack",
 }: Props) {
   const channels = contactChannels(phone);
-  if (!channels) return null;
-  const zaloList = zaloChannels(phone, zalo);
+  const zaloList = zaloChannels(null, zalo);
+  if (!channels && !zaloList.length) return null;
   // Ghép nhãn từ chuỗi tĩnh rồi mới nối số: chuỗi dựng động không lọt vào
   // scripts/check-translations.ts, nên bản tiếng Trung sẽ âm thầm rơi về tiếng
   // Anh mà không có gì báo.
-  const callTitle = t(locale, "Gọi", "Call") + " " + channels.display;
+  const callTitle = t(locale, "Gọi", "Call") + " " + (channels?.display ?? "");
   const newTab = t(locale, "mở trong tab mới", "opens in a new tab");
   const zaloTitle = (display: string) =>
     t(locale, "Nhắn tin Zalo tới", "Chat on Zalo with") + " " + display;
@@ -80,22 +80,24 @@ export function ContactChannels({
         className="contact-dock"
         role="complementary"
         aria-label={t(locale, "Liên hệ nhanh", "Quick contact")}
-        data-count={1 + zaloList.length}
+        data-count={(channels ? 1 : 0) + zaloList.length}
       >
-        <a
-          className="dock-call"
-          href={"tel:" + channels.tel}
-          aria-label={callTitle}
-          title={callTitle}
-        >
-          <Phone size={21} aria-hidden="true" />
-          <span className="dock-label" aria-hidden="true">
-            <span className="dock-label-wide">{channels.display}</span>
-            <span className="dock-label-narrow">
-              {t(locale, "Gọi ngay", "Call now")}
+        {channels && (
+          <a
+            className="dock-call"
+            href={"tel:" + channels.tel}
+            aria-label={callTitle}
+            title={callTitle}
+          >
+            <Phone size={21} aria-hidden="true" />
+            <span className="dock-label" aria-hidden="true">
+              <span className="dock-label-wide">{channels.display}</span>
+              <span className="dock-label-narrow">
+                {t(locale, "Gọi ngay", "Call now")}
+              </span>
             </span>
-          </span>
-        </a>
+          </a>
+        )}
         {zaloList.map((zaloChannel) => (
           <a
             className="dock-zalo"
@@ -116,10 +118,12 @@ export function ContactChannels({
     );
   return (
     <div className={"contact-channels " + variant}>
-      <a href={"tel:" + channels.tel} title={callTitle}>
-        <Phone size={variant === "bar" ? 14 : 17} aria-hidden="true" />
-        <span>{channels.display}</span>
-      </a>
+      {channels && (
+        <a href={"tel:" + channels.tel} title={callTitle}>
+          <Phone size={variant === "bar" ? 14 : 17} aria-hidden="true" />
+          <span>{channels.display}</span>
+        </a>
+      )}
       {zaloList.map((zaloChannel) => (
         <a
           className="zalo-link"

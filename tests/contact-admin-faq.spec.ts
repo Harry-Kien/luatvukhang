@@ -1,13 +1,19 @@
 import { test, expect } from "@playwright/test";
-import { validateExtraZalo, validateMainPhone } from "../src/lib/contact";
+import {
+  mainZalo,
+  validateExtraZalo,
+  validateMainPhone,
+  zaloChannels,
+  zaloNumbersOf,
+} from "../src/lib/contact";
 import { buildLocalFaq } from "../src/lib/local-faq";
 import { policyDrafts } from "../src/lib/policy-drafts";
 import { zhPolicies } from "../src/lib/zh-content";
 
 /**
- * Cài đặt → "Điện thoại và Zalo": số chính là nút Gọi + Zalo 1, các dòng bên
- * dưới là Zalo 2, Zalo 3… Số sai hoặc trùng bị chặn ngay khi bấm Lưu, để không
- * sinh ra nút Zalo hỏng hay hai nút cùng một số.
+ * Cài đặt → "Điện thoại và Zalo": nút Gọi, Zalo 1 và Zalo 2, Zalo 3… là các ô
+ * riêng. Số sai hoặc trùng bị chặn ngay khi bấm Lưu, để không sinh ra nút Zalo
+ * hỏng hay hai nút cùng một số.
  */
 test("ô số điện thoại chính: để trống được, có nhập thì phải đúng số", () => {
   expect(validateMainPhone("")).toBe(true);
@@ -20,9 +26,9 @@ test("ô số điện thoại chính: để trống được, có nhập thì ph
 test("dòng Zalo bổ sung: đúng số, không trùng số chính, không trùng dòng khác", () => {
   const rows = [{ phone: "0976894548" }, { phone: "0382140336" }];
   expect(validateExtraZalo("0976894548", "0977013358", rows)).toBe(true);
-  // Cùng thuê bao với số chính, chỉ khác cách viết.
+  // Cùng thuê bao với Zalo 1, chỉ khác cách viết.
   expect(validateExtraZalo("+84 977 013 358", "0977013358", rows)).toMatch(
-    /trùng số điện thoại chính/,
+    /trùng Zalo 1/,
   );
   expect(
     validateExtraZalo("0976894548", "0977013358", [
@@ -31,6 +37,40 @@ test("dòng Zalo bổ sung: đúng số, không trùng số chính, không trùn
     ]),
   ).toMatch(/đã có ở một dòng Zalo khác/);
   expect(validateExtraZalo("abc", "0977013358", rows)).toMatch(/không hợp lệ/);
+});
+
+test("Zalo 1 sửa riêng được; để trống thì dùng số nút Gọi", () => {
+  const extra = [{ phone: "0976894548" }];
+  // Để trống: Zalo 1 là số nút Gọi, như trước khi tách ô.
+  expect(mainZalo({ phone: "0977013358", zaloPrimary: " " })).toBe(
+    "0977013358",
+  );
+  // Nhập riêng: nút Gọi giữ số cũ, Zalo 1 đổi sang số mới.
+  const separate = {
+    phone: "0977013358",
+    zaloPrimary: "0382140336",
+    zaloNumbers: extra,
+  };
+  expect(mainZalo(separate)).toBe("0382140336");
+  expect(
+    zaloChannels(null, zaloNumbersOf(separate)).map((item) => item.zalo),
+  ).toEqual(["https://zalo.me/0382140336", "https://zalo.me/0976894548"]);
+  // Zalo 2 không được trùng Zalo 1 vừa đổi, nhưng được trùng số nút Gọi.
+  expect(validateExtraZalo("0382140336", mainZalo(separate), extra)).toMatch(
+    /trùng Zalo 1/,
+  );
+  expect(validateExtraZalo("0977013358", mainZalo(separate), extra)).toBe(true);
+  // Hỏi đáp không còn nói số nút Gọi "cũng nhắn Zalo được".
+  const faq = buildLocalFaq({
+    locale: "vi",
+    settings: separate,
+    services: [],
+    people: [],
+  });
+  const text = faq.map((entry) => entry.answer).join(" ");
+  expect(text).toContain("gọi 0977013358");
+  expect(text).not.toContain("cũng nhắn Zalo");
+  expect(text).toContain("nhắn Zalo 0382140336, 0976894548");
 });
 
 test("hỏi đáp trang chủ trả lời từ Cài đặt và hồ sơ đã đăng", () => {

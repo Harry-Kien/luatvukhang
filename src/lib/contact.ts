@@ -1,9 +1,9 @@
 /**
  * Kênh liên hệ trực tiếp dựng từ số điện thoại trong Cài đặt.
  *
- * Số chính tự sinh cả nút gọi lẫn nút Zalo: ở Việt Nam Zalo gắn với chính số
- * thuê bao, nên không có ô Zalo riêng cho số chính. Các số CHỈ để nhắn Zalo
- * nằm ở ô "Số Zalo bổ sung" trong Cài đặt (thêm tháng 10/2026).
+ * Cài đặt → "Điện thoại và Zalo" có ba phần sửa riêng được: số nút Gọi (ô
+ * phone), Zalo 1 (ô zaloPrimary — để trống thì dùng luôn số nút Gọi, vì ở Việt
+ * Nam Zalo gắn với số thuê bao) và Zalo 2, Zalo 3… (ô zaloNumbers).
  */
 export type ContactChannels = {
   /** Giữ nguyên cách công ty nhập để hiển thị. */
@@ -41,9 +41,29 @@ export function contactChannels(phone?: string | null): ContactChannels | null {
 /** Một dòng của ô "Số Zalo bổ sung" trong Cài đặt. */
 export type ZaloNumber = { phone?: string | null } | null | undefined;
 
+/** Phần Cài đặt quyết định các nút gọi và Zalo. */
+export type ZaloSettings =
+  | {
+      phone?: string | null;
+      zaloPrimary?: string | null;
+      zaloNumbers?: ZaloNumber[] | null;
+    }
+  | null
+  | undefined;
+
+/** Số Zalo 1: ô "Zalo 1"; để trống thì dùng số nút Gọi. */
+export function mainZalo(settings: ZaloSettings): string | null {
+  return settings?.zaloPrimary?.trim() || settings?.phone?.trim() || null;
+}
+
+/** Mọi số Zalo theo thứ tự hiển thị: Zalo 1 rồi Zalo 2, Zalo 3… */
+export function zaloNumbersOf(settings: ZaloSettings): ZaloNumber[] {
+  return [{ phone: mainZalo(settings) }, ...(settings?.zaloNumbers ?? [])];
+}
+
 /**
- * Các kênh Zalo theo thứ tự hiển thị: số chính trước, rồi các số bổ sung trong
- * Cài đặt. Bỏ số không hợp lệ và số trùng (cùng một thuê bao nhập hai cách).
+ * Các kênh Zalo theo thứ tự hiển thị: số đầu (Zalo 1) trước, rồi các số bổ
+ * sung. Bỏ số không hợp lệ và số trùng (cùng một thuê bao nhập hai cách).
  */
 export function zaloChannels(
   phone?: string | null,
@@ -62,8 +82,8 @@ const INVALID_NUMBER =
   "Số không hợp lệ — nhập 9 đến 12 chữ số, ví dụ 0977013358 hoặc +84 977 013 358.";
 
 /**
- * Ô "Số điện thoại chính" trong admin: để trống được (website ẩn nút gọi và
- * Zalo), có nhập thì phải là số gọi được.
+ * Ô "Số điện thoại — nút Gọi" và ô "Zalo 1" trong admin: để trống được, có
+ * nhập thì phải là số hợp lệ.
  */
 export function validateMainPhone(value: unknown): true | string {
   if (typeof value !== "string" || !value.trim()) return true;
@@ -71,19 +91,19 @@ export function validateMainPhone(value: unknown): true | string {
 }
 
 /**
- * Một dòng Zalo bổ sung: phải là số hợp lệ, không trùng số chính (số chính đã
- * là Zalo 1) và không trùng dòng khác — cùng một thuê bao nhập hai cách
- * ("0976894548" và "+84 976 894 548") cũng tính là trùng.
+ * Một dòng Zalo 2, Zalo 3…: phải là số hợp lệ, không trùng Zalo 1 và không
+ * trùng dòng khác — cùng một thuê bao nhập hai cách ("0976894548" và
+ * "+84 976 894 548") cũng tính là trùng. `firstZalo` là số Zalo 1 (mainZalo).
  */
 export function validateExtraZalo(
   value: unknown,
-  mainPhone?: string | null,
+  firstZalo?: string | null,
   rows?: ZaloNumber[] | null,
 ): true | string {
   const channel = contactChannels(typeof value === "string" ? value : null);
   if (!channel) return INVALID_NUMBER;
-  if (contactChannels(mainPhone)?.zalo === channel.zalo)
-    return "Số này trùng số điện thoại chính — số chính đã là Zalo 1, không cần nhập lại.";
+  if (contactChannels(firstZalo)?.zalo === channel.zalo)
+    return "Số này trùng Zalo 1 ở trên — không cần nhập lại.";
   const same = (rows ?? []).filter(
     (row) => contactChannels(row?.phone)?.zalo === channel.zalo,
   ).length;

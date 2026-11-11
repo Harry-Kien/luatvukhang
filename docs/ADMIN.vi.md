@@ -184,8 +184,8 @@ duyệt rồi Xuất bản. Vai trò "Luật sư" mới hiện ở mục luật 
 
 ## Số Zalo và Hệ sinh thái (trong Cài đặt)
 
-- **Số Zalo bổ sung** — các số chỉ để nhắn Zalo (số Điện thoại chính đã tự có
-  nút gọi và nút Zalo). Mỗi số một nút ở thanh trên cùng, chân trang, trang Liên
+- **Điện thoại và Zalo** — ba phần sửa riêng: *Số điện thoại — nút Gọi*, *Zalo 1*
+  (để trống thì dùng số nút Gọi) và *Zalo 2, Zalo 3…*. Mỗi số một nút ở thanh trên cùng, chân trang, trang Liên
   hệ và cụm nút nổi. Kéo để đổi thứ tự, bấm ⋯ để xóa. Ô ghi chú không hiện ra
   ngoài.
 - **Hệ sinh thái** — ứng dụng, công ty thành viên hiện logo ở chân trang mọi

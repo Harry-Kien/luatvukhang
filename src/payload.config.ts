@@ -17,7 +17,7 @@ import {
   RESET_LINK_HOURS,
 } from "./cms/password-reset";
 import { SiteLayout } from "./cms/site-layout";
-import { validateExtraZalo, validateMainPhone } from "./lib/contact";
+import { mainZalo, validateExtraZalo, validateMainPhone } from "./lib/contact";
 import { verificationCode } from "./lib/verification";
 import { TEAM_OPTIONS } from "./lib/people-order";
 import { translateEndpoint } from "./cms/translation/endpoint";
@@ -847,24 +847,35 @@ export default buildConfig({
         text("englishName", "Tên tiếng Anh"),
         text("registration", "Thông tin đăng ký hoạt động"),
         {
-          // Khung chỉ để gom trên màn hình admin: dữ liệu vẫn là hai ô phone và
-          // zaloNumbers như trước, không cần đổi cơ sở dữ liệu.
+          // Khung chỉ để gom trên màn hình admin. Ba phần sửa riêng được: số
+          // nút Gọi (phone), Zalo 1 (zaloPrimary, thêm 11/2026) và Zalo 2, 3…
           type: "collapsible",
           label: "Điện thoại và Zalo",
           admin: {
             initCollapsed: false,
             description:
-              "Số chính là nút Gọi và Zalo 1; các dòng bên dưới là Zalo 2, Zalo 3… Mọi nơi trên website (thanh trên cùng, chân trang, trang Liên hệ, nút gọi và Zalo nổi, dữ liệu gửi Google và công cụ AI) đổi theo ngay khi bấm Lưu.",
+              "Nút Gọi, Zalo 1 và Zalo 2, Zalo 3… sửa riêng từng ô. Mọi nơi trên website (thanh trên cùng, chân trang, trang Liên hệ, nút gọi và Zalo nổi, dữ liệu gửi Google và công cụ AI) đổi theo ngay khi bấm Lưu.",
           },
           fields: [
             {
               name: "phone",
-              label: "Số điện thoại chính — nút Gọi và Zalo 1",
+              label: "Số điện thoại — nút Gọi",
               type: "text",
               admin: {
                 placeholder: "0977013358",
                 description:
-                  "Khách bấm Gọi và nhắn Zalo 1 vào số này; Google Maps và danh bạ nên ghi đúng số này. Nhập kiểu nào cũng được: 0977013358, 0977 013 358 hoặc +84 977 013 358.",
+                  "Khách bấm Gọi vào số này; Google Maps và danh bạ nên ghi đúng số này. Nhập kiểu nào cũng được: 0977013358, 0977 013 358 hoặc +84 977 013 358.",
+              },
+              validate: (value: unknown) => validateMainPhone(value),
+            },
+            {
+              name: "zaloPrimary",
+              label: "Zalo 1",
+              type: "text",
+              admin: {
+                placeholder: "Để trống thì dùng số nút Gọi ở trên",
+                description:
+                  "Nút Zalo đầu tiên trên website. Để trống thì Zalo 1 dùng luôn số nút Gọi ở trên.",
               },
               validate: (value: unknown) => validateMainPhone(value),
             },
@@ -875,7 +886,7 @@ export default buildConfig({
               labels: { singular: "Số Zalo", plural: "Số Zalo bổ sung" },
               admin: {
                 description:
-                  "Mỗi dòng là một nút Zalo riêng, theo thứ tự Zalo 2, Zalo 3… Kéo để đổi thứ tự, bấm ⋯ để xóa, bấm “Thêm Số Zalo” để thêm. Không cần nhập lại số chính ở đây.",
+                  "Mỗi dòng là một nút Zalo riêng, theo thứ tự Zalo 2, Zalo 3… Kéo để đổi thứ tự, bấm ⋯ để xóa, bấm “Thêm Số Zalo” để thêm. Không cần nhập lại số Zalo 1 ở đây.",
                 initCollapsed: false,
                 components: {
                   RowLabel: "/components/admin/zalo-row-label#ZaloRowLabel",
@@ -891,7 +902,8 @@ export default buildConfig({
                   validate: (
                     value: unknown,
                     { data }: { data?: Record<string, any> },
-                  ) => validateExtraZalo(value, data?.phone, data?.zaloNumbers),
+                  ) =>
+                    validateExtraZalo(value, mainZalo(data), data?.zaloNumbers),
                 },
                 {
                   name: "note",

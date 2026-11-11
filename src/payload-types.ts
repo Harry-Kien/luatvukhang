@@ -2259,11 +2259,15 @@ export interface SiteSetting {
   englishName?: string | null;
   registration?: string | null;
   /**
-   * Khách bấm Gọi và nhắn Zalo 1 vào số này; Google Maps và danh bạ nên ghi đúng số này. Nhập kiểu nào cũng được: 0977013358, 0977 013 358 hoặc +84 977 013 358.
+   * Khách bấm Gọi vào số này; Google Maps và danh bạ nên ghi đúng số này. Nhập kiểu nào cũng được: 0977013358, 0977 013 358 hoặc +84 977 013 358.
    */
   phone?: string | null;
   /**
-   * Mỗi dòng là một nút Zalo riêng, theo thứ tự Zalo 2, Zalo 3… Kéo để đổi thứ tự, bấm ⋯ để xóa, bấm “Thêm Số Zalo” để thêm. Không cần nhập lại số chính ở đây.
+   * Nút Zalo đầu tiên trên website. Để trống thì Zalo 1 dùng luôn số nút Gọi ở trên.
+   */
+  zaloPrimary?: string | null;
+  /**
+   * Mỗi dòng là một nút Zalo riêng, theo thứ tự Zalo 2, Zalo 3… Kéo để đổi thứ tự, bấm ⋯ để xóa, bấm “Thêm Số Zalo” để thêm. Không cần nhập lại số Zalo 1 ở đây.
    */
   zaloNumbers?:
     | {
@@ -2417,6 +2421,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   englishName?: T;
   registration?: T;
   phone?: T;
+  zaloPrimary?: T;
   zaloNumbers?:
     | T
     | {

@@ -3,7 +3,7 @@ import { useRowLabel } from "@payloadcms/ui";
 
 /**
  * Nhãn từng dòng trong ô "Zalo 2, Zalo 3…" của Cài đặt: "Zalo 2 · 0976894548".
- * Số chính ở trên đã là Zalo 1, nên dòng đầu tiên của danh sách là Zalo 2 —
+ * Ô "Zalo 1" nằm ngay trên, nên dòng đầu tiên của danh sách là Zalo 2 —
  * đúng thứ tự nút Zalo khách thấy trên website.
  */
 export function ZaloRowLabel() {

@@ -32,6 +32,7 @@ import {
   siteUrl,
   websiteJsonLd,
 } from "@/lib/seo";
+import { zaloNumbersOf } from "@/lib/contact";
 const baseMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -156,7 +157,7 @@ export default async function Layout({
             companyName={companyName || undefined}
             services={serviceLinks}
             phone={settings?.phone}
-            zalo={settings?.zaloNumbers}
+            zalo={zaloNumbersOf(settings)}
             // Chỉ gửi những gì header cần; mục menu đang ẩn không xuống trình duyệt.
             layout={{ tagline: layout.header.tagline, cta: layout.header.cta }}
             nav={nav}
@@ -172,7 +173,7 @@ export default async function Layout({
             ecosystem={ecosystemMembers(settings?.ecosystem)}
             companyName={companyName || undefined}
             phone={settings?.phone}
-            zalo={settings?.zaloNumbers}
+            zalo={zaloNumbersOf(settings)}
             address={settings?.address}
             email={settings?.email}
             layout={footer}
@@ -183,7 +184,7 @@ export default async function Layout({
         <ContactChannels
           locale={locale}
           phone={settings?.phone}
-          zalo={settings?.zaloNumbers}
+          zalo={zaloNumbersOf(settings)}
           variant="dock"
         />
         <Analytics />

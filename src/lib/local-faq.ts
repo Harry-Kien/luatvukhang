@@ -1,5 +1,10 @@
 import type { Locale } from "./content";
-import { contactChannels, zaloChannels, type ZaloNumber } from "./contact";
+import {
+  contactChannels,
+  mainZalo,
+  zaloChannels,
+  type ZaloNumber,
+} from "./contact";
 import { officeLandmark } from "./local-area";
 
 /**
@@ -16,6 +21,7 @@ export type LocalFaqInput = {
   settings?: {
     address?: string | null;
     phone?: string | null;
+    zaloPrimary?: string | null;
     email?: string | null;
     zaloNumbers?: ZaloNumber[] | null;
   } | null;
@@ -53,19 +59,29 @@ export function buildLocalFaq({
     });
 
   const main = contactChannels(settings?.phone);
-  const extraZalo = zaloChannels(settings?.phone, settings?.zaloNumbers)
+  const zaloList = zaloChannels(mainZalo(settings), settings?.zaloNumbers);
+  // Số nút Gọi cũng là một số Zalo thì nói gọn trong cùng một ý.
+  const mainOnZalo = zaloList.some((channel) => channel.zalo === main?.zalo);
+  const extraZalo = zaloList
     .filter((channel) => channel.zalo !== main?.zalo)
     .map((channel) => channel.display);
   const email = settings?.email?.trim();
   if (main || email) {
     const parts = [
       main &&
-        pick(
-          locale,
-          `gọi ${main.display} (số này cũng nhắn Zalo được)`,
-          `call ${main.display} (also on Zalo)`,
-          `致电 ${main.display}（也可通过 Zalo 联系）`,
-        ),
+        (mainOnZalo
+          ? pick(
+              locale,
+              `gọi ${main.display} (số này cũng nhắn Zalo được)`,
+              `call ${main.display} (also on Zalo)`,
+              `致电 ${main.display}（也可通过 Zalo 联系）`,
+            )
+          : pick(
+              locale,
+              `gọi ${main.display}`,
+              `call ${main.display}`,
+              `致电 ${main.display}`,
+            )),
       extraZalo.length &&
         pick(
           locale,

@@ -3,7 +3,7 @@ import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsTxt, type LlmsSection } from "@/lib/llms";
 import { contactFactLines, siteUrl } from "@/lib/seo";
-import { zaloChannels } from "@/lib/contact";
+import { mainZalo, zaloChannels } from "@/lib/contact";
 import { ecosystemMembers } from "@/lib/ecosystem";
 import { getSiteLayout } from "@/lib/site-layout";
 import { officeArea } from "@/lib/local-area";
@@ -80,9 +80,9 @@ export async function GET() {
         lines: [
           { label: "Địa chỉ", value: settings?.address },
           { label: "Điện thoại", value: settings?.phone },
-          ...zaloChannels(settings?.phone, settings?.zaloNumbers).map(
+          ...zaloChannels(mainZalo(settings), settings?.zaloNumbers).map(
             (channel, index) => ({
-              label: index ? `Zalo ${index + 1}` : "Zalo",
+              label: `Zalo ${index + 1}`,
               value: channel.zalo,
             }),
           ),

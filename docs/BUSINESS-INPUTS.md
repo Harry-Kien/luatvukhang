@@ -4,17 +4,19 @@
 
 Số điện thoại chính: **0977013358** (công ty đổi trong admin, chủ website xác
 nhận ngày 10/11/2026; số trước đây 0832270898). Số này nằm trong Cài đặt của CMS
-và là nguồn duy nhất sinh ra nút gọi (`tel:+84977013358`), nút Zalo 1
-(`https://zalo.me/0977013358`) và trường `telephone` trong dữ liệu có cấu trúc
-`Organization`. Đổi số trong Cài đặt là mọi nơi đổi theo; không sửa trong mã.
+và là nguồn duy nhất sinh ra nút gọi (`tel:+84977013358`) và trường
+`telephone` trong dữ liệu có cấu trúc `Organization`. Zalo 1 hiện cũng là số này
+(`https://zalo.me/0977013358`) nhưng nằm ở ô riêng. Đổi số trong Cài đặt là mọi nơi đổi theo; không sửa trong mã.
 Google Maps, Facebook, danh bạ phải ghi đúng số này.
 
-**Sửa trong admin:** Cài đặt → khung **Điện thoại và Zalo**: ô *Số điện thoại
-chính — nút Gọi và Zalo 1*, rồi danh sách *Zalo 2, Zalo 3…* (mỗi dòng ghi sẵn
-"Zalo 2 · số…"). Số sai, số trùng số chính hoặc trùng dòng khác bị chặn khi lưu.
+**Sửa trong admin:** Cài đặt → khung **Điện thoại và Zalo**, ba phần sửa riêng:
+ô *Số điện thoại — nút Gọi*, ô *Zalo 1* (để trống thì dùng số nút Gọi; từ
+11/11/2026, khi cài được điền sẵn bằng số nút Gọi) và danh sách *Zalo 2, Zalo 3…*
+(mỗi dòng ghi sẵn "Zalo 2 · số…"). Số sai, số trùng Zalo 1 hoặc trùng dòng khác
+bị chặn khi lưu.
 
 **Số Zalo bổ sung** (từ 22/10/2026): ô riêng trong **Cài đặt → Số Zalo bổ sung**,
-dành cho các số chỉ để nhắn Zalo (số Điện thoại chính đã tự có nút Zalo). Thêm,
+dành cho các số chỉ để nhắn Zalo (Zalo 2, Zalo 3…). Thêm,
 xóa, kéo đổi thứ tự rồi bấm Lưu là thanh trên cùng, chân trang, trang Liên hệ,
 nút Zalo nổi và llms.txt đổi theo. Số nhập sai bị chặn khi lưu. Hai số 0976894548
 và 0382140336 được điền sẵn khi cài bản có ô này.

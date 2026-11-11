@@ -12,7 +12,7 @@ import { PageHeading, EmptyContent, ContentBody } from "@/components/content";
 import { CmsImage } from "@/components/cms-image";
 import { ConsultationForm } from "@/components/consultation-form";
 import { ContactChannels } from "@/components/contact-channels";
-import { contactChannels } from "@/lib/contact";
+import { contactChannels, zaloNumbersOf } from "@/lib/contact";
 import { googleBusinessFor, officeArea } from "@/lib/local-area";
 import { getSiteSettings } from "@/lib/site-settings";
 import { applyRedirect } from "@/lib/redirects";
@@ -664,7 +664,7 @@ export default async function Page({ params, searchParams }: Props) {
               <ContactChannels
                 locale={locale}
                 phone={settings?.phone}
-                zalo={settings?.zaloNumbers}
+                zalo={zaloNumbersOf(settings)}
               />
               {contact.mapEmbed && (
                 <iframe

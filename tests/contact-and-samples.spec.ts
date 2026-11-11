@@ -1,7 +1,12 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { contactChannels, zaloChannels } from "../src/lib/contact";
+import {
+  contactChannels,
+  mainZalo,
+  zaloChannels,
+  zaloNumbersOf,
+} from "../src/lib/contact";
 
 test("phone numbers become both a call link and a Zalo link", () => {
   // Cách công ty nhập số không cố định; cả bốn dạng dưới đây đều là một thuê bao.
@@ -41,10 +46,11 @@ test("every public page offers a call and a Zalo route to the firm", async ({
     "Chưa nhập số điện thoại trong Cài đặt; không có gì để kiểm tra.",
   );
   const expected = contactChannels(settings.phone)!;
+  const firstZalo = contactChannels(mainZalo(settings))!;
   for (const path of ["/vi", "/en/services", "/zh/contact"]) {
     await page.goto(path);
     const call = page.locator(`a[href="tel:${expected.tel}"]`);
-    const zalo = page.locator(`a[href="${expected.zalo}"]`);
+    const zalo = page.locator(`a[href="${firstZalo.zalo}"]`);
     expect(await call.count(), path + " thiếu liên kết gọi").toBeGreaterThan(0);
     expect(await zalo.count(), path + " thiếu liên kết Zalo").toBeGreaterThan(
       0,
@@ -89,8 +95,8 @@ test("mỗi số Zalo có nút riêng, hiện vừa vặn trên máy tính và �
     await request.get("/api/globals/site-settings")
   ).json();
   test.skip(!settings.phone, "Chưa nhập số điện thoại trong Cài đặt.");
-  // Số chính và các số trong ô "Số Zalo bổ sung" của Cài đặt.
-  const numbers = zaloChannels(settings.phone, settings.zaloNumbers);
+  // Zalo 1 rồi Zalo 2, Zalo 3… trong Cài đặt.
+  const numbers = zaloChannels(null, zaloNumbersOf(settings));
   const dock = page.locator(".contact-dock");
 
   // Máy tính: cột nút tròn, mỗi số Zalo một nút, đúng thứ tự, trong khung nhìn.

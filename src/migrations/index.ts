@@ -7,6 +7,7 @@ import * as migration_20260920_145122_them_theo_doi_yeu_cau from './20260920_145
 import * as migration_20261022_015132_them_so_zalo_bo_sung from './20261022_015132_them_so_zalo_bo_sung';
 import * as migration_20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai from './20261022_052130_khoi_thu_tu_doi_ngu_he_sinh_thai';
 import * as migration_20261110_025119_them_ma_xac_minh_tim_kiem from './20261110_025119_them_ma_xac_minh_tim_kiem';
+import * as migration_20261111_162427_tach_o_zalo_1 from './20261111_162427_tach_o_zalo_1';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20261110_025119_them_ma_xac_minh_tim_kiem.up,
     down: migration_20261110_025119_them_ma_xac_minh_tim_kiem.down,
-    name: '20261110_025119_them_ma_xac_minh_tim_kiem'
+    name: '20261110_025119_them_ma_xac_minh_tim_kiem',
+  },
+  {
+    up: migration_20261111_162427_tach_o_zalo_1.up,
+    down: migration_20261111_162427_tach_o_zalo_1.down,
+    name: '20261111_162427_tach_o_zalo_1'
   },
 ];

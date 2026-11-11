@@ -22,6 +22,7 @@ import {
   personJsonLd,
   serviceJsonLd,
 } from "@/lib/seo";
+import { zaloNumbersOf } from "@/lib/contact";
 type Props = {
   params: Promise<{ locale: Locale; section: string; slug: string }>;
   searchParams: Promise<{ preview?: string }>;
@@ -367,7 +368,7 @@ export default async function Detail({ params, searchParams }: Props) {
               <ContactChannels
                 locale={locale}
                 phone={settings.phone}
-                zalo={settings.zaloNumbers}
+                zalo={zaloNumbersOf(settings)}
               />
             </div>
           )}

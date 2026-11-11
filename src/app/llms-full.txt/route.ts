@@ -3,7 +3,7 @@ import { launched } from "@/lib/content";
 import { getSiteSettings } from "@/lib/site-settings";
 import { buildLlmsFull } from "@/lib/llms";
 import { contactFactLines, siteUrl } from "@/lib/seo";
-import { zaloChannels } from "@/lib/contact";
+import { mainZalo, zaloChannels } from "@/lib/contact";
 import { getSiteLayout } from "@/lib/site-layout";
 import { ecosystemMembers } from "@/lib/ecosystem";
 import { officeArea } from "@/lib/local-area";
@@ -55,9 +55,9 @@ export async function GET() {
       { label: "Tên tiếng Anh", value: settings?.englishName },
       { label: "Đăng ký hoạt động", value: settings?.registration },
       { label: "Điện thoại", value: settings?.phone },
-      ...zaloChannels(settings?.phone, settings?.zaloNumbers).map(
+      ...zaloChannels(mainZalo(settings), settings?.zaloNumbers).map(
         (channel, index) => ({
-          label: index ? `Zalo ${index + 1}` : "Zalo (điện thoại chính)",
+          label: `Zalo ${index + 1}`,
           value: channel.zalo,
         }),
       ),
