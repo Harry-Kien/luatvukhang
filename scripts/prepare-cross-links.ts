@@ -17,6 +17,7 @@
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
+import { localArticles } from "./content/local-articles";
 
 /** slug lĩnh vực -> các slug bài viết liên quan. */
 const LINKS: Record<string, string[]> = {
@@ -29,6 +30,12 @@ const LINKS: Record<string, string[]> = {
   "lao-dong-nhan-su": ["cham-dut-hop-dong-lao-dong-dung-trinh-tu"],
   "hon-nhan-gia-dinh": ["thu-tuc-ly-hon-can-chuan-bi-gi"],
 };
+for (const article of localArticles)
+  for (const service of article.services)
+    (LINKS[service] ??= []).push(article.slug);
+
+/** Bài cho người đọc ở Đồng Nai chỉ có bản tiếng Việt. */
+const vietnameseOnly = new Set(localArticles.map((a) => a.slug));
 
 const cms = await getPayload({ config });
 // Bản đã xuất bản chỉ ghi lại được bằng tài khoản có quyền xuất bản
@@ -73,6 +80,7 @@ for (const [serviceSlug, articleSlugs] of Object.entries(LINKS))
     );
     const wanted = [...current];
     for (const articleSlug of articleSlugs) {
+      if (language !== "vi" && vietnameseOnly.has(articleSlug)) continue;
       const article = await find("articles", articleSlug, language);
       if (!article) {
         console.log(`khong thay bai ${articleSlug}/${language}`);

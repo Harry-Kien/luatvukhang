@@ -14,6 +14,7 @@
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
+import { localArticles } from "./content/local-articles";
 
 type Localised = { vi: string; en: string; zh: string };
 
@@ -84,6 +85,15 @@ const categories: {
       zh: "需要准备什么、如何沟通，以及开始之前应当询问的事项。",
     },
   },
+  {
+    slug: "doanh-nghiep",
+    title: { vi: "Doanh nghiệp", en: "Business", zh: "企业" },
+    summary: {
+      vi: "Thành lập, góp vốn, quản trị và các thủ tục doanh nghiệp phải làm sau khi đăng ký.",
+      en: "Incorporation, capital contribution, governance and the filings a company must make after registration.",
+      zh: "企业设立、出资、治理以及登记后须办理的手续。",
+    },
+  },
 ];
 
 /** Đường dẫn bài viết -> các danh mục thuộc về. */
@@ -94,7 +104,11 @@ const assignments: Record<string, string[]> = {
   "kiem-tra-phap-ly-truoc-khi-dat-coc-mua-dat": ["dat-dai-nha-o", "hop-dong"],
   "cham-dut-hop-dong-lao-dong-dung-trinh-tu": ["lao-dong"],
   "thu-tuc-ly-hon-can-chuan-bi-gi": ["hon-nhan-gia-dinh"],
+  ...Object.fromEntries(localArticles.map((a) => [a.slug, a.categories])),
 };
+
+/** Bài cho người đọc ở Đồng Nai chỉ có bản tiếng Việt. */
+const vietnameseOnly = new Set(localArticles.map((a) => a.slug));
 
 const cms = await getPayload({ config });
 const admin = (
@@ -148,7 +162,9 @@ for (const category of categories)
 
 let linked = 0;
 for (const [articleSlug, categorySlugs] of Object.entries(assignments))
-  for (const language of locales) {
+  for (const language of vietnameseOnly.has(articleSlug)
+    ? (["vi"] as const)
+    : locales) {
     const article = await findOne("articles", articleSlug, language);
     if (!article) {
       console.log(`khong thay bai ${articleSlug}/${language}`);

@@ -15,6 +15,7 @@ import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { locales } from "../src/lib/locales";
 import { draftArticles } from "./content/articles";
+import { localArticles } from "./content/local-articles";
 import { draftIndustries, industriesEnabled } from "./content/industries";
 
 const cms = await getPayload({ config });
@@ -78,6 +79,40 @@ for (const article of draftArticles)
     created += 1;
     console.log("da tao articles", article.slug, language);
   }
+
+// Bài cho người đọc ở Đồng Nai: chỉ tiếng Việt, xem lý do ở đầu tệp nội dung.
+for (const article of localArticles) {
+  if (await exists("articles", article.slug, "vi")) {
+    skipped += 1;
+    continue;
+  }
+  await cms.create({
+    collection: "articles",
+    user: admin,
+    draft: true,
+    data: {
+      title: article.title,
+      slug: article.slug,
+      language: "vi",
+      translationKey: article.slug,
+      summary: article.summary,
+      keywords: article.keywords,
+      blocks: article.sections.map((section) => ({
+        blockType: "callout" as const,
+        visible: true,
+        heading: section.heading,
+        body: section.body,
+      })),
+      sources: article.sources,
+      seo: { title: article.seoTitle, description: article.seoDescription },
+      reviewState: "working",
+      _status: "draft",
+      isSample: false,
+    } as never,
+  });
+  created += 1;
+  console.log("da tao articles", article.slug, "vi");
+}
 
 for (const industry of industriesEnabled ? draftIndustries : [])
   for (const language of locales) {
