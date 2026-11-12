@@ -94,6 +94,15 @@ const categories: {
       zh: "企业设立、出资、治理以及登记后须办理的手续。",
     },
   },
+  {
+    slug: "hinh-su",
+    title: { vi: "Hình sự", en: "Criminal matters", zh: "刑事" },
+    summary: {
+      vi: "Quyền của người bị tạm giữ, bị can, bị hại và những việc gia đình cần biết khi có người thân liên quan vụ án.",
+      en: "Rights of people held in custody, suspects and victims, and what families should know when a relative is involved in a case.",
+      zh: "被拘留人、犯罪嫌疑人和被害人的权利，以及亲属涉案时家属需要了解的事项。",
+    },
+  },
 ];
 
 /** Đường dẫn bài viết -> các danh mục thuộc về. */

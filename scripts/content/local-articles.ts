@@ -377,4 +377,248 @@ export const localArticles: LocalArticle[] = [
       },
     ],
   },
+  {
+    slug: "thua-ke-nha-dat-khong-co-di-chuc-tai-dong-nai",
+    title:
+      "Thừa kế nhà đất không có di chúc ở Đồng Nai: ai được hưởng, làm thủ tục ở đâu",
+    summary:
+      "Cha mẹ mất không để lại di chúc, nhà đất ở Đồng Nai chia thế nào: hàng thừa kế, thời hiệu 30 năm, thủ tục khai nhận tại văn phòng công chứng, sang tên và cách xử lý khi anh chị em không thống nhất.",
+    keywords:
+      "thừa kế nhà đất, thừa kế không có di chúc, chia thừa kế đồng nai, khai nhận di sản, sang tên sổ đỏ thừa kế, luật sư thừa kế biên hòa, thua ke dat dai, hàng thừa kế",
+    seoTitle: "Thừa kế nhà đất không có di chúc ở Đồng Nai",
+    seoDescription:
+      "Chia thừa kế nhà đất không có di chúc tại Đồng Nai: hàng thừa kế, thời hiệu, khai nhận di sản ở văn phòng công chứng, sang tên và khi có tranh chấp.",
+    categories: ["hon-nhan-gia-dinh", "dat-dai-nha-o"],
+    services: ["hon-nhan-gia-dinh", "dat-dai-bat-dong-san"],
+    sections: [
+      {
+        heading: "Ai được hưởng khi không có di chúc",
+        body: "Khi người mất không để lại di chúc, hoặc di chúc không hợp pháp, di sản được chia theo pháp luật, theo thứ tự ba hàng thừa kế:\n\nHàng thứ nhất: vợ, chồng, cha đẻ, mẹ đẻ, cha nuôi, mẹ nuôi, con đẻ, con nuôi của người chết.\n\nHàng thứ hai: ông bà nội ngoại, anh chị em ruột, cháu ruột (người chết là ông, bà).\n\nHàng thứ ba: cụ nội, cụ ngoại, bác, chú, cậu, cô, dì ruột, cháu ruột (người chết là bác, chú, cậu, cô, dì ruột).\n\nNhững người cùng hàng hưởng phần bằng nhau. Hàng sau chỉ được hưởng khi không còn ai ở hàng trước, hoặc họ đều chết, từ chối, không có quyền hưởng. Con của người con đã mất trước cha mẹ được hưởng phần mà cha hoặc mẹ mình lẽ ra được hưởng (thừa kế thế vị).",
+      },
+      {
+        heading: "Tách phần của người còn sống trước",
+        body: "Nhà đất thường là tài sản chung của hai vợ chồng. Khi một người mất, chỉ phần của người đó là di sản; phần của người còn sống không đem chia.\n\nVí dụ: cha mất, mẹ còn sống, nhà là tài sản chung. Thông thường một nửa thuộc về mẹ, nửa còn lại là di sản của cha, chia đều cho mẹ và các con (hàng thứ nhất), và cả ông bà nội nếu khi đó còn sống. Mỗi gia đình có thể khác vì nguồn gốc tài sản, nên cần xem giấy tờ cụ thể.",
+      },
+      {
+        heading: "Thời hiệu: 30 năm với nhà đất",
+        body: "Thời hiệu để người thừa kế yêu cầu chia di sản là 30 năm đối với bất động sản, 10 năm đối với động sản, tính từ thời điểm người để lại di sản chết. Hết thời hiệu, di sản thuộc về người thừa kế đang quản lý, hoặc được xử lý theo quy định khác của luật.\n\nNhiều gia đình ở Đồng Nai để nhà đất đứng tên ông bà, cha mẹ đã mất từ lâu. Nếu sắp tròn 30 năm, nên làm thủ tục sớm.",
+      },
+      {
+        heading: "Thủ tục khai nhận khi cả nhà thống nhất",
+        body: "Khi tất cả người thừa kế đồng ý cách chia, có thể lập văn bản thỏa thuận phân chia di sản (hoặc văn bản khai nhận di sản nếu chỉ có một người hưởng) tại một tổ chức hành nghề công chứng. Giấy tờ thường cần:\n\nGiấy chứng tử của người để lại di sản.\n\nGiấy tờ chứng minh quan hệ: giấy khai sinh, giấy chứng nhận kết hôn, quyết định nhận con nuôi.\n\nGiấy chứng nhận quyền sử dụng đất, quyền sở hữu nhà.\n\nGiấy tờ tùy thân của người thừa kế; văn bản từ chối nhận di sản nếu có người không nhận.\n\nCông chứng viên niêm yết việc thụ lý theo quy định để người có quyền lợi liên quan biết và phản đối nếu có. Sau khi công chứng, người nhận nộp hồ sơ đăng ký biến động (sang tên) tại chi nhánh văn phòng đăng ký đất đai nơi có đất, và kê khai thuế, lệ phí. Một số trường hợp thừa kế giữa người thân được miễn thuế thu nhập cá nhân, lệ phí trước bạ; hỏi cơ quan thuế khi nộp hồ sơ.",
+      },
+      {
+        heading: "Có người ở xa, ở nước ngoài, hoặc không chịu ký",
+        body: "Người thừa kế ở xa hoặc ở nước ngoài có thể ký văn bản ủy quyền, hoặc ký văn bản từ chối nhận di sản, tại cơ quan có thẩm quyền nơi họ ở (ở nước ngoài thường là cơ quan đại diện Việt Nam), rồi gửi về.\n\nNếu một người không đồng ý cách chia hoặc không chịu ký, văn phòng công chứng không thể công chứng văn bản thỏa thuận. Khi đó, người muốn chia có thể khởi kiện yêu cầu chia di sản tại tòa án khu vực nơi có nhà đất. Trước khi kiện, một buổi trao đổi có luật sư cùng ngồi thường giúp các bên hiểu phần của mình và tránh được vụ kiện kéo dài giữa anh chị em.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Bộ luật Dân sự 2015 (số 91/2015/QH13): Điều 611, 612, 620, 623, 649, 650, 651, 652",
+        url: search("91/2015/QH13"),
+      },
+      {
+        label: "Luật Công chứng 2024 (số 46/2024/QH15)",
+        url: search("46/2024/QH15"),
+      },
+      {
+        label:
+          "Luật Đất đai 2024 (số 31/2024/QH15): Điều 133 (đăng ký biến động)",
+        url: search("31/2024/QH15"),
+      },
+    ],
+  },
+  {
+    slug: "nguoi-than-bi-tam-giu-tai-dong-nai-gia-dinh-can-lam-gi",
+    title:
+      "Người thân bị tạm giữ ở Đồng Nai: gia đình cần làm gì trong những ngày đầu",
+    summary:
+      "Nhận tin người nhà bị bắt, bị tạm giữ: thời hạn tạm giữ, quyền có luật sư bào chữa ngay từ đầu, cách đăng ký bào chữa, gửi đồ, thăm gặp và những việc gia đình không nên làm.",
+    keywords:
+      "người thân bị bắt, bị tạm giữ, tạm giam, luật sư hình sự đồng nai, luật sư bào chữa biên hòa, đăng ký bào chữa, thăm gặp người bị tạm giam, bị công an bắt",
+    seoTitle: "Người thân bị tạm giữ ở Đồng Nai: gia đình cần làm gì",
+    seoDescription:
+      "Người nhà bị tạm giữ, tạm giam ở Đồng Nai: thời hạn tạm giữ, quyền có luật sư từ đầu, đăng ký bào chữa, gửi đồ, thăm gặp và điều không nên làm.",
+    categories: ["hinh-su"],
+    services: ["hinh-su"],
+    sections: [
+      {
+        heading: "Việc đầu tiên: hỏi rõ ba điều",
+        body: 'Khi người nhà bị giữ, gia đình nên biết càng sớm càng tốt: cơ quan nào đang giữ (ví dụ Cơ quan Cảnh sát điều tra Công an thành phố Đồng Nai hay công an phường, xã), người đó bị giữ trong trường hợp nào (giữ người trong trường hợp khẩn cấp, bắt quả tang, bắt theo lệnh), và về hành vi gì.\n\nCơ quan đã giữ người có trách nhiệm thông báo cho gia đình. Hãy ghi lại tên cán bộ, số điện thoại, địa chỉ cơ quan và mọi giấy tờ được giao. Đừng nghe theo người lạ gọi điện tự xưng "lo được việc" và đòi chuyển tiền.',
+      },
+      {
+        heading: "Tạm giữ được bao lâu",
+        body: "Thời hạn tạm giữ không quá 3 ngày, kể từ khi cơ quan điều tra nhận người bị giữ. Trường hợp cần thiết có thể gia hạn, mỗi lần không quá 3 ngày, tối đa hai lần, tức tổng cộng không quá 9 ngày. Hết thời hạn mà không khởi tố thì phải trả tự do; nếu khởi tố bị can, cơ quan tố tụng có thể áp dụng tạm giam hoặc biện pháp khác như cấm đi khỏi nơi cư trú, bảo lĩnh, đặt tiền để bảo đảm.\n\nVì vậy, những ngày tạm giữ là giai đoạn quyết định. Lời khai đầu tiên thường được dùng suốt vụ án.",
+      },
+      {
+        heading: "Quyền có luật sư ngay từ khi bị tạm giữ",
+        body: "Người bị tạm giữ có quyền tự bào chữa hoặc nhờ người bào chữa ngay từ khi bị tạm giữ, không phải đợi đến khi ra tòa. Gia đình có thể thay mặt người bị giữ mời luật sư.\n\nLuật sư nộp văn bản đăng ký bào chữa kèm thẻ luật sư và giấy yêu cầu luật sư của người bị giữ hoặc người thân. Trong 24 giờ kể từ khi nhận đủ giấy tờ, cơ quan tiến hành tố tụng phải kiểm tra và, nếu không thuộc trường hợp từ chối, vào sổ đăng ký bào chữa và gửi thông báo cho luật sư. Sau đó luật sư được gặp người bị giữ, có mặt khi lấy lời khai và đọc biên bản.",
+      },
+      {
+        heading: "Gửi đồ, gửi tiền và thăm gặp",
+        body: "Người bị tạm giữ, tạm giam được nhận quà, đồ dùng và tiền gửi lưu ký theo danh mục và định mức của nhà tạm giữ, trại tạm giam. Hãy hỏi trực tiếp nơi giữ người về danh mục được nhận, giờ nhận và giấy tờ cần mang.\n\nThân nhân được thăm gặp theo Luật Thi hành tạm giữ, tạm giam: người bị tạm giữ được gặp thân nhân một lần trong mỗi thời hạn tạm giữ, người bị tạm giam được gặp một lần mỗi tháng, mỗi lần không quá một giờ, và phải được cơ quan đang thụ lý vụ án đồng ý. Mang theo căn cước và giấy tờ chứng minh quan hệ.",
+      },
+      {
+        heading: "Những việc gia đình không nên làm",
+        body: 'Không liên lạc, gây sức ép với người làm chứng hoặc người bị hại; việc này có thể bị coi là cản trở điều tra và làm tình hình xấu hơn.\n\nKhông xóa tin nhắn, không cất giấu, tẩu tán đồ vật, tài sản liên quan.\n\nKhông chuyển tiền cho người hứa "chạy án".\n\nKhông đăng thông tin vụ việc lên mạng xã hội.\n\nNếu vụ việc có thiệt hại cho người khác, việc khắc phục, bồi thường có thể là tình tiết giảm nhẹ, nhưng nên làm qua luật sư và có văn bản, biên nhận rõ ràng.',
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Bộ luật Tố tụng hình sự 2015 (số 101/2015/QH13, đã sửa đổi): Điều 58, 59, 72, 78, 117, 118, 119",
+        url: search("101/2015/QH13"),
+      },
+      {
+        label:
+          "Luật Thi hành tạm giữ, tạm giam 2015 (số 94/2015/QH13): Điều 22, 23",
+        url: search("94/2015/QH13"),
+      },
+    ],
+  },
+  {
+    slug: "doi-no-vay-tien-khong-tra-tai-dong-nai",
+    title:
+      "Cho vay tiền không trả ở Đồng Nai: chuẩn bị chứng cứ, khởi kiện hay tố giác",
+    summary:
+      "Cho người quen vay bằng giấy tay hoặc chuyển khoản, đến hạn không trả: chứng cứ nào có giá trị, lãi suất được đòi tối đa bao nhiêu, khi nào là vụ việc dân sự, khi nào có dấu hiệu hình sự, và nộp đơn ở đâu.",
+    keywords:
+      "đòi nợ, cho vay tiền không trả, vay tiền không trả, kiện đòi nợ đồng nai, giấy vay tiền viết tay, lãi suất cho vay, luật sư đòi nợ biên hòa, doi no, khởi kiện đòi tiền",
+    seoTitle: "Cho vay tiền không trả ở Đồng Nai: kiện hay tố giác?",
+    seoDescription:
+      "Đòi lại tiền cho vay ở Đồng Nai: chứng cứ cần có, lãi suất tối đa, khi nào là tranh chấp dân sự, khi nào có dấu hiệu lừa đảo, và tòa án nào giải quyết.",
+    categories: ["tranh-chap", "hop-dong"],
+    services: ["giai-quyet-tranh-chap"],
+    sections: [
+      {
+        heading: "Chứng cứ: thứ quyết định nhất",
+        body: 'Vay tiền không bắt buộc lập văn bản, nhưng khi tranh chấp, bên cho vay phải chứng minh đã cho vay. Những chứng cứ thường dùng:\n\nGiấy vay tiền, giấy nhận tiền có chữ ký của người vay, kể cả viết tay.\n\nSao kê ngân hàng thể hiện chuyển khoản, càng tốt nếu nội dung chuyển khoản ghi rõ "cho vay".\n\nTin nhắn Zalo, Messenger, email mà người vay thừa nhận khoản nợ, hứa trả, xin khất.\n\nGhi âm cuộc nói chuyện. Khi nộp cho tòa cần kèm văn bản trình bày ghi âm được ở đâu, khi nào, với ai, và bản ghi lời nói.\n\nHãy sao lưu ngay. Chụp màn hình tin nhắn kèm thông tin tài khoản người gửi, không chỉ chụp phần nội dung.',
+      },
+      {
+        heading: "Lãi suất được đòi bao nhiêu",
+        body: "Lãi suất cho vay do các bên thỏa thuận nhưng không được vượt quá 20%/năm của khoản tiền vay. Phần vượt quá không có hiệu lực. Nếu có thỏa thuận trả lãi mà không rõ mức lãi, lãi được tính bằng 50% mức trần, tức 10%/năm.\n\nNgười vay trả chậm thì bên cho vay còn được yêu cầu trả lãi trên nợ gốc quá hạn. Cho vay với lãi suất gấp nhiều lần mức trần, có tính chất chuyên nghiệp, có thể bị xem xét về hình sự đối với chính bên cho vay.",
+      },
+      {
+        heading: "Dân sự hay hình sự",
+        body: "Phần lớn trường hợp vay không trả là tranh chấp dân sự: người vay có thật sự vay, nhưng làm ăn thua lỗ hoặc cố tình chây ì. Con đường đúng là khởi kiện ra tòa.\n\nVụ việc chỉ có dấu hiệu tội phạm khi, ví dụ, người vay dùng thủ đoạn gian dối ngay từ đầu (đưa thông tin giả, giấy tờ giả để vay), hoặc sau khi vay thì bỏ trốn, dùng tiền vào mục đích bất hợp pháp dẫn đến không trả được. Khi đó có thể làm đơn tố giác tới cơ quan công an.\n\nTố giác một tranh chấp dân sự thông thường không làm tiền về nhanh hơn; cơ quan công an sẽ hướng dẫn chuyển sang con đường dân sự, và bạn mất thêm thời gian.",
+      },
+      {
+        heading: "Trước khi kiện: gửi yêu cầu bằng văn bản",
+        body: "Gửi cho người vay văn bản yêu cầu trả nợ, ghi rõ số tiền gốc, lãi, thời hạn trả, gửi qua bưu điện có báo phát và qua tin nhắn. Văn bản này vừa là cơ hội cuối để thỏa thuận, vừa xác định thời điểm người vay biết mình bị đòi.\n\nNếu người vay đề nghị trả dần, hãy lập văn bản thỏa thuận có chữ ký, ghi lịch trả cụ thể.",
+      },
+      {
+        heading: "Khởi kiện ở đâu và sau khi thắng kiện",
+        body: "Đơn khởi kiện nộp tại tòa án khu vực nơi người vay cư trú, làm việc. Người vay ở các phường Biên Hòa cũ thì hiện thuộc Tòa án nhân dân khu vực 1 - Đồng Nai.\n\nNếu có căn cứ cho thấy người vay đang tẩu tán tài sản, có thể yêu cầu tòa áp dụng biện pháp khẩn cấp tạm thời như phong tỏa tài khoản, cấm chuyển dịch tài sản.\n\nBản án có hiệu lực mà người vay không tự nguyện trả thì gửi đơn yêu cầu cơ quan thi hành án dân sự thi hành, trong thời hạn 5 năm kể từ ngày bản án có hiệu lực. Bản án chỉ có giá trị thu tiền khi người vay có tài sản, nên ngay từ đầu hãy ghi lại những gì bạn biết về tài sản, nơi làm việc của họ.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Bộ luật Dân sự 2015 (số 91/2015/QH13): Điều 463, 466, 468, 469, 470",
+        url: search("91/2015/QH13"),
+      },
+      BO_LUAT_TO_TUNG,
+      {
+        label:
+          "Bộ luật Hình sự 2015 (số 100/2015/QH13, đã sửa đổi): Điều 174, 175, 201",
+        url: search("100/2015/QH13"),
+      },
+      {
+        label: "Luật Thi hành án dân sự (thời hiệu yêu cầu thi hành án)",
+        url: search("Luật Thi hành án dân sự"),
+      },
+    ],
+  },
+  {
+    slug: "nhan-thong-bao-thu-ly-cua-toa-an-khi-bi-kien",
+    title:
+      "Nhận thông báo thụ lý của tòa án khi bị kiện: 15 ngày đầu cần làm gì",
+    summary:
+      "Nhận giấy của Tòa án khu vực ở Đồng Nai báo mình bị kiện: đọc giấy thế nào, thời hạn 15 ngày nộp ý kiến, quyền yêu cầu phản tố, vì sao không nên bỏ không đến tòa, và khi nào được ủy quyền cho người khác.",
+    keywords:
+      "bị kiện, thông báo thụ lý vụ án, giấy triệu tập của tòa, bị đơn, văn bản ý kiến, phản tố, luật sư bị đơn đồng nai, nhận giấy tòa án biên hòa",
+    seoTitle: "Bị kiện, nhận thông báo thụ lý của tòa: làm gì trước?",
+    seoDescription:
+      "Nhận thông báo thụ lý của tòa án khu vực ở Đồng Nai: thời hạn 15 ngày nộp ý kiến, quyền phản tố, hậu quả nếu vắng mặt và cách ủy quyền tham gia.",
+    categories: ["tranh-chap"],
+    services: ["giai-quyet-tranh-chap"],
+    sections: [
+      {
+        heading: "Đọc kỹ giấy tòa gửi",
+        body: "Thông báo thụ lý vụ án cho biết: tòa án nào giải quyết, ai kiện bạn, kiện về việc gì, yêu cầu cụ thể (số tiền, tài sản, quan hệ), và kèm theo bản sao đơn khởi kiện, tài liệu nguyên đơn đã nộp. Hãy đối chiếu tên, địa chỉ của bạn, và ghi lại ngày nhận giấy: thời hạn được tính từ ngày này.\n\nNếu là giấy triệu tập, giấy báo đến phiên họp, xem ngày giờ, địa điểm và giấy tờ phải mang. Tòa án Biên Hòa trước đây nay là Tòa án nhân dân khu vực 1 - Đồng Nai, trụ sở số 1 Nguyễn Du, phường Trấn Biên.",
+      },
+      {
+        heading: "15 ngày để nộp văn bản ý kiến",
+        body: "Trong 15 ngày kể từ ngày nhận thông báo thụ lý, bị đơn phải nộp cho tòa văn bản ghi ý kiến về yêu cầu của nguyên đơn, kèm tài liệu, chứng cứ (nếu có). Cần thêm thời gian thì có thể đề nghị tòa gia hạn, nhưng không quá 15 ngày nữa.\n\nVăn bản ý kiến nên nói rõ: đồng ý phần nào, không đồng ý phần nào và vì sao, chứng cứ nào chứng minh. Đây là lúc trình bày có lợi nhất, vì tòa đọc văn bản này trước khi tổ chức hòa giải.",
+      },
+      {
+        heading: "Quyền yêu cầu phản tố",
+        body: "Nếu chính bạn cũng có yêu cầu với nguyên đơn trong cùng quan hệ (ví dụ bị kiện đòi tiền hàng nhưng hàng giao bị lỗi, bạn muốn đòi bồi thường), bạn có thể nộp yêu cầu phản tố để tòa giải quyết luôn trong vụ án.\n\nPhản tố phải nộp trước thời điểm mở phiên họp kiểm tra việc giao nộp, tiếp cận, công khai chứng cứ và hòa giải. Để muộn hơn, bạn phải kiện thành vụ khác.",
+      },
+      {
+        heading: "Không đến tòa thì sao",
+        body: "Nhiều người nghĩ không đến thì tòa không xử được. Không đúng: nếu bị đơn đã được triệu tập hợp lệ lần thứ hai mà vẫn vắng mặt không có lý do chính đáng, tòa vẫn xét xử vắng mặt. Khi đó tòa chỉ nghe một phía, và bạn mất cơ hội trình bày, hòa giải.\n\nNếu có lý do chính đáng không đến được (ốm đau, công tác xa), hãy báo cho tòa bằng văn bản kèm giấy tờ chứng minh, càng sớm càng tốt.",
+      },
+      {
+        heading: "Ủy quyền cho người khác tham gia",
+        body: "Trong phần lớn vụ án dân sự, kinh doanh thương mại, lao động, bạn có thể ủy quyền cho người khác, kể cả luật sư, thay mặt mình tham gia tố tụng. Văn bản ủy quyền nên được công chứng, chứng thực.\n\nNgoại lệ quan trọng: trong vụ việc ly hôn, đương sự không được ủy quyền cho người khác thay mặt mình. Luật sư vẫn có thể tham gia với tư cách người bảo vệ quyền và lợi ích hợp pháp, nhưng bạn phải tự mình có mặt.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "Bộ luật Tố tụng dân sự 2015 (số 92/2015/QH13, đã sửa đổi): Điều 85, 86, 196, 199, 200, 227",
+        url: search("92/2015/QH13"),
+      },
+    ],
+  },
+  {
+    slug: "dat-coc-mua-dat-bi-boi-coc-tai-dong-nai",
+    title:
+      "Đặt cọc mua đất ở Đồng Nai bị bội cọc: khi nào được phạt cọc, khi nào chỉ lấy lại tiền",
+    summary:
+      "Bên bán đổi ý không bán, hoặc bên mua không tiếp tục mua: quy định về phạt cọc, những trường hợp không phạt được vì đất không đủ điều kiện chuyển nhượng, và cách xử lý khi hợp đồng cọc viết tay.",
+    keywords:
+      "bội cọc, phạt cọc, đặt cọc mua đất, mất cọc, đòi lại tiền cọc, hợp đồng đặt cọc viết tay, tranh chấp đặt cọc đồng nai, luật sư đất đai biên hòa, boi coc",
+    seoTitle: "Đặt cọc mua đất bị bội cọc ở Đồng Nai: phạt cọc thế nào",
+    seoDescription:
+      "Bên bán hoặc bên mua đất ở Đồng Nai không thực hiện hợp đồng đặt cọc: quy định phạt cọc, khi nào chỉ được trả lại tiền và cách xử lý cọc viết tay.",
+    categories: ["dat-dai-nha-o", "hop-dong"],
+    services: ["dat-dai-bat-dong-san", "giai-quyet-tranh-chap"],
+    sections: [
+      {
+        heading: "Quy định chung về phạt cọc",
+        body: "Theo Bộ luật Dân sự, nếu bên đặt cọc (thường là bên mua) từ chối việc giao kết, thực hiện hợp đồng thì mất khoản cọc. Nếu bên nhận cọc (thường là bên bán) từ chối thì phải trả lại khoản cọc và một khoản tiền tương đương giá trị cọc, trừ khi hai bên có thỏa thuận khác.\n\nNhiều hợp đồng cọc ở Đồng Nai thỏa thuận mức phạt gấp hai, gấp ba lần tiền cọc. Thỏa thuận này có thể được tòa chấp nhận nếu rõ ràng và tự nguyện, nhưng cần đọc kỹ từng câu chữ.",
+      },
+      {
+        heading: "Khi nào không phạt được cọc",
+        body: "Phạt cọc đặt ra khi một bên có lỗi từ chối giao kết. Nếu không ký được hợp đồng chuyển nhượng vì lý do khách quan, hoặc vì đất không đủ điều kiện chuyển nhượng, tòa thường buộc trả lại tiền cọc mà không phạt, hoặc xem xét lỗi của từng bên.\n\nĐất được chuyển nhượng khi, trong số các điều kiện: có giấy chứng nhận quyền sử dụng đất (trừ một số trường hợp luật cho phép), không có tranh chấp hoặc tranh chấp đã được giải quyết, không bị kê biên, áp dụng biện pháp bảo đảm thi hành án, và còn thời hạn sử dụng đất. Đất đang thế chấp ngân hàng, đất có người khác cùng đứng tên chưa đồng ý, đất nằm trong quy hoạch thu hồi là những tình huống hay gặp ở khu vực ven các dự án hạ tầng.",
+      },
+      {
+        heading: "Cọc viết tay có giá trị không",
+        body: "Luật không bắt buộc hợp đồng đặt cọc phải công chứng. Giấy cọc viết tay vẫn có giá trị nếu thể hiện rõ: các bên, thửa đất, giá mua bán, số tiền cọc, thời hạn ký hợp đồng chuyển nhượng, và hậu quả khi một bên không thực hiện.\n\nVấn đề thường gặp là giấy viết tay thiếu những nội dung đó, hoặc chỉ một người trong hai vợ chồng đứng tên ký nhận cọc trong khi đất là tài sản chung. Khi đó việc đòi phạt cọc khó hơn nhiều.",
+      },
+      {
+        heading: "Bị bội cọc: nên làm gì",
+        body: "Giữ nguyên bản giấy cọc, chứng từ chuyển tiền, tin nhắn trao đổi về việc ký hợp đồng.\n\nGửi văn bản yêu cầu bên kia thực hiện cam kết hoặc trả cọc và tiền phạt trong một thời hạn cụ thể.\n\nNếu không thỏa thuận được, khởi kiện tại tòa án khu vực nơi bị đơn cư trú. Tranh chấp hợp đồng đặt cọc không bắt buộc qua hòa giải ở Ủy ban nhân dân phường, xã.\n\nBên bán có dấu hiệu bán thửa đất cho người khác: có thể yêu cầu tòa áp dụng biện pháp khẩn cấp tạm thời để ngăn việc chuyển nhượng trong khi giải quyết.",
+      },
+      {
+        heading: "Phòng ngừa trước khi đặt cọc",
+        body: 'Kiểm tra thông tin thửa đất tại văn phòng đăng ký đất đai, xem quy hoạch, hỏi tình trạng thế chấp, xác định đủ những người phải ký. Ghi điều khoản xử lý cụ thể khi đất không đủ điều kiện chuyển nhượng. Bài "Kiểm tra pháp lý trước khi đặt cọc mua đất" trong mục Góc nhìn pháp lý trình bày chi tiết từng bước.',
+      },
+    ],
+    sources: [
+      {
+        label: "Bộ luật Dân sự 2015 (số 91/2015/QH13): Điều 117, 328, 418",
+        url: search("91/2015/QH13"),
+      },
+      {
+        label:
+          "Luật Đất đai 2024 (số 31/2024/QH15): Điều 45 (điều kiện thực hiện quyền chuyển nhượng)",
+        url: search("31/2024/QH15"),
+      },
+      BO_LUAT_TO_TUNG,
+    ],
+  },
 ];

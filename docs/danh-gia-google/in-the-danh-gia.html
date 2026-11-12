@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thẻ xin đánh giá Google</title>
+<!--
+  Mở tệp này bằng Chrome hoặc Edge (cần mạng để tạo mã QR), rồi Ctrl+P:
+  khổ A4, lề "Không có", bật "Đồ họa nền". Một trang A4 ra 4 thẻ khổ A6,
+  cắt theo đường chấm. Đặt thẻ ở bàn tiếp khách hoặc kẹp vào bìa hồ sơ trả
+  khách. Mã QR dẫn tới luatvukhang.com/danh-gia (đường dẫn đó chuyển tiếp tới
+  ô "Viết bài đánh giá" trên Google Maps của công ty).
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root { --navy: #0f1c3f; --red: #b3262e; --ink: #1d2433; --muted: #5b6475; }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9ecf2; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); }
+  .sheet { width: 210mm; height: 297mm; margin: 10mm auto; background: #fff;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+  .card { border: 0.3mm dashed #b9bfcc; padding: 9mm 8mm 7mm; display: flex; flex-direction: column;
+    align-items: center; text-align: center; }
+  .brand { font-size: 3.2mm; letter-spacing: 0.4mm; text-transform: uppercase; color: var(--muted); }
+  .name { font-family: Georgia, "Times New Roman", serif; font-size: 7mm; color: var(--navy); margin: 1mm 0 4mm; }
+  h2 { font-size: 5mm; margin: 0 0 2mm; color: var(--navy); line-height: 1.25; }
+  p { font-size: 3.4mm; margin: 0 0 3mm; color: var(--muted); line-height: 1.4; }
+  .qr { width: 42mm; height: 42mm; padding: 2mm; border: 0.6mm solid var(--navy); border-radius: 2mm; }
+  .qr img, .qr canvas { width: 100% !important; height: 100% !important; }
+  .url { font-weight: 700; font-size: 4mm; color: var(--red); margin-top: 3mm; }
+  .steps { font-size: 3.1mm; color: var(--ink); margin-top: 3mm; text-align: left; line-height: 1.5; }
+  .foot { margin-top: auto; font-size: 2.8mm; color: var(--muted); }
+  @media print { body { background: #fff; } .sheet { margin: 0; } .hint { display: none; } }
+  .hint { max-width: 210mm; margin: 6mm auto 0; font-size: 14px; color: var(--muted); padding: 0 16px; }
+</style>
+</head>
+<body>
+<p class="hint">Bấm Ctrl+P để in: khổ A4, lề "Không có", bật "Đồ họa nền". Nếu ô QR trống, kiểm tra kết nối mạng rồi tải lại trang.</p>
+<div class="sheet" id="sheet"></div>
+<template id="card">
+  <section class="card">
+    <div class="brand">Công ty Luật TNHH</div>
+    <div class="name">Vũ Khang Solutions &amp; Partners</div>
+    <h2>Cảm ơn Quý khách đã tin tưởng</h2>
+    <p>Nhận xét của Quý khách giúp người khác ở Đồng Nai tìm được hỗ trợ pháp lý phù hợp.</p>
+    <div class="qr"></div>
+    <div class="url">luatvukhang.com/danh-gia</div>
+    <div class="steps">
+      1. Quét mã bằng camera điện thoại.<br>
+      2. Chọn số sao và viết vài dòng về trải nghiệm.<br>
+      3. Không cần nêu chi tiết vụ việc của Quý khách.
+    </div>
+    <div class="foot">1808 Nguyễn Ái Quốc, phường Trấn Biên, TP. Đồng Nai · 0977 013 358</div>
+  </section>
+</template>
+<script>
+  const sheet = document.getElementById("sheet");
+  const tpl = document.getElementById("card");
+  for (let i = 0; i < 4; i++) sheet.appendChild(tpl.content.cloneNode(true));
+  if (window.QRCode) {
+    document.querySelectorAll(".qr").forEach((el) => {
+      new QRCode(el, {
+        text: "https://luatvukhang.com/danh-gia",
+        width: 512, height: 512,
+        colorDark: "#0f1c3f", colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    });
+  }
+</script>
+</body>
+</html>
