@@ -325,12 +325,12 @@ export const localArticles: LocalArticle[] = [
     title:
       "Người lao động ở khu công nghiệp Đồng Nai bị cho thôi việc: kiểm tra gì, đòi quyền lợi ở đâu",
     summary:
-      "Bị cắt giảm, bị sa thải hay không được ký tiếp hợp đồng: cách kiểm tra công ty làm đúng trình tự chưa, các khoản trợ cấp được nhận, thời hạn nộp hồ sơ bảo hiểm thất nghiệp, nơi giải quyết tranh chấp.",
+      "Bị cắt giảm, bị kỷ luật buộc nghỉ hay không được ký tiếp hợp đồng: cách kiểm tra công ty làm đúng trình tự chưa, các khoản trợ cấp được nhận, thời hạn nộp hồ sơ bảo hiểm thất nghiệp, nơi giải quyết tranh chấp.",
     keywords:
       "bị cho thôi việc, bị sa thải, cắt giảm lao động đồng nai, trợ cấp thôi việc, trợ cấp mất việc làm, bảo hiểm thất nghiệp đồng nai, luật sư lao động đồng nai, khu công nghiệp biên hòa",
     seoTitle: "Bị cho thôi việc ở Đồng Nai: trợ cấp và cách đòi quyền lợi",
     seoDescription:
-      "Bị cắt giảm, sa thải ở Đồng Nai: kiểm tra thời hạn báo trước, trợ cấp thôi việc, mất việc làm, bảo hiểm thất nghiệp và nơi giải quyết tranh chấp.",
+      "Bị cắt giảm, buộc nghỉ ở Đồng Nai: kiểm tra thời hạn báo trước, trợ cấp thôi việc, mất việc làm, bảo hiểm thất nghiệp và nơi giải quyết tranh chấp.",
     categories: ["lao-dong"],
     services: ["lao-dong-nhan-su"],
     sections: [
